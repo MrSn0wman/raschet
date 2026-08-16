@@ -350,6 +350,25 @@ p{ margin:0 0 1em; color:var(--ink); }
 .result-panel .r-rows span{ color:var(--ink-soft); }
 .error-msg{ color:var(--danger); font-size:.85rem; margin-top:8px; display:none; }
 
+/* ---------- Переключатель стратегии (радио-карточки) ---------- */
+.strategy-toggle{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.strategy-option{
+  display:flex; align-items:flex-start; gap:10px;
+  border:1.5px solid var(--line); border-radius:var(--radius-m);
+  padding:14px; cursor:pointer; background:var(--surface-2);
+  transition:border-color .15s ease, background .15s ease;
+}
+.strategy-option:has(input:checked){
+  border-color:var(--accent); background:var(--accent-soft);
+}
+.strategy-option input[type="radio"]{
+  margin-top:3px; accent-color:var(--accent); flex:none;
+  width:16px; height:16px;
+}
+.strategy-option span{ display:flex; flex-direction:column; gap:3px; }
+.strategy-option b{ font-size:.92rem; font-weight:600; }
+.strategy-option small{ color:var(--ink-soft); font-size:.8rem; line-height:1.35; }
+
 .calc-explain{ margin-top:36px; }
 .calc-explain h2{ font-size:1.3rem; }
 .calc-explain h3{ font-size:1.05rem; margin-top:22px; }
@@ -452,6 +471,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   .cat-grid{ grid-template-columns:1fr; }
   .calc-list{ grid-template-columns:1fr; }
   .field-grid{ grid-template-columns:1fr; }
+  .strategy-toggle{ grid-template-columns:1fr; }
   .result-panel .r-rows{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr; }
   .trust-strip{ grid-template-columns:1fr; }
@@ -489,6 +509,7 @@ p{ margin:0 0 1em; color:var(--ink); }
         <button class="nav-drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Финансы <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="nav-drop-panel">
           <a href="calc-mortgage.html"><span>Ипотека</span><small>Платёж, переплата, график</small></a>
+          <a href="calc-mortgage-early.html"><span>Досрочное погашение</span><small>Экономия на сроке и процентах</small></a>
           <a href="calc-credit.html"><span>Кредит</span><small>Аннуитетный платёж</small></a>
           <a href="calc-deposit.html"><span>Вклад</span><small>С капитализацией</small></a>
         </div>
@@ -517,6 +538,7 @@ p{ margin:0 0 1em; color:var(--ink); }
     <div class="mobile-group">
       <span class="mobile-group-label">Финансы</span>
       <a href="calc-mortgage.html">Ипотека</a>
+      <a href="calc-mortgage-early.html">Досрочное погашение</a>
       <a href="calc-credit.html">Кредит</a>
       <a href="calc-deposit.html">Вклад</a>
     </div>
@@ -537,7 +559,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">42 калькулятора · без регистрации</span>
+        <span class="eyebrow">8 калькуляторов · без регистрации</span>
         <h1>Посчитайте точно — без лишних кликов</h1>
         <p class="lede">От площади комнаты до ежемесячного платежа по ипотеке. Каждый калькулятор показывает не только результат, но и формулу, по которой он получен.</p>
 
@@ -626,6 +648,14 @@ p{ margin:0 0 1em; color:var(--ink); }
           <span class="body">
             <h4>Калькулятор ипотеки</h4>
             <span>Ежемесячный платёж, переплата, график погашения</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="calc-item" href="calc-mortgage-early.html">
+          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg></span>
+          <span class="body">
+            <h4>Досрочное погашение ипотеки</h4>
+            <span>Уменьшение срока или платежа, экономия на процентах</span>
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
@@ -735,6 +765,7 @@ p{ margin:0 0 1em; color:var(--ink); }
       <div>
         <h5>Финансы</h5>
         <a href="calc-mortgage.html">Ипотека</a>
+        <a href="calc-mortgage-early.html">Досрочное погашение</a>
         <a href="calc-deposit.html">Вклад</a>
         <a href="calc-credit.html">Кредит</a>
       </div>
@@ -770,6 +801,64 @@ window.formatMoney = (value) => {
 window.formatMoney2 = (value) => {
   if (isNaN(value)) return '—';
   return new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 }).format(value);
+};
+
+// Форматирование ЦЕЛЫХ чисел разрядами прямо в поле ввода (для сумм в рублях),
+// с сохранением позиции курсора. Дробная часть не поддерживается намеренно —
+// суммы кредитов/вкладов вводятся целыми рублями.
+window.formatThousandsRaw = (digitsOnly) => {
+  let intPart = digitsOnly.replace(/^0+(?=\d)/, '');
+  return intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+};
+
+window.attachThousandsInput = (el) => {
+  el.type = 'text';
+  el.setAttribute('inputmode', 'numeric');
+  if (el.value){
+    el.value = formatThousandsRaw(String(el.value).replace(/\D/g, ''));
+  }
+  el.addEventListener('input', () => {
+    const start = el.selectionStart ?? el.value.length;
+    const oldVal = el.value;
+    const digitsBeforeCursor = oldVal.slice(0, start).replace(/\D/g, '').length;
+
+    const digitsOnly = oldVal.replace(/\D/g, '');
+    const newVal = formatThousandsRaw(digitsOnly);
+    el.value = newVal;
+
+    let count = 0, pos = newVal.length;
+    if (digitsBeforeCursor === 0){
+      pos = 0;
+    } else {
+      for (let idx = 0; idx < newVal.length; idx++){
+        if (/\d/.test(newVal[idx])) count++;
+        if (count === digitsBeforeCursor){ pos = idx + 1; break; }
+      }
+    }
+    if (el.setSelectionRange) el.setSelectionRange(pos, pos);
+  });
+};
+
+window.parseFormattedNumber = (el) => {
+  if (!el) return NaN;
+  const raw = String(el.value).replace(/\D/g, '');
+  return raw === '' ? NaN : parseFloat(raw);
+};
+
+// «Умное» форматирование с адаптивной точностью — для площади/объёма, где выбор
+// единицы измерения (мм/см/м/км) может дать как очень маленькие, так и очень
+// большие числа. Обычный formatMoney2 (фикс. 2 знака) обнулял мелкие результаты.
+window.formatSmart = (value) => {
+  if (isNaN(value)) return '—';
+  if (value === 0) return '0';
+  const abs = Math.abs(value);
+  let decimals;
+  if (abs >= 1000) decimals = 0;
+  else if (abs >= 1) decimals = 2;
+  else if (abs >= 0.01) decimals = 4;
+  else if (abs >= 0.0001) decimals = 6;
+  else decimals = 8;
+  return new Intl.NumberFormat('ru-RU', { maximumFractionDigits: decimals }).format(value);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -816,6 +905,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'объём': 'calc-volume.html',
           'процент': 'calc-percent.html',
           'ипотек': 'calc-mortgage.html',
+          'досрочн': 'calc-mortgage-early.html',
           'кредит': 'calc-mortgage.html',
           'вклад': 'calc-deposit.html',
           'депозит': 'calc-deposit.html',

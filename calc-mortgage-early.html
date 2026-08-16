@@ -3,9 +3,54 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Калькулятор кредита онлайн — ежемесячный платёж и переплата</title>
-<meta name="description" content="Рассчитайте ежемесячный платёж по потребительскому кредиту, переплату по процентам и полную стоимость кредита за секунды.">
-<link rel="canonical" href="https://raschet.rf/calc-credit.html">
+<title>Калькулятор досрочного погашения ипотеки — уменьшение срока или платежа</title>
+<meta name="description" content="Рассчитайте выгоду от досрочного погашения ипотеки: на сколько сократится срок или уменьшится ежемесячный платёж, сколько вы сэкономите на процентах.">
+<link rel="canonical" href="https://raschet.rf/calc-mortgage-early.html">
+<meta property="og:title" content="Досрочное погашение ипотеки — калькулятор экономии">
+<meta property="og:type" content="website">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Калькулятор досрочного погашения ипотеки",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
+  "url": "https://raschet.rf/calc-mortgage-early.html"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Что выгоднее — уменьшение срока или уменьшение платежа?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "По сумме переплаты уменьшение срока почти всегда выгоднее: платёж остаётся прежним, а весь досрочный взнос сразу снижает будущие проценты. Уменьшение платежа снижает ежемесячную финансовую нагрузку, но экономия на процентах за всё время меньше."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли комбинировать разовый и ежемесячный досрочный платёж?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, калькулятор считает их одновременно: регулярный ежемесячный довзнос с выбранного месяца и один разовый платёж в отдельном месяце."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Нужно ли предупреждать банк о досрочном погашении?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, по закону нужно подать заявление в банк заранее (обычно за несколько дней), указав сумму и выбрав, что делать дальше — сократить срок или уменьшить платёж. Без заявления банк, как правило, просто зачисляет доп.платёж, а пересчёт делает по регламенту, который может отличаться от выбранного вами сценария."
+      }
+    }
+  ]
+}
+</script>
 <style>
 /* =========================================================
    РАСЧЁТ.РФ — дизайн-система
@@ -475,17 +520,6 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 
 </style>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "WebApplication",
-  "name": "Калькулятор кредита",
-  "applicationCategory": "FinanceApplication",
-  "operatingSystem": "Any",
-  "offers": { "@type": "Offer", "price": "0", "priceCurrency": "RUB" },
-  "url": "https://raschet.rf/calc-credit.html"
-}
-</script>
 </head>
 <body>
 
@@ -550,85 +584,112 @@ p{ margin:0 0 1em; color:var(--ink); }
 
 <main class="calc-page">
   <div class="container">
-    <p class="breadcrumbs"><a href="index.html">Главная</a> / <a href="index.html#finance">Финансы</a> / Кредит</p>
+    <p class="breadcrumbs"><a href="index.html">Главная</a> / <a href="index.html#finance">Финансы</a> / <a href="calc-mortgage.html">Ипотека</a> / Досрочное погашение</p>
 
     <div class="calc-layout">
       <div class="calc-main">
         <div class="calc-card">
-          <h1>Калькулятор потребительского кредита</h1>
-          <p class="calc-sub">Аннуитетный платёж, переплата и полная стоимость кредита (ПСК) по заданным условиям.</p>
+          <h1>Досрочное погашение ипотеки</h1>
+          <p class="calc-sub">Внесите условия кредита и параметры досрочных платежей — калькулятор покажет, сколько вы сэкономите на процентах и как изменится срок или платёж.</p>
 
-          <form id="credit-form" novalidate>
+          <form id="early-form" novalidate>
             <div class="field-grid">
               <div class="field">
-                <label for="c-amount">Сумма кредита</label>
-                <div class="unit-input">
-                  <input type="text" id="c-amount" value="400000" required>
-                  <span>₽</span>
-                </div>
+                <label for="e-amount">Сумма кредита</label>
+                <div class="unit-input"><input type="text" id="e-amount" value="5000000"><span>₽</span></div>
               </div>
               <div class="field">
-                <label for="c-rate">Ставка, годовых</label>
-                <div class="unit-input">
-                  <input type="number" id="c-rate" value="19" min="0" max="80" step="0.1" required>
-                  <span>%</span>
-                </div>
+                <label for="e-rate">Ставка, годовых</label>
+                <div class="unit-input"><input type="number" id="e-rate" value="12" min="0" max="50" step="0.1"><span>%</span></div>
               </div>
               <div class="field full">
-                <label for="c-months">Срок</label>
-                <div class="unit-input">
-                  <input type="number" id="c-months" value="36" min="1" max="84" step="1" required>
-                  <span>мес.</span>
-                </div>
+                <label for="e-years">Срок</label>
+                <div class="unit-input"><input type="number" id="e-years" value="20" min="1" max="30" step="1"><span>лет</span></div>
               </div>
             </div>
-            <div class="error-msg" id="c-error">Проверьте введённые значения — сумма и срок должны быть больше нуля.</div>
+
+            <div class="field full" style="margin:18px 0 6px;">
+              <label>Что делаем при досрочном погашении</label>
+              <div class="strategy-toggle">
+                <label class="strategy-option">
+                  <input type="radio" name="e-strategy" value="term" checked>
+                  <span><b>Уменьшаем срок</b><small>Платёж остаётся прежним, кредит закрывается раньше</small></span>
+                </label>
+                <label class="strategy-option">
+                  <input type="radio" name="e-strategy" value="payment">
+                  <span><b>Уменьшаем платёж</b><small>Срок остаётся прежним, платёж становится меньше</small></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-grid" style="margin-top:14px;">
+              <div class="field">
+                <label for="e-monthly-extra">Ежемесячный доп. платёж <span class="hint">(необязательно)</span></label>
+                <div class="unit-input"><input type="text" id="e-monthly-extra" value="10000"><span>₽/мес</span></div>
+              </div>
+              <div class="field">
+                <label for="e-monthly-from">С какого месяца</label>
+                <div class="unit-input"><input type="number" id="e-monthly-from" value="1" min="1" step="1"><span>мес.</span></div>
+              </div>
+              <div class="field">
+                <label for="e-once-amount">Разовый доп. платёж <span class="hint">(необязательно)</span></label>
+                <div class="unit-input"><input type="text" id="e-once-amount" value="0"><span>₽</span></div>
+              </div>
+              <div class="field">
+                <label for="e-once-month">В каком месяце</label>
+                <div class="unit-input"><input type="number" id="e-once-month" value="12" min="1" step="1"><span>мес.</span></div>
+              </div>
+            </div>
+            <div class="error-msg" id="e-error">Проверьте введённые значения — сумма, ставка и срок должны быть положительными.</div>
           </form>
 
           <div class="result-panel">
-            <div class="r-label">Ежемесячный платёж</div>
-            <div class="r-value" id="c-payment">—</div>
+            <div class="r-label" id="e-result-label">Срок сократится до</div>
+            <div class="r-value" id="e-result-main">—</div>
             <div class="r-rows">
-              <div><b id="c-total">—</b><span>Итого выплат</span></div>
-              <div><b id="c-overpay">—</b><span>Переплата по процентам</span></div>
+              <div><b id="e-interest-saved">—</b><span>Экономия на процентах</span></div>
+              <div><b id="e-new-interest">—</b><span>Новая переплата</span></div>
+              <div><b id="e-base-payment">—</b><span>Обычный платёж (без досрочных)</span></div>
+              <div><b id="e-extra-total">—</b><span>Всего внесено доп. платежей</span></div>
             </div>
           </div>
 
           <div class="referral-block">
             <span class="disclosure">Реклама. Партнёрские предложения банков — переход по ссылке может принести сайту вознаграждение.</span>
             <div class="offer">
-              <span class="bank">ФинТраст</span>
-              <span class="rate">от 16,9%</span>
-              <a class="btn btn-primary" href="#" rel="sponsored nofollow">Оформить</a>
-            </div>
-            <div class="offer">
-              <span class="bank">Домбанк</span>
-              <span class="rate">от 17,5%</span>
-              <a class="btn btn-ghost" href="#" rel="sponsored nofollow">Подробнее</a>
+              <span class="bank">Банк «Северный»</span>
+              <span class="rate">рефинансирование от 11,4%</span>
+              <a class="btn btn-primary" href="#" rel="sponsored nofollow">Подробнее</a>
             </div>
           </div>
         </div>
 
         <article class="calc-explain">
-          <h2>Как считается платёж по кредиту</h2>
-          <p>Расчёт использует ту же аннуитетную формулу, что и банки: ежемесячный платёж фиксирован на весь срок, а соотношение процентов и основного долга внутри платежа меняется от месяца к месяцу.</p>
-          <h3>Что такое полная стоимость кредита</h3>
-          <p>ПСК — это сумма всех выплат по кредиту, включая проценты. Банк обязан указывать ПСК в процентах годовых в паспорте кредита — она может отличаться от номинальной ставки за счёт комиссий и страховок, которые этот калькулятор не учитывает.</p>
+          <h2>Как считается досрочное погашение</h2>
+          <p>Каждый месяц из платежа сначала списываются проценты на текущий остаток долга, оставшаяся часть уменьшает тело кредита. Когда вы вносите досрочный платёж, он целиком уходит на уменьшение остатка — это резко снижает будущие проценты, потому что банк начисляет их на меньшую сумму.</p>
+
+          <h3>Уменьшение срока vs уменьшение платежа</h3>
+          <p>При стратегии «уменьшение срока» ежемесячный платёж остаётся точно таким же, как был, — но поскольку остаток долга после досрочного взноса меньше, кредит гасится быстрее запланированного. При стратегии «уменьшение платежа» банк, наоборот, пересчитывает ежемесячный платёж на оставшийся срок исходя из нового, уменьшенного остатка — платёж становится меньше, а срок не меняется.</p>
+          <p>С точки зрения общей суммы переплаты первый вариант почти всегда выгоднее: деньги перестают «работать против вас» раньше. Второй вариант удобнее, если важнее снизить ежемесячную нагрузку на бюджет здесь и сейчас.</p>
 
           <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок">
             <span class="tag">Реклама</span>
-            <span>Блок в теле статьи</span>
+            <span>Блок в теле статьи — не мешает работе с формой</span>
           </div>
 
           <h2>Частые вопросы</h2>
           <div class="faq">
             <details>
-              <summary>Можно ли досрочно погасить кредит без потери процентов?</summary>
-              <p>Да, по закону вы вправе досрочно погасить кредит полностью или частично. При частичном досрочном погашении банк обязан пересчитать проценты только на остаток долга — переплата за оставшийся срок уменьшится.</p>
+              <summary>Что выгоднее — уменьшение срока или уменьшение платежа?</summary>
+              <p>По сумме переплаты уменьшение срока почти всегда выгоднее: платёж остаётся прежним, а весь досрочный взнос сразу снижает будущие проценты. Уменьшение платежа снижает ежемесячную финансовую нагрузку, но экономия на процентах за всё время меньше.</p>
             </details>
             <details>
-              <summary>Почему банк одобрил ставку выше той, что в рекламе?</summary>
-              <p>Рекламная ставка обычно указывается «от» — минимальное значение для заёмщиков с лучшим профилем (зарплатный клиент, высокий доход, страхование). Итоговая ставка зависит от индивидуальной оценки банка.</p>
+              <summary>Можно ли комбинировать разовый и ежемесячный досрочный платёж?</summary>
+              <p>Да, калькулятор считает их одновременно: регулярный ежемесячный довзнос с выбранного месяца и один разовый платёж в отдельном месяце.</p>
+            </details>
+            <details>
+              <summary>Нужно ли предупреждать банк о досрочном погашении?</summary>
+              <p>Да, по закону нужно подать заявление в банк заранее (обычно за несколько дней), указав сумму и выбрав, что делать дальше — сократить срок или уменьшить платёж. Без заявления банк, как правило, просто зачисляет доп.платёж, а пересчёт делает по регламенту, который может отличаться от выбранного вами сценария.</p>
             </details>
           </div>
         </article>
@@ -637,9 +698,9 @@ p{ margin:0 0 1em; color:var(--ink); }
       <aside class="sidebar">
         <div class="side-card">
           <h4>Похожие калькуляторы</h4>
-          <a class="related-link" href="calc-mortgage.html">Ипотека</a>
+          <a class="related-link" href="calc-mortgage.html">Обычная ипотека</a>
+          <a class="related-link" href="calc-credit.html">Потребительский кредит</a>
           <a class="related-link" href="calc-deposit.html">Вклад</a>
-          <a class="related-link" href="calc-percent.html">Калькулятор процентов</a>
         </div>
         <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок">
           <span class="tag">Реклама</span>
@@ -683,6 +744,7 @@ p{ margin:0 0 1em; color:var(--ink); }
     </div>
   </div>
 </footer>
+
 <script>
 /* =========================================================
    РАСЧЁТ.РФ — библиотека формул калькуляторов
@@ -1034,30 +1096,71 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script>
 (function(){
-  const amountEl = document.getElementById('c-amount');
-  const rateEl = document.getElementById('c-rate');
-  const monthsEl = document.getElementById('c-months');
-  const errorEl = document.getElementById('c-error');
+  const amountEl = document.getElementById('e-amount');
+  const rateEl = document.getElementById('e-rate');
+  const yearsEl = document.getElementById('e-years');
+  const monthlyExtraEl = document.getElementById('e-monthly-extra');
+  const monthlyFromEl = document.getElementById('e-monthly-from');
+  const onceAmountEl = document.getElementById('e-once-amount');
+  const onceMonthEl = document.getElementById('e-once-month');
+  const errorEl = document.getElementById('e-error');
 
   attachThousandsInput(amountEl);
+  attachThousandsInput(monthlyExtraEl);
+  attachThousandsInput(onceAmountEl);
 
+
+  function getStrategy(){
+    const checked = document.querySelector('input[name="e-strategy"]:checked');
+    return checked ? checked.value : 'term';
+  }
 
   function render(){
     const amount = parseFormattedNumber(amountEl);
     const rate = parseFloat(rateEl.value);
-    const months = parseFloat(monthsEl.value);
+    const years = parseFloat(yearsEl.value);
+    const monthlyExtra = parseFormattedNumber(monthlyExtraEl) || 0;
+    const monthlyFrom = parseInt(monthlyFromEl.value, 10) || 1;
+    const onceAmount = parseFormattedNumber(onceAmountEl) || 0;
+    const onceMonth = parseInt(onceMonthEl.value, 10) || 0;
+    const strategy = getStrategy();
 
-    const valid = amount > 0 && rate >= 0 && months > 0;
+    const months = Math.round(years * 12);
+    const valid = amount > 0 && rate >= 0 && months > 0 && monthlyExtra >= 0 && onceAmount >= 0;
     errorEl.style.display = valid ? 'none' : 'block';
     if (!valid) return;
 
-    const result = Calc.annuityLoan(amount, rate, months);
-    document.getElementById('c-payment').textContent = formatMoney(result.monthlyPayment) + ' ₽';
-    document.getElementById('c-total').textContent = formatMoney(result.totalPayment) + ' ₽';
-    document.getElementById('c-overpay').textContent = formatMoney(result.totalInterest) + ' ₽';
+    const result = Calc.mortgageWithEarlyRepayments(amount, rate, months, {
+      strategy,
+      monthlyExtra,
+      monthlyExtraFromMonth: monthlyFrom,
+      oneTimeExtra: onceAmount,
+      oneTimeExtraMonth: onceMonth
+    });
+
+    const labelEl = document.getElementById('e-result-label');
+    const mainEl = document.getElementById('e-result-main');
+
+    if (strategy === 'term'){
+      labelEl.textContent = 'Срок сократится до';
+      const years2 = Math.floor(result.monthsUsed / 12);
+      const monthsRest = result.monthsUsed % 12;
+      mainEl.textContent = years2 + ' г. ' + monthsRest + ' мес. (−' + result.monthsSaved + ' мес.)';
+    } else {
+      labelEl.textContent = 'Новый ежемесячный платёж';
+      mainEl.textContent = formatMoney(result.finalPayment) + ' ₽';
+    }
+
+    document.getElementById('e-interest-saved').textContent = formatMoney(result.interestSaved) + ' ₽';
+    document.getElementById('e-new-interest').textContent = formatMoney(result.totalInterest) + ' ₽';
+    document.getElementById('e-base-payment').textContent = formatMoney(result.basePayment) + ' ₽';
+    document.getElementById('e-extra-total').textContent = formatMoney(result.totalExtra) + ' ₽';
   }
 
-  [amountEl, rateEl, monthsEl].forEach(el => el.addEventListener('input', render));
+  [amountEl, rateEl, yearsEl, monthlyExtraEl, monthlyFromEl, onceAmountEl, onceMonthEl].forEach(el => {
+    el.addEventListener('input', render);
+  });
+  document.querySelectorAll('input[name="e-strategy"]').forEach(el => el.addEventListener('change', render));
   render();
 })();
 </script>

@@ -349,6 +349,25 @@ p{ margin:0 0 1em; color:var(--ink); }
 .result-panel .r-rows span{ color:var(--ink-soft); }
 .error-msg{ color:var(--danger); font-size:.85rem; margin-top:8px; display:none; }
 
+/* ---------- Переключатель стратегии (радио-карточки) ---------- */
+.strategy-toggle{ display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+.strategy-option{
+  display:flex; align-items:flex-start; gap:10px;
+  border:1.5px solid var(--line); border-radius:var(--radius-m);
+  padding:14px; cursor:pointer; background:var(--surface-2);
+  transition:border-color .15s ease, background .15s ease;
+}
+.strategy-option:has(input:checked){
+  border-color:var(--accent); background:var(--accent-soft);
+}
+.strategy-option input[type="radio"]{
+  margin-top:3px; accent-color:var(--accent); flex:none;
+  width:16px; height:16px;
+}
+.strategy-option span{ display:flex; flex-direction:column; gap:3px; }
+.strategy-option b{ font-size:.92rem; font-weight:600; }
+.strategy-option small{ color:var(--ink-soft); font-size:.8rem; line-height:1.35; }
+
 .calc-explain{ margin-top:36px; }
 .calc-explain h2{ font-size:1.3rem; }
 .calc-explain h3{ font-size:1.05rem; margin-top:22px; }
@@ -451,6 +470,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   .cat-grid{ grid-template-columns:1fr; }
   .calc-list{ grid-template-columns:1fr; }
   .field-grid{ grid-template-columns:1fr; }
+  .strategy-toggle{ grid-template-columns:1fr; }
   .result-panel .r-rows{ grid-template-columns:1fr; }
   .footer-grid{ grid-template-columns:1fr; }
   .trust-strip{ grid-template-columns:1fr; }
@@ -518,6 +538,7 @@ p{ margin:0 0 1em; color:var(--ink); }
         <button class="nav-drop-btn active" type="button" aria-haspopup="true" aria-expanded="false">Финансы <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <div class="nav-drop-panel">
           <a href="calc-mortgage.html"><span>Ипотека</span><small>Платёж, переплата, график</small></a>
+          <a href="calc-mortgage-early.html"><span>Досрочное погашение</span><small>Экономия на сроке и процентах</small></a>
           <a href="calc-credit.html"><span>Кредит</span><small>Аннуитетный платёж</small></a>
           <a href="calc-deposit.html"><span>Вклад</span><small>С капитализацией</small></a>
         </div>
@@ -546,6 +567,7 @@ p{ margin:0 0 1em; color:var(--ink); }
     <div class="mobile-group">
       <span class="mobile-group-label">Финансы</span>
       <a href="calc-mortgage.html">Ипотека</a>
+      <a href="calc-mortgage-early.html">Досрочное погашение</a>
       <a href="calc-credit.html">Кредит</a>
       <a href="calc-deposit.html">Вклад</a>
     </div>
@@ -576,7 +598,7 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div class="field">
                 <label for="m-amount">Сумма кредита</label>
                 <div class="unit-input">
-                  <input type="number" id="m-amount" value="5000000" min="1" step="1000" required>
+                  <input type="text" id="m-amount" value="5000000" required>
                   <span>₽</span>
                 </div>
               </div>
@@ -597,7 +619,7 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div class="field">
                 <label for="m-down">Первоначальный взнос <span class="hint">(необязательно)</span></label>
                 <div class="unit-input">
-                  <input type="number" id="m-down" value="0" min="0" step="1000">
+                  <input type="text" id="m-down" value="0">
                   <span>₽</span>
                 </div>
               </div>
@@ -675,6 +697,7 @@ p{ margin:0 0 1em; color:var(--ink); }
         <div class="side-card">
           <h4>Похожие калькуляторы</h4>
           <a class="related-link" href="calc-credit.html">Потребительский кредит</a>
+          <a class="related-link" href="calc-mortgage-early.html">Досрочное погашение</a>
           <a class="related-link" href="calc-deposit.html">Вклад с капитализацией</a>
           <a class="related-link" href="calc-percent.html">Калькулятор процентов</a>
         </div>
@@ -697,6 +720,7 @@ p{ margin:0 0 1em; color:var(--ink); }
       <div>
         <h5>Финансы</h5>
         <a href="calc-mortgage.html">Ипотека</a>
+        <a href="calc-mortgage-early.html">Досрочное погашение</a>
         <a href="calc-deposit.html">Вклад</a>
         <a href="calc-credit.html">Кредит</a>
       </div>
@@ -830,6 +854,104 @@ const Calc = {
       finalBalance: principal + totalInterest,
       totalInterest
     };
+  },
+
+  /**
+   * Ипотека/кредит с досрочными погашениями.
+   * principal — сумма кредита, annualRatePercent — ставка годовых, months — срок в месяцах.
+   * options:
+   *   strategy — 'term' (уменьшение срока, платёж не меняется) | 'payment' (уменьшение платежа, срок не меняется)
+   *   monthlyExtra — регулярный ежемесячный доп. платёж (0, если не используется)
+   *   monthlyExtraFromMonth — с какого месяца начинается регулярный доп. платёж (по умолчанию 1)
+   *   oneTimeExtra — разовый доп. платёж (0, если не используется)
+   *   oneTimeExtraMonth — месяц разового доп. платежа
+   * Возвращает сравнение с исходным графиком без досрочных погашений.
+   */
+  mortgageWithEarlyRepayments(principal, annualRatePercent, months, options = {}){
+    const {
+      strategy = 'term',
+      monthlyExtra = 0,
+      monthlyExtraFromMonth = 1,
+      oneTimeExtra = 0,
+      oneTimeExtraMonth = 0
+    } = options;
+
+    const i = (annualRatePercent / 100) / 12;
+    const annuityPayment = (P, rate, n) => {
+      if (n <= 0) return 0;
+      if (rate === 0) return P / n;
+      const f = Math.pow(1 + rate, n);
+      return P * (rate * f) / (f - 1);
+    };
+
+    const base = this.annuityLoan(principal, annualRatePercent, months);
+
+    let payment = annuityPayment(principal, i, months);
+    let balance = principal;
+    let totalInterest = 0;
+    let totalExtra = 0;
+    let monthsUsed = 0;
+    let finalPayment = payment;
+    const schedule = [];
+
+    for (let m = 1; m <= months; m++){
+      if (balance <= 0.005) break;
+      monthsUsed = m;
+
+      const interest = i === 0 ? 0 : balance * i;
+      let principalPart = payment - interest;
+      if (principalPart > balance) principalPart = balance;
+      balance -= principalPart;
+      totalInterest += interest;
+
+      let extra = 0;
+      if (monthlyExtra > 0 && m >= monthlyExtraFromMonth) extra += monthlyExtra;
+      if (oneTimeExtra > 0 && m === oneTimeExtraMonth) extra += oneTimeExtra;
+      if (extra > balance) extra = Math.max(balance, 0);
+      if (extra > 0){
+        balance -= extra;
+        totalExtra += extra;
+      }
+
+      schedule.push({
+        month: m,
+        interest,
+        principal: principalPart + extra,
+        extra,
+        payment: principalPart + interest + extra,
+        balance: Math.max(balance, 0)
+      });
+
+      if (balance <= 0.005){
+        balance = 0;
+        break;
+      }
+
+      const remainingMonths = months - m;
+      if (extra > 0 && remainingMonths > 0 && strategy === 'payment'){
+        payment = annuityPayment(balance, i, remainingMonths);
+        finalPayment = payment;
+      }
+    }
+
+    const totalPaid = principal + totalInterest;
+    const monthsSaved = months - monthsUsed;
+    const interestSaved = base.totalInterest - totalInterest;
+    const paymentReduced = base.monthlyPayment - finalPayment;
+
+    return {
+      basePayment: base.monthlyPayment,
+      baseTotalInterest: base.totalInterest,
+      monthsUsed,
+      monthsSaved,
+      finalPayment,
+      totalInterest,
+      totalExtra,
+      totalPaid,
+      interestSaved,
+      paymentReduced,
+      schedule
+    };
   }
 };
 
@@ -851,6 +973,64 @@ window.formatMoney = (value) => {
 window.formatMoney2 = (value) => {
   if (isNaN(value)) return '—';
   return new Intl.NumberFormat('ru-RU', { maximumFractionDigits: 2 }).format(value);
+};
+
+// Форматирование ЦЕЛЫХ чисел разрядами прямо в поле ввода (для сумм в рублях),
+// с сохранением позиции курсора. Дробная часть не поддерживается намеренно —
+// суммы кредитов/вкладов вводятся целыми рублями.
+window.formatThousandsRaw = (digitsOnly) => {
+  let intPart = digitsOnly.replace(/^0+(?=\d)/, '');
+  return intPart.replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+};
+
+window.attachThousandsInput = (el) => {
+  el.type = 'text';
+  el.setAttribute('inputmode', 'numeric');
+  if (el.value){
+    el.value = formatThousandsRaw(String(el.value).replace(/\D/g, ''));
+  }
+  el.addEventListener('input', () => {
+    const start = el.selectionStart ?? el.value.length;
+    const oldVal = el.value;
+    const digitsBeforeCursor = oldVal.slice(0, start).replace(/\D/g, '').length;
+
+    const digitsOnly = oldVal.replace(/\D/g, '');
+    const newVal = formatThousandsRaw(digitsOnly);
+    el.value = newVal;
+
+    let count = 0, pos = newVal.length;
+    if (digitsBeforeCursor === 0){
+      pos = 0;
+    } else {
+      for (let idx = 0; idx < newVal.length; idx++){
+        if (/\d/.test(newVal[idx])) count++;
+        if (count === digitsBeforeCursor){ pos = idx + 1; break; }
+      }
+    }
+    if (el.setSelectionRange) el.setSelectionRange(pos, pos);
+  });
+};
+
+window.parseFormattedNumber = (el) => {
+  if (!el) return NaN;
+  const raw = String(el.value).replace(/\D/g, '');
+  return raw === '' ? NaN : parseFloat(raw);
+};
+
+// «Умное» форматирование с адаптивной точностью — для площади/объёма, где выбор
+// единицы измерения (мм/см/м/км) может дать как очень маленькие, так и очень
+// большие числа. Обычный formatMoney2 (фикс. 2 знака) обнулял мелкие результаты.
+window.formatSmart = (value) => {
+  if (isNaN(value)) return '—';
+  if (value === 0) return '0';
+  const abs = Math.abs(value);
+  let decimals;
+  if (abs >= 1000) decimals = 0;
+  else if (abs >= 1) decimals = 2;
+  else if (abs >= 0.01) decimals = 4;
+  else if (abs >= 0.0001) decimals = 6;
+  else decimals = 8;
+  return new Intl.NumberFormat('ru-RU', { maximumFractionDigits: decimals }).format(value);
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -897,6 +1077,7 @@ document.addEventListener('DOMContentLoaded', () => {
           'объём': 'calc-volume.html',
           'процент': 'calc-percent.html',
           'ипотек': 'calc-mortgage.html',
+          'досрочн': 'calc-mortgage-early.html',
           'кредит': 'calc-mortgage.html',
           'вклад': 'calc-deposit.html',
           'депозит': 'calc-deposit.html',
@@ -916,15 +1097,18 @@ document.addEventListener('DOMContentLoaded', () => {
   const form = document.getElementById('mortgage-form');
   const amountEl = document.getElementById('m-amount');
   const rateEl = document.getElementById('m-rate');
-  const yearsEl = document.getElementById('m-down') && document.getElementById('m-years');
+  const yearsElRef = document.getElementById('m-years');
   const downEl = document.getElementById('m-down');
   const errorEl = document.getElementById('m-error');
 
+  attachThousandsInput(amountEl);
+  attachThousandsInput(downEl);
+
   function render(){
-    const amount = parseFloat(amountEl.value);
+    const amount = parseFormattedNumber(amountEl);
     const rate = parseFloat(rateEl.value);
-    const years = parseFloat(document.getElementById('m-years').value);
-    const down = parseFloat(downEl.value) || 0;
+    const years = parseFloat(yearsElRef.value);
+    const down = parseFormattedNumber(downEl) || 0;
 
     const valid = amount > 0 && rate >= 0 && years > 0 && down >= 0 && down < amount;
     errorEl.style.display = valid ? 'none' : 'block';
@@ -941,7 +1125,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('m-months').textContent = months;
   }
 
-  [amountEl, rateEl, document.getElementById('m-years'), downEl].forEach(el => {
+  [amountEl, rateEl, yearsElRef, downEl].forEach(el => {
     el.addEventListener('input', render);
   });
   render();
