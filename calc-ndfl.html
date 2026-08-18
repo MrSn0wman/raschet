@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Расчёт.рф — онлайн-калькуляторы: ипотека, вклады, площадь, объём, проценты</title>
-<meta name="description" content="Бесплатные онлайн-калькуляторы: ипотека, кредит, вклад, ИМТ, площадь, объём и проценты. Точные формулы, понятные объяснения, мгновенный расчёт без регистрации.">
-<link rel="canonical" href="https://raschet.rf/">
-<meta property="og:title" content="Расчёт.рф — онлайн-калькуляторы для дома, учёбы и финансов">
-<meta property="og:description" content="Ипотека, вклады, площадь, объём, проценты, ИМТ — точные расчёты за секунды.">
+<title>Калькулятор НДФЛ 2026 — прогрессивная шкала 13-22% | Расчёт.рф</title>
+<meta name="description" content="Рассчитайте НДФЛ по прогрессивной шкале 2026 года (13, 15, 18, 20, 22%). Узнайте сумму налога, доход на руки и эффективную ставку.">
+<link rel="canonical" href="https://raschet.rf/calc-ndfl.html">
+<meta property="og:title" content="Калькулятор НДФЛ 2026 — Расчёт.рф">
+<meta property="og:description" content="Расчёт налога на доходы физических лиц по прогрессивной шкале 13-22% на 2026 год.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <style>
@@ -482,14 +482,35 @@ p{ margin:0 0 1em; color:var(--ink); }
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Расчёт.рф",
-  "url": "https://raschet.rf/",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://raschet.rf/search?q={query}",
-    "query-input": "required name=query"
-  }
+  "@type": "WebApplication",
+  "name": "Калькулятор НДФЛ",
+  "url": "https://raschet.rf/calc-ndfl.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"RUB"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Какие ставки НДФЛ действуют в 2026 году?",
+      "acceptedAnswer": {"@type":"Answer","text":"В России действует пятиступенчатая прогрессивная шкала: 13% — на доход до 2,4 млн ₽ в год, 15% — на часть от 2,4 до 5 млн ₽, 18% — от 5 до 20 млн ₽, 20% — от 20 до 50 млн ₽, 22% — свыше 50 млн ₽. Повышенная ставка применяется не ко всему доходу, а только к части, превышающей порог."}
+    },
+    {
+      "@type": "Question",
+      "name": "Как считается налог, если доход попадает в несколько ступеней?",
+      "acceptedAnswer": {"@type":"Answer","text":"Каждая ступень шкалы облагается по своей ставке отдельно — так называемый принцип 'налог на превышение'. Например, при доходе 5 млн ₽ в год: первые 2,4 млн ₽ облагаются по 13%, оставшиеся 2,6 млн ₽ — по 15%."}
+    },
+    {
+      "@type": "Question",
+      "name": "Какая ставка НДФЛ у нерезидентов?",
+      "acceptedAnswer": {"@type":"Answer","text":"Для налоговых нерезидентов РФ ставка, как правило, составляет 30% от всего дохода без применения прогрессивной шкалы и вычетов, если иное не предусмотрено международным соглашением."}
+    }
+  ]
 }
 </script>
 </head>
@@ -503,7 +524,7 @@ p{ margin:0 0 1em; color:var(--ink); }
     </a>
 
     <nav class="main-nav" aria-label="Основная навигация">
-      <a href="index.html" class="active">Главная</a>
+      <a href="index.html">Главная</a>
 
       <div class="nav-drop">
         <button class="nav-drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Финансы <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -543,7 +564,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   </div>
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация">
-    <a href="index.html" class="active">Главная</a>
+    <a href="index.html">Главная</a>
     <div class="mobile-group">
       <span class="mobile-group-label">Финансы</span>
       <a href="calc-mortgage.html">Ипотека</a>
@@ -570,247 +591,109 @@ p{ margin:0 0 1em; color:var(--ink); }
 <div class="ruler" aria-hidden="true"></div>
 
 <main>
+  <div class="container calc-page">
+    <div class="breadcrumbs">
+      <a href="index.html">Главная</a> / <a href="index.html#realty">Недвижимость и налоги</a> / Калькулятор НДФЛ
+    </div>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="eyebrow">11 калькуляторов · без регистрации</span>
-        <h1>Посчитайте точно — без лишних кликов</h1>
-        <p class="lede">От площади комнаты до ежемесячного платежа по ипотеке. Каждый калькулятор показывает не только результат, но и формулу, по которой он получен.</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Калькулятор НДФЛ</h1>
+          <p class="calc-sub">Прогрессивная шкала 13–22%, действующая в 2026 году. Введите годовой доход — калькулятор покажет налог, доход на руки и эффективную ставку.</p>
 
-        <div class="hero-finder">
-          <label for="finder-input">Какой расчёт вам нужен?</label>
-          <div class="finder-row">
-            <input type="text" id="finder-input" placeholder="Например: «ипотека» или «площадь комнаты»" autocomplete="off">
-            <button class="btn btn-primary" onclick="document.getElementById('finder-input').dispatchEvent(new KeyboardEvent('keydown',{key:'Enter'}))">Найти</button>
+          <div class="strategy-toggle" style="margin-bottom:18px;">
+            <label class="strategy-option">
+              <input type="radio" name="residency" value="resident" checked>
+              <span><b>Налоговый резидент РФ</b><small>Провели в России 183+ дней за последние 12 месяцев — применяется прогрессивная шкала</small></span>
+            </label>
+            <label class="strategy-option">
+              <input type="radio" name="residency" value="nonresident">
+              <span><b>Нерезидент РФ</b><small>Как правило, ставка 30% от всего дохода, без вычетов</small></span>
+            </label>
           </div>
-          <div class="finder-chips">
-            <a class="chip" href="calc-mortgage.html">Ипотека</a>
-            <a class="chip" href="calc-deposit.html">Вклад</a>
-            <a class="chip" href="calc-area.html">Площадь</a>
-            <a class="chip" href="calc-volume.html">Объём</a>
-            <a class="chip" href="calc-percent.html">Проценты</a>
-            <a class="chip" href="calc-bmi.html">ИМТ</a>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="income">Годовой доход (до вычета налога)</label>
+              <div class="unit-input">
+                <input type="text" id="income" value="3 000 000" inputmode="numeric">
+                <span>₽/год</span>
+              </div>
+              <span class="hint">Оклад, премии и другие доходы, облагаемые по общей шкале (без дивидендов и доходов от продажи имущества — у них отдельные ставки)</span>
+            </div>
+          </div>
+
+          <div class="result-panel">
+            <div class="r-label">НДФЛ к уплате за год</div>
+            <div class="r-value" id="r-tax">—</div>
+            <div class="r-rows">
+              <div><b id="r-net">—</b><span>Доход на руки за год</span></div>
+              <div><b id="r-effrate">—</b><span>Эффективная ставка</span></div>
+              <div><b id="r-monthly-tax">—</b><span>Налог в среднем за месяц</span></div>
+              <div><b id="r-marginal">—</b><span>Ступень шкалы (максимальная ставка)</span></div>
+            </div>
+          </div>
+          <div class="error-msg" id="err">Введите корректный годовой доход</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается НДФЛ по прогрессивной шкале в 2026 году</h2>
+          <p>С 1 января 2025 года в России действует пятиступенчатая прогрессивная шкала НДФЛ. Повышенная ставка применяется не ко всему доходу целиком, а только к части, превышающей очередной порог — это называют принципом «налога на превышение».</p>
+
+          <table style="width:100%; border-collapse:collapse; margin:18px 0; font-size:.92rem;">
+            <thead>
+              <tr style="border-bottom:1px solid var(--line); text-align:left;">
+                <th style="padding:8px 6px;">Годовой доход</th>
+                <th style="padding:8px 6px;">Ставка</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px dashed var(--line);"><td style="padding:8px 6px;">до 2 400 000 ₽</td><td style="padding:8px 6px;">13%</td></tr>
+              <tr style="border-bottom:1px dashed var(--line);"><td style="padding:8px 6px;">от 2 400 000 до 5 000 000 ₽</td><td style="padding:8px 6px;">15%</td></tr>
+              <tr style="border-bottom:1px dashed var(--line);"><td style="padding:8px 6px;">от 5 000 000 до 20 000 000 ₽</td><td style="padding:8px 6px;">18%</td></tr>
+              <tr style="border-bottom:1px dashed var(--line);"><td style="padding:8px 6px;">от 20 000 000 до 50 000 000 ₽</td><td style="padding:8px 6px;">20%</td></tr>
+              <tr><td style="padding:8px 6px;">свыше 50 000 000 ₽</td><td style="padding:8px 6px;">22%</td></tr>
+            </tbody>
+          </table>
+
+          <h3>Пример расчёта</h3>
+          <p>При годовом доходе 5 000 000 ₽ налог считается так: 13% с первых 2 400 000 ₽ (312 000 ₽) плюс 15% с оставшихся 2 600 000 ₽ (390 000 ₽). Итого — 702 000 ₽, что соответствует эффективной ставке около 14%.</p>
+
+          <h3>Что не входит в общую шкалу</h3>
+          <p>Дивиденды, доходы от продажи имущества и проценты по вкладам считаются по собственным правилам — их налоговая база не суммируется с зарплатой при определении ступени шкалы.</p>
+
+          <div class="faq">
+            <details>
+              <summary>Работодатель сам платит повышенный НДФЛ или это делаю я?</summary>
+              <p>Работодатель как налоговый агент удерживает и перечисляет НДФЛ с зарплаты самостоятельно, применяя нужную ступень шкалы. Отдельно подавать декларацию по этим доходам не требуется.</p>
+            </details>
+            <details>
+              <summary>Учитываются ли налоговые вычеты в этом расчёте?</summary>
+              <p>Нет, калькулятор показывает налог с полного дохода без учёта стандартных, социальных или имущественных вычетов. Для расчёта возврата за покупку жилья используйте <a href="calc-tax-deduction.html">калькулятор имущественного вычета</a>.</p>
+            </details>
+            <details>
+              <summary>Как считается налог, если доход в разные месяцы разный?</summary>
+              <p>Ступени шкалы применяются к доходу нарастающим итогом с начала года, а не к доходу за отдельный месяц. Итоговая сумма налога за год не зависит от того, как доход распределён по месяцам.</p>
+            </details>
           </div>
         </div>
       </div>
 
-      <div class="hero-figure">
-        <div class="readout-label">Пример: ипотека 5 000 000 ₽, 12% годовых, 20 лет</div>
-        <div class="readout">55 054 ₽/мес</div>
-        <div class="fig-row"><span>Переплата за весь срок</span><span>8 213 034 ₽</span></div>
-        <div class="fig-row"><span>Итого выплат</span><span>13 213 034 ₽</span></div>
-        <div class="fig-row"><span>Формула</span><span>аннуитетный платёж</span></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="ad-slot ad-slot--leader" role="complementary" aria-label="Рекламный блок">
-      <span class="tag">Реклама</span>
-      <span>728×90 — баннер под шапкой</span>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="calc-tax-deduction.html">Налоговый вычет за квартиру</a>
+          <a class="related-link" href="calc-property-sale-tax.html">Налог с продажи квартиры</a>
+          <a class="related-link" href="calc-mortgage.html">Калькулятор ипотеки</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок">
+          <span class="tag">Реклама</span>
+          <span>300×250</span>
+        </div>
+      </aside>
     </div>
   </div>
-
-  <section class="section" id="categories">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Разделы</h2>
-          <p class="lede">Выберите категорию — внутри собраны самые востребованные расчёты.</p>
-        </div>
-      </div>
-      <div class="cat-grid">
-        <a class="cat-card" href="index.html#finance">
-          <span class="n">01</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M6 9v.01M18 15v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-          <h3>Финансы</h3>
-          <p>Ипотека, кредит, вклад, депозит с капитализацией</p>
-        </a>
-        <a class="cat-card" href="index.html#math">
-          <span class="n">02</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 18H5L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 15h6" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/></svg></span>
-          <h3>Математика</h3>
-          <p>Площадь, объём, проценты, пропорции</p>
-        </a>
-        <a class="cat-card" href="index.html#health">
-          <span class="n">03</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0112 5.5 5.5 5.5 0 0121.5 11c-2.5 4.65-9.5 9-9.5 9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4.5 12h3l2-3 2 5 2-4 1.3 2H19.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <h3>Здоровье</h3>
-          <p>Индекс массы тела, нормы веса</p>
-        </a>
-        <a class="cat-card" href="index.html#realty">
-          <span class="n">04</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 5.5V4h3v3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-          <h3>Недвижимость и налоги</h3>
-          <p>Вычет за квартиру, налог с продажи, НДФЛ</p>
-        </a>
-        <a class="cat-card" href="about.html">
-          <span class="n">05</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6V3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
-          <h3>О проекте</h3>
-          <p>Как мы проверяем формулы и источники</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="finance">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Финансовые калькуляторы</h2>
-          <p class="lede">Самая частая причина зайти на калькулятор — посчитать деньги наперёд.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-mortgage.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9h12v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 19v-5h4v5" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор ипотеки</h4>
-            <span>Ежемесячный платёж, переплата, график погашения</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-mortgage-early.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Досрочное погашение ипотеки</h4>
-            <span>Уменьшение срока или платежа, экономия на процентах</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-deposit.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="7" rx="7" ry="3" stroke="currentColor" stroke-width="1.6"/><path d="M5 7v10c0 1.66 3.13 3 7 3s7-1.34 7-3V7" stroke="currentColor" stroke-width="1.6"/><path d="M5 12c0 1.66 3.13 3 7 3s7-1.34 7-3" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор вклада</h4>
-            <span>С капитализацией и пополнением</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-credit.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/><path d="M7 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор потребительского кредита</h4>
-            <span>Аннуитетный платёж и полная стоимость кредита</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="math">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Математические калькуляторы</h2>
-          <p class="lede">Быстрые расчёты для учёбы, ремонта и повседневных задач.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-area.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2.4 2.4"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор площади</h4>
-            <span>Прямоугольник, круг, треугольник</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-volume.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 3v9M4 7.5l8 4.5 8-4.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор объёма</h4>
-            <span>Параллелепипед, цилиндр, шар</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-percent.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M17 7L7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор процентов</h4>
-            <span>Доля от числа, изменение, соотношение</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок">
-      <span class="tag">Реклама</span>
-      <span>970×90 или адаптивный блок между разделами</span>
-    </div>
-  </div>
-
-  <section class="section" id="realty">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Недвижимость и налоги</h2>
-          <p class="lede">Возврат налога, продажа жилья, расчёт НДФЛ по актуальной шкале 2026 года.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-tax-deduction.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Налоговый вычет за квартиру</h4>
-            <span>Возврат НДФЛ при покупке жилья и по ипотечным процентам</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-property-sale-tax.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 21v-4M16 21v-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Налог с продажи квартиры</h4>
-            <span>Срок владения, вычет 1 млн ₽ или расходы, ставки 13–15%</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-ndfl.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V5l6 4 6-4v14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор НДФЛ</h4>
-            <span>Прогрессивная шкала 13–22% на 2026 год</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="health">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Здоровье</h2>
-          <p class="lede">Простые ориентиры, не заменяющие консультацию врача.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-bmi.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор ИМТ</h4>
-            <span>Индекс массы тела и категория по ВОЗ</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="container">
-    <div class="trust-strip">
-      <div><b>Формулы проверены</b>Каждый расчёт сверен со стандартными формулами и независимыми источниками</div>
-      <div><b>Без регистрации</b>Все калькуляторы работают прямо в браузере, бесплатно</div>
-      <div><b>Обновляется</b>Ставки и лимиты актуализируются вручную редакцией</div>
-      <div><b>Открытый расчёт</b>Показываем формулу и промежуточные шаги, а не только ответ</div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="site-footer">
@@ -987,6 +870,80 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+</script>
+<script>
+const BRACKETS = [
+  {limit: 2400000, rate: 0.13},
+  {limit: 5000000, rate: 0.15},
+  {limit: 20000000, rate: 0.18},
+  {limit: 50000000, rate: 0.20},
+  {limit: Infinity, rate: 0.22}
+];
+
+function progressiveTax(income){
+  if (income <= 0) return 0;
+  let tax = 0, prevLimit = 0;
+  for (const b of BRACKETS){
+    if (income > prevLimit){
+      const taxableInBracket = Math.min(income, b.limit) - prevLimit;
+      tax += taxableInBracket * b.rate;
+      prevLimit = b.limit;
+    } else break;
+  }
+  return tax;
+}
+
+function marginalRateLabel(income){
+  if (income <= 2400000) return '13%';
+  if (income <= 5000000) return '15%';
+  if (income <= 20000000) return '18%';
+  if (income <= 50000000) return '20%';
+  return '22%';
+}
+
+function recalcNdfl(){
+  const incomeEl = document.getElementById('income');
+  const income = parseFormattedNumber(incomeEl);
+  const errEl = document.getElementById('err');
+  const isResident = document.querySelector('input[name="residency"]:checked').value === 'resident';
+
+  if (isNaN(income) || income < 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-tax').textContent = '—';
+    document.getElementById('r-net').textContent = '—';
+    document.getElementById('r-effrate').textContent = '—';
+    document.getElementById('r-monthly-tax').textContent = '—';
+    document.getElementById('r-marginal').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  let tax, marginal;
+  if (isResident){
+    tax = progressiveTax(income);
+    marginal = marginalRateLabel(income);
+  } else {
+    tax = income * 0.30;
+    marginal = '30%';
+  }
+
+  const net = income - tax;
+  const effRate = income > 0 ? (tax / income * 100) : 0;
+
+  document.getElementById('r-tax').textContent = formatMoney(tax) + ' ₽';
+  document.getElementById('r-net').textContent = formatMoney(net) + ' ₽';
+  document.getElementById('r-effrate').textContent = effRate.toFixed(1).replace('.', ',') + '%';
+  document.getElementById('r-monthly-tax').textContent = formatMoney(tax/12) + ' ₽';
+  document.getElementById('r-marginal').textContent = marginal;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const incomeEl = document.getElementById('income');
+  attachThousandsInput(incomeEl);
+  incomeEl.addEventListener('input', recalcNdfl);
+  document.querySelectorAll('input[name="residency"]').forEach(r => r.addEventListener('change', recalcNdfl));
+  recalcNdfl();
+});
 </script>
 </body>
 </html>

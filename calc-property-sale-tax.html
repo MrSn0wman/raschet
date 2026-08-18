@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Расчёт.рф — онлайн-калькуляторы: ипотека, вклады, площадь, объём, проценты</title>
-<meta name="description" content="Бесплатные онлайн-калькуляторы: ипотека, кредит, вклад, ИМТ, площадь, объём и проценты. Точные формулы, понятные объяснения, мгновенный расчёт без регистрации.">
-<link rel="canonical" href="https://raschet.rf/">
-<meta property="og:title" content="Расчёт.рф — онлайн-калькуляторы для дома, учёбы и финансов">
-<meta property="og:description" content="Ипотека, вклады, площадь, объём, проценты, ИМТ — точные расчёты за секунды.">
+<title>Калькулятор налога с продажи квартиры 2026 | Расчёт.рф</title>
+<meta name="description" content="Рассчитайте налог с продажи квартиры в 2026 году: минимальный срок владения 3 или 5 лет, вычет 1 млн ₽ или расходы на покупку, ставки 13% и 15%.">
+<link rel="canonical" href="https://raschet.rf/calc-property-sale-tax.html">
+<meta property="og:title" content="Калькулятор налога с продажи квартиры — Расчёт.рф">
+<meta property="og:description" content="Нужно ли платить НДФЛ при продаже квартиры и сколько — расчёт с учётом срока владения и вычетов.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <style>
@@ -482,14 +482,35 @@ p{ margin:0 0 1em; color:var(--ink); }
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Расчёт.рф",
-  "url": "https://raschet.rf/",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://raschet.rf/search?q={query}",
-    "query-input": "required name=query"
-  }
+  "@type": "WebApplication",
+  "name": "Калькулятор налога с продажи квартиры",
+  "url": "https://raschet.rf/calc-property-sale-tax.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"RUB"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Через сколько лет продажа квартиры не облагается налогом?",
+      "acceptedAnswer": {"@type":"Answer","text":"Через 5 лет владения в общем случае. Минимальный срок сокращается до 3 лет для единственного жилья, а также если квартира получена в наследство или в дар от близкого родственника, приватизирована или получена по договору ренты."}
+    },
+    {
+      "@type": "Question",
+      "name": "Что выгоднее — вычет 1 млн рублей или расходы на покупку?",
+      "acceptedAnswer": {"@type":"Answer","text":"Если есть документы, подтверждающие расходы на покупку этой квартиры (например, старый договор купли-продажи), обычно выгоднее вычесть именно их, а не фиксированный 1 млн ₽ — особенно если квартира стоила дороже миллиона."}
+    },
+    {
+      "@type": "Question",
+      "name": "Зачем в расчёте нужна кадастровая стоимость?",
+      "acceptedAnswer": {"@type":"Answer","text":"Если цена продажи в договоре ниже 70% кадастровой стоимости объекта на 1 января года продажи, налоговая база принимается равной 70% кадастровой стоимости — это правило защищает от искусственного занижения цены в договоре."}
+    }
+  ]
 }
 </script>
 </head>
@@ -503,7 +524,7 @@ p{ margin:0 0 1em; color:var(--ink); }
     </a>
 
     <nav class="main-nav" aria-label="Основная навигация">
-      <a href="index.html" class="active">Главная</a>
+      <a href="index.html">Главная</a>
 
       <div class="nav-drop">
         <button class="nav-drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Финансы <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -543,7 +564,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   </div>
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация">
-    <a href="index.html" class="active">Главная</a>
+    <a href="index.html">Главная</a>
     <div class="mobile-group">
       <span class="mobile-group-label">Финансы</span>
       <a href="calc-mortgage.html">Ипотека</a>
@@ -570,247 +591,118 @@ p{ margin:0 0 1em; color:var(--ink); }
 <div class="ruler" aria-hidden="true"></div>
 
 <main>
+  <div class="container calc-page">
+    <div class="breadcrumbs">
+      <a href="index.html">Главная</a> / <a href="index.html#realty">Недвижимость и налоги</a> / Налог с продажи квартиры
+    </div>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="eyebrow">11 калькуляторов · без регистрации</span>
-        <h1>Посчитайте точно — без лишних кликов</h1>
-        <p class="lede">От площади комнаты до ежемесячного платежа по ипотеке. Каждый калькулятор показывает не только результат, но и формулу, по которой он получен.</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Налог с продажи квартиры</h1>
+          <p class="calc-sub">Проверьте, нужно ли платить НДФЛ при продаже квартиры, и рассчитайте сумму с учётом срока владения и вычетов.</p>
 
-        <div class="hero-finder">
-          <label for="finder-input">Какой расчёт вам нужен?</label>
-          <div class="finder-row">
-            <input type="text" id="finder-input" placeholder="Например: «ипотека» или «площадь комнаты»" autocomplete="off">
-            <button class="btn btn-primary" onclick="document.getElementById('finder-input').dispatchEvent(new KeyboardEvent('keydown',{key:'Enter'}))">Найти</button>
+          <div class="field-grid">
+            <div class="field full">
+              <label for="saleprice">Цена продажи по договору</label>
+              <div class="unit-input">
+                <input type="text" id="saleprice" value="8 000 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="years">Срок владения</label>
+              <input type="text" id="years" value="2" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label for="minperiod">Минимальный срок для вашего случая</label>
+              <select id="minperiod">
+                <option value="5">5 лет — обычная покупка (общий случай)</option>
+                <option value="3">3 года — наследство, дар от близкого родственника, приватизация, рента или единственное жильё</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="cadastral">Кадастровая стоимость на 1 января года продажи <span class="hint">(необязательно)</span></label>
+              <div class="unit-input">
+                <input type="text" id="cadastral" value="0" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
           </div>
-          <div class="finder-chips">
-            <a class="chip" href="calc-mortgage.html">Ипотека</a>
-            <a class="chip" href="calc-deposit.html">Вклад</a>
-            <a class="chip" href="calc-area.html">Площадь</a>
-            <a class="chip" href="calc-volume.html">Объём</a>
-            <a class="chip" href="calc-percent.html">Проценты</a>
-            <a class="chip" href="calc-bmi.html">ИМТ</a>
+
+          <div class="strategy-toggle" style="margin:18px 0 6px;">
+            <label class="strategy-option">
+              <input type="radio" name="deduction-method" value="fixed" checked>
+              <span><b>Вычет 1 000 000 ₽</b><small>Фиксированный вычет — без подтверждающих документов о покупке</small></span>
+            </label>
+            <label class="strategy-option">
+              <input type="radio" name="deduction-method" value="expenses">
+              <span><b>Вычесть расходы на покупку</b><small>Нужны документы: старый договор купли-продажи и т.п.</small></span>
+            </label>
+          </div>
+          <div class="field-grid" id="expenses-field-wrap" style="display:none; margin-top:10px;">
+            <div class="field full">
+              <label for="purchaseprice">Сумма, за которую вы купили эту квартиру</label>
+              <div class="unit-input">
+                <input type="text" id="purchaseprice" value="5 000 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel">
+            <div class="r-label" id="r-status-label">Налог к уплате</div>
+            <div class="r-value" id="r-tax">—</div>
+            <div class="r-rows">
+              <div><b id="r-base">—</b><span>Налоговая база</span></div>
+              <div><b id="r-effprice">—</b><span>Цена для расчёта налога</span></div>
+              <div><b id="r-deduction">—</b><span>Применённый вычет</span></div>
+              <div><b id="r-note">—</b><span>Декларация 3-НДФЛ</span></div>
+            </div>
+          </div>
+          <div class="error-msg" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как рассчитывается налог с продажи квартиры</h2>
+          <p>Если квартира находилась в собственности дольше минимального срока владения — 5 лет в общем случае или 3 года для льготных категорий — доход от продажи вообще не облагается налогом и декларацию подавать не нужно.</p>
+          <p>Если минимальный срок не истёк, из цены продажи вычитается либо фиксированный вычет 1 000 000 ₽, либо документально подтверждённые расходы на покупку этой же квартиры — то, что выгоднее. К полученной налоговой базе применяются ставки 13% (в пределах 2,4 млн ₽ дохода) и 15% (с суммы превышения) — эта шкала для доходов от продажи имущества считается отдельно от зарплатной прогрессии.</p>
+          <p>Если по договору цена продажи меньше 70% кадастровой стоимости объекта на 1 января года продажи, для расчёта налога вместо цены договора берётся именно эта величина — 70% кадастровой стоимости.</p>
+
+          <h3>Пример расчёта</h3>
+          <p>Квартира куплена за 5 000 000 ₽, продана через 2 года за 8 000 000 ₽ (минимальный срок — 5 лет, ещё не истёк). Расходы на покупку подтверждены документами, поэтому налоговая база — 3 000 000 ₽ (8 000 000 − 5 000 000). Налог: 13% с 2 400 000 ₽ (312 000 ₽) плюс 15% с оставшихся 600 000 ₽ (90 000 ₽) — итого 402 000 ₽.</p>
+
+          <div class="faq">
+            <details>
+              <summary>Нужно ли подавать декларацию, если налог получился нулевым?</summary>
+              <p>Декларацию можно не подавать, если доход от продажи не превышает 1 000 000 ₽ (при использовании фиксированного вычета) и в течение года вы не продавали другие объекты недвижимости.</p>
+            </details>
+            <details>
+              <summary>А если квартиру продали дешевле, чем купили?</summary>
+              <p>При выборе вычета в виде расходов налоговая база в этом случае получается нулевой или отрицательной, значит налог платить не нужно — но декларацию всё равно нужно подать, приложив подтверждающие документы.</p>
+            </details>
+            <details>
+              <summary>С какой даты считается срок владения?</summary>
+              <p>Как правило — с даты регистрации права собственности в Росреестре. Для унаследованного имущества — с даты смерти наследодателя, а не с даты оформления наследства.</p>
+            </details>
           </div>
         </div>
       </div>
 
-      <div class="hero-figure">
-        <div class="readout-label">Пример: ипотека 5 000 000 ₽, 12% годовых, 20 лет</div>
-        <div class="readout">55 054 ₽/мес</div>
-        <div class="fig-row"><span>Переплата за весь срок</span><span>8 213 034 ₽</span></div>
-        <div class="fig-row"><span>Итого выплат</span><span>13 213 034 ₽</span></div>
-        <div class="fig-row"><span>Формула</span><span>аннуитетный платёж</span></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="ad-slot ad-slot--leader" role="complementary" aria-label="Рекламный блок">
-      <span class="tag">Реклама</span>
-      <span>728×90 — баннер под шапкой</span>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="calc-tax-deduction.html">Налоговый вычет за квартиру</a>
+          <a class="related-link" href="calc-ndfl.html">Калькулятор НДФЛ</a>
+          <a class="related-link" href="calc-mortgage.html">Калькулятор ипотеки</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок">
+          <span class="tag">Реклама</span>
+          <span>300×250</span>
+        </div>
+      </aside>
     </div>
   </div>
-
-  <section class="section" id="categories">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Разделы</h2>
-          <p class="lede">Выберите категорию — внутри собраны самые востребованные расчёты.</p>
-        </div>
-      </div>
-      <div class="cat-grid">
-        <a class="cat-card" href="index.html#finance">
-          <span class="n">01</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M6 9v.01M18 15v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-          <h3>Финансы</h3>
-          <p>Ипотека, кредит, вклад, депозит с капитализацией</p>
-        </a>
-        <a class="cat-card" href="index.html#math">
-          <span class="n">02</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 18H5L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 15h6" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/></svg></span>
-          <h3>Математика</h3>
-          <p>Площадь, объём, проценты, пропорции</p>
-        </a>
-        <a class="cat-card" href="index.html#health">
-          <span class="n">03</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0112 5.5 5.5 5.5 0 0121.5 11c-2.5 4.65-9.5 9-9.5 9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4.5 12h3l2-3 2 5 2-4 1.3 2H19.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <h3>Здоровье</h3>
-          <p>Индекс массы тела, нормы веса</p>
-        </a>
-        <a class="cat-card" href="index.html#realty">
-          <span class="n">04</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 5.5V4h3v3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-          <h3>Недвижимость и налоги</h3>
-          <p>Вычет за квартиру, налог с продажи, НДФЛ</p>
-        </a>
-        <a class="cat-card" href="about.html">
-          <span class="n">05</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6V3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
-          <h3>О проекте</h3>
-          <p>Как мы проверяем формулы и источники</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="finance">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Финансовые калькуляторы</h2>
-          <p class="lede">Самая частая причина зайти на калькулятор — посчитать деньги наперёд.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-mortgage.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9h12v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 19v-5h4v5" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор ипотеки</h4>
-            <span>Ежемесячный платёж, переплата, график погашения</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-mortgage-early.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Досрочное погашение ипотеки</h4>
-            <span>Уменьшение срока или платежа, экономия на процентах</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-deposit.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="7" rx="7" ry="3" stroke="currentColor" stroke-width="1.6"/><path d="M5 7v10c0 1.66 3.13 3 7 3s7-1.34 7-3V7" stroke="currentColor" stroke-width="1.6"/><path d="M5 12c0 1.66 3.13 3 7 3s7-1.34 7-3" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор вклада</h4>
-            <span>С капитализацией и пополнением</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-credit.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/><path d="M7 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор потребительского кредита</h4>
-            <span>Аннуитетный платёж и полная стоимость кредита</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="math">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Математические калькуляторы</h2>
-          <p class="lede">Быстрые расчёты для учёбы, ремонта и повседневных задач.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-area.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2.4 2.4"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор площади</h4>
-            <span>Прямоугольник, круг, треугольник</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-volume.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 3v9M4 7.5l8 4.5 8-4.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор объёма</h4>
-            <span>Параллелепипед, цилиндр, шар</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-percent.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M17 7L7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор процентов</h4>
-            <span>Доля от числа, изменение, соотношение</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок">
-      <span class="tag">Реклама</span>
-      <span>970×90 или адаптивный блок между разделами</span>
-    </div>
-  </div>
-
-  <section class="section" id="realty">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Недвижимость и налоги</h2>
-          <p class="lede">Возврат налога, продажа жилья, расчёт НДФЛ по актуальной шкале 2026 года.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-tax-deduction.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Налоговый вычет за квартиру</h4>
-            <span>Возврат НДФЛ при покупке жилья и по ипотечным процентам</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-property-sale-tax.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 21v-4M16 21v-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Налог с продажи квартиры</h4>
-            <span>Срок владения, вычет 1 млн ₽ или расходы, ставки 13–15%</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-ndfl.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V5l6 4 6-4v14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор НДФЛ</h4>
-            <span>Прогрессивная шкала 13–22% на 2026 год</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="health">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Здоровье</h2>
-          <p class="lede">Простые ориентиры, не заменяющие консультацию врача.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-bmi.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор ИМТ</h4>
-            <span>Индекс массы тела и категория по ВОЗ</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="container">
-    <div class="trust-strip">
-      <div><b>Формулы проверены</b>Каждый расчёт сверен со стандартными формулами и независимыми источниками</div>
-      <div><b>Без регистрации</b>Все калькуляторы работают прямо в браузере, бесплатно</div>
-      <div><b>Обновляется</b>Ставки и лимиты актуализируются вручную редакцией</div>
-      <div><b>Открытый расчёт</b>Показываем формулу и промежуточные шаги, а не только ответ</div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="site-footer">
@@ -987,6 +879,93 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+</script>
+<script>
+function recalcSaleTax(){
+  const salepriceEl = document.getElementById('saleprice');
+  const yearsEl = document.getElementById('years');
+  const cadastralEl = document.getElementById('cadastral');
+  const purchasepriceEl = document.getElementById('purchaseprice');
+  const errEl = document.getElementById('err');
+
+  const salePrice = parseFormattedNumber(salepriceEl);
+  const years = parseFloat(yearsEl.value.replace(',', '.'));
+  const minPeriod = parseInt(document.getElementById('minperiod').value, 10);
+  const cadastral = parseFormattedNumber(cadastralEl);
+  const useExpenses = document.querySelector('input[name="deduction-method"]:checked').value === 'expenses';
+  const purchasePrice = useExpenses ? parseFormattedNumber(purchasepriceEl) : 0;
+
+  const invalid = isNaN(salePrice) || salePrice < 0 || isNaN(years) || years < 0 ||
+    (useExpenses && (isNaN(purchasePrice) || purchasePrice < 0));
+
+  if (invalid){
+    errEl.style.display = 'block';
+    ['r-tax','r-base','r-effprice','r-deduction','r-note'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const statusLabel = document.getElementById('r-status-label');
+
+  if (years >= minPeriod){
+    statusLabel.textContent = 'Налог к уплате';
+    document.getElementById('r-tax').textContent = '0 ₽ — продажа не облагается налогом';
+    document.getElementById('r-base').textContent = '0 ₽';
+    document.getElementById('r-effprice').textContent = '—';
+    document.getElementById('r-deduction').textContent = '—';
+    document.getElementById('r-note').textContent = 'Не требуется';
+    return;
+  }
+
+  let effectivePrice = salePrice;
+  if (!isNaN(cadastral) && cadastral > 0){
+    effectivePrice = Math.max(salePrice, cadastral * 0.7);
+  }
+
+  const deduction = (useExpenses && purchasePrice > 0) ? purchasePrice : 1000000;
+  const base = Math.max(0, effectivePrice - deduction);
+
+  let tax;
+  if (base <= 2400000){
+    tax = base * 0.13;
+  } else {
+    tax = 2400000 * 0.13 + (base - 2400000) * 0.15;
+  }
+
+  statusLabel.textContent = 'Налог к уплате';
+  document.getElementById('r-tax').textContent = formatMoney(tax) + ' ₽';
+  document.getElementById('r-base').textContent = formatMoney(base) + ' ₽';
+  document.getElementById('r-effprice').textContent = formatMoney(effectivePrice) + ' ₽';
+  document.getElementById('r-deduction').textContent = formatMoney(deduction) + ' ₽';
+  document.getElementById('r-note').textContent = (base > 0 && salePrice > 1000000) ? 'Нужна' : 'Обычно не нужна';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const salepriceEl = document.getElementById('saleprice');
+  const cadastralEl = document.getElementById('cadastral');
+  const purchasepriceEl = document.getElementById('purchaseprice');
+  [salepriceEl, cadastralEl, purchasepriceEl].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcSaleTax);
+  });
+  document.getElementById('years').addEventListener('input', recalcSaleTax);
+  document.getElementById('minperiod').addEventListener('change', recalcSaleTax);
+
+  const expensesWrap = document.getElementById('expenses-field-wrap');
+  document.querySelectorAll('input[name="deduction-method"]').forEach(r => {
+    r.addEventListener('change', () => {
+      expensesWrap.style.display = (r.value === 'expenses' && r.checked) ? 'grid' : expensesWrap.style.display;
+      if (document.querySelector('input[name="deduction-method"]:checked').value === 'expenses'){
+        expensesWrap.style.display = 'grid';
+      } else {
+        expensesWrap.style.display = 'none';
+      }
+      recalcSaleTax();
+    });
+  });
+
+  recalcSaleTax();
+});
 </script>
 </body>
 </html>
