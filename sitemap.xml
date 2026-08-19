@@ -9,6 +9,11 @@
   <url><loc>https://raschet.rf/calc-volume.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-percent.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-bmi.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://raschet.rf/calc-tax-deduction.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raschet.rf/calc-property-sale-tax.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raschet.rf/calc-ndfl.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raschet.rf/calc-transport-tax.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raschet.rf/calc-fuel.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/about.html</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://raschet.rf/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://raschet.rf/advertising.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
