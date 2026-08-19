@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Расчёт.рф — онлайн-калькуляторы: ипотека, вклады, площадь, объём, проценты</title>
-<meta name="description" content="Бесплатные онлайн-калькуляторы: ипотека, кредит, вклад, ИМТ, площадь, объём и проценты. Точные формулы, понятные объяснения, мгновенный расчёт без регистрации.">
-<link rel="canonical" href="https://raschet.rf/">
-<meta property="og:title" content="Расчёт.рф — онлайн-калькуляторы для дома, учёбы и финансов">
-<meta property="og:description" content="Ипотека, вклады, площадь, объём, проценты, ИМТ — точные расчёты за секунды.">
+<title>Калькулятор рефинансирования кредита 2026 — экономия | Расчёт.рф</title>
+<meta name="description" content="Посчитайте, сколько можно сэкономить, рефинансировав кредит под более низкую ставку. Сравнение текущего и нового платежа, общая экономия за весь срок.">
+<link rel="canonical" href="https://raschet.rf/calc-refinancing.html">
+<meta property="og:title" content="Калькулятор рефинансирования — Расчёт.рф">
+<meta property="og:description" content="Сравнение текущего кредита и рефинансирования под новую ставку — экономия в рублях.">
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <style>
@@ -482,14 +482,30 @@ p{ margin:0 0 1em; color:var(--ink); }
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "WebSite",
-  "name": "Расчёт.рф",
-  "url": "https://raschet.rf/",
-  "potentialAction": {
-    "@type": "SearchAction",
-    "target": "https://raschet.rf/search?q={query}",
-    "query-input": "required name=query"
-  }
+  "@type": "WebApplication",
+  "name": "Калькулятор рефинансирования кредита",
+  "url": "https://raschet.rf/calc-refinancing.html",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {"@type":"Offer","price":"0","priceCurrency":"RUB"}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "На сколько должна отличаться ставка, чтобы рефинансирование было выгодным?",
+      "acceptedAnswer": {"@type":"Answer","text":"Обычно рефинансирование имеет смысл при разнице ставок от 2 процентных пунктов и выше — с учётом расходов на оформление (страховка, оценка недвижимости для ипотеки, госпошлины), которые могут «съесть» небольшую экономию."}
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли рефинансировать кредит в своём же банке?",
+      "acceptedAnswer": {"@type":"Answer","text":"Да, некоторые банки предлагают снижение ставки по действующему кредиту без перевода в другой банк — это называется реструктуризацией и обычно оформляется проще, чем полное рефинансирование."}
+    }
+  ]
 }
 </script>
 </head>
@@ -503,7 +519,7 @@ p{ margin:0 0 1em; color:var(--ink); }
     </a>
 
     <nav class="main-nav" aria-label="Основная навигация">
-      <a href="index.html" class="active">Главная</a>
+      <a href="index.html">Главная</a>
 
       <div class="nav-drop">
         <button class="nav-drop-btn" type="button" aria-haspopup="true" aria-expanded="false">Финансы <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -564,7 +580,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   </div>
 
   <nav class="mobile-nav" id="mobile-nav" aria-label="Мобильная навигация">
-    <a href="index.html" class="active">Главная</a>
+    <a href="index.html">Главная</a>
     <div class="mobile-group">
       <span class="mobile-group-label">Финансы</span>
       <a href="calc-mortgage.html">Ипотека</a>
@@ -606,357 +622,113 @@ p{ margin:0 0 1em; color:var(--ink); }
 <div class="ruler" aria-hidden="true"></div>
 
 <main>
+  <div class="container calc-page">
+    <div class="breadcrumbs">
+      <a href="index.html">Главная</a> / <a href="index.html#finance">Финансы</a> / Рефинансирование
+    </div>
 
-  <section class="hero">
-    <div class="container hero-grid">
-      <div>
-        <span class="eyebrow">20 калькуляторов · без регистрации</span>
-        <h1>Посчитайте точно — без лишних кликов</h1>
-        <p class="lede">От площади комнаты до ежемесячного платежа по ипотеке. Каждый калькулятор показывает не только результат, но и формулу, по которой он получен.</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Рефинансирование кредита</h1>
+          <p class="calc-sub">Сравните текущий кредит с рефинансированием под новую ставку — сколько можно сэкономить за оставшийся срок.</p>
 
-        <div class="hero-finder">
-          <label for="finder-input">Какой расчёт вам нужен?</label>
-          <div class="finder-row">
-            <input type="text" id="finder-input" placeholder="Например: «ипотека» или «площадь комнаты»" autocomplete="off">
-            <button class="btn btn-primary" onclick="document.getElementById('finder-input').dispatchEvent(new KeyboardEvent('keydown',{key:'Enter'}))">Найти</button>
+          <h3 style="font-size:.95rem; margin:0 0 12px;">Текущий кредит</h3>
+          <div class="field-grid">
+            <div class="field full">
+              <label for="balance">Остаток долга</label>
+              <div class="unit-input">
+                <input type="text" id="balance" value="1 000 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="old-rate">Текущая ставка</label>
+              <div class="unit-input">
+                <input type="text" id="old-rate" value="22" inputmode="decimal">
+                <span>% годовых</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="months-left">Осталось месяцев</label>
+              <div class="unit-input">
+                <input type="text" id="months-left" value="24" inputmode="numeric">
+                <span>мес.</span>
+              </div>
+            </div>
           </div>
-          <div class="finder-chips">
-            <a class="chip" href="calc-mortgage.html">Ипотека</a>
-            <a class="chip" href="calc-deposit.html">Вклад</a>
-            <a class="chip" href="calc-area.html">Площадь</a>
-            <a class="chip" href="calc-volume.html">Объём</a>
-            <a class="chip" href="calc-percent.html">Проценты</a>
-            <a class="chip" href="calc-bmi.html">ИМТ</a>
+
+          <h3 style="font-size:.95rem; margin:20px 0 12px;">Новый кредит (рефинансирование)</h3>
+          <div class="field-grid">
+            <div class="field">
+              <label for="new-rate">Новая ставка</label>
+              <div class="unit-input">
+                <input type="text" id="new-rate" value="16" inputmode="decimal">
+                <span>% годовых</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="new-term">Новый срок</label>
+              <div class="unit-input">
+                <input type="text" id="new-term" value="24" inputmode="numeric">
+                <span>мес.</span>
+              </div>
+            </div>
+            <div class="field full">
+              <label for="fees">Расходы на оформление <span class="hint">(страховка, оценка, госпошлины — 0, если нет)</span></label>
+              <div class="unit-input">
+                <input type="text" id="fees" value="0" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="result-panel">
+            <div class="r-label" id="r-label">Экономия при рефинансировании</div>
+            <div class="r-value" id="r-savings">—</div>
+            <div class="r-rows">
+              <div><b id="r-old-payment">—</b><span>Текущий платёж в месяц</span></div>
+              <div><b id="r-new-payment">—</b><span>Новый платёж в месяц</span></div>
+              <div><b id="r-old-total">—</b><span>Останется выплатить сейчас</span></div>
+              <div><b id="r-new-total">—</b><span>Выплата после рефинансирования</span></div>
+            </div>
+          </div>
+          <div class="error-msg" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается выгода от рефинансирования</h2>
+          <p>Калькулятор сравнивает две суммы: сколько вы заплатите всего, если продолжите платить по текущему кредиту до конца срока, и сколько заплатите, если рефинансируете остаток долга под новую ставку — с учётом расходов на оформление. Разница между ними и есть экономия.</p>
+
+          <h3>Пример расчёта</h3>
+          <p>Остаток долга 1 000 000 ₽, текущая ставка 22% годовых, осталось 24 месяца — всего до конца срока нужно заплатить около 1 245 000 ₽. При рефинансировании под 16% на те же 24 месяца общая выплата составит около 1 175 000 ₽ — экономия около 70 000 ₽ без учёта расходов на оформление.</p>
+
+          <div class="faq">
+            <details>
+              <summary>Учитывается ли уже выплаченная часть кредита?</summary>
+              <p>Нет, расчёт строится только от текущего остатка долга и оставшегося срока — то, что уже выплачено, к сравнению отношения не имеет.</p>
+            </details>
+            <details>
+              <summary>Можно ли увеличить срок при рефинансировании?</summary>
+              <p>Да, укажите новый срок больше оставшегося — платёж снизится сильнее, но при слишком долгом сроке накопленные проценты могут превысить выгоду от более низкой ставки, поэтому стоит сравнивать именно итоговую сумму выплат, а не только размер ежемесячного платежа.</p>
+            </details>
           </div>
         </div>
       </div>
 
-      <div class="hero-figure">
-        <div class="readout-label">Пример: ипотека 5 000 000 ₽, 12% годовых, 20 лет</div>
-        <div class="readout">55 054 ₽/мес</div>
-        <div class="fig-row"><span>Переплата за весь срок</span><span>8 213 034 ₽</span></div>
-        <div class="fig-row"><span>Итого выплат</span><span>13 213 034 ₽</span></div>
-        <div class="fig-row"><span>Формула</span><span>аннуитетный платёж</span></div>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="ad-slot ad-slot--leader" role="complementary" aria-label="Рекламный блок">
-      <span class="tag">Реклама</span>
-      <span>728×90 — баннер под шапкой</span>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="calc-credit.html">Потребительский кредит</a>
+          <a class="related-link" href="calc-mortgage-early.html">Досрочное погашение ипотеки</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок">
+          <span class="tag">Реклама</span>
+          <span>300×250</span>
+        </div>
+      </aside>
     </div>
   </div>
-
-  <section class="section" id="categories">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Разделы</h2>
-          <p class="lede">Выберите категорию — внутри собраны самые востребованные расчёты.</p>
-        </div>
-      </div>
-      <div class="cat-grid">
-        <a class="cat-card" href="index.html#finance">
-          <span class="n">01</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.5" stroke="currentColor" stroke-width="1.6"/><path d="M6 9v.01M18 15v.01" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg></span>
-          <h3>Финансы</h3>
-          <p>Ипотека, кредит, вклад, депозит с капитализацией</p>
-        </a>
-        <a class="cat-card" href="index.html#math">
-          <span class="n">02</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 18H5L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 15h6" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="3" r="1.3" fill="currentColor"/></svg></span>
-          <h3>Математика</h3>
-          <p>Площадь, объём, проценты, пропорции</p>
-        </a>
-        <a class="cat-card" href="index.html#health">
-          <span class="n">03</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 20s-7-4.35-9.5-9A5.5 5.5 0 0112 5.5 5.5 5.5 0 0121.5 11c-2.5 4.65-9.5 9-9.5 9z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4.5 12h3l2-3 2 5 2-4 1.3 2H19.5" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <h3>Здоровье</h3>
-          <p>Индекс массы тела, нормы веса</p>
-        </a>
-        <a class="cat-card" href="index.html#realty">
-          <span class="n">04</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 5.5V4h3v3" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"/></svg></span>
-          <h3>Недвижимость и налоги</h3>
-          <p>Вычет за квартиру, налог с продажи, НДФЛ</p>
-        </a>
-        <a class="cat-card" href="index.html#auto">
-          <span class="n">05</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 16l1.5-5.5A2 2 0 018.4 9h7.2a2 2 0 011.9 1.5L19 16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="16" width="18" height="4" rx="1.5" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="20" r="1.3" fill="currentColor"/><circle cx="16.5" cy="20" r="1.3" fill="currentColor"/></svg></span>
-          <h3>Авто</h3>
-          <p>Транспортный налог, расход топлива</p>
-        </a>
-        <a class="cat-card" href="index.html#labor">
-          <span class="n">06</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5.5A1.5 1.5 0 019.5 4h5A1.5 1.5 0 0116 5.5V7" stroke="currentColor" stroke-width="1.6"/><path d="M3 12h18" stroke="currentColor" stroke-width="1.4"/></svg></span>
-          <h3>Трудовое право</h3>
-          <p>Стаж, отпускные дни, сумма отпускных</p>
-        </a>
-        <a class="cat-card" href="about.html">
-          <span class="n">07</span>
-          <span class="cat-ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 3h8l4 4v14H6V3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 3v4h4" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M9 16h6" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/></svg></span>
-          <h3>О проекте</h3>
-          <p>Как мы проверяем формулы и источники</p>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="finance">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Финансовые калькуляторы</h2>
-          <p class="lede">Самая частая причина зайти на калькулятор — посчитать деньги наперёд.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-mortgage.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 11l8-7 8 7" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M6 10v9h12v-9" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M10 19v-5h4v5" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор ипотеки</h4>
-            <span>Ежемесячный платёж, переплата, график погашения</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-mortgage-early.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 4v16M4 12h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Досрочное погашение ипотеки</h4>
-            <span>Уменьшение срока или платежа, экономия на процентах</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-deposit.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><ellipse cx="12" cy="7" rx="7" ry="3" stroke="currentColor" stroke-width="1.6"/><path d="M5 7v10c0 1.66 3.13 3 7 3s7-1.34 7-3V7" stroke="currentColor" stroke-width="1.6"/><path d="M5 12c0 1.66 3.13 3 7 3s7-1.34 7-3" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор вклада</h4>
-            <span>С капитализацией и пополнением</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-credit.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="6" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 10h18" stroke="currentColor" stroke-width="1.6"/><path d="M7 15h4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор потребительского кредита</h4>
-            <span>Аннуитетный платёж и полная стоимость кредита</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-car-loan.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 16l1.5-5.5A2 2 0 018.4 9h7.2a2 2 0 011.9 1.5L19 16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="16" width="18" height="4" rx="1.5" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="20" r="1.3" fill="currentColor"/><circle cx="16.5" cy="20" r="1.3" fill="currentColor"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор автокредита</h4>
-            <span>Со взносом, trade-in и аннуитетным платежом</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-refinancing.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 4v6h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M20 20v-6h-6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M5.5 15A8 8 0 0119 9.5M18.5 9A8 8 0 015 14.5" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор рефинансирования</h4>
-            <span>Сколько можно сэкономить, снизив ставку</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-microloan.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 2v20M17 6.5c0-2-2.5-3-5-3s-5 1.2-5 3 2.5 3 5 3 5 1 5 3-2.5 3-5 3-5-1-5-3" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор микрозайма</h4>
-            <span>С учётом лимита переплаты и максимальной ставки</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-loan-interest.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V5l6 4 6-4v14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Проценты по займу</h4>
-            <span>Расчёт между физлицами по ставке и сроку</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="math">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Математические калькуляторы</h2>
-          <p class="lede">Быстрые расчёты для учёбы, ремонта и повседневных задач.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-area.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="4" y="4" width="16" height="16" rx="1.5" stroke="currentColor" stroke-width="1.6"/><path d="M4 4l16 16" stroke="currentColor" stroke-width="1.3" stroke-dasharray="2.4 2.4"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор площади</h4>
-            <span>Прямоугольник, круг, треугольник</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-volume.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M12 3v9M4 7.5l8 4.5 8-4.5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор объёма</h4>
-            <span>Параллелепипед, цилиндр, шар</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-percent.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="7" cy="7" r="2.4" stroke="currentColor" stroke-width="1.6"/><circle cx="17" cy="17" r="2.4" stroke="currentColor" stroke-width="1.6"/><path d="M17 7L7 17" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор процентов</h4>
-            <span>Доля от числа, изменение, соотношение</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <div class="container">
-    <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок">
-      <span class="tag">Реклама</span>
-      <span>970×90 или адаптивный блок между разделами</span>
-    </div>
-  </div>
-
-  <section class="section" id="realty">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Недвижимость и налоги</h2>
-          <p class="lede">Возврат налога, продажа жилья, расчёт НДФЛ по актуальной шкале 2026 года.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-tax-deduction.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 21v-7h6v7" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Налоговый вычет за квартиру</h4>
-            <span>Возврат НДФЛ при покупке жилья и по ипотечным процентам</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-property-sale-tax.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 21V10l8-6 8 6v11" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M8 21v-4M16 21v-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M3 21h18" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Налог с продажи квартиры</h4>
-            <span>Срок владения, вычет 1 млн ₽ или расходы, ставки 13–15%</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-ndfl.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V5l6 4 6-4v14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор НДФЛ</h4>
-            <span>Прогрессивная шкала 13–22% на 2026 год</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="auto">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Авто</h2>
-          <p class="lede">Транспортный налог по вашей мощности и региону, расход топлива и стоимость поездки.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-transport-tax.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M5 16l1.5-5.5A2 2 0 018.4 9h7.2a2 2 0 011.9 1.5L19 16" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="16" width="18" height="4" rx="1.5" stroke="currentColor" stroke-width="1.6"/><circle cx="7.5" cy="20" r="1.3" fill="currentColor"/><circle cx="16.5" cy="20" r="1.3" fill="currentColor"/></svg></span>
-          <span class="body">
-            <h4>Транспортный налог</h4>
-            <span>По мощности, региону и коэффициенту для дорогих авто</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-fuel.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M6 20V6a2 2 0 012-2h5a2 2 0 012 2v14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 20h13" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M15 9h2a2 2 0 012 2v3.5a1.5 1.5 0 003 0V9l-2-3" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Расход топлива</h4>
-            <span>Литры и стоимость поездки, расчёт по факту</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="labor">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Трудовое право</h2>
-          <p class="lede">Стаж, накопленные дни отпуска и сумма отпускных по правилам 2026 года.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-work-experience.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="7" width="18" height="13" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M8 7V5.5A1.5 1.5 0 019.5 4h5A1.5 1.5 0 0116 5.5V7" stroke="currentColor" stroke-width="1.6"/></svg></span>
-          <span class="body">
-            <h4>Трудовой стаж</h4>
-            <span>Годы, месяцы и дни по датам начала и окончания работы</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-vacation-days.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="4" width="18" height="17" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M3 9h18" stroke="currentColor" stroke-width="1.6"/><path d="M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Отпускные дни</h4>
-            <span>Сколько дней отпуска накоплено на текущую дату</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-        <a class="calc-item" href="calc-vacation-pay.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M4 19V5l6 4 6-4v14" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M4 19h16" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
-          <span class="body">
-            <h4>Отпускные</h4>
-            <span>Сумма выплаты по среднему заработку за 12 месяцев</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="section" id="health">
-    <div class="container">
-      <div class="section-head">
-        <div>
-          <h2>Здоровье</h2>
-          <p class="lede">Простые ориентиры, не заменяющие консультацию врача.</p>
-        </div>
-      </div>
-      <div class="calc-list">
-        <a class="calc-item" href="calc-bmi.html">
-          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><rect x="3" y="3" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.6"/><path d="M12 8v4l3 2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-          <span class="body">
-            <h4>Калькулятор ИМТ</h4>
-            <span>Индекс массы тела и категория по ВОЗ</span>
-          </span>
-          <span class="arrow" aria-hidden="true">→</span>
-        </a>
-      </div>
-    </div>
-  </section>
-
-  <section class="container">
-    <div class="trust-strip">
-      <div><b>Формулы проверены</b>Каждый расчёт сверен со стандартными формулами и независимыми источниками</div>
-      <div><b>Без регистрации</b>Все калькуляторы работают прямо в браузере, бесплатно</div>
-      <div><b>Обновляется</b>Ставки и лимиты актуализируются вручную редакцией</div>
-      <div><b>Открытый расчёт</b>Показываем формулу и промежуточные шаги, а не только ответ</div>
-    </div>
-  </section>
-
 </main>
 
 <footer class="site-footer">
@@ -1161,6 +933,73 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+</script>
+<script>
+function annuityLoan(principal, annualRatePercent, months){
+  const i = (annualRatePercent/100)/12;
+  let monthlyPayment;
+  if (i === 0) monthlyPayment = principal/months;
+  else {
+    const factor = Math.pow(1+i, months);
+    monthlyPayment = principal * (i*factor)/(factor-1);
+  }
+  const totalPayment = monthlyPayment*months;
+  return { monthlyPayment, totalPayment, totalInterest: totalPayment-principal };
+}
+
+function recalcRefinancing(){
+  const balanceEl = document.getElementById('balance');
+  const oldRateEl = document.getElementById('old-rate');
+  const monthsLeftEl = document.getElementById('months-left');
+  const newRateEl = document.getElementById('new-rate');
+  const newTermEl = document.getElementById('new-term');
+  const feesEl = document.getElementById('fees');
+  const errEl = document.getElementById('err');
+
+  const balance = parseFormattedNumber(balanceEl);
+  const oldRate = parseFloat(String(oldRateEl.value).replace(',', '.'));
+  const monthsLeft = parseFormattedNumber(monthsLeftEl);
+  const newRate = parseFloat(String(newRateEl.value).replace(',', '.'));
+  const newTerm = parseFormattedNumber(newTermEl);
+  const fees = parseFormattedNumber(feesEl) || 0;
+
+  if (isNaN(balance) || balance <= 0 || isNaN(oldRate) || oldRate < 0 || isNaN(monthsLeft) || monthsLeft <= 0 ||
+      isNaN(newRate) || newRate < 0 || isNaN(newTerm) || newTerm <= 0){
+    errEl.style.display = 'block';
+    ['r-savings','r-old-payment','r-new-payment','r-old-total','r-new-total'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const oldLoan = annuityLoan(balance, oldRate, monthsLeft);
+  const newLoan = annuityLoan(balance, newRate, newTerm);
+  const savings = oldLoan.totalPayment - newLoan.totalPayment - fees;
+
+  const labelEl = document.getElementById('r-label');
+  const savingsEl = document.getElementById('r-savings');
+  if (savings >= 0){
+    labelEl.textContent = 'Экономия при рефинансировании';
+    savingsEl.textContent = formatMoney(savings) + ' ₽';
+  } else {
+    labelEl.textContent = 'Рефинансирование невыгодно, переплата';
+    savingsEl.textContent = formatMoney(Math.abs(savings)) + ' ₽';
+  }
+
+  document.getElementById('r-old-payment').textContent = formatMoney(oldLoan.monthlyPayment) + ' ₽';
+  document.getElementById('r-new-payment').textContent = formatMoney(newLoan.monthlyPayment) + ' ₽';
+  document.getElementById('r-old-total').textContent = formatMoney(oldLoan.totalPayment) + ' ₽';
+  document.getElementById('r-new-total').textContent = formatMoney(newLoan.totalPayment + fees) + ' ₽';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('balance'), document.getElementById('old-rate'), document.getElementById('months-left'),
+   document.getElementById('new-rate'), document.getElementById('new-term'), document.getElementById('fees')
+  ].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcRefinancing);
+  });
+  recalcRefinancing();
+});
 </script>
 </body>
 </html>
