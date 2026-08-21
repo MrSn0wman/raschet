@@ -31,6 +31,11 @@
   <url><loc>https://raschet.rf/calc-power.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-fractions.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-number-base.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-days.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-age.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-discount.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-weight.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://raschet.rf/calc-ev-charging.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/about.html</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://raschet.rf/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://raschet.rf/advertising.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
