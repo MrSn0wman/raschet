@@ -12,6 +12,8 @@
   <url><loc>https://raschet.rf/calc-tax-deduction.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-property-sale-tax.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-ndfl.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raschet.rf/calc-vat.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://raschet.rf/calc-samozanyaty.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-transport-tax.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-fuel.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-work-experience.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
@@ -36,6 +38,14 @@
   <url><loc>https://raschet.rf/calc-discount.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-weight.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-ev-charging.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-random-number.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-random-pick.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-shuffle-list.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-split-groups.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-compare-lists.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-password-generator.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://raschet.rf/calc-promo-generator.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-qr-generator.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/about.html</loc><changefreq>yearly</changefreq><priority>0.4</priority></url>
   <url><loc>https://raschet.rf/privacy.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
   <url><loc>https://raschet.rf/advertising.html</loc><changefreq>yearly</changefreq><priority>0.2</priority></url>
