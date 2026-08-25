@@ -17,6 +17,8 @@
   <url><loc>https://raschet.rf/calc-transport-tax.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-fuel.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-osago.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://raschet.rf/calc-customs-clearance.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-recycling-fee.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-work-experience.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-vacation-days.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-vacation-pay.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
