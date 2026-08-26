@@ -30,6 +30,7 @@
   <url><loc>https://raschet.rf/calc-penalty-contract.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-art395.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-penalty-ddu.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://raschet.rf/calc-amount-in-words.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-gcd.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-lcm.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-factorization.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
