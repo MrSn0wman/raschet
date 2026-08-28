@@ -17,6 +17,10 @@
   <url><loc>https://raschet.rf/calc-shares-apartment.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
   <url><loc>https://raschet.rf/calc-maternal-capital-shares.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-insurance-contributions.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://raschet.rf/calc-unit-converter.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://raschet.rf/calc-tip.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-timezone.html</loc><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://raschet.rf/calc-compound-interest.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-transport-tax.html</loc><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://raschet.rf/calc-fuel.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
   <url><loc>https://raschet.rf/calc-osago.html</loc><changefreq>monthly</changefreq><priority>0.7</priority></url>
