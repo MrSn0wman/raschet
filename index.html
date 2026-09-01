@@ -516,6 +516,7 @@ p{ margin:0 0 1em; color:var(--ink); }
           <a href="calc-refinancing.html"><span>Рефинансирование</span><small>Экономия при смене ставки</small></a>
           <a href="calc-microloan.html"><span>Микрозайм</span><small>С учётом лимита переплаты 100%</small></a>
           <a href="calc-loan-interest.html"><span>Проценты по займу</span><small>Между физлицами, по дням</small></a>
+          <a href="calc-iis.html"><span>ИИС</span><small>Вычет на взнос и на доход по ИИС-3</small></a>
         </div>
       </div>
 
@@ -644,6 +645,7 @@ p{ margin:0 0 1em; color:var(--ink); }
       <a href="calc-refinancing.html">Рефинансирование</a>
       <a href="calc-microloan.html">Микрозайм</a>
       <a href="calc-loan-interest.html">Проценты по займу</a>
+      <a href="calc-iis.html">ИИС</a>
     </div>
     <div class="mobile-group">
       <span class="mobile-group-label">Математика</span>
@@ -733,7 +735,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">59 калькуляторов · без регистрации</span>
+        <span class="eyebrow">60 калькуляторов · без регистрации</span>
         <h1>Посчитайте точно — без лишних кликов</h1>
         <p class="lede">От площади комнаты до ежемесячного платежа по ипотеке. Каждый калькулятор показывает не только результат, но и формулу, по которой он получен.</p>
 
@@ -920,6 +922,14 @@ p{ margin:0 0 1em; color:var(--ink); }
           <span class="body">
             <h4>Проценты по займу</h4>
             <span>Расчёт между физлицами по ставке и сроку</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="calc-item" href="calc-iis.html">
+          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M3 17l5-5 4 4 8-9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/><path d="M14 7h6v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="body">
+            <h4>ИИС</h4>
+            <span>Вычет на взнос и освобождение дохода по ИИС-3</span>
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
@@ -1487,6 +1497,7 @@ p{ margin:0 0 1em; color:var(--ink); }
         <a href="calc-refinancing.html">Рефинансирование</a>
         <a href="calc-microloan.html">Микрозайм</a>
         <a href="calc-loan-interest.html">Проценты по займу</a>
+        <a href="calc-iis.html">ИИС</a>
       </div>
       <div>
         <h5>Математика</h5>
@@ -1769,6 +1780,8 @@ document.addEventListener('DOMContentLoaded', () => {
           'пенсия': 'calc-pension.html',
           'пенсионный балл': 'calc-pension.html',
           'ипк': 'calc-pension.html',
+          'иис': 'calc-iis.html',
+          'индивидуальный инвестиционный счет': 'calc-iis.html',
           'отпуск': 'calc-vacation-days.html',
           'ндфл': 'calc-ndfl.html',
           'налог с продажи': 'calc-property-sale-tax.html',
