@@ -565,6 +565,8 @@ p{ margin:0 0 1em; color:var(--ink); }
           <a href="calc-work-experience.html"><span>Трудовой стаж</span><small>Годы, месяцы и дни по датам работы</small></a>
           <a href="calc-vacation-days.html"><span>Отпускные дни</span><small>Сколько дней отпуска накоплено</small></a>
           <a href="calc-vacation-pay.html"><span>Отпускные</span><small>Сумма выплаты по среднему заработку</small></a>
+          <a href="calc-sick-leave.html"><span>Больничный лист</span><small>По среднему заработку и стажу</small></a>
+          <a href="calc-maternity-leave.html"><span>Декретные</span><small>Пособие по беременности и родам</small></a>
         </div>
       </div>
 
@@ -618,6 +620,7 @@ p{ margin:0 0 1em; color:var(--ink); }
           <a href="calc-tip.html"><span>Калькулятор чаевых</span><small>Сумма на человека со скидкой</small></a>
           <a href="calc-timezone.html"><span>Разница часовых поясов</span><small>Между городами и странами</small></a>
           <a href="calc-compound-interest.html"><span>Сложный процент</span><small>Рост капитала с довложениями</small></a>
+          <a href="calc-pension.html"><span>Пенсия по баллам</span><small>ИПК × стоимость балла + фиксированная выплата</small></a>
         </div>
       </div>
 
@@ -678,6 +681,8 @@ p{ margin:0 0 1em; color:var(--ink); }
       <a href="calc-work-experience.html">Трудовой стаж</a>
       <a href="calc-vacation-days.html">Отпускные дни</a>
       <a href="calc-vacation-pay.html">Отпускные</a>
+      <a href="calc-sick-leave.html">Больничный лист</a>
+      <a href="calc-maternity-leave.html">Декретные</a>
     </div>
     <div class="mobile-group">
       <span class="mobile-group-label">Юридические</span>
@@ -716,6 +721,7 @@ p{ margin:0 0 1em; color:var(--ink); }
       <a href="calc-tip.html">Калькулятор чаевых</a>
       <a href="calc-timezone.html">Разница часовых поясов</a>
       <a href="calc-compound-interest.html">Сложный процент</a>
+      <a href="calc-pension.html">Пенсия по баллам</a>
     </div>
     <a href="about.html">О проекте</a>
   </nav>
@@ -727,7 +733,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   <section class="hero">
     <div class="container hero-grid">
       <div>
-        <span class="eyebrow">56 калькуляторов · без регистрации</span>
+        <span class="eyebrow">59 калькуляторов · без регистрации</span>
         <h1>Посчитайте точно — без лишних кликов</h1>
         <p class="lede">От площади комнаты до ежемесячного платежа по ипотеке. Каждый калькулятор показывает не только результат, но и формулу, по которой он получен.</p>
 
@@ -1176,6 +1182,22 @@ p{ margin:0 0 1em; color:var(--ink); }
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
+        <a class="calc-item" href="calc-sick-leave.html">
+          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><path d="M12 3l7 3v6c0 4.5-3 8-7 9-4-1-7-4.5-7-9V6l7-3z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M9 12h6M12 9v6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          <span class="body">
+            <h4>Больничный лист</h4>
+            <span>По среднему заработку за 2 года и страховому стажу</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
+        <a class="calc-item" href="calc-maternity-leave.html">
+          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="8" r="4" stroke="currentColor" stroke-width="1.6"/><path d="M4 21c0-4.4 3.6-8 8-8s8 3.6 8 8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></span>
+          <span class="body">
+            <h4>Декретные</h4>
+            <span>Пособие по беременности и родам, 100% заработка</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   </section>
@@ -1425,6 +1447,14 @@ p{ margin:0 0 1em; color:var(--ink); }
           </span>
           <span class="arrow" aria-hidden="true">→</span>
         </a>
+        <a class="calc-item" href="calc-pension.html">
+          <span class="ico" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.6"/><path d="M8 13l2.5 2.5L16 10" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+          <span class="body">
+            <h4>Пенсия по баллам</h4>
+            <span>ИПК × стоимость балла + фиксированная выплата</span>
+          </span>
+          <span class="arrow" aria-hidden="true">→</span>
+        </a>
       </div>
     </div>
   </section>
@@ -1494,6 +1524,8 @@ p{ margin:0 0 1em; color:var(--ink); }
         <a href="calc-work-experience.html">Трудовой стаж</a>
         <a href="calc-vacation-days.html">Отпускные дни</a>
         <a href="calc-vacation-pay.html">Отпускные</a>
+        <a href="calc-sick-leave.html">Больничный лист</a>
+        <a href="calc-maternity-leave.html">Декретные</a>
       </div>
       <div>
         <h5>Юридические</h5>
@@ -1532,6 +1564,7 @@ p{ margin:0 0 1em; color:var(--ink); }
         <a href="calc-tip.html">Чаевые</a>
         <a href="calc-timezone.html">Часовые пояса</a>
         <a href="calc-compound-interest.html">Сложный процент</a>
+        <a href="calc-pension.html">Пенсия по баллам</a>
       </div>
       <div>
         <h5>Проект</h5>
@@ -1730,6 +1763,12 @@ document.addEventListener('DOMContentLoaded', () => {
           'чаевые': 'calc-tip.html',
           'часовые пояса': 'calc-timezone.html',
           'сложный процент': 'calc-compound-interest.html',
+          'больничный': 'calc-sick-leave.html',
+          'декретные': 'calc-maternity-leave.html',
+          'беременность и родам': 'calc-maternity-leave.html',
+          'пенсия': 'calc-pension.html',
+          'пенсионный балл': 'calc-pension.html',
+          'ипк': 'calc-pension.html',
           'отпуск': 'calc-vacation-days.html',
           'ндфл': 'calc-ndfl.html',
           'налог с продажи': 'calc-property-sale-tax.html',
