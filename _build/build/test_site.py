@@ -26,8 +26,8 @@ def read(p):
 
 # --- 1. instrumented copy ---
 if os.path.exists(WORK):
-    shutil.rmtree(WORK)
-shutil.copytree(SITE, WORK)
+    shutil.rmtree(WORK, onerror=lambda f, p, e: (os.chmod(p, 0o777), os.unlink(p)))
+shutil.copytree(SITE, WORK, ignore=shutil.ignore_patterns(".git", "_build", "backend"))
 
 pages = []
 for root, dirs, files in os.walk(WORK):
