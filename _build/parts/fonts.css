@@ -1,0 +1,120 @@
+/* Локальные шрифты (self-hosted, офлайн-PWA). __PREFIX__ заменяется генератором. */
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-400-cyrillic.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-400-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-500-cyrillic.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-500-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-600-cyrillic.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-600-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-700-cyrillic.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Inter';
+  font-style:normal;
+  font-weight:700;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Inter-700-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fraunces';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Fraunces-400-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fraunces';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Fraunces-500-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'Fraunces';
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/Fraunces-600-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/IBMPlexMono-400-cyrillic.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:400;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/IBMPlexMono-400-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/IBMPlexMono-500-cyrillic.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:500;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/IBMPlexMono-500-latin.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/IBMPlexMono-600-cyrillic.woff2') format('woff2');
+}
+@font-face{
+  font-family:'IBM Plex Mono';
+  font-style:normal;
+  font-weight:600;
+  font-display:swap;
+  src:url('__PREFIX__assets/fonts/IBMPlexMono-600-latin.woff2') format('woff2');
+}

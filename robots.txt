@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mrsn0wman.github.io/raschet/sitemap.xml

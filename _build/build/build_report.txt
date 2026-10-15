@@ -1,0 +1,102 @@
+ОТЧЁТ СБОРКИ «Расчёт.рф» v1.0
+==================================================
+Страниц собрано: 79 (60 старых + 13 новых + 4 статических + index + 404)
+Редирект-заглушек: 60
+
+Самопроверки:
+  [OK] редирект-заглушек: 60
+  [OK] sitemap.xml: 78 URL, все папки существуют
+  [OK] полных страниц проверено: 79 (calc: 73)
+  [OK] редиректы: 60/60 валидны
+
+Patch-miss (0):
+
+Страницы-исключения:
+  - calc-mortgage.html: сборка по build_mortgage.py (action-bar, donut, график, кламп лет), referral-block не переносился
+  - calc-compare-lists.html, calc-split-groups.html: нет result-panel/<form> — action-bar перед блоком вывода
+  - calc-qr-generator.html: CDN qrcodejs с crossorigin/referrerpolicy/onerror; SRI не вычислен
+  - calc-pension.html -> pensiya/: в карте задания не было (59 из 60), slug добавлен
+
+Предупреждения (1):
+  - calc-qr-generator: SRI-хеш не вычислен (CDN не скачивался)
+
+Страницы:
+  ipoteka/ (calc-mortgage.html, особая сборка)
+  dosrochnoe-pogashenie/ (calc-mortgage-early.html)
+  kredit/ (calc-credit.html)
+  vklad/ (calc-deposit.html)
+  avtokredit/ (calc-car-loan.html)
+  refinansirovanie/ (calc-refinancing.html)
+  mikrozaim/ (calc-microloan.html)
+  procenty-po-zaimu/ (calc-loan-interest.html)
+  iis/ (calc-iis.html)
+  nalogovyy-vychet-kvartira/ (calc-tax-deduction.html)
+  nalog-s-prodazhi-kvartiry/ (calc-property-sale-tax.html)
+  ndfl/ (calc-ndfl.html)
+  nds/ (calc-vat.html)
+  nalog-samozanyatyh/ (calc-samozanyaty.html)
+  doli-v-kvartire/ (calc-shares-apartment.html)
+  doli-po-materinskomu-kapitalu/ (calc-maternal-capital-shares.html)
+  strahovye-vznosy-ip/ (calc-insurance-contributions.html)
+  transportnyy-nalog/ (calc-transport-tax.html)
+  rashod-topliva/ (calc-fuel.html)
+  osago/ (calc-osago.html)
+  rastamozhka/ (calc-customs-clearance.html)
+  utilsbor/ (calc-recycling-fee.html)
+  trudovoy-stazh/ (calc-work-experience.html)
+  otpusknye-dni/ (calc-vacation-days.html)
+  otpusknye/ (calc-vacation-pay.html)
+  bolnichnyy/ (calc-sick-leave.html)
+  dekretnye/ (calc-maternity-leave.html)
+  peni-po-nalogam/ (calc-penalty-tax.html)
+  neustoika-po-dogovoru/ (calc-penalty-contract.html)
+  procenty-395-gk/ (calc-art395.html)
+  neustoika-po-ddu/ (calc-penalty-ddu.html)
+  summa-propisyu/ (calc-amount-in-words.html)
+  procenty/ (calc-percent.html)
+  ploshad/ (calc-area.html)
+  obem/ (calc-volume.html)
+  drobi/ (calc-fractions.html)
+  stepeni/ (calc-power.html)
+  nod/ (calc-gcd.html)
+  nok/ (calc-lcm.html)
+  razlozhenie-na-mnozhiteli/ (calc-factorization.html)
+  sistemy-schisleniya/ (calc-number-base.html)
+  dni/ (calc-days.html)
+  vozrast/ (calc-age.html)
+  chasovye-poyasa/ (calc-timezone.html)
+  imt/ (calc-bmi.html)
+  idealnyy-ves/ (calc-weight.html)
+  konverter-edinic/ (calc-unit-converter.html)
+  slozhnyy-procent/ (calc-compound-interest.html)
+  skidki/ (calc-discount.html)
+  chaevye/ (calc-tip.html)
+  sluchaynye-chisla/ (calc-random-number.html)
+  sluchaynyy-vybor/ (calc-random-pick.html)
+  peremeshat-spisok/ (calc-shuffle-list.html)
+  razdelit-na-gruppy/ (calc-split-groups.html)
+  sravnenie-spiskov/ (calc-compare-lists.html)
+  generator-paroley/ (calc-password-generator.html)
+  generator-promokodov/ (calc-promo-generator.html)
+  qr-generator/ (calc-qr-generator.html)
+  zaryadka-elektromobilya/ (calc-ev-charging.html)
+  pensiya/ (calc-pension.html)
+  index.html (главная, каталог 73)
+  about/ (about.html)
+  privacy/ (privacy.html)
+  advertising/ (advertising.html)
+  feedback/ (новая)
+  404.html
+  generator-nikneimov/ (новый инструмент)
+  konverter-valyut/ (новый инструмент)
+  lorem-ipsum/ (новый инструмент)
+  obratnyy-otschet/ (новый инструмент)
+  proverka-inn/ (новый инструмент)
+  proverka-nomera-karty/ (новый инструмент)
+  proverka-snils/ (новый инструмент)
+  rabochie-dni/ (новый инструмент)
+  schetchik-slov/ (новый инструмент)
+  transliteraciya/ (новый инструмент)
+  udalenie-dubley-strok/ (новый инструмент)
+  unix-vremya/ (новый инструмент)
+  uuid-generator/ (новый инструмент)
