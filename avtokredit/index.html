@@ -1086,6 +1086,19 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div><b id="r-total">—</b><span>Всего выплат</span></div>
             </div>
           </div>
+
+          <div class="chart-wrap">
+            <svg id="a-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение суммы кредита и процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="a-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="65.63 34.37" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="a-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="34.37 65.63" stroke-dashoffset="-40.63" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Сумма кредита — <b id="a-legend-a">2 100 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Проценты — <b id="a-legend-b">1 099 572 ₽</b></div>
+            </div>
+          </div>
+
           <div class="error-msg" role="alert" id="err">Проверьте введённые значения — взнос и trade-in не должны превышать стоимость авто</div>
         </div>
 
@@ -1738,6 +1751,19 @@ function annuityLoan(principal, annualRatePercent, months){
   return { monthlyPayment, totalPayment, totalInterest: totalPayment-principal };
 }
 
+function renderChart(principal, interest, total){
+  const c1 = document.getElementById('a-chart-a');
+  const c2 = document.getElementById('a-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (principal / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('a-legend-a').textContent = formatMoney(principal) + '\u00A0₽';
+  document.getElementById('a-legend-b').textContent = formatMoney(interest) + '\u00A0₽';
+}
+
 function recalcCarLoan(){
   const priceEl = document.getElementById('car-price');
   const downEl = document.getElementById('down-payment');
@@ -1768,6 +1794,7 @@ function recalcCarLoan(){
   document.getElementById('r-loan-amount').textContent = formatMoney(principal) + '\u00A0₽';
   document.getElementById('r-overpay').textContent = formatMoney(result.totalInterest) + '\u00A0₽';
   document.getElementById('r-total').textContent = formatMoney(result.totalPayment) + '\u00A0₽';
+  renderChart(principal, result.totalInterest, result.totalPayment);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

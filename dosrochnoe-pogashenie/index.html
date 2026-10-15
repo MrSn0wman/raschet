@@ -1107,6 +1107,18 @@ p{ margin:0 0 1em; color:var(--ink); }
             </div>
           </div>
 
+          <div class="chart-wrap">
+            <svg id="dp-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение новой переплаты и сэкономленных процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="dp-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="55.63 44.37" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="dp-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="44.37 55.63" stroke-dashoffset="-30.63" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Новая переплата — <b id="dp-legend-a">4 568 629 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Сэкономленные проценты — <b id="dp-legend-b">3 644 405 ₽</b></div>
+            </div>
+          </div>
+
           <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><span>Место для партнёрских предложений</span></div>
         </div>
 
@@ -1992,6 +2004,19 @@ if (typeof module !== 'undefined' && module.exports){
   attachThousandsInput(onceAmountEl);
 
 
+  function renderChart(newInterest, interestSaved, total){
+    const c1 = document.getElementById('dp-chart-a');
+    const c2 = document.getElementById('dp-chart-b');
+    if (!c1 || !c2 || !(total > 0)) return;
+    const p = Math.max(0, Math.min(100, (newInterest / total) * 100));
+    const o = 100 - p;
+    c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+    c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+    c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+    document.getElementById('dp-legend-a').textContent = formatMoney(newInterest) + '\u00A0₽';
+    document.getElementById('dp-legend-b').textContent = formatMoney(interestSaved) + '\u00A0₽';
+  }
+
   function getStrategy(){
     const checked = document.querySelector('input[name="e-strategy"]:checked');
     return checked ? checked.value : 'term';
@@ -2037,6 +2062,7 @@ if (typeof module !== 'undefined' && module.exports){
     document.getElementById('e-new-interest').textContent = formatMoney(result.totalInterest) + '\u00A0₽';
     document.getElementById('e-base-payment').textContent = formatMoney(result.basePayment) + '\u00A0₽';
     document.getElementById('e-extra-total').textContent = formatMoney(result.totalExtra) + '\u00A0₽';
+    renderChart(result.totalInterest, result.interestSaved, result.baseTotalInterest);
   }
 
   [amountEl, rateEl, yearsEl, monthlyExtraEl, monthlyFromEl, onceAmountEl, onceMonthEl].forEach(el => {

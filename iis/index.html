@@ -1100,6 +1100,18 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div><b id="r-exempt-note">—</b><span>Лимит освобождения</span></div>
             </div>
           </div>
+
+          <div class="chart-wrap">
+            <svg id="ii-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение вычета на взнос и вычета на доход">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="ii-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="57.14 42.86" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="ii-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="42.86 57.14" stroke-dashoffset="-32.14" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Вычет на взнос за весь срок — <b id="ii-legend-a">260 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Вычет на доход — <b id="ii-legend-b">195 000 ₽</b></div>
+            </div>
+          </div>
           <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
         </div>
 
@@ -1743,6 +1755,19 @@ document.addEventListener('DOMContentLoaded', () => {
 const CONTRIBUTION_LIMIT = 400000;
 const PROFIT_EXEMPTION_LIMIT = 30000000;
 
+function renderChart(deduction, taxSaved, total){
+  const c1 = document.getElementById('ii-chart-a');
+  const c2 = document.getElementById('ii-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (deduction / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('ii-legend-a').textContent = formatMoney(deduction) + '\u00A0₽';
+  document.getElementById('ii-legend-b').textContent = formatMoney(taxSaved) + '\u00A0₽';
+}
+
 function recalcIis(){
   const contributionEl = document.getElementById('annual-contribution');
   const rateEl = document.getElementById('ndfl-rate');
@@ -1772,6 +1797,7 @@ function recalcIis(){
   const taxSaved = exemptProfit * (rate/100);
   document.getElementById('r-tax-saved').textContent = formatMoney(taxSaved) + '\u00A0₽';
   document.getElementById('r-exempt-note').textContent = profit > PROFIT_EXEMPTION_LIMIT ? 'Доход выше лимита 30 млн ₽ — освобождается только часть' : 'В пределах лимита 30 млн ₽';
+  renderChart(totalDeduction, taxSaved, totalDeduction + taxSaved);
 }
 
 document.addEventListener('DOMContentLoaded', () => {

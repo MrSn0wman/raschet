@@ -1079,6 +1079,19 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div><b id="r-daily">—</b><span>Процентов в день</span></div>
             </div>
           </div>
+
+          <div class="chart-wrap">
+            <svg id="pz-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение суммы займа и процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="pz-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="97.13 2.87" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="pz-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="2.87 97.13" stroke-dashoffset="-72.13" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Сумма займа — <b id="pz-legend-a">300 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Проценты — <b id="pz-legend-b">8 877 ₽</b></div>
+            </div>
+          </div>
+
           <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
         </div>
 
@@ -1721,6 +1734,19 @@ document.addEventListener('DOMContentLoaded', () => {
 </script>
 <script>
 
+function renderChart(principal, interest, total){
+  const c1 = document.getElementById('pz-chart-a');
+  const c2 = document.getElementById('pz-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (principal / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('pz-legend-a').textContent = formatMoney(principal) + '\u00A0₽';
+  document.getElementById('pz-legend-b').textContent = formatMoney(interest) + '\u00A0₽';
+}
+
 function recalcLoanInterest(){
   const principalEl = document.getElementById('principal');
   const rateEl = document.getElementById('rate');
@@ -1745,6 +1771,7 @@ function recalcLoanInterest(){
   document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
   document.getElementById('r-interest').textContent = formatMoney(interest) + '\u00A0₽';
   document.getElementById('r-daily').textContent = formatMoney2(dailyInterest) + '\u00A0₽';
+  renderChart(principal, interest, total);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
