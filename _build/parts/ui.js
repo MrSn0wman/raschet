@@ -153,13 +153,22 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Мега-меню «Все инструменты»
+  // Мега-меню «Все инструменты» — аккордеон категорий (эксклюзивно: одна открыта)
   const megaBtn = document.getElementById('mega-btn');
   const megaPanel = document.getElementById('mega-panel');
+  const megaCats = megaPanel ? megaPanel.querySelectorAll('.mega-cat') : [];
+  const closeMegaCats = () => {
+    megaCats.forEach((cat) => {
+      cat.classList.remove('open');
+      const b = cat.querySelector('.mega-cat-btn');
+      if (b) b.setAttribute('aria-expanded', 'false');
+    });
+  };
   const closeMega = () => {
     if (!megaPanel || megaPanel.hidden) return;
     megaPanel.hidden = true;
     if (megaBtn) megaBtn.setAttribute('aria-expanded', 'false');
+    closeMegaCats();
   };
   if (megaBtn && megaPanel){
     megaBtn.addEventListener('click', (e) => {
@@ -171,6 +180,18 @@ document.addEventListener('DOMContentLoaded', () => {
     });
     megaPanel.addEventListener('click', (e) => { e.stopPropagation(); });
   }
+  megaCats.forEach((cat) => {
+    const btn = cat.querySelector('.mega-cat-btn');
+    if (!btn) return;
+    btn.addEventListener('click', () => {
+      const willOpen = !cat.classList.contains('open');
+      closeMegaCats();
+      if (willOpen){
+        cat.classList.add('open');
+        btn.setAttribute('aria-expanded', 'true');
+      }
+    });
+  });
 
   // Избранное (localStorage): бейдж, панель, звезда на страницах калькуляторов
   const FAV_KEY = 'raschet-favs';

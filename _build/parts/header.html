@@ -34,118 +34,209 @@
   </div>
 
   <div class="mega-panel" id="mega-panel" hidden>
-    <div class="container mega-grid">
-      <div class="mega-col">
-        <span class="mega-label">Финансы</span>
-        <a href="calc-mortgage.html">Ипотека</a>
-        <a href="calc-mortgage-early.html">Досрочное погашение</a>
-        <a href="calc-credit.html">Кредит</a>
-        <a href="calc-deposit.html">Вклад</a>
-        <a href="calc-car-loan.html">Автокредит</a>
-        <a href="calc-refinancing.html">Рефинансирование</a>
-        <a href="calc-microloan.html">Микрозайм</a>
-        <a href="calc-loan-interest.html">Проценты по займу</a>
-        <a href="calc-iis.html">ИИС</a>
-        <a href="calc-currency.html">Конвертер валют</a>
+    <div class="container mega-acc" id="mega-acc">
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-finance" id="mega-btn-finance">
+          <span class="mega-cat-name">Финансы</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">11</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-finance" role="region" aria-labelledby="mega-btn-finance">
+          <div class="mega-cat-inner">
+            <a href="calc-mortgage.html">Ипотека</a>
+            <a href="calc-mortgage-early.html">Досрочное погашение</a>
+            <a href="calc-credit.html">Кредит</a>
+            <a href="calc-deposit.html">Вклад</a>
+            <a href="calc-car-loan.html">Автокредит</a>
+            <a href="calc-refinancing.html">Рефинансирование</a>
+            <a href="calc-microloan.html">Микрозайм</a>
+            <a href="calc-loan-interest.html">Проценты по займу</a>
+            <a href="calc-iis.html">ИИС</a>
+            <a href="calc-currency.html">Конвертер валют</a>
+            <a href="calc-compound-interest.html">Сложный процент</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Недвижимость и налоги</span>
-        <a href="calc-tax-deduction.html">Вычет за квартиру</a>
-        <a href="calc-property-sale-tax.html">Налог с продажи</a>
-        <a href="calc-ndfl.html">НДФЛ</a>
-        <a href="calc-vat.html">НДС</a>
-        <a href="calc-samozanyaty.html">Самозанятые</a>
-        <a href="calc-shares-apartment.html">Доли в квартире</a>
-        <a href="calc-maternal-capital-shares.html">Доли по маткапиталу</a>
-        <a href="calc-insurance-contributions.html">Взносы ИП</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-realty" id="mega-btn-realty">
+          <span class="mega-cat-name">Недвижимость и налоги</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">8</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-realty" role="region" aria-labelledby="mega-btn-realty">
+          <div class="mega-cat-inner">
+            <a href="calc-tax-deduction.html">Вычет за квартиру</a>
+            <a href="calc-property-sale-tax.html">Налог с продажи</a>
+            <a href="calc-ndfl.html">НДФЛ</a>
+            <a href="calc-vat.html">НДС</a>
+            <a href="calc-samozanyaty.html">Самозанятые</a>
+            <a href="calc-shares-apartment.html">Доли в квартире</a>
+            <a href="calc-maternal-capital-shares.html">Доли по маткапиталу</a>
+            <a href="calc-insurance-contributions.html">Взносы ИП</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Труд и соцзащита</span>
-        <a href="calc-work-experience.html">Трудовой стаж</a>
-        <a href="calc-vacation-days.html">Отпускные дни</a>
-        <a href="calc-vacation-pay.html">Отпускные</a>
-        <a href="calc-sick-leave.html">Больничный</a>
-        <a href="calc-maternity-leave.html">Декретные</a>
-        <a href="calc-pension.html">Пенсия по баллам</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-labor" id="mega-btn-labor">
+          <span class="mega-cat-name">Труд и соцзащита</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-labor" role="region" aria-labelledby="mega-btn-labor">
+          <div class="mega-cat-inner">
+            <a href="calc-work-experience.html">Трудовой стаж</a>
+            <a href="calc-vacation-days.html">Отпускные дни</a>
+            <a href="calc-vacation-pay.html">Отпускные</a>
+            <a href="calc-sick-leave.html">Больничный</a>
+            <a href="calc-maternity-leave.html">Декретные</a>
+            <a href="calc-pension.html">Пенсия по баллам</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Авто</span>
-        <a href="calc-transport-tax.html">Транспортный налог</a>
-        <a href="calc-fuel.html">Расход топлива</a>
-        <a href="calc-osago.html">ОСАГО</a>
-        <a href="calc-customs-clearance.html">Растаможка</a>
-        <a href="calc-recycling-fee.html">Утильсбор</a>
-        <a href="calc-ev-charging.html">Зарядка электромобиля</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-auto" id="mega-btn-auto">
+          <span class="mega-cat-name">Авто</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-auto" role="region" aria-labelledby="mega-btn-auto">
+          <div class="mega-cat-inner">
+            <a href="calc-transport-tax.html">Транспортный налог</a>
+            <a href="calc-fuel.html">Расход топлива</a>
+            <a href="calc-osago.html">ОСАГО</a>
+            <a href="calc-customs-clearance.html">Растаможка</a>
+            <a href="calc-recycling-fee.html">Утильсбор</a>
+            <a href="calc-ev-charging.html">Зарядка электромобиля</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Юридические</span>
-        <a href="calc-penalty-tax.html">Пени по налогам</a>
-        <a href="calc-penalty-contract.html">Неустойка по договору</a>
-        <a href="calc-art395.html">Ст. 395 ГК РФ</a>
-        <a href="calc-penalty-ddu.html">Неустойка по ДДУ</a>
-        <a href="calc-amount-in-words.html">Сумма прописью</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-legal" id="mega-btn-legal">
+          <span class="mega-cat-name">Юридические</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">5</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-legal" role="region" aria-labelledby="mega-btn-legal">
+          <div class="mega-cat-inner">
+            <a href="calc-penalty-tax.html">Пени по налогам</a>
+            <a href="calc-penalty-contract.html">Неустойка по договору</a>
+            <a href="calc-art395.html">Ст. 395 ГК РФ</a>
+            <a href="calc-penalty-ddu.html">Неустойка по ДДУ</a>
+            <a href="calc-amount-in-words.html">Сумма прописью</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Математика</span>
-        <a href="calc-percent.html">Проценты</a>
-        <a href="calc-area.html">Площадь</a>
-        <a href="calc-volume.html">Объём</a>
-        <a href="calc-fractions.html">Дроби</a>
-        <a href="calc-power.html">Степени</a>
-        <a href="calc-gcd.html">НОД</a>
-        <a href="calc-lcm.html">НОК</a>
-        <a href="calc-factorization.html">Множители</a>
-        <a href="calc-number-base.html">Системы счисления</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-math" id="mega-btn-math">
+          <span class="mega-cat-name">Математика</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">9</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-math" role="region" aria-labelledby="mega-btn-math">
+          <div class="mega-cat-inner">
+            <a href="calc-percent.html">Проценты</a>
+            <a href="calc-area.html">Площадь</a>
+            <a href="calc-volume.html">Объём</a>
+            <a href="calc-fractions.html">Дроби</a>
+            <a href="calc-power.html">Степени</a>
+            <a href="calc-gcd.html">НОД</a>
+            <a href="calc-lcm.html">НОК</a>
+            <a href="calc-factorization.html">Множители</a>
+            <a href="calc-number-base.html">Системы счисления</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Даты и время</span>
-        <a href="calc-days.html">Дни между датами</a>
-        <a href="calc-age.html">Возраст</a>
-        <a href="calc-timezone.html">Часовые пояса</a>
-        <a href="calc-unix-time.html">Unix-время</a>
-        <a href="calc-workdays.html">Рабочие дни</a>
-        <a href="calc-countdown.html">Обратный отсчёт</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-dates" id="mega-btn-dates">
+          <span class="mega-cat-name">Даты и время</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-dates" role="region" aria-labelledby="mega-btn-dates">
+          <div class="mega-cat-inner">
+            <a href="calc-days.html">Дни между датами</a>
+            <a href="calc-age.html">Возраст</a>
+            <a href="calc-timezone.html">Часовые пояса</a>
+            <a href="calc-unix-time.html">Unix-время</a>
+            <a href="calc-workdays.html">Рабочие дни</a>
+            <a href="calc-countdown.html">Обратный отсчёт</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Здоровье</span>
-        <a href="calc-bmi.html">ИМТ</a>
-        <a href="calc-weight.html">Идеальный вес</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-health" id="mega-btn-health">
+          <span class="mega-cat-name">Здоровье</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">2</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-health" role="region" aria-labelledby="mega-btn-health">
+          <div class="mega-cat-inner">
+            <a href="calc-bmi.html">ИМТ</a>
+            <a href="calc-weight.html">Идеальный вес</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Текст</span>
-        <a href="calc-word-counter.html">Счётчик слов</a>
-        <a href="calc-translit.html">Транслитерация</a>
-        <a href="calc-dedupe-lines.html">Удаление дублей строк</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-text" id="mega-btn-text">
+          <span class="mega-cat-name">Текст</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">3</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-text" role="region" aria-labelledby="mega-btn-text">
+          <div class="mega-cat-inner">
+            <a href="calc-word-counter.html">Счётчик слов</a>
+            <a href="calc-translit.html">Транслитерация</a>
+            <a href="calc-dedupe-lines.html">Удаление дублей строк</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Валидаторы</span>
-        <a href="calc-inn.html">Проверка ИНН</a>
-        <a href="calc-snils.html">Проверка СНИЛС</a>
-        <a href="calc-bank-card.html">Проверка номера карты</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-validators" id="mega-btn-validators">
+          <span class="mega-cat-name">Валидаторы</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">3</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-validators" role="region" aria-labelledby="mega-btn-validators">
+          <div class="mega-cat-inner">
+            <a href="calc-inn.html">Проверка ИНН</a>
+            <a href="calc-snils.html">Проверка СНИЛС</a>
+            <a href="calc-bank-card.html">Проверка номера карты</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Генераторы</span>
-        <a href="calc-password-generator.html">Пароли</a>
-        <a href="calc-promo-generator.html">Промокоды</a>
-        <a href="calc-qr-generator.html">QR-коды</a>
-        <a href="calc-uuid.html">UUID</a>
-        <a href="calc-lorem.html">Lorem ipsum</a>
-        <a href="calc-nickname.html">Никнеймы</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-generators" id="mega-btn-generators">
+          <span class="mega-cat-name">Генераторы</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-generators" role="region" aria-labelledby="mega-btn-generators">
+          <div class="mega-cat-inner">
+            <a href="calc-password-generator.html">Пароли</a>
+            <a href="calc-promo-generator.html">Промокоды</a>
+            <a href="calc-qr-generator.html">QR-коды</a>
+            <a href="calc-uuid.html">UUID</a>
+            <a href="calc-lorem.html">Lorem ipsum</a>
+            <a href="calc-nickname.html">Никнеймы</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Списки и случайность</span>
-        <a href="calc-random-number.html">Случайные числа</a>
-        <a href="calc-random-pick.html">Выбор из списка</a>
-        <a href="calc-shuffle-list.html">Перемешать список</a>
-        <a href="calc-split-groups.html">Разделить на группы</a>
-        <a href="calc-compare-lists.html">Сравнение списков</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-lists" id="mega-btn-lists">
+          <span class="mega-cat-name">Списки и случайность</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">5</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-lists" role="region" aria-labelledby="mega-btn-lists">
+          <div class="mega-cat-inner">
+            <a href="calc-random-number.html">Случайные числа</a>
+            <a href="calc-random-pick.html">Выбор из списка</a>
+            <a href="calc-shuffle-list.html">Перемешать список</a>
+            <a href="calc-split-groups.html">Разделить на группы</a>
+            <a href="calc-compare-lists.html">Сравнение списков</a>
+          </div>
+        </div>
       </div>
-      <div class="mega-col">
-        <span class="mega-label">Разное</span>
-        <a href="calc-unit-converter.html">Конвертер единиц</a>
-        <a href="calc-compound-interest.html">Сложный процент</a>
-        <a href="calc-discount.html">Скидки</a>
-        <a href="calc-tip.html">Чаевые</a>
+      <div class="mega-cat">
+        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-misc" id="mega-btn-misc">
+          <span class="mega-cat-name">Разное</span>
+          <span class="mega-cat-meta"><span class="mega-cat-count">3</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
+        </button>
+        <div class="mega-cat-list" id="mega-cat-misc" role="region" aria-labelledby="mega-btn-misc">
+          <div class="mega-cat-inner">
+            <a href="calc-unit-converter.html">Конвертер единиц</a>
+            <a href="calc-discount.html">Скидки</a>
+            <a href="calc-tip.html">Чаевые</a>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -171,6 +262,7 @@
       <a href="calc-loan-interest.html">Проценты по займу</a>
       <a href="calc-iis.html">ИИС</a>
       <a href="calc-currency.html">Конвертер валют</a>
+      <a href="calc-compound-interest.html">Сложный процент</a>
     </div>
     <div class="mobile-group">
       <span class="mobile-group-label">Недвижимость и налоги</span>
@@ -267,7 +359,6 @@
     <div class="mobile-group">
       <span class="mobile-group-label">Разное</span>
       <a href="calc-unit-converter.html">Конвертер единиц</a>
-      <a href="calc-compound-interest.html">Сложный процент</a>
       <a href="calc-discount.html">Скидки</a>
       <a href="calc-tip.html">Чаевые</a>
     </div>
