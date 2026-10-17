@@ -844,7 +844,7 @@ NEW_CARD = {
 }
 INDEX_SECTIONS = [
  ("finance", "Финансы", "Кредиты, вклады, валюта и инвестиции.",
-  ["calc-mortgage.html","calc-mortgage-early.html","calc-credit.html","calc-deposit.html","calc-car-loan.html","calc-refinancing.html","calc-microloan.html","calc-loan-interest.html","calc-iis.html","calc-currency.html"]),
+  ["calc-mortgage.html","calc-mortgage-early.html","calc-credit.html","calc-deposit.html","calc-car-loan.html","calc-refinancing.html","calc-microloan.html","calc-loan-interest.html","calc-iis.html","calc-currency.html","calc-compound-interest.html"]),
  ("realty", "Недвижимость и налоги", "Квартира, НДФЛ, НДС, взносы.",
   ["calc-tax-deduction.html","calc-property-sale-tax.html","calc-ndfl.html","calc-vat.html","calc-samozanyaty.html","calc-shares-apartment.html","calc-maternal-capital-shares.html","calc-insurance-contributions.html"]),
  ("labor", "Труд и соцзащита", "Стаж, отпуск, больничные, пенсия.",
@@ -867,8 +867,8 @@ INDEX_SECTIONS = [
   ["calc-password-generator.html","calc-promo-generator.html","calc-qr-generator.html","calc-uuid.html","calc-lorem.html","calc-nickname.html"]),
  ("lists", "Списки и случайность", "Случайные числа, выбор, группы.",
   ["calc-random-number.html","calc-random-pick.html","calc-shuffle-list.html","calc-split-groups.html","calc-compare-lists.html"]),
- ("misc", "Разное", "Единицы, сложный процент, скидки, чаевые.",
-  ["calc-unit-converter.html","calc-compound-interest.html","calc-discount.html","calc-tip.html"]),
+ ("misc", "Разное", "Единицы, скидки, чаевые.",
+  ["calc-unit-converter.html","calc-discount.html","calc-tip.html"]),
 ]
 
 def new_index_card(href):
