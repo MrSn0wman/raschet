@@ -188,11 +188,16 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
         clearTimeout(openTimer);
         clearTimeout(closeTimer);
-        const willOpen = !cat.classList.contains('open');
-        closeNavCats();
-        if (willOpen){
+        const isOpen = cat.classList.contains('open');
+        if (!isOpen){
+          // панель закрыта: открываем, не переходя по ссылке (переход — по второму клику)
+          e.preventDefault();
+          closeNavCats();
           cat.classList.add('open');
           btn.setAttribute('aria-expanded', 'true');
+        } else {
+          // панель открыта: <a> перейдёт в раздел каталога, «Ещё»-кнопка просто закроется
+          closeNavCats();
         }
       });
     }
