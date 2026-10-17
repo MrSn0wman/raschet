@@ -114,6 +114,11 @@ TOOL = {
     invEl.textContent = '1 ' + to + ' = ' + window.formatSmart(rates[to] / rates[from]) + ' ' + from;
   }
 
+  function fmtRateDate(d){
+    d = String(d || OFFLINE_DATE);
+    return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d.split('-').reverse().join('.') : d;
+  }
+
   function loadRates(){
     if (!window.RASCHET_API_BASE){
       srcEl.textContent = 'Курсы ЦБ РФ от ' + OFFLINE_DATE + ' (офлайн)';
@@ -135,9 +140,9 @@ TOOL = {
           if (isFinite(v) && v > 0) rates[code] = v;
         });
         if (data.stale){
-          srcEl.textContent = 'Курсы от ' + String(data.date || OFFLINE_DATE) + ', обновление временно недоступно';
+          srcEl.textContent = 'Курсы от ' + fmtRateDate(data.date) + ', обновление временно недоступно';
         } else {
-          srcEl.textContent = 'Курсы ЦБ РФ от ' + String(data.date || OFFLINE_DATE);
+          srcEl.textContent = 'Курсы ЦБ РФ от ' + fmtRateDate(data.date);
         }
         render();
       })

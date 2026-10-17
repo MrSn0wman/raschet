@@ -13,7 +13,7 @@ TOOL = {
 <div class="field-grid">
   <div class="field">
     <label for="cd-target">Дата и время цели</label>
-    <input type="datetime-local" id="cd-target" step="1">
+    <input type="datetime-local" id="cd-target">
     <span class="hint">Время трактуется как локальное время вашего устройства.</span>
     <div class="error-msg" id="cd-error" role="alert">Выберите дату и время цели.</div>
   </div>
@@ -136,6 +136,6 @@ TOOL = {
   setInterval(update, 1000);
 })();
 """,
-  "page_css": ".cd-digits{font-size:clamp(1.6rem,5vw,2.4rem);letter-spacing:.02em}.cd-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:.72rem;color:var(--ink-soft);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.05em;margin-top:-6px}.cd-labels span{text-align:left}.cd-bar{height:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:16px}.cd-bar-fill{height:100%;width:0;background:var(--accent);transition:width .6s ease}.cd-rows{margin-top:14px}",
+  "page_css": ".cd-digits{font-size:clamp(1.6rem,5vw,2.4rem);letter-spacing:.02em}.cd-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;font-size:.72rem;color:var(--ink-soft);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.05em;margin-top:-6px}.cd-labels span{text-align:left}.cd-bar{height:8px;background:var(--surface-2);border:1px solid var(--line);border-radius:999px;overflow:hidden;margin-top:16px}.cd-bar-fill{height:100%;width:0;background:var(--accent);transition:width .6s ease}.cd-rows{margin-top:14px}@media(max-width:640px){input[type=\"datetime-local\"]{padding-right:40px;font-size:14px}}",
   "related": ["unix-vremya", "dni", "rabochie-dni", "chasovye-poyasa"],
 }
