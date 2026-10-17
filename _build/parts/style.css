@@ -501,74 +501,42 @@ p{ margin:0 0 1em; color:var(--ink); }
   *,*::before,*::after{ transition-duration:.01ms !important; animation-duration:.01ms !important; }
 }
 
-/* ---------- v2: мега-меню ---------- */
-.mega-btn{
-  display:inline-flex; align-items:center; gap:7px;
-  background:var(--accent); color:var(--accent-ink); border:none; cursor:pointer;
-  font-family:var(--font-body); font-size:.93rem; font-weight:600;
-  padding:10px 16px; border-radius:999px; min-height:44px;
-  transition:background .15s ease;
-}
-.mega-btn:hover{ background:var(--accent-hover); }
-.mega-btn .chev{ transition:transform .18s ease; }
-.mega-btn[aria-expanded="true"] .chev{ transform:rotate(180deg); }
-
-.mega-panel{
-  position:absolute; left:0; right:0; top:100%;
-  background:var(--surface); border-bottom:1px solid var(--line);
-  box-shadow:var(--shadow-pop);
-  padding:10px 0 14px;
-  z-index:105;
-  max-height:calc(100vh - 66px);
-  overflow-y:auto;
-  overscroll-behavior:contain;
-}
-.mega-panel[hidden]{ display:none; }
-.mega-panel:not([hidden]){ animation:mega-in .18s ease; }
-@keyframes mega-in{ from{ opacity:0; transform:translateY(-6px); } }
-
-/* Аккордеон категорий */
-.mega-acc{ display:flex; flex-direction:column; max-width:720px; }
-.mega-cat{ border-bottom:1px solid var(--line); }
-.mega-cat:last-child{ border-bottom:none; }
-.mega-cat-btn{
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  width:100%; min-height:48px; padding:12px 14px;
-  background:none; border:none; cursor:pointer; text-align:left;
-  font-family:var(--font-body); font-size:.98rem; font-weight:600; color:var(--ink);
-  border-radius:8px;
+/* ---------- v3: категории в шапке (hover-дропдауны) ---------- */
+.nav-cat{ position:relative; }
+.nav-cat-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  background:none; border:none; cursor:pointer;
+  font-family:var(--font-body); color:var(--ink-soft);
+  font-size:.93rem; font-weight:500;
+  padding:9px 12px; min-height:44px; border-radius:8px;
   transition:color .15s ease, background .15s ease;
+  white-space:nowrap;
 }
-.mega-cat-btn:hover{ color:var(--accent); background:var(--surface-2); }
-.mega-cat-meta{ display:flex; align-items:center; gap:10px; flex:none; }
-.mega-cat-count{
-  font-family:var(--font-mono); font-size:.72rem; font-weight:600;
-  color:var(--ink-soft); background:var(--surface-2);
-  border-radius:999px; padding:2px 9px;
-}
-.mega-cat.open .mega-cat-count{ color:var(--accent); background:var(--accent-soft); }
-.mega-cat-btn .chev{ transition:transform .22s ease; }
-.mega-cat.open .mega-cat-btn .chev{ transform:rotate(180deg); }
-.mega-cat-btn[aria-expanded="true"]{ color:var(--accent); }
+.nav-cat-btn:hover, .nav-cat.open .nav-cat-btn{ color:var(--accent); background:var(--surface); }
+.nav-cat-btn .chev{ transition:transform .18s ease; flex:none; }
+.nav-cat.open .nav-cat-btn .chev{ transform:rotate(180deg); }
 
-/* Плавное раскрытие списка: grid-template-rows 0fr→1fr */
-.mega-cat-list{
-  display:grid; grid-template-rows:0fr;
-  transition:grid-template-rows .22s ease;
+.nav-cat-panel{
+  position:absolute; top:calc(100% + 6px); left:0;
+  min-width:240px;
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius-m); box-shadow:var(--shadow-pop);
+  padding:8px; display:grid; gap:2px;
+  opacity:0; visibility:hidden; transform:translateY(-6px);
+  transition:opacity .16s ease, transform .16s ease, visibility .16s;
+  z-index:110;
 }
-.mega-cat-inner{
-  overflow:hidden; min-height:0;
-  display:flex; flex-direction:column; gap:1px;
-  padding:0 14px;
-}
-.mega-cat.open .mega-cat-list{ grid-template-rows:1fr; }
-.mega-cat.open .mega-cat-inner{ padding-bottom:10px; }
-.mega-cat-inner a{
-  text-decoration:none; color:var(--ink); font-size:.92rem;
-  padding:8px 12px; border-radius:6px; line-height:1.35;
+.nav-cat:last-child .nav-cat-panel,
+.nav-cat:nth-last-child(2) .nav-cat-panel{ left:auto; right:0; }
+.nav-cat.open .nav-cat-panel{ opacity:1; visibility:visible; transform:translateY(0); }
+.nav-cat-panel a{
+  display:block; text-decoration:none; color:var(--ink);
+  font-size:.92rem; padding:9px 12px; border-radius:8px; line-height:1.3;
   transition:background .12s ease, color .12s ease;
 }
-.mega-cat-inner a:hover{ background:var(--surface-2); color:var(--accent); }
+.nav-cat-panel a:hover{ background:var(--surface-2); color:var(--accent); }
+
+
 
 /* ---------- v2: действия шапки (избранное, тема, бургер) ---------- */
 .header-actions{ display:flex; align-items:center; gap:8px; flex:none; }
@@ -688,7 +656,7 @@ p{ margin:0 0 1em; color:var(--ink); }
 /* ---------- v2: печать ---------- */
 @media print{
   .site-header, .site-footer, .ruler, .sidebar, .ad-slot,
-  .action-bar, .breadcrumbs, .toast, .fav-panel, .mega-panel{ display:none !important; }
+  .action-bar, .breadcrumbs, .toast, .fav-panel{ display:none !important; }
   body{ background:#fff; color:#000; }
   .calc-layout{ display:block; }
   .calc-card{ border:none; box-shadow:none; padding:0; }
@@ -702,7 +670,6 @@ p{ margin:0 0 1em; color:var(--ink); }
   .calc-list--dense{ grid-template-columns:repeat(3,1fr); }
 }
 @media (max-width: 900px){
-  .mega-panel{ display:none !important; }
   .calc-list--dense{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width: 640px){

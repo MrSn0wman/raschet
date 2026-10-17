@@ -90,8 +90,9 @@ if errors:
 # самопроверка на одной странице каждой глубины
 for probe in ("index.html", "ipoteka/index.html"):
     t = io.open(os.path.join(SITE, probe), encoding="utf-8").read()
-    for token in ("mega-cat-btn", "grid-template-rows", "closeMegaCats"):
+    for token in ("nav-cat-btn", "nav-cat-panel", "closeNavCats"):
         assert token in t, probe + ": missing " + token
-    assert "mega-grid" not in t, probe + ": stale mega-grid"
+    for stale in ("mega-grid", "mega-cat", "mega-btn", "mega-panel", "closeMegaCats"):
+        assert stale not in t, probe + ": stale " + stale
     assert 'href="calc-' not in t, probe + ": unrewritten link"
 print("self-checks: ALL PASS")

@@ -153,44 +153,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Мега-меню «Все инструменты» — аккордеон категорий (эксклюзивно: одна открыта)
-  const megaBtn = document.getElementById('mega-btn');
-  const megaPanel = document.getElementById('mega-panel');
-  const megaCats = megaPanel ? megaPanel.querySelectorAll('.mega-cat') : [];
-  const closeMegaCats = () => {
-    megaCats.forEach((cat) => {
-      cat.classList.remove('open');
-      const b = cat.querySelector('.mega-cat-btn');
+  // Категории в шапке: hover с задержкой намерения, эксклюзивно,
+  // клик — для тача/клавиатуры; уход курсора закрывает.
+  const navCats = document.querySelectorAll('.nav-cat');
+  let openTimer = null;
+  let closeTimer = null;
+  const closeNavCats = () => {
+    navCats.forEach((c) => {
+      c.classList.remove('open');
+      const b = c.querySelector('.nav-cat-btn');
       if (b) b.setAttribute('aria-expanded', 'false');
     });
   };
-  const closeMega = () => {
-    if (!megaPanel || megaPanel.hidden) return;
-    megaPanel.hidden = true;
-    if (megaBtn) megaBtn.setAttribute('aria-expanded', 'false');
-    closeMegaCats();
-  };
-  if (megaBtn && megaPanel){
-    megaBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const willOpen = megaPanel.hidden;
-      closeFav();
-      megaPanel.hidden = !willOpen;
-      megaBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-    });
-    megaPanel.addEventListener('click', (e) => { e.stopPropagation(); });
-  }
-  megaCats.forEach((cat) => {
-    const btn = cat.querySelector('.mega-cat-btn');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      const willOpen = !cat.classList.contains('open');
-      closeMegaCats();
-      if (willOpen){
+  navCats.forEach((cat) => {
+    const btn = cat.querySelector('.nav-cat-btn');
+    cat.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      clearTimeout(openTimer);
+      openTimer = setTimeout(() => {
+        closeNavCats();
         cat.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+      }, 120);
+    });
+    cat.addEventListener('mouseleave', () => {
+      clearTimeout(openTimer);
+      closeTimer = setTimeout(() => {
+        cat.classList.remove('open');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }, 200);
+    });
+    if (btn){
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearTimeout(openTimer);
+        clearTimeout(closeTimer);
+        const willOpen = !cat.classList.contains('open');
+        closeNavCats();
+        if (willOpen){
+          cat.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+    // клавиатура: фокус внутри категории открывает её
+    cat.addEventListener('focusin', () => {
+      clearTimeout(closeTimer);
+      if (!cat.classList.contains('open')){
+        closeNavCats();
+        cat.classList.add('open');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
       }
     });
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest || !e.target.closest('.nav-cat')) closeNavCats();
   });
 
   // Избранное (localStorage): бейдж, панель, звезда на страницах калькуляторов
@@ -235,7 +252,7 @@ document.addEventListener('DOMContentLoaded', () => {
     favBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const willOpen = favPanel.hidden;
-      closeMega();
+      closeNavCats();
       if (willOpen) renderFavPanel();
       favPanel.hidden = !willOpen;
       favBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
@@ -289,10 +306,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Глобальные закрытия: клик мимо и Esc
-  document.addEventListener('click', () => { closeMega(); closeFav(); });
+  document.addEventListener('click', () => { closeNavCats(); closeFav(); });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape'){
-      closeMega();
+      closeNavCats();
       closeFav();
       if (mobileNav && mobileNav.classList.contains('open')){
         mobileNav.classList.remove('open');

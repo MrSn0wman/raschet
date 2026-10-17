@@ -642,74 +642,42 @@ p{ margin:0 0 1em; color:var(--ink); }
   *,*::before,*::after{ transition-duration:.01ms !important; animation-duration:.01ms !important; }
 }
 
-/* ---------- v2: мега-меню ---------- */
-.mega-btn{
-  display:inline-flex; align-items:center; gap:7px;
-  background:var(--accent); color:var(--accent-ink); border:none; cursor:pointer;
-  font-family:var(--font-body); font-size:.93rem; font-weight:600;
-  padding:10px 16px; border-radius:999px; min-height:44px;
-  transition:background .15s ease;
-}
-.mega-btn:hover{ background:var(--accent-hover); }
-.mega-btn .chev{ transition:transform .18s ease; }
-.mega-btn[aria-expanded="true"] .chev{ transform:rotate(180deg); }
-
-.mega-panel{
-  position:absolute; left:0; right:0; top:100%;
-  background:var(--surface); border-bottom:1px solid var(--line);
-  box-shadow:var(--shadow-pop);
-  padding:10px 0 14px;
-  z-index:105;
-  max-height:calc(100vh - 66px);
-  overflow-y:auto;
-  overscroll-behavior:contain;
-}
-.mega-panel[hidden]{ display:none; }
-.mega-panel:not([hidden]){ animation:mega-in .18s ease; }
-@keyframes mega-in{ from{ opacity:0; transform:translateY(-6px); } }
-
-/* Аккордеон категорий */
-.mega-acc{ display:flex; flex-direction:column; max-width:720px; }
-.mega-cat{ border-bottom:1px solid var(--line); }
-.mega-cat:last-child{ border-bottom:none; }
-.mega-cat-btn{
-  display:flex; align-items:center; justify-content:space-between; gap:12px;
-  width:100%; min-height:48px; padding:12px 14px;
-  background:none; border:none; cursor:pointer; text-align:left;
-  font-family:var(--font-body); font-size:.98rem; font-weight:600; color:var(--ink);
-  border-radius:8px;
+/* ---------- v3: категории в шапке (hover-дропдауны) ---------- */
+.nav-cat{ position:relative; }
+.nav-cat-btn{
+  display:inline-flex; align-items:center; gap:6px;
+  background:none; border:none; cursor:pointer;
+  font-family:var(--font-body); color:var(--ink-soft);
+  font-size:.93rem; font-weight:500;
+  padding:9px 12px; min-height:44px; border-radius:8px;
   transition:color .15s ease, background .15s ease;
+  white-space:nowrap;
 }
-.mega-cat-btn:hover{ color:var(--accent); background:var(--surface-2); }
-.mega-cat-meta{ display:flex; align-items:center; gap:10px; flex:none; }
-.mega-cat-count{
-  font-family:var(--font-mono); font-size:.72rem; font-weight:600;
-  color:var(--ink-soft); background:var(--surface-2);
-  border-radius:999px; padding:2px 9px;
-}
-.mega-cat.open .mega-cat-count{ color:var(--accent); background:var(--accent-soft); }
-.mega-cat-btn .chev{ transition:transform .22s ease; }
-.mega-cat.open .mega-cat-btn .chev{ transform:rotate(180deg); }
-.mega-cat-btn[aria-expanded="true"]{ color:var(--accent); }
+.nav-cat-btn:hover, .nav-cat.open .nav-cat-btn{ color:var(--accent); background:var(--surface); }
+.nav-cat-btn .chev{ transition:transform .18s ease; flex:none; }
+.nav-cat.open .nav-cat-btn .chev{ transform:rotate(180deg); }
 
-/* Плавное раскрытие списка: grid-template-rows 0fr→1fr */
-.mega-cat-list{
-  display:grid; grid-template-rows:0fr;
-  transition:grid-template-rows .22s ease;
+.nav-cat-panel{
+  position:absolute; top:calc(100% + 6px); left:0;
+  min-width:240px;
+  background:var(--surface); border:1px solid var(--line);
+  border-radius:var(--radius-m); box-shadow:var(--shadow-pop);
+  padding:8px; display:grid; gap:2px;
+  opacity:0; visibility:hidden; transform:translateY(-6px);
+  transition:opacity .16s ease, transform .16s ease, visibility .16s;
+  z-index:110;
 }
-.mega-cat-inner{
-  overflow:hidden; min-height:0;
-  display:flex; flex-direction:column; gap:1px;
-  padding:0 14px;
-}
-.mega-cat.open .mega-cat-list{ grid-template-rows:1fr; }
-.mega-cat.open .mega-cat-inner{ padding-bottom:10px; }
-.mega-cat-inner a{
-  text-decoration:none; color:var(--ink); font-size:.92rem;
-  padding:8px 12px; border-radius:6px; line-height:1.35;
+.nav-cat:last-child .nav-cat-panel,
+.nav-cat:nth-last-child(2) .nav-cat-panel{ left:auto; right:0; }
+.nav-cat.open .nav-cat-panel{ opacity:1; visibility:visible; transform:translateY(0); }
+.nav-cat-panel a{
+  display:block; text-decoration:none; color:var(--ink);
+  font-size:.92rem; padding:9px 12px; border-radius:8px; line-height:1.3;
   transition:background .12s ease, color .12s ease;
 }
-.mega-cat-inner a:hover{ background:var(--surface-2); color:var(--accent); }
+.nav-cat-panel a:hover{ background:var(--surface-2); color:var(--accent); }
+
+
 
 /* ---------- v2: действия шапки (избранное, тема, бургер) ---------- */
 .header-actions{ display:flex; align-items:center; gap:8px; flex:none; }
@@ -829,7 +797,7 @@ p{ margin:0 0 1em; color:var(--ink); }
 /* ---------- v2: печать ---------- */
 @media print{
   .site-header, .site-footer, .ruler, .sidebar, .ad-slot,
-  .action-bar, .breadcrumbs, .toast, .fav-panel, .mega-panel{ display:none !important; }
+  .action-bar, .breadcrumbs, .toast, .fav-panel{ display:none !important; }
   body{ background:#fff; color:#000; }
   .calc-layout{ display:block; }
   .calc-card{ border:none; box-shadow:none; padding:0; }
@@ -843,7 +811,6 @@ p{ margin:0 0 1em; color:var(--ink); }
   .calc-list--dense{ grid-template-columns:repeat(3,1fr); }
 }
 @media (max-width: 900px){
-  .mega-panel{ display:none !important; }
   .calc-list--dense{ grid-template-columns:1fr 1fr; }
 }
 @media (max-width: 640px){
@@ -911,13 +878,93 @@ p{ margin:0 0 1em; color:var(--ink); }
     </a>
 
     <nav class="main-nav" aria-label="Основная навигация">
-      <button class="mega-btn" id="mega-btn" type="button" aria-haspopup="true" aria-expanded="false" aria-controls="mega-panel">
-        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
-        Все инструменты
-        <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </button>
-      <a href="../#popular" data-nav="popular">Популярное</a>
-      <a href="../about/" data-nav="about">О проекте</a>
+      <div class="nav-cat">
+        <button class="nav-cat-btn" type="button" aria-haspopup="true" aria-expanded="false">Финансы <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-cat-panel">
+          <a href="../ipoteka/">Ипотека</a>
+          <a href="../dosrochnoe-pogashenie/">Досрочное погашение</a>
+          <a href="../kredit/">Кредит</a>
+          <a href="../vklad/">Вклад</a>
+          <a href="../avtokredit/">Автокредит</a>
+          <a href="../refinansirovanie/">Рефинансирование</a>
+          <a href="../mikrozaim/">Микрозайм</a>
+          <a href="../procenty-po-zaimu/">Проценты по займу</a>
+          <a href="../iis/">ИИС</a>
+          <a href="../konverter-valyut/">Конвертер валют</a>
+          <a href="../slozhnyy-procent/">Сложный процент</a>
+        </div>
+      </div>
+      <div class="nav-cat">
+        <button class="nav-cat-btn" type="button" aria-haspopup="true" aria-expanded="false">Недвижимость и налоги <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-cat-panel">
+          <a href="../nalogovyy-vychet-kvartira/">Вычет за квартиру</a>
+          <a href="../nalog-s-prodazhi-kvartiry/">Налог с продажи</a>
+          <a href="../ndfl/">НДФЛ</a>
+          <a href="../nds/">НДС</a>
+          <a href="../nalog-samozanyatyh/">Самозанятые</a>
+          <a href="../doli-v-kvartire/">Доли в квартире</a>
+          <a href="../doli-po-materinskomu-kapitalu/">Доли по маткапиталу</a>
+          <a href="../strahovye-vznosy-ip/">Взносы ИП</a>
+        </div>
+      </div>
+      <div class="nav-cat">
+        <button class="nav-cat-btn" type="button" aria-haspopup="true" aria-expanded="false">Труд и соцзащита <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-cat-panel">
+          <a href="../trudovoy-stazh/">Трудовой стаж</a>
+          <a href="../otpusknye-dni/">Отпускные дни</a>
+          <a href="../otpusknye/">Отпускные</a>
+          <a href="../bolnichnyy/">Больничный</a>
+          <a href="../dekretnye/">Декретные</a>
+          <a href="../pensiya/">Пенсия по баллам</a>
+        </div>
+      </div>
+      <div class="nav-cat">
+        <button class="nav-cat-btn" type="button" aria-haspopup="true" aria-expanded="false">Авто <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-cat-panel">
+          <a href="../transportnyy-nalog/">Транспортный налог</a>
+          <a href="../rashod-topliva/">Расход топлива</a>
+          <a href="../osago/">ОСАГО</a>
+          <a href="../rastamozhka/">Растаможка</a>
+          <a href="../utilsbor/">Утильсбор</a>
+          <a href="../zaryadka-elektromobilya/">Зарядка электромобиля</a>
+        </div>
+      </div>
+      <div class="nav-cat">
+        <button class="nav-cat-btn" type="button" aria-haspopup="true" aria-expanded="false">Юридические <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-cat-panel">
+          <a href="../peni-po-nalogam/">Пени по налогам</a>
+          <a href="../neustoika-po-dogovoru/">Неустойка по договору</a>
+          <a href="../procenty-395-gk/">Ст. 395 ГК РФ</a>
+          <a href="../neustoika-po-ddu/">Неустойка по ДДУ</a>
+          <a href="../summa-propisyu/">Сумма прописью</a>
+        </div>
+      </div>
+      <div class="nav-cat">
+        <button class="nav-cat-btn" type="button" aria-haspopup="true" aria-expanded="false">Математика <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-cat-panel">
+          <a href="../procenty/">Проценты</a>
+          <a href="../ploshad/">Площадь</a>
+          <a href="../obem/">Объём</a>
+          <a href="../drobi/">Дроби</a>
+          <a href="../stepeni/">Степени</a>
+          <a href="../nod/">НОД</a>
+          <a href="../nok/">НОК</a>
+          <a href="../razlozhenie-na-mnozhiteli/">Множители</a>
+          <a href="../sistemy-schisleniya/">Системы счисления</a>
+        </div>
+      </div>
+      <div class="nav-cat">
+        <button class="nav-cat-btn" type="button" aria-haspopup="true" aria-expanded="false">Ещё <svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <div class="nav-cat-panel">
+          <a href="../#dates">Даты и время</a>
+          <a href="../#health">Здоровье</a>
+          <a href="../#text">Текст</a>
+          <a href="../#validators">Валидаторы</a>
+          <a href="../#generators">Генераторы</a>
+          <a href="../#lists">Списки и случайность</a>
+          <a href="../#misc">Разное</a>
+        </div>
+      </div>
     </nav>
 
     <div class="header-actions">
@@ -934,214 +981,6 @@ p{ margin:0 0 1em; color:var(--ink); }
       <button class="nav-toggle" id="nav-toggle" type="button" aria-label="Открыть меню" aria-expanded="false">
         <svg width="20" height="20" viewBox="0 0 22 22" fill="none" aria-hidden="true"><path d="M3 6h16M3 11h16M3 16h16" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/></svg>
       </button>
-    </div>
-  </div>
-
-  <div class="mega-panel" id="mega-panel" hidden>
-    <div class="container mega-acc" id="mega-acc">
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-finance" id="mega-btn-finance">
-          <span class="mega-cat-name">Финансы</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">11</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-finance" role="region" aria-labelledby="mega-btn-finance">
-          <div class="mega-cat-inner">
-            <a href="../ipoteka/">Ипотека</a>
-            <a href="../dosrochnoe-pogashenie/">Досрочное погашение</a>
-            <a href="../kredit/">Кредит</a>
-            <a href="../vklad/">Вклад</a>
-            <a href="../avtokredit/">Автокредит</a>
-            <a href="../refinansirovanie/">Рефинансирование</a>
-            <a href="../mikrozaim/">Микрозайм</a>
-            <a href="../procenty-po-zaimu/">Проценты по займу</a>
-            <a href="../iis/">ИИС</a>
-            <a href="../konverter-valyut/">Конвертер валют</a>
-            <a href="../slozhnyy-procent/">Сложный процент</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-realty" id="mega-btn-realty">
-          <span class="mega-cat-name">Недвижимость и налоги</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">8</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-realty" role="region" aria-labelledby="mega-btn-realty">
-          <div class="mega-cat-inner">
-            <a href="../nalogovyy-vychet-kvartira/">Вычет за квартиру</a>
-            <a href="../nalog-s-prodazhi-kvartiry/">Налог с продажи</a>
-            <a href="../ndfl/">НДФЛ</a>
-            <a href="../nds/">НДС</a>
-            <a href="../nalog-samozanyatyh/">Самозанятые</a>
-            <a href="../doli-v-kvartire/">Доли в квартире</a>
-            <a href="../doli-po-materinskomu-kapitalu/">Доли по маткапиталу</a>
-            <a href="../strahovye-vznosy-ip/">Взносы ИП</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-labor" id="mega-btn-labor">
-          <span class="mega-cat-name">Труд и соцзащита</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-labor" role="region" aria-labelledby="mega-btn-labor">
-          <div class="mega-cat-inner">
-            <a href="../trudovoy-stazh/">Трудовой стаж</a>
-            <a href="../otpusknye-dni/">Отпускные дни</a>
-            <a href="../otpusknye/">Отпускные</a>
-            <a href="../bolnichnyy/">Больничный</a>
-            <a href="../dekretnye/">Декретные</a>
-            <a href="../pensiya/">Пенсия по баллам</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-auto" id="mega-btn-auto">
-          <span class="mega-cat-name">Авто</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-auto" role="region" aria-labelledby="mega-btn-auto">
-          <div class="mega-cat-inner">
-            <a href="../transportnyy-nalog/">Транспортный налог</a>
-            <a href="../rashod-topliva/">Расход топлива</a>
-            <a href="../osago/">ОСАГО</a>
-            <a href="../rastamozhka/">Растаможка</a>
-            <a href="../utilsbor/">Утильсбор</a>
-            <a href="../zaryadka-elektromobilya/">Зарядка электромобиля</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-legal" id="mega-btn-legal">
-          <span class="mega-cat-name">Юридические</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">5</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-legal" role="region" aria-labelledby="mega-btn-legal">
-          <div class="mega-cat-inner">
-            <a href="../peni-po-nalogam/">Пени по налогам</a>
-            <a href="../neustoika-po-dogovoru/">Неустойка по договору</a>
-            <a href="../procenty-395-gk/">Ст. 395 ГК РФ</a>
-            <a href="../neustoika-po-ddu/">Неустойка по ДДУ</a>
-            <a href="../summa-propisyu/">Сумма прописью</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-math" id="mega-btn-math">
-          <span class="mega-cat-name">Математика</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">9</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-math" role="region" aria-labelledby="mega-btn-math">
-          <div class="mega-cat-inner">
-            <a href="../procenty/">Проценты</a>
-            <a href="../ploshad/">Площадь</a>
-            <a href="../obem/">Объём</a>
-            <a href="../drobi/">Дроби</a>
-            <a href="../stepeni/">Степени</a>
-            <a href="../nod/">НОД</a>
-            <a href="../nok/">НОК</a>
-            <a href="../razlozhenie-na-mnozhiteli/">Множители</a>
-            <a href="../sistemy-schisleniya/">Системы счисления</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-dates" id="mega-btn-dates">
-          <span class="mega-cat-name">Даты и время</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-dates" role="region" aria-labelledby="mega-btn-dates">
-          <div class="mega-cat-inner">
-            <a href="../dni/">Дни между датами</a>
-            <a href="../vozrast/">Возраст</a>
-            <a href="../chasovye-poyasa/">Часовые пояса</a>
-            <a href="../unix-vremya/">Unix-время</a>
-            <a href="../rabochie-dni/">Рабочие дни</a>
-            <a href="../obratnyy-otschet/">Обратный отсчёт</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-health" id="mega-btn-health">
-          <span class="mega-cat-name">Здоровье</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">2</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-health" role="region" aria-labelledby="mega-btn-health">
-          <div class="mega-cat-inner">
-            <a href="../imt/">ИМТ</a>
-            <a href="../idealnyy-ves/">Идеальный вес</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-text" id="mega-btn-text">
-          <span class="mega-cat-name">Текст</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">3</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-text" role="region" aria-labelledby="mega-btn-text">
-          <div class="mega-cat-inner">
-            <a href="../schetchik-slov/">Счётчик слов</a>
-            <a href="../transliteraciya/">Транслитерация</a>
-            <a href="../udalenie-dubley-strok/">Удаление дублей строк</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-validators" id="mega-btn-validators">
-          <span class="mega-cat-name">Валидаторы</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">3</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-validators" role="region" aria-labelledby="mega-btn-validators">
-          <div class="mega-cat-inner">
-            <a href="../proverka-inn/">Проверка ИНН</a>
-            <a href="../proverka-snils/">Проверка СНИЛС</a>
-            <a href="../proverka-nomera-karty/">Проверка номера карты</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-generators" id="mega-btn-generators">
-          <span class="mega-cat-name">Генераторы</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">6</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-generators" role="region" aria-labelledby="mega-btn-generators">
-          <div class="mega-cat-inner">
-            <a href="../generator-paroley/">Пароли</a>
-            <a href="../generator-promokodov/">Промокоды</a>
-            <a href="../qr-generator/">QR-коды</a>
-            <a href="../uuid-generator/">UUID</a>
-            <a href="../lorem-ipsum/">Lorem ipsum</a>
-            <a href="../generator-nikneimov/">Никнеймы</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-lists" id="mega-btn-lists">
-          <span class="mega-cat-name">Списки и случайность</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">5</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-lists" role="region" aria-labelledby="mega-btn-lists">
-          <div class="mega-cat-inner">
-            <a href="../sluchaynye-chisla/">Случайные числа</a>
-            <a href="../sluchaynyy-vybor/">Выбор из списка</a>
-            <a href="../peremeshat-spisok/">Перемешать список</a>
-            <a href="../razdelit-na-gruppy/">Разделить на группы</a>
-            <a href="../sravnenie-spiskov/">Сравнение списков</a>
-          </div>
-        </div>
-      </div>
-      <div class="mega-cat">
-        <button class="mega-cat-btn" type="button" aria-expanded="false" aria-controls="mega-cat-misc" id="mega-btn-misc">
-          <span class="mega-cat-name">Разное</span>
-          <span class="mega-cat-meta"><span class="mega-cat-count">3</span><svg class="chev" width="9" height="6" viewBox="0 0 10 6" fill="none" aria-hidden="true"><path d="M1 1l4 4 4-4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        </button>
-        <div class="mega-cat-list" id="mega-cat-misc" role="region" aria-labelledby="mega-btn-misc">
-          <div class="mega-cat-inner">
-            <a href="../konverter-edinic/">Конвертер единиц</a>
-            <a href="../skidki/">Скидки</a>
-            <a href="../chaevye/">Чаевые</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 
@@ -1270,6 +1109,7 @@ p{ margin:0 0 1em; color:var(--ink); }
   </nav>
 </header>
 <div class="ruler" aria-hidden="true"></div>
+
 
 
 
@@ -1662,44 +1502,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // Мега-меню «Все инструменты» — аккордеон категорий (эксклюзивно: одна открыта)
-  const megaBtn = document.getElementById('mega-btn');
-  const megaPanel = document.getElementById('mega-panel');
-  const megaCats = megaPanel ? megaPanel.querySelectorAll('.mega-cat') : [];
-  const closeMegaCats = () => {
-    megaCats.forEach((cat) => {
-      cat.classList.remove('open');
-      const b = cat.querySelector('.mega-cat-btn');
+  // Категории в шапке: hover с задержкой намерения, эксклюзивно,
+  // клик — для тача/клавиатуры; уход курсора закрывает.
+  const navCats = document.querySelectorAll('.nav-cat');
+  let openTimer = null;
+  let closeTimer = null;
+  const closeNavCats = () => {
+    navCats.forEach((c) => {
+      c.classList.remove('open');
+      const b = c.querySelector('.nav-cat-btn');
       if (b) b.setAttribute('aria-expanded', 'false');
     });
   };
-  const closeMega = () => {
-    if (!megaPanel || megaPanel.hidden) return;
-    megaPanel.hidden = true;
-    if (megaBtn) megaBtn.setAttribute('aria-expanded', 'false');
-    closeMegaCats();
-  };
-  if (megaBtn && megaPanel){
-    megaBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const willOpen = megaPanel.hidden;
-      closeFav();
-      megaPanel.hidden = !willOpen;
-      megaBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
-    });
-    megaPanel.addEventListener('click', (e) => { e.stopPropagation(); });
-  }
-  megaCats.forEach((cat) => {
-    const btn = cat.querySelector('.mega-cat-btn');
-    if (!btn) return;
-    btn.addEventListener('click', () => {
-      const willOpen = !cat.classList.contains('open');
-      closeMegaCats();
-      if (willOpen){
+  navCats.forEach((cat) => {
+    const btn = cat.querySelector('.nav-cat-btn');
+    cat.addEventListener('mouseenter', () => {
+      clearTimeout(closeTimer);
+      clearTimeout(openTimer);
+      openTimer = setTimeout(() => {
+        closeNavCats();
         cat.classList.add('open');
-        btn.setAttribute('aria-expanded', 'true');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
+      }, 120);
+    });
+    cat.addEventListener('mouseleave', () => {
+      clearTimeout(openTimer);
+      closeTimer = setTimeout(() => {
+        cat.classList.remove('open');
+        if (btn) btn.setAttribute('aria-expanded', 'false');
+      }, 200);
+    });
+    if (btn){
+      btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        clearTimeout(openTimer);
+        clearTimeout(closeTimer);
+        const willOpen = !cat.classList.contains('open');
+        closeNavCats();
+        if (willOpen){
+          cat.classList.add('open');
+          btn.setAttribute('aria-expanded', 'true');
+        }
+      });
+    }
+    // клавиатура: фокус внутри категории открывает её
+    cat.addEventListener('focusin', () => {
+      clearTimeout(closeTimer);
+      if (!cat.classList.contains('open')){
+        closeNavCats();
+        cat.classList.add('open');
+        if (btn) btn.setAttribute('aria-expanded', 'true');
       }
     });
+  });
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest || !e.target.closest('.nav-cat')) closeNavCats();
   });
 
   // Избранное (localStorage): бейдж, панель, звезда на страницах калькуляторов
@@ -1744,7 +1601,7 @@ document.addEventListener('DOMContentLoaded', () => {
     favBtn.addEventListener('click', (e) => {
       e.stopPropagation();
       const willOpen = favPanel.hidden;
-      closeMega();
+      closeNavCats();
       if (willOpen) renderFavPanel();
       favPanel.hidden = !willOpen;
       favBtn.setAttribute('aria-expanded', willOpen ? 'true' : 'false');
@@ -1798,10 +1655,10 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Глобальные закрытия: клик мимо и Esc
-  document.addEventListener('click', () => { closeMega(); closeFav(); });
+  document.addEventListener('click', () => { closeNavCats(); closeFav(); });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape'){
-      closeMega();
+      closeNavCats();
       closeFav();
       if (mobileNav && mobileNav.classList.contains('open')){
         mobileNav.classList.remove('open');
