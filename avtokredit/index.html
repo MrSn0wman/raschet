@@ -539,6 +539,9 @@ p{ margin:0 0 1em; color:var(--ink); }
   box-shadow:var(--shadow-pop);
   padding:26px 0 30px;
   z-index:105;
+  max-height:calc(100vh - 66px);
+  overflow-y:auto;
+  overscroll-behavior:contain;
 }
 .mega-panel[hidden]{ display:none; }
 .mega-grid{
