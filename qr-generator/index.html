@@ -1272,7 +1272,7 @@ window.formatSmart = (value) => {
 
 // Базовый URL бэкенда. Пустая строка = бэкенд не настроен: вызовы тихо отключаются,
 // сайт работает в полностью автономном режиме (деградация по контракту из README бэкенда).
-window.RASCHET_API_BASE = window.RASCHET_API_BASE || '';
+window.RASCHET_API_BASE = window.RASCHET_API_BASE || 'http://127.0.0.1:8000'; // LOCAL-ONLY: не коммитить/не пушить — в проде должно быть ''
 
 // Тост-уведомление (один на страницу, переиспользуется)
 window.showToast = (text) => {
