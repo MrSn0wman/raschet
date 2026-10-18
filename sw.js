@@ -1,6 +1,6 @@
 // Расчёт.рф — service worker (полный офлайн).
 // Генерируется integrate_pwa.py — не править вручную.
-const CACHE = 'raschet-c694f5719c-162';
+const CACHE = 'raschet-54e57260a6-162';
 const PRECACHE = [
   "./",
   "./manifest.webmanifest",
