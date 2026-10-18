@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/proverka-nomera-karty/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Проверка номера банковской карты — алгоритм Луна">
+<meta name="twitter:description" content="Проверьте номер карты по алгоритму Луна и определите платёжную систему: Мир, Visa, Mastercard, Amex, UnionPay, JCB. Номер никуда не отправляется.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -836,6 +844,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Проверка номера банковской карты",
+  "description": "Проверьте номер карты по алгоритму Луна и определите платёжную систему: Мир, Visa, Mastercard, Amex, UnionPay, JCB. Номер никуда не отправляется.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/proverka-nomera-karty/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Безопасно ли вводить номер карты на этой странице?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да: все вычисления выполняются локально в браузере, сетевых запросов с номером нет. Для полной уверенности можно даже отключить интернет после загрузки страницы — проверка продолжит работать."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Номер прошёл проверку Луна — значит, карта настоящая?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Не обязательно. Алгоритм Луна ловит опечатки, но подобрать математически корректный номер несложно. Реальность карты подтверждает только банк-эмитент."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему не определилась платёжная система?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Мы определяем систему по упрощённым правилам по первым цифрам. Новые и редкие диапазоны BIN (например, виртуальные карты некоторых банков) могут не попасть в список."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сколько цифр должно быть в номере?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Обычно 16, у карт Мир — от 16 до 19, у American Express — 15. Стандарт допускает от 13 до 19 цифр."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="proverka-nomera-karty" data-calc-title="Проверка номера банковской карты">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

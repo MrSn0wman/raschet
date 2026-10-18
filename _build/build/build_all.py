@@ -489,6 +489,14 @@ def render_page(title, desc, canonical, og_title, og_desc, page_css, ld_blocks,
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="%s">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="%s">
+<meta name="twitter:description" content="%s">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 %s<style>
 %s</style>
 %s</head>
@@ -498,7 +506,7 @@ def render_page(title, desc, canonical, og_title, og_desc, page_css, ld_blocks,
 %s
 %s</body>
 </html>
-""" % (title, desc, canonical, og_title, og_desc, canonical,
+""" % (title, desc, canonical, og_title, og_desc, canonical, og_title, og_desc,
        HEAD_INIT, css, ld_html, body_attrs, header, main, footer, js_html)
 
 
@@ -1315,7 +1323,9 @@ def build_sitemap(tool_slugs):
         urls.append(BASE_URL + s + "/")
     for s in ("about", "privacy", "advertising", "feedback"):
         urls.append(BASE_URL + s + "/")
-    items = "\n".join("  <url><loc>%s</loc></url>" % u for u in urls)
+    import datetime
+    lastmod = datetime.date.today().isoformat()
+    items = "\n".join("  <url><loc>%s</loc><lastmod>%s</lastmod></url>" % (u, lastmod) for u in urls)
     xml = """<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 %s

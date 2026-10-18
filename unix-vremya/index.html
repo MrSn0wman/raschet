@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/unix-vremya/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Unix timestamp онлайн — конвертер в дату и обратно">
+<meta name="twitter:description" content="Текущее Unix-время в реальном времени, перевод timestamp в дату (секунды и миллисекунды определяются сами) и даты в timestamp. UTC и локальный пояс.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -836,6 +844,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Unix-время: timestamp ↔ дата",
+  "description": "Текущее Unix-время в реальном времени, перевод timestamp в дату (секунды и миллисекунды определяются сами) и даты в timestamp. UTC и локальный пояс.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/unix-vremya/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Чем отличаются timestamp в секундах и миллисекундах?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В миллисекундах значение в тысячу раз больше. JavaScript (Date.now) и Java используют миллисекунды, Unix-утилиты и большинство API — секунды. Конвертер определяет формат по величине числа."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему 1970 год называется эпохой Unix?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Так решили авторы первых версий Unix: отсчёт времени в системе начался с полуночи 1 января 1970 года по UTC. Даты раньше эпохи кодируются отрицательными числами."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что будет 19 января 2038 года?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В этот день 32-битный счётчик секунд переполнится (проблема 2038 года). Современные 64-битные системы, включая этот конвертер, ей не подвержены."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Timestamp одинаковый во всём мире?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, это абсолютное число секунд от эпохи, без часовых поясов. Различия возникают только при превращении timestamp в читаемую дату — тут и нужен выбор пояса."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="unix-vremya" data-calc-title="Unix-время: timestamp ↔ дата">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

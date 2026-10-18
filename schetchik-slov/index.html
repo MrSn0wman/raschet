@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/schetchik-slov/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Счётчик слов и символов онлайн — время чтения">
+<meta name="twitter:description" content="Посчитайте слова, символы с пробелами и без, предложения и абзацы в тексте. Оценка времени чтения из расчёта 200 слов в минуту.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -836,6 +844,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Счётчик слов и символов",
+  "description": "Посчитайте слова, символы с пробелами и без, предложения и абзацы в тексте. Оценка времени чтения из расчёта 200 слов в минуту.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/schetchik-slov/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Почему счётчик слов отличается от Word?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Word и наш счётчик по-разному трактуют редкие случаи: слова через дефис, сноски, отдельно стоящие знаки препинания. Для обычного текста расхождение не больше 1–2 слов на тысячу."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что считается абзацем?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Любая непустая строка. Если текст разбит пустыми строками, каждый блок — абзац; если каждая строка списка идёт с новой строки, каждая из них тоже считается абзацем."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как посчитать время озвучки текста, а не чтения?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Для дикторской озвучки берите 100–120 слов в минуту: разделите число слов на 110 — получите примерную длительность в минутах."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Есть ли ограничение на размер текста?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет, подсчёт выполняется локально в браузере и мгновенно справляется с текстами в сотни тысяч символов."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="schetchik-slov" data-calc-title="Счётчик слов и символов">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

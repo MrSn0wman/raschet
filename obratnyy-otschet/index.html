@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/obratnyy-otschet/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Обратный отсчёт до даты онлайн — живой таймер">
+<meta name="twitter:description" content="Живой таймер обратного отсчёта до любой даты и времени: дни, часы, минуты, секунды и прогресс-бар. По умолчанию — до Нового года.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -839,6 +847,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 @media(max-width:640px){input[type="datetime-local"]{padding-right:40px;font-size:14px}}
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Обратный отсчёт до даты",
+  "description": "Живой таймер обратного отсчёта до любой даты и времени: дни, часы, минуты, секунды и прогресс-бар. По умолчанию — до Нового года.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/obratnyy-otschet/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Отсчёт идёт в моём часовом поясе или в UTC?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В локальном поясе вашего устройства: поле ввода трактуется как локальное время. Если цель задана в другом поясе, переведите её в своё время заранее — например, нашим калькулятором часовых поясов."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что показывает прогресс-бар?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Долю времени, прошедшую с момента открытия страницы до цели. Обновите страницу — и бар начнётся с нуля, хотя сам остаток времени не изменится."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему при выборе прошедшей даты таймер не идёт?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Отсчёт в прошлое бессмысленен: таймер сразу показывает «Время наступило!» и подсказку выбрать момент в будущем."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Таймер работает, если вкладка свернута?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, браузер продолжает выполнять таймеры в фоне. При возврате во вкладку значение может прыгнуть сразу на актуальное — это нормально, секунды не теряются."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="obratnyy-otschet" data-calc-title="Обратный отсчёт до даты">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

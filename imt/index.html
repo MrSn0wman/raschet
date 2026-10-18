@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/imt/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор ИМТ онлайн — индекс массы тела и норма веса">
+<meta name="twitter:description" content="Рассчитайте индекс массы тела (ИМТ) по росту и весу и узнайте категорию по классификации ВОЗ. Быстро, бесплатно, без регистрации.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -851,6 +859,30 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </script>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Подходит ли ИМТ для детей?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет, для детей и подростков используются отдельные возрастные таблицы (перцентили), а не взрослая шкала ИМТ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему у спортсменов ИМТ может быть завышен?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Мышечная ткань тяжелее жировой, поэтому у людей с развитой мускулатурой ИМТ может показывать «избыточный вес», хотя доля жира в организме низкая."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="imt" data-calc-title="Калькулятор ИМТ">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

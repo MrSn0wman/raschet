@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/konverter-valyut/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Конвертер валют онлайн — курс ЦБ, USD, EUR, CNY">
+<meta name="twitter:description" content="Переведите рубли в доллары, евро, юани и ещё 7 валют по курсу ЦБ РФ. Работает и без интернета — на офлайн-курсах с указанием даты.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -836,6 +844,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Конвертер валют",
+  "description": "Переведите рубли в доллары, евро, юани и ещё 7 валют по курсу ЦБ РФ. Работает и без интернета — на офлайн-курсах с указанием даты.",
+  "applicationCategory": "FinanceApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/konverter-valyut/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Почему в банке курс отличается от показанного здесь?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Здесь — официальный курс ЦБ РФ. Банки продают и покупают валюту с наценкой: курс покупки ниже курса ЦБ, курс продажи выше. Разница обычно составляет 1–3%."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что означает пометка «офлайн»?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Сервер с актуальными курсами не ответил за три секунды, и расчёт выполнен по курсам, сохранённым прямо в странице. Дата этих курсов указана в пометке."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как перевести евро в доллары, если курс задан только к рублю?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Ничего дополнительно делать не нужно: выберите «из валюты» EUR, «в валюту» USD. Конвертер сам пересчитает сумму через рубль по кросс-курсу."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как часто обновляются курсы?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "ЦБ РФ публикует официальные курсы один раз в рабочий день, около 13:30 мск; на выходные и праздники действует курс пятницы. Наш сервер забирает обновление сразу после публикации."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="konverter-valyut" data-calc-title="Конвертер валют">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

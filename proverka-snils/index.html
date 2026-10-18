@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/proverka-snils/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Проверка СНИЛС онлайн — контрольная сумма">
+<meta name="twitter:description" content="Проверьте номер СНИЛС по контрольной сумме: первые 9 цифр с весами от 9 до 1, остаток по модулю 101. Локально, без отправки данных.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -836,6 +844,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Проверка СНИЛС",
+  "description": "Проверьте номер СНИЛС по контрольной сумме: первые 9 цифр с весами от 9 до 1, остаток по модулю 101. Локально, без отправки данных.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/proverka-snils/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Что означает «контрольное число не сошлось»?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Сумма первых девяти цифр с весами, взятая по модулю 101, не равна двум последним цифрам. Почти всегда это опечатка — перепроверьте номер по зелёной карточке."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли проверить СНИЛС ребёнка?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, алгоритм одинаков для всех номеров независимо от возраста владельца."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему контрольное число иногда 00?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Когда сумма с весами делится на 101 без остатка или даёт остаток 100, контрольное число записывается как 00. Это штатная ситуация, а не ошибка."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Номер отправляется на сервер?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. Проверка выполняется только в вашем браузере, сетевых запросов нет."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="proverka-snils" data-calc-title="Проверка СНИЛС">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

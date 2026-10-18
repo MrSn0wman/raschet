@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/udalenie-dubley-strok/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Удаление дублей строк онлайн — очистка списка">
+<meta name="twitter:description" content="Уберите повторяющиеся строки из списка: с игнорированием регистра, обрезкой пробелов и удалением пустых строк. Порядок первых вхождений сохраняется.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -838,6 +846,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 .dd-out{width:100%;margin:14px 0 4px;padding:12px 13px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-family:var(--font-mono);font-size:.9rem;resize:vertical;}
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Удаление дублей строк",
+  "description": "Уберите повторяющиеся строки из списка: с игнорированием регистра, обрезкой пробелов и удалением пустых строк. Порядок первых вхождений сохраняется.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/udalenie-dubley-strok/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Останется ли порядок строк как в исходном списке?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да. Удаляются только повторные вхождения, первое вхождение каждой строки остаётся на своём месте. Сортировка не выполняется."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как сравнить два списка, а не очистить один?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Для этого есть отдельный инструмент «Сравнение списков» — он покажет пересечение и различия двух списков."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "«Яблоко» и «яблоко» — это дубли?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "По умолчанию нет: сравнение учитывает регистр. Включите опцию «Не учитывать регистр», и такие строки будут считаться одинаковыми."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что считается пустой строкой?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Строка без символов или состоящая только из пробелов и табуляций. Если опция обрезки пробелов включена, такие строки удаляются вместе с дублями."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="udalenie-dubley-strok" data-calc-title="Удаление дублей строк">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

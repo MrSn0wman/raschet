@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/rabochie-dni/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор рабочих дней — выходные и праздники РФ">
+<meta name="twitter:description" content="Посчитайте рабочие дни между датами или прибавьте N рабочих дней к дате. Учёт суббот, воскресений и фиксированных праздников РФ.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -836,6 +844,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Калькулятор рабочих дней",
+  "description": "Посчитайте рабочие дни между датами или прибавьте N рабочих дней к дате. Учёт суббот, воскресений и фиксированных праздников РФ.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/rabochie-dni/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Крайние даты входят в подсчёт?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, в режиме «между датами» начальная и конечная даты считаются, если это рабочие дни. В режиме «прибавить» стартовая дата не считается — отсчёт идёт со следующего дня."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему результат с праздниками может не совпасть с производственным календарём?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Мы учитываем только фиксированные праздничные даты без переносов выходных, которые каждый год утверждаются постановлением. Из-за переносов реальное число рабочих дней может отличаться на несколько дней."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как посчитать дедлайн «10 рабочих дней с даты договора»?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Выберите режим «Прибавить рабочие дни», укажите дату договора и число 10. Если формулировка «в течение 10 рабочих дней со дня…», отсчёт обычно начинается со следующего дня — именно так считает калькулятор."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли посчитать период в несколько лет?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, до 100 лет в режиме «между датами» и до 3650 рабочих дней в режиме «прибавить». Это покрывает любые реальные задачи, включая долгосрочные договоры."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="rabochie-dni" data-calc-title="Калькулятор рабочих дней">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

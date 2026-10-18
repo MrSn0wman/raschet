@@ -1,0 +1,92 @@
+# Расчёт.рф
+
+> Бесплатные онлайн-калькуляторы и инструменты для повседневных и финансовых расчётов: ипотека, кредиты, вклады, налоги, даты, конвертеры, генераторы. Работают прямо в браузере, без регистрации; расчёты справочные.
+
+## Финансы
+
+- [Калькулятор ипотеки](https://mrsn0wman.github.io/raschet/ipoteka/): ежемесячный платёж, переплата, график погашения
+- [Досрочное погашение](https://mrsn0wman.github.io/raschet/dosrochnoe-pogashenie/): выгода от частичного досрочного погашения
+- [Вклад](https://mrsn0wman.github.io/raschet/vklad/): доход по вкладу с капитализацией
+- [Кредит](https://mrsn0wman.github.io/raschet/kredit/): платёж и переплата по кредиту
+- [Автокредит](https://mrsn0wman.github.io/raschet/avtokredit/): платёж по автокредиту
+- [Рефинансирование](https://mrsn0wman.github.io/raschet/refinansirovanie/): стоит ли рефинансировать кредит
+- [Микрозайм](https://mrsn0wman.github.io/raschet/mikrozaim/): переплата по микрозайму
+- [Проценты по займу](https://mrsn0wman.github.io/raschet/procenty-po-zaimu/): расчёт процентов по договору займа
+- [ИИС](https://mrsn0wman.github.io/raschet/iis/): вычет и доходность ИИС
+- [Конвертер валют](https://mrsn0wman.github.io/raschet/konverter-valyut/): курсы ЦБ РФ, USD, EUR, CNY и другие
+- [Сложный процент](https://mrsn0wman.github.io/raschet/slozhnyy-procent/): рост капитала с реинвестированием
+- [Скидки](https://mrsn0wman.github.io/raschet/skidki/): цена со скидкой, несколько скидок подряд
+- [Чаевые](https://mrsn0wman.github.io/raschet/chaevye/): сумма чаевых и итог на человека
+
+## Недвижимость и налоги
+
+- [Вычет за квартиру](https://mrsn0wman.github.io/raschet/nalogovyy-vychet-kvartira/): имущественный вычет при покупке
+- [Налог с продажи квартиры](https://mrsn0wman.github.io/raschet/nalog-s-prodazhi-kvartiry/): НДФЛ при продаже недвижимости
+- [НДФЛ](https://mrsn0wman.github.io/raschet/ndfl/): подоходный налог 13–22%
+- [НДС](https://mrsn0wman.github.io/raschet/nds/): выделить или начислить НДС
+- [Налог самозанятых](https://mrsn0wman.github.io/raschet/nalog-samozanyatyh/): НПД 4% и 6%
+- [Доли в квартире](https://mrsn0wman.github.io/raschet/doli-v-kvartire/): расчёт долей собственников
+- [Доли по материнскому капиталу](https://mrsn0wman.github.io/raschet/doli-po-materinskomu-kapitalu/): выделение долей детям
+- [Взносы ИП](https://mrsn0wman.github.io/raschet/strahovye-vznosy-ip/): фиксированные и дополнительные взносы
+
+## Труд и соцзащита
+
+- [Трудовой стаж](https://mrsn0wman.github.io/raschet/trudovoy-stazh/): подсчёт стажа по датам
+- [Отпускные дни](https://mrsn0wman.github.io/raschet/otpusknye-dni/): сколько дней отпуска накоплено
+- [Отпускные](https://mrsn0wman.github.io/raschet/otpusknye/): сумма отпускных
+- [Больничный](https://mrsn0wman.github.io/raschet/bolnichnyy/): пособие по временной нетрудоспособности
+- [Декретные](https://mrsn0wman.github.io/raschet/dekretnye/): пособие по беременности и родам
+- [Пенсия по баллам](https://mrsn0wman.github.io/raschet/pensiya/): страховая пенсия по ИПК
+
+## Авто
+
+- [Транспортный налог](https://mrsn0wman.github.io/raschet/transportnyy-nalog/): налог на автомобиль по мощности
+- [Расход топлива](https://mrsn0wman.github.io/raschet/rashod-topliva/): расход на 100 км и стоимость поездки
+- [ОСАГО](https://mrsn0wman.github.io/raschet/osago/): ориентировочная стоимость полиса
+- [Растаможка](https://mrsn0wman.github.io/raschet/rastamozhka/): таможенные платежи за авто
+- [Утильсбор](https://mrsn0wman.github.io/raschet/utilsbor/): утилизационный сбор
+- [Зарядка электромобиля](https://mrsn0wman.github.io/raschet/zaryadka-elektromobilya/): время и стоимость зарядки
+
+## Юридические расчёты
+
+- [Пени по налогам](https://mrsn0wman.github.io/raschet/peni-po-nalogam/): 1/300 и 1/150 ставки ЦБ
+- [Неустойка по договору](https://mrsn0wman.github.io/raschet/neustoika-po-dogovoru/): проценты за просрочку
+- [Ст. 395 ГК РФ](https://mrsn0wman.github.io/raschet/procenty-395-gk/): проценты за пользование чужими деньгами
+- [Неустойка по ДДУ](https://mrsn0wman.github.io/raschet/neustoika-po-ddu/): за просрочку передачи квартиры
+- [Сумма прописью](https://mrsn0wman.github.io/raschet/summa-propisyu/): число словами для документов
+
+## Математика и даты
+
+- [Проценты](https://mrsn0wman.github.io/raschet/procenty/): доля от числа, изменение, соотношение
+- [Площадь](https://mrsn0wman.github.io/raschet/ploshad/): площадь фигур и помещений
+- [Объём](https://mrsn0wman.github.io/raschet/obem/): объём тел и ёмкостей
+- [Дроби](https://mrsn0wman.github.io/raschet/drobi/): действия с дробями
+- [Степени](https://mrsn0wman.github.io/raschet/stepeni/): возведение в степень и корни
+- [НОД](https://mrsn0wman.github.io/raschet/nod/) и [НОК](https://mrsn0wman.github.io/raschet/nok/): наибольший делитель и наименьшее кратное
+- [Разложение на множители](https://mrsn0wman.github.io/raschet/razlozhenie-na-mnozhiteli/): простые множители числа
+- [Системы счисления](https://mrsn0wman.github.io/raschet/sistemy-schisleniya/): перевод между 2/8/10/16
+- [Дни между датами](https://mrsn0wman.github.io/raschet/dni/): разница дат, прибавить дни
+- [Возраст](https://mrsn0wman.github.io/raschet/vozrast/): точный возраст по дате рождения
+- [Часовые пояса](https://mrsn0wman.github.io/raschet/chasovye-poyasa/): разница времени между городами
+- [Unix-время](https://mrsn0wman.github.io/raschet/unix-vremya/): timestamp ↔ дата
+- [Рабочие дни](https://mrsn0wman.github.io/raschet/rabochie-dni/): рабочие дни между датами, праздники РФ
+- [Обратный отсчёт](https://mrsn0wman.github.io/raschet/obratnyy-otschet/): таймер до даты
+
+## Инструменты
+
+- [Конвертер единиц](https://mrsn0wman.github.io/raschet/konverter-edinic/): длина, вес, температура, объём
+- [ИМТ](https://mrsn0wman.github.io/raschet/imt/) и [идеальный вес](https://mrsn0wman.github.io/raschet/idealnyy-ves/): индекс массы тела и нормы
+- [Счётчик слов](https://mrsn0wman.github.io/raschet/schetchik-slov/): символы, слова, время чтения
+- [Транслитерация](https://mrsn0wman.github.io/raschet/transliteraciya/): кириллица → латиница
+- [Удаление дублей строк](https://mrsn0wman.github.io/raschet/udalenie-dubley-strok/): очистка списков
+- [Проверка ИНН](https://mrsn0wman.github.io/raschet/proverka-inn/), [СНИЛС](https://mrsn0wman.github.io/raschet/proverka-snils/), [номера карты](https://mrsn0wman.github.io/raschet/proverka-nomera-karty/): валидация по контрольным цифрам
+- [Генератор паролей](https://mrsn0wman.github.io/raschet/generator-paroley/): криптостойкие пароли
+- [Генератор промокодов](https://mrsn0wman.github.io/raschet/generator-promokodov/), [QR-кодов](https://mrsn0wman.github.io/raschet/qr-generator/), [UUID](https://mrsn0wman.github.io/raschet/uuid-generator/), [никнеймов](https://mrsn0wman.github.io/raschet/generator-nikneimov/)
+- [Lorem ipsum](https://mrsn0wman.github.io/raschet/lorem-ipsum/): рыбный текст
+- [Случайные числа](https://mrsn0wman.github.io/raschet/sluchaynye-chisla/), [выбор из списка](https://mrsn0wman.github.io/raschet/sluchaynyy-vybor/), [перемешать список](https://mrsn0wman.github.io/raschet/peremeshat-spisok/), [разделить на группы](https://mrsn0wman.github.io/raschet/razdelit-na-gruppy/), [сравнение списков](https://mrsn0wman.github.io/raschet/sravnenie-spiskov/)
+
+## Проект
+
+- [О проекте](https://mrsn0wman.github.io/raschet/about/)
+- [Обратная связь](https://mrsn0wman.github.io/raschet/feedback/)
+- [Конфиденциальность](https://mrsn0wman.github.io/raschet/privacy/)

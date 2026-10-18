@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/transliteraciya/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Транслитерация онлайн — кириллица в латиницу">
+<meta name="twitter:description" content="Переведите русский текст в латиницу: ж → zh, х → kh, щ → shch. Режим «для URL» делает готовый slug: строчные буквы и дефисы.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -838,6 +846,64 @@ p{ margin:0 0 1em; color:var(--ink); }
 .tr-out{width:100%;margin:10px 0 4px;padding:12px 13px;border-radius:10px;border:1px solid var(--line);background:var(--surface-2);color:var(--ink);font-family:var(--font-mono);font-size:.95rem;resize:vertical;}
 </style>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Транслитерация текста",
+  "description": "Переведите русский текст в латиницу: ж → zh, х → kh, щ → shch. Режим «для URL» делает готовый slug: строчные буквы и дефисы.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://mrsn0wman.github.io/raschet/transliteraciya/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Чем этот вариант отличается от транслитерации в загранпаспорте?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В заграничных документах действует стандарт ИКАО: й → i, ь и ъ опускаются, ы → i. У нас — таблица в духе ГОСТ Р 7.0.34-2014, которая удобнее для веба: й → y, ы → y."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Куда пропадают мягкий и твёрдый знаки?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Они не передаются на письме латиницей по выбранной таблице, поэтому просто опускаются: «подъезд» → «podezd», «соль» → «sol»."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что делает режим «для URL»?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Приводит результат к нижнему регистру, заменяет пробелы и все символы, кроме латинских букв и цифр, на дефисы и убирает лишние дефисы. Получается готовый slug вида «privet-mir»."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему «ё» превращается в «e», а не в «yo»?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В ГОСТ-подобной таблице для веб-адресов принято «e»: так slug короче и не конфликтует с «е». Если нужен вариант с «yo», замените вручную после копирования."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="transliteraciya" data-calc-title="Транслитерация текста">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

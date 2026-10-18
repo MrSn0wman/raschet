@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="../assets/icon-192.png">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://mc.yandex.ru; font-src 'self'; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
-<title>Калькулятор долей в квартире — площадь и стоимость доли | Расчёт.рф</title>
+<title>Калькулятор долей в квартире — площадь и стоимость</title>
 <meta name="description" content="Рассчитайте площадь и стоимость каждой доли в квартире при долевой собственности — по дроби или проценту, с проверкой, что доли в сумме дают целую квартиру.">
 <link rel="canonical" href="https://mrsn0wman.github.io/raschet/doli-v-kvartire/">
 <meta property="og:title" content="Калькулятор долей в квартире — Расчёт.рф">
@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/doli-v-kvartire/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор долей в квартире — Расчёт.рф">
+<meta name="twitter:description" content="Площадь и стоимость доли каждого собственника квартиры.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -862,6 +870,30 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </script>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Что делать, если сумма долей не равна единице?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Значит доли указаны некорректно — нужно скорректировать дроби так, чтобы их сумма была равна ровно 1 (например, привести все дроби к общему знаменателю и проверить, что числители в сумме дают этот знаменатель)."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Чем долевая собственность отличается от совместной?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "При долевой собственности доля каждого чётко определена (например, 1/3), и её можно продать или подарить отдельно от других долей. При совместной собственности (обычно у супругов) доли заранее не выделены — считается, что имущество принадлежит всем в равной мере, пока не будет проведён раздел."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="doli-v-kvartire" data-calc-title="Доли в квартире">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>

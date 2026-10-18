@@ -236,6 +236,14 @@ page = """<!DOCTYPE html>
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="%s">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="%s">
+<meta name="twitter:description" content="%s">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 %s<style>
 %s
 </style>
@@ -252,7 +260,7 @@ page = """<!DOCTYPE html>
 </script>
 </body>
 </html>
-""" % (title, desc, BASE_URL, og_title, og_desc, BASE_URL,
+""" % (title, desc, BASE_URL, og_title, og_desc, BASE_URL, og_title, og_desc,
        head_init, style_css, ld_out, header, main_inner, footer, ui_js)
 
 with io.open(OUT, "w", encoding="utf-8", newline="\n") as f:

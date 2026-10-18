@@ -16,6 +16,14 @@
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="https://mrsn0wman.github.io/raschet/kredit/">
+<meta property="og:site_name" content="Расчёт.рф">
+<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор кредита онлайн — ежемесячный платёж и переплата">
+<meta name="twitter:description" content="Рассчитайте ежемесячный платёж по потребительскому кредиту, переплату по процентам и полную стоимость кредита за секунды.">
+<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
@@ -851,6 +859,30 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 </script>
 <script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Можно ли досрочно погасить кредит без потери процентов?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, по закону вы вправе досрочно погасить кредит полностью или частично. При частичном досрочном погашении банк обязан пересчитать проценты только на остаток долга — переплата за оставшийся срок уменьшится."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему банк одобрил ставку выше той, что в рекламе?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Рекламная ставка обычно указывается «от» — минимальное значение для заёмщиков с лучшим профилем (зарплатный клиент, высокий доход, страхование). Итоговая ставка зависит от индивидуальной оценки банка."
+      }
+    }
+  ]
+}
+</script>
 </head>
 <body data-calc-slug="kredit" data-calc-title="Калькулятор потребительского кредита">
 <a class="skip-link" href="#main-content">Перейти к содержимому</a>
@@ -1165,7 +1197,7 @@ p{ margin:0 0 1em; color:var(--ink); }
           <h2>Как считается платёж по кредиту</h2>
           <p>Расчёт использует ту же аннуитетную формулу, что и банки: ежемесячный платёж фиксирован на весь срок, а соотношение процентов и основного долга внутри платежа меняется от месяца к месяцу.</p>
           <h3>Что такое полная стоимость кредита</h3>
-          <p>ПСК — это сумма всех выплат по кредиту, включая проценты. Банк обязан указывать ПСК в процентах годовых в паспорте кредита — она может отличаться от номинальной ставки за счёт комиссий и страховок, которые этот калькулятор не учитывает.</p>
+          <p>ПСК — это полная стоимость кредита с учётом процентов, комиссий и обязательных страховок, выраженная в процентах годовых. Банк обязан указывать ПСК в паспорте кредита — она может быть выше номинальной ставки, которую считает этот калькулятор.</p>
 
           <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок">
             <span class="tag">Реклама</span>
