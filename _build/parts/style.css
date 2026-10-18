@@ -430,9 +430,10 @@ p{ margin:0 0 1em; color:var(--ink); }
 /* ---------- Footer ---------- */
 .site-footer{ background:var(--footer-bg); border-top:1px solid var(--line); padding:44px 0 26px; margin-top:40px; }
 .footer-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:18px; }
-.footer-grid h5{ font-size:.82rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:0 0 12px; }
+.footer-grid h5{ font-size:.82rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:0 0 12px; line-height:2.2; }
 .footer-grid a{ display:block; text-decoration:none; color:var(--ink); font-size:.9rem; padding:5px 0; }
 .footer-grid a:hover{ color:var(--accent); }
+.footer-grid a.brand{ display:inline-flex; font-size:1.3rem; padding:0; }
 .footer-bottom{ margin-top:30px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--ink-soft); font-size:.8rem; flex-wrap:wrap; gap:8px; }
 .footer-brand{ margin-bottom:10px; }
 .footer-about{ font-size:.88rem; }

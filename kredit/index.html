@@ -571,9 +571,10 @@ p{ margin:0 0 1em; color:var(--ink); }
 /* ---------- Footer ---------- */
 .site-footer{ background:var(--footer-bg); border-top:1px solid var(--line); padding:44px 0 26px; margin-top:40px; }
 .footer-grid{ display:grid; grid-template-columns:repeat(auto-fit, minmax(140px, 1fr)); gap:18px; }
-.footer-grid h5{ font-size:.82rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:0 0 12px; }
+.footer-grid h5{ font-size:.82rem; text-transform:uppercase; letter-spacing:.05em; color:var(--ink-soft); margin:0 0 12px; line-height:2.2; }
 .footer-grid a{ display:block; text-decoration:none; color:var(--ink); font-size:.9rem; padding:5px 0; }
 .footer-grid a:hover{ color:var(--accent); }
+.footer-grid a.brand{ display:inline-flex; font-size:1.3rem; padding:0; }
 .footer-bottom{ margin-top:30px; padding-top:20px; border-top:1px solid var(--line); display:flex; justify-content:space-between; color:var(--ink-soft); font-size:.8rem; flex-wrap:wrap; gap:8px; }
 .footer-brand{ margin-bottom:10px; }
 .footer-about{ font-size:.88rem; }
@@ -1208,118 +1209,6 @@ p{ margin:0 0 1em; color:var(--ink); }
         <p class="lede footer-about">Онлайн-калькуляторы и инструменты для повседневных и финансовых расчётов.</p>
       </div>
       <div>
-        <h5>Финансы</h5>
-        <a href="../ipoteka/">Ипотека</a>
-        <a href="../dosrochnoe-pogashenie/">Досрочное погашение</a>
-        <a href="../vklad/">Вклад</a>
-        <a href="../kredit/">Кредит</a>
-        <a href="../avtokredit/">Автокредит</a>
-        <a href="../refinansirovanie/">Рефинансирование</a>
-        <a href="../mikrozaim/">Микрозайм</a>
-        <a href="../procenty-po-zaimu/">Проценты по займу</a>
-        <a href="../iis/">ИИС</a>
-        <a href="../konverter-valyut/">Конвертер валют</a>
-      </div>
-      <div>
-        <h5>Недвижимость и налоги</h5>
-        <a href="../nalogovyy-vychet-kvartira/">Вычет за квартиру</a>
-        <a href="../nalog-s-prodazhi-kvartiry/">Налог с продажи</a>
-        <a href="../ndfl/">НДФЛ</a>
-        <a href="../nds/">НДС</a>
-        <a href="../nalog-samozanyatyh/">Самозанятые</a>
-        <a href="../doli-v-kvartire/">Доли в квартире</a>
-        <a href="../doli-po-materinskomu-kapitalu/">Доли по маткапиталу</a>
-        <a href="../strahovye-vznosy-ip/">Взносы ИП</a>
-      </div>
-      <div>
-        <h5>Труд и соцзащита</h5>
-        <a href="../trudovoy-stazh/">Трудовой стаж</a>
-        <a href="../otpusknye-dni/">Отпускные дни</a>
-        <a href="../otpusknye/">Отпускные</a>
-        <a href="../bolnichnyy/">Больничный</a>
-        <a href="../dekretnye/">Декретные</a>
-        <a href="../pensiya/">Пенсия по баллам</a>
-      </div>
-      <div>
-        <h5>Авто</h5>
-        <a href="../transportnyy-nalog/">Транспортный налог</a>
-        <a href="../rashod-topliva/">Расход топлива</a>
-        <a href="../osago/">ОСАГО</a>
-        <a href="../rastamozhka/">Растаможка</a>
-        <a href="../utilsbor/">Утильсбор</a>
-        <a href="../zaryadka-elektromobilya/">Зарядка электромобиля</a>
-      </div>
-      <div>
-        <h5>Юридические</h5>
-        <a href="../peni-po-nalogam/">Пени по налогам</a>
-        <a href="../neustoika-po-dogovoru/">Неустойка по договору</a>
-        <a href="../procenty-395-gk/">Ст. 395 ГК РФ</a>
-        <a href="../neustoika-po-ddu/">Неустойка по ДДУ</a>
-        <a href="../summa-propisyu/">Сумма прописью</a>
-      </div>
-      <div>
-        <h5>Математика</h5>
-        <a href="../procenty/">Проценты</a>
-        <a href="../ploshad/">Площадь</a>
-        <a href="../obem/">Объём</a>
-        <a href="../drobi/">Дроби</a>
-        <a href="../stepeni/">Степени</a>
-        <a href="../nod/">НОД</a>
-        <a href="../nok/">НОК</a>
-        <a href="../razlozhenie-na-mnozhiteli/">Множители</a>
-        <a href="../sistemy-schisleniya/">Системы счисления</a>
-      </div>
-      <div>
-        <h5>Даты и время</h5>
-        <a href="../dni/">Дни между датами</a>
-        <a href="../vozrast/">Возраст</a>
-        <a href="../chasovye-poyasa/">Часовые пояса</a>
-        <a href="../unix-vremya/">Unix-время</a>
-        <a href="../rabochie-dni/">Рабочие дни</a>
-        <a href="../obratnyy-otschet/">Обратный отсчёт</a>
-      </div>
-      <div>
-        <h5>Здоровье</h5>
-        <a href="../imt/">ИМТ</a>
-        <a href="../idealnyy-ves/">Идеальный вес</a>
-      </div>
-      <div>
-        <h5>Текст</h5>
-        <a href="../schetchik-slov/">Счётчик слов</a>
-        <a href="../transliteraciya/">Транслитерация</a>
-        <a href="../udalenie-dubley-strok/">Удаление дублей строк</a>
-      </div>
-      <div>
-        <h5>Валидаторы</h5>
-        <a href="../proverka-inn/">Проверка ИНН</a>
-        <a href="../proverka-snils/">Проверка СНИЛС</a>
-        <a href="../proverka-nomera-karty/">Проверка номера карты</a>
-      </div>
-      <div>
-        <h5>Генераторы</h5>
-        <a href="../generator-paroley/">Пароли</a>
-        <a href="../generator-promokodov/">Промокоды</a>
-        <a href="../qr-generator/">QR-коды</a>
-        <a href="../uuid-generator/">UUID</a>
-        <a href="../lorem-ipsum/">Lorem ipsum</a>
-        <a href="../generator-nikneimov/">Никнеймы</a>
-      </div>
-      <div>
-        <h5>Списки и случайность</h5>
-        <a href="../sluchaynye-chisla/">Случайные числа</a>
-        <a href="../sluchaynyy-vybor/">Выбор из списка</a>
-        <a href="../peremeshat-spisok/">Перемешать список</a>
-        <a href="../razdelit-na-gruppy/">Разделить на группы</a>
-        <a href="../sravnenie-spiskov/">Сравнение списков</a>
-      </div>
-      <div>
-        <h5>Разное</h5>
-        <a href="../konverter-edinic/">Конвертер единиц</a>
-        <a href="../slozhnyy-procent/">Сложный процент</a>
-        <a href="../skidki/">Скидки</a>
-        <a href="../chaevye/">Чаевые</a>
-      </div>
-      <div>
         <h5>Проект</h5>
         <a href="../about/">О проекте</a>
         <a href="../privacy/">Конфиденциальность</a>
@@ -1333,6 +1222,8 @@ p{ margin:0 0 1em; color:var(--ink); }
     </div>
   </div>
 </footer>
+
+
 
 
 
