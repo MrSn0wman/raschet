@@ -697,7 +697,7 @@ def build_mortgage_page():
     const o = 100 - p;
     c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
     c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
-    c2.setAttribute('stroke-dashoffset', (-p).toFixed(2));
+    c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
     document.getElementById('m-legend-principal').textContent = formatMoney(principal) + ' ₽';
     document.getElementById('m-legend-overpay').textContent = formatMoney(totalInterest) + ' ₽';
   }
