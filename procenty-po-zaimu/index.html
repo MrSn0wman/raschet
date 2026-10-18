@@ -806,8 +806,13 @@ p{ margin:0 0 1em; color:var(--ink); }
 .chart-legend .sw{ width:12px; height:12px; border-radius:3px; flex:none; }
 .chart-legend b{ font-family:var(--font-mono); font-weight:600; white-space:nowrap; }
 
-.schedule-wrap{ margin-top:24px; overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-wrap{ margin-top:24px; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-block{ margin-top:24px; }
+.schedule-block .schedule-wrap{ margin-top:0; }
+.schedule-block .schedule-toggle{ position:sticky; bottom:12px; z-index:6; }
+.schedule-block.expanded .schedule-wrap{ padding-bottom:64px; }
 .schedule-table{ width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:.82rem; }
+.schedule-table thead th{ position:sticky; top:73px; z-index:5; }
 .schedule-table th{
   text-align:right; padding:10px 12px; background:var(--surface-2);
   color:var(--ink-soft); font-weight:600; white-space:nowrap;
@@ -844,6 +849,8 @@ p{ margin:0 0 1em; color:var(--ink); }
   .calc-list--dense{ grid-template-columns:1fr; }
   .chart-wrap{ flex-direction:column; align-items:flex-start; }
   .fav-panel{ right:12px; left:12px; width:auto; }
+  .schedule-wrap{ overflow-x:auto; background:linear-gradient(to left, rgba(93,109,101,.10), transparent 28px) no-repeat; background-size:28px 100%; background-position:right; }
+  .schedule-table thead th{ position:static; }
 }
 </style>
 <script type="application/ld+json">
@@ -1223,6 +1230,16 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div><span class="sw" style="background:var(--accent)"></span>Сумма займа&nbsp;— <b id="pz-legend-a">300 000 ₽</b></div>
               <div><span class="sw" style="background:var(--gold)"></span>Проценты&nbsp;— <b id="pz-legend-b">8 877 ₽</b></div>
             </div>
+          </div>
+
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead><tr><th>Период</th><th>Проценты за период, ₽</th><th>Наращено процентов, ₽</th><th>Долг с процентами, ₽</th></tr></thead>
+              <tbody id="pz-schedule"></tbody>
+            </table>
+          </div>
+          <button class="action-btn schedule-toggle" id="pz-schedule-toggle" type="button"><span>Показать весь график</span></button>
           </div>
 
           <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
@@ -1847,6 +1864,47 @@ function renderChart(principal, interest, total){
   document.getElementById('pz-legend-b').textContent = formatMoney(interest) + '\u00A0₽';
 }
 
+// График нарастания долга: простые проценты за дни, единое погашение в конце срока.
+// Период — неделя при сроке до 90 дней, месяц (30 дней) — при более длинном.
+let pzSchedule = [];
+let pzShowAll = false;
+
+function buildGrowthSchedule(accruedFn, principal, days){
+  days = Math.min(Math.max(Math.round(days), 1), 1825);
+  const step = days <= 90 ? 7 : 30;
+  const n = Math.max(1, Math.ceil(days / step));
+  const rows = [];
+  let prevCum = 0;
+  for (let k = 1; k <= n; k++){
+    const cum = Math.round(accruedFn(Math.min(days, k * step)));
+    rows.push({
+      label: k === n ? 'Погашение' : (step === 7 ? 'Нед. ' : 'Мес. ') + k,
+      period: cum - prevCum,
+      cum: cum,
+      debt: principal + cum
+    });
+    prevCum = cum;
+  }
+  return rows;
+}
+
+function renderPzSchedule(){
+  const tbody = document.getElementById('pz-schedule');
+  const toggleBtn = document.getElementById('pz-schedule-toggle');
+  if (!tbody) return;
+  const rows = pzShowAll ? pzSchedule : pzSchedule.slice(0, 12);
+  tbody.innerHTML = rows.map(function(r){
+    return '<tr><td>' + r.label + '</td><td>' + formatMoney(r.period) + '</td><td>' +
+           formatMoney(r.cum) + '</td><td>' + formatMoney(r.debt) + '</td></tr>';
+  }).join('');
+  if (toggleBtn){
+    toggleBtn.style.display = pzSchedule.length > 12 ? '' : 'none';
+    toggleBtn.querySelector('span').textContent = pzShowAll
+      ? 'Свернуть график'
+      : 'Показать весь график (' + pzSchedule.length + ' периодов)';
+  }
+}
+
 function recalcLoanInterest(){
   const principalEl = document.getElementById('principal');
   const rateEl = document.getElementById('rate');
@@ -1860,6 +1918,9 @@ function recalcLoanInterest(){
   if (isNaN(principal) || principal <= 0 || isNaN(rate) || rate < 0 || isNaN(days) || days <= 0){
     errEl.style.display = 'block';
     ['r-total','r-interest','r-daily'].forEach(id => document.getElementById(id).textContent = '—');
+    pzSchedule = [];
+    pzShowAll = false;
+    renderPzSchedule();
     return;
   }
   errEl.style.display = 'none';
@@ -1872,6 +1933,9 @@ function recalcLoanInterest(){
   document.getElementById('r-interest').textContent = formatMoney(interest) + '\u00A0₽';
   document.getElementById('r-daily').textContent = formatMoney2(dailyInterest) + '\u00A0₽';
   renderChart(principal, interest, total);
+  pzSchedule = buildGrowthSchedule(function(d){ return principal * (rate/100) * (d/365); }, principal, days);
+  pzShowAll = false;
+  renderPzSchedule();
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -1880,6 +1944,8 @@ document.addEventListener('DOMContentLoaded', () => {
     el.addEventListener('input', recalcLoanInterest);
   });
   document.getElementById('rate').addEventListener('input', recalcLoanInterest);
+  const pzToggle = document.getElementById('pz-schedule-toggle');
+  if (pzToggle) pzToggle.addEventListener('click', () => { pzShowAll = !pzShowAll; pzToggle.closest('.schedule-block').classList.toggle('expanded', pzShowAll); renderPzSchedule(); });
   recalcLoanInterest();
 });
 

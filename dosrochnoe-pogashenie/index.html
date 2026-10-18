@@ -806,8 +806,13 @@ p{ margin:0 0 1em; color:var(--ink); }
 .chart-legend .sw{ width:12px; height:12px; border-radius:3px; flex:none; }
 .chart-legend b{ font-family:var(--font-mono); font-weight:600; white-space:nowrap; }
 
-.schedule-wrap{ margin-top:24px; overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-wrap{ margin-top:24px; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-block{ margin-top:24px; }
+.schedule-block .schedule-wrap{ margin-top:0; }
+.schedule-block .schedule-toggle{ position:sticky; bottom:12px; z-index:6; }
+.schedule-block.expanded .schedule-wrap{ padding-bottom:64px; }
 .schedule-table{ width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:.82rem; }
+.schedule-table thead th{ position:sticky; top:73px; z-index:5; }
 .schedule-table th{
   text-align:right; padding:10px 12px; background:var(--surface-2);
   color:var(--ink-soft); font-weight:600; white-space:nowrap;
@@ -844,6 +849,8 @@ p{ margin:0 0 1em; color:var(--ink); }
   .calc-list--dense{ grid-template-columns:1fr; }
   .chart-wrap{ flex-direction:column; align-items:flex-start; }
   .fav-panel{ right:12px; left:12px; width:auto; }
+  .schedule-wrap{ overflow-x:auto; background:linear-gradient(to left, rgba(93,109,101,.10), transparent 28px) no-repeat; background-size:28px 100%; background-position:right; }
+  .schedule-table thead th{ position:static; }
 }
 </style>
 <script type="application/ld+json">
@@ -1250,6 +1257,17 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div><span class="sw" style="background:var(--accent)"></span>Новая переплата&nbsp;— <b id="dp-legend-a">4 568 629 ₽</b></div>
               <div><span class="sw" style="background:var(--gold)"></span>Сэкономленные проценты&nbsp;— <b id="dp-legend-b">3 644 405 ₽</b></div>
             </div>
+          </div>
+
+          
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead><tr><th>Мес.</th><th>Платёж, ₽</th><th>Проценты, ₽</th><th>Тело, ₽</th><th>Остаток, ₽</th></tr></thead>
+              <tbody id="e-schedule"></tbody>
+            </table>
+          </div>
+          <button class="action-btn schedule-toggle" id="e-schedule-toggle" type="button"><span>Показать весь график</span></button>
           </div>
 
           <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><span>Место для партнёрских предложений</span></div>
@@ -2089,6 +2107,10 @@ if (typeof module !== 'undefined' && module.exports){
   const onceAmountEl = document.getElementById('e-once-amount');
   const onceMonthEl = document.getElementById('e-once-month');
   const errorEl = document.getElementById('e-error');
+  const schedTbody = document.getElementById('e-schedule');
+  const schedToggle = document.getElementById('e-schedule-toggle');
+  let showAll = false;
+  let schedule = [];
 
   attachThousandsInput(amountEl);
   attachThousandsInput(monthlyExtraEl);
@@ -2113,6 +2135,22 @@ if (typeof module !== 'undefined' && module.exports){
     return checked ? checked.value : 'term';
   }
 
+  function renderSchedule(){
+    if (!schedTbody) return;
+    const rows = showAll ? schedule : schedule.slice(0, 12);
+    schedTbody.innerHTML = rows.map(function(r){
+      return '<tr><td>' + r.month + '</td><td>' + formatMoney(r.payment) + '</td><td>' +
+             formatMoney(r.interest) + '</td><td>' + formatMoney(r.principal) + '</td><td>' +
+             formatMoney(r.balance) + '</td></tr>';
+    }).join('');
+    if (schedToggle){
+      schedToggle.style.display = schedule.length > 12 ? '' : 'none';
+      schedToggle.querySelector('span').textContent = showAll
+        ? 'Свернуть график'
+        : 'Показать весь график (' + schedule.length + ' мес.)';
+    }
+  }
+
   function render(){
     const amount = parseFormattedNumber(amountEl);
     const rate = parseFloat(rateEl.value);
@@ -2123,10 +2161,15 @@ if (typeof module !== 'undefined' && module.exports){
     const onceMonth = parseInt(onceMonthEl.value, 10) || 0;
     const strategy = getStrategy();
 
-    const months = Math.round(years * 12);
+    const months = Math.min(Math.max(Math.round(years * 12), 1), 600);
     const valid = amount > 0 && rate >= 0 && months > 0 && monthlyExtra >= 0 && onceAmount >= 0;
     errorEl.style.display = valid ? 'none' : 'block';
-    if (!valid) return;
+    if (!valid){
+      schedule = [];
+      showAll = false;
+      renderSchedule();
+      return;
+    }
 
     const result = Calc.mortgageWithEarlyRepayments(amount, rate, months, {
       strategy,
@@ -2154,12 +2197,22 @@ if (typeof module !== 'undefined' && module.exports){
     document.getElementById('e-base-payment').textContent = formatMoney(result.basePayment) + '\u00A0₽';
     document.getElementById('e-extra-total').textContent = formatMoney(result.totalExtra) + '\u00A0₽';
     renderChart(result.totalInterest, result.interestSaved, result.baseTotalInterest);
+    schedule = result.schedule;
+    showAll = false;
+    renderSchedule();
   }
 
   [amountEl, rateEl, yearsEl, monthlyExtraEl, monthlyFromEl, onceAmountEl, onceMonthEl].forEach(el => {
     el.addEventListener('input', render);
   });
   document.querySelectorAll('input[name="e-strategy"]').forEach(el => el.addEventListener('change', render));
+  if (schedToggle){
+    schedToggle.addEventListener('click', function(){
+      showAll = !showAll;
+      this.closest('.schedule-block').classList.toggle('expanded', showAll);
+      renderSchedule();
+    });
+  }
   render();
 })();
 

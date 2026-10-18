@@ -806,8 +806,13 @@ p{ margin:0 0 1em; color:var(--ink); }
 .chart-legend .sw{ width:12px; height:12px; border-radius:3px; flex:none; }
 .chart-legend b{ font-family:var(--font-mono); font-weight:600; white-space:nowrap; }
 
-.schedule-wrap{ margin-top:24px; overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-wrap{ margin-top:24px; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-block{ margin-top:24px; }
+.schedule-block .schedule-wrap{ margin-top:0; }
+.schedule-block .schedule-toggle{ position:sticky; bottom:12px; z-index:6; }
+.schedule-block.expanded .schedule-wrap{ padding-bottom:64px; }
 .schedule-table{ width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:.82rem; }
+.schedule-table thead th{ position:sticky; top:73px; z-index:5; }
 .schedule-table th{
   text-align:right; padding:10px 12px; background:var(--surface-2);
   color:var(--ink-soft); font-weight:600; white-space:nowrap;
@@ -844,6 +849,8 @@ p{ margin:0 0 1em; color:var(--ink); }
   .calc-list--dense{ grid-template-columns:1fr; }
   .chart-wrap{ flex-direction:column; align-items:flex-start; }
   .fav-panel{ right:12px; left:12px; width:auto; }
+  .schedule-wrap{ overflow-x:auto; background:linear-gradient(to left, rgba(93,109,101,.10), transparent 28px) no-repeat; background-size:28px 100%; background-position:right; }
+  .schedule-table thead th{ position:static; }
 }
 </style>
 <script type="application/ld+json">
@@ -1224,6 +1231,17 @@ p{ margin:0 0 1em; color:var(--ink); }
               <div><span class="sw" style="background:var(--accent)"></span>Тело кредита&nbsp;— <b id="k-legend-a">400 000 ₽</b></div>
               <div><span class="sw" style="background:var(--gold)"></span>Проценты&nbsp;— <b id="k-legend-b">127 847 ₽</b></div>
             </div>
+          </div>
+
+          
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead><tr><th>Мес.</th><th>Платёж, ₽</th><th>Проценты, ₽</th><th>Тело, ₽</th><th>Остаток, ₽</th></tr></thead>
+              <tbody id="cr-schedule"></tbody>
+            </table>
+          </div>
+          <button class="action-btn schedule-toggle" id="cr-schedule-toggle" type="button"><span>Показать весь график</span></button>
           </div>
 
           <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><span>Место для партнёрских предложений</span></div>
@@ -2063,8 +2081,43 @@ if (typeof module !== 'undefined' && module.exports){
   const rateEl = document.getElementById('c-rate');
   const monthsEl = document.getElementById('c-months');
   const errorEl = document.getElementById('c-error');
+  const tbody = document.getElementById('cr-schedule');
+  const toggleBtn = document.getElementById('cr-schedule-toggle');
+  let showAll = false;
+  let schedule = [];
 
   attachThousandsInput(amountEl);
+
+  function buildSchedule(principal, rate, months, monthlyPayment){
+    const rows = [];
+    let balance = principal;
+    const i = rate / 100 / 12;
+    for (let m = 1; m <= months; m++){
+      const interest = balance * i;
+      let body = monthlyPayment - interest;
+      if (body > balance) body = balance;
+      balance = Math.max(0, balance - body);
+      rows.push({ m: m, pay: interest + body, interest: interest, body: body, balance: balance });
+      if (balance <= 0) break;
+    }
+    return rows;
+  }
+
+  function renderSchedule(){
+    if (!tbody) return;
+    const rows = showAll ? schedule : schedule.slice(0, 12);
+    tbody.innerHTML = rows.map(function(r){
+      return '<tr><td>' + r.m + '</td><td>' + formatMoney(r.pay) + '</td><td>' +
+             formatMoney(r.interest) + '</td><td>' + formatMoney(r.body) + '</td><td>' +
+             formatMoney(r.balance) + '</td></tr>';
+    }).join('');
+    if (toggleBtn){
+      toggleBtn.style.display = schedule.length > 12 ? '' : 'none';
+      toggleBtn.querySelector('span').textContent = showAll
+        ? 'Свернуть график'
+        : 'Показать весь график (' + schedule.length + ' мес.)';
+    }
+  }
 
   function renderChart(principal, interest, total){
     const c1 = document.getElementById('k-chart-a');
@@ -2086,16 +2139,33 @@ if (typeof module !== 'undefined' && module.exports){
 
     const valid = amount > 0 && rate >= 0 && months > 0;
     errorEl.style.display = valid ? 'none' : 'block';
-    if (!valid) return;
+    if (!valid){
+      schedule = [];
+      showAll = false;
+      renderSchedule();
+      return;
+    }
 
     const result = Calc.annuityLoan(amount, rate, months);
     document.getElementById('c-payment').textContent = formatMoney(result.monthlyPayment) + '\u00A0₽';
     document.getElementById('c-total').textContent = formatMoney(result.totalPayment) + '\u00A0₽';
     document.getElementById('c-overpay').textContent = formatMoney(result.totalInterest) + '\u00A0₽';
     renderChart(amount, result.totalInterest, result.totalPayment);
+    // кламп срока: максимум 600 строк помесячного графика
+    const monthsInt = Math.min(Math.max(Math.round(months), 1), 600);
+    schedule = buildSchedule(amount, rate, monthsInt, result.monthlyPayment);
+    showAll = false;
+    renderSchedule();
   }
 
   [amountEl, rateEl, monthsEl].forEach(el => el.addEventListener('input', render));
+  if (toggleBtn){
+    toggleBtn.addEventListener('click', function(){
+      showAll = !showAll;
+      this.closest('.schedule-block').classList.toggle('expanded', showAll);
+      renderSchedule();
+    });
+  }
   render();
 })();
 

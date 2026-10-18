@@ -806,8 +806,13 @@ p{ margin:0 0 1em; color:var(--ink); }
 .chart-legend .sw{ width:12px; height:12px; border-radius:3px; flex:none; }
 .chart-legend b{ font-family:var(--font-mono); font-weight:600; white-space:nowrap; }
 
-.schedule-wrap{ margin-top:24px; overflow-x:auto; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-wrap{ margin-top:24px; border:1px solid var(--line); border-radius:var(--radius-m); }
+.schedule-block{ margin-top:24px; }
+.schedule-block .schedule-wrap{ margin-top:0; }
+.schedule-block .schedule-toggle{ position:sticky; bottom:12px; z-index:6; }
+.schedule-block.expanded .schedule-wrap{ padding-bottom:64px; }
 .schedule-table{ width:100%; border-collapse:collapse; font-family:var(--font-mono); font-size:.82rem; }
+.schedule-table thead th{ position:sticky; top:73px; z-index:5; }
 .schedule-table th{
   text-align:right; padding:10px 12px; background:var(--surface-2);
   color:var(--ink-soft); font-weight:600; white-space:nowrap;
@@ -844,6 +849,8 @@ p{ margin:0 0 1em; color:var(--ink); }
   .calc-list--dense{ grid-template-columns:1fr; }
   .chart-wrap{ flex-direction:column; align-items:flex-start; }
   .fav-panel{ right:12px; left:12px; width:auto; }
+  .schedule-wrap{ overflow-x:auto; background:linear-gradient(to left, rgba(93,109,101,.10), transparent 28px) no-repeat; background-size:28px 100%; background-position:right; }
+  .schedule-table thead th{ position:static; }
 }
 </style>
 <script type="application/ld+json">
@@ -1234,13 +1241,15 @@ p{ margin:0 0 1em; color:var(--ink); }
           </div>
 
           
-          <div class="schedule-wrap">
+          <div class="schedule-block">
+            <div class="schedule-wrap">
             <table class="schedule-table">
-              <thead><tr><th>Мес.</th><th>Платёж</th><th>Проценты</th><th>Тело</th><th>Остаток</th></tr></thead>
+              <thead><tr><th>Мес.</th><th>Платёж, ₽</th><th>Проценты, ₽</th><th>Тело, ₽</th><th>Остаток, ₽</th></tr></thead>
               <tbody id="m-schedule"></tbody>
             </table>
           </div>
           <button class="action-btn schedule-toggle" id="m-schedule-toggle" type="button"><span>Показать весь график</span></button>
+          </div>
 
           
           <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><span>Место для партнёрских предложений банков</span></div>
@@ -2167,6 +2176,7 @@ if (typeof module !== 'undefined' && module.exports){
   if (toggleBtn){
     toggleBtn.addEventListener('click', function(){
       showAll = !showAll;
+      this.closest('.schedule-block').classList.toggle('expanded', showAll);
       renderSchedule();
     });
   }

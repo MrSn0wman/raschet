@@ -661,13 +661,15 @@ def build_mortgage_page():
 """
 
     SCHEDULE = """
-          <div class="schedule-wrap">
-            <table class="schedule-table">
-              <thead><tr><th>Мес.</th><th>Платёж</th><th>Проценты</th><th>Тело</th><th>Остаток</th></tr></thead>
-              <tbody id="m-schedule"></tbody>
-            </table>
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+              <table class="schedule-table">
+                <thead><tr><th>Мес.</th><th>Платёж, ₽</th><th>Проценты, ₽</th><th>Тело, ₽</th><th>Остаток, ₽</th></tr></thead>
+                <tbody id="m-schedule"></tbody>
+              </table>
+            </div>
+            <button class="action-btn schedule-toggle" id="m-schedule-toggle" type="button"><span>Показать весь график</span></button>
           </div>
-          <button class="action-btn schedule-toggle" id="m-schedule-toggle" type="button"><span>Показать весь график</span></button>
 """
 
     AD_PLACEHOLDER = """
@@ -767,6 +769,7 @@ def build_mortgage_page():
   if (toggleBtn){
     toggleBtn.addEventListener('click', function(){
       showAll = !showAll;
+      this.closest('.schedule-block').classList.toggle('expanded', showAll);
       renderSchedule();
     });
   }
