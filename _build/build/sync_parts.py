@@ -51,9 +51,10 @@ for root, dirs, files in os.walk(SITE):
         page_css = ""
         if PAGE_CSS_MARKER in css_old:
             page_css = PAGE_CSS_MARKER + css_old.split(PAGE_CSS_MARKER, 1)[1]
-        css_new = FONTS.replace("__PREFIX__", prefix) + "\n" + STYLE
+        css_new = (FONTS.replace("__PREFIX__", prefix) + "\n" + STYLE).rstrip("\n")
         if page_css:
-            css_new += "\n" + page_css
+            css_new += "\n" + page_css.rstrip("\n")
+        css_new += "\n"
         t = t[:m.start(1)] + css_new + t[m.end(1):]
 
         # --- 2. header ---
@@ -61,7 +62,7 @@ for root, dirs, files in os.walk(SITE):
         if not hm:
             errors.append(rel + ": no header block")
             continue
-        t = t[:hm.start()] + rewrite_links(HEADER, prefix) + t[hm.end():]
+        t = t[:hm.start()] + rewrite_links(HEADER, prefix).rstrip("\n") + "\n" + t[hm.end():].lstrip("\n")
 
         # --- 3. ui.js: первый <script> в body с маркером ---
         sm = re.search(r"(?s)<script>\n(.*?)</script>", t[hm.end():])
