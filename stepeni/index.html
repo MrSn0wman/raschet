@@ -1684,7 +1684,9 @@ document.addEventListener('DOMContentLoaded', () => {
   const copyBtn = document.getElementById('copy-btn');
   if (copyBtn){
     copyBtn.addEventListener('click', () => {
-      const target = document.querySelector(copyBtn.getAttribute('data-copy-target') || '.result-panel .r-value');
+      const sel = copyBtn.getAttribute('data-copy-target');
+      // допускаем голый id ('r-total') и селектор с решёткой ('#m-payment')
+      const target = document.querySelector(sel ? (/^[#.]/.test(sel) ? sel : '#' + sel) : '.result-panel .r-value');
       const label = document.querySelector('.result-panel .r-label');
       if (target){
         const text = (label ? label.textContent + ': ' : '') + target.textContent;

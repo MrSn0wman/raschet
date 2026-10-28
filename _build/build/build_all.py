@@ -235,7 +235,8 @@ PRINT_BTN = ('<button class="action-btn" id="print-btn" type="button">'
 
 
 def copy_btn(target):
-    return ('<button class="action-btn" id="copy-btn" type="button" data-copy-target="%s">'
+    # target — голый id ('r-total'); в разметку пишем с '#', обработчик ui.js допускает оба вида
+    return ('<button class="action-btn" id="copy-btn" type="button" data-copy-target="#%s">'
             '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>'
             '<span>Копировать</span></button>') % target
 
