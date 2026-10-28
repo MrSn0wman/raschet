@@ -911,8 +911,8 @@ def build_index_page():
         hero)
     assert n == 1, "finder button replacements: %d" % n
     hero = hero.replace("60 калькуляторов · без регистрации", "73 инструмента · без регистрации")
-    hero = hero.replace("55 054 ₽/мес", "55 054&nbsp;₽/мес")
-    hero = hero.replace("8 213 034 ₽", "8 213 034&nbsp;₽").replace("13 213 034 ₽", "13 213 034&nbsp;₽")
+    hero = hero.replace("55 054 ₽/мес", "55&nbsp;054&nbsp;₽/мес")
+    hero = hero.replace("8 213 034 ₽", "8&nbsp;213&nbsp;034&nbsp;₽").replace("13 213 034 ₽", "13&nbsp;213&nbsp;034&nbsp;₽")
 
     # trust-strip из старой главной
     trust = extract_balanced(old, '<div class="trust-strip">')
