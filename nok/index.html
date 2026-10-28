@@ -851,7 +851,11 @@ p{ margin:0 0 1em; color:var(--ink); }
   .chart-wrap{ flex-direction:column; align-items:flex-start; }
   .fav-panel{ position:fixed; top:66px; left:12px; right:12px; width:auto; }
   .schedule-wrap{ overflow-x:auto; background:linear-gradient(to left, rgba(93,109,101,.10), transparent 28px) no-repeat; background-size:28px 100%; background-position:right; }
-  .schedule-table thead th{ position:static; }
+  /* Развёрнутый график на мобильных — внутренняя прокрутка карточки:
+     overflow-x:auto убивает вертикальный sticky (wrap становится скролл-контейнером),
+     поэтому в expanded даём max-height и overflow-y:auto — тогда thead липнет к top:0 внутри wrap. */
+  .schedule-block.expanded .schedule-wrap{ max-height:65vh; overflow-y:auto; overscroll-behavior:contain; }
+  .schedule-block.expanded .schedule-table thead th{ position:sticky; top:0; z-index:6; }
 }
 /* --- страничные стили --- */
 .num-row{ display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; margin-bottom:10px; }
