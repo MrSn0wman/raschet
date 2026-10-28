@@ -1410,6 +1410,14 @@ document.addEventListener('DOMContentLoaded', () => {
   const writeList = (key, list) => {
     try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
   };
+  // Путь текущей страницы для избранного/недавних (split('/').pop() давал '' на ЧПУ-URL —
+  // оттуда баг «избранное не открывается»). Префикс корня сайта берём из ссылки на манифест:
+  // на ЧПУ-страницах она '../manifest.webmanifest', в корне — 'manifest.webmanifest'.
+  const pagePath = () => location.pathname.replace(/index\.html$/, '');
+  const sitePrefix = () => {
+    const m = document.querySelector('link[rel="manifest"]');
+    return m ? m.getAttribute('href').replace(/manifest\.webmanifest$/, '') : '';
+  };
   const favBtn = document.getElementById('fav-btn');
   const favPanel = document.getElementById('fav-panel');
   const favBadge = document.getElementById('fav-badge');
@@ -1428,7 +1436,10 @@ document.addEventListener('DOMContentLoaded', () => {
     favList.innerHTML = '';
     favs.forEach((item) => {
       const a = document.createElement('a');
-      a.href = item.href;
+      let href = item.href || '';
+      // легаси-записи (пустой href или '../' от старого бага) — восстанавливаем по slug
+      if (!/^(\/|\.\.\/)/.test(href)) href = sitePrefix() + item.slug + '/';
+      a.href = href;
       a.textContent = item.title;
       favList.appendChild(a);
     });
@@ -1458,7 +1469,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (calcSlug && calcTitle){
     // недавние
     const recent = readList(RECENT_KEY).filter((i) => i.slug !== calcSlug);
-    recent.unshift({ slug: calcSlug, title: calcTitle, href: location.pathname.split('/').pop() || '../' });
+    recent.unshift({ slug: calcSlug, title: calcTitle, href: pagePath() });
     writeList(RECENT_KEY, recent.slice(0, 8));
 
     // звезда избранного
@@ -1476,7 +1487,7 @@ document.addEventListener('DOMContentLoaded', () => {
           favs = favs.filter((i) => i.slug !== calcSlug);
           window.showToast('Убрано из избранного');
         } else {
-          favs.push({ slug: calcSlug, title: calcTitle, href: location.pathname.split('/').pop() });
+          favs.push({ slug: calcSlug, title: calcTitle, href: pagePath() });
           window.showToast('Добавлено в избранное');
         }
         writeList(FAV_KEY, favs);

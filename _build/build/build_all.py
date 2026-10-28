@@ -184,19 +184,10 @@ HEAD_INIT = read(os.path.join(PARTS, "head-init.html"))
 UI_JS_RAW = read(os.path.join(PARTS, "ui.js"))
 
 
-def patch_ui_js_once(ui):
-    """Избранное/недавние: хранить полный pathname (ЧПУ-страницы живут в подпапках,
-    старый split('/').pop() давал '' или 'index.html')."""
-    a = "location.pathname.split('/').pop() || 'index.html'"
-    assert ui.count(a) == 1, "ui.js patch A count"
-    ui = ui.replace(a, "location.pathname")
-    b = "location.pathname.split('/').pop()"
-    assert ui.count(b) == 1, "ui.js patch B count"
-    ui = ui.replace(b, "location.pathname")
-    return ui
-
-
-UI_JS = patch_ui_js_once(UI_JS_RAW)
+# 28.10.2026: патч удалён — parts/ui.js сам хранит полный pathname (pagePath()),
+# а панель избранного лечит легаси-записи по slug. (Старый патч заменял
+# split('/').pop() → pathname и падал бы на assert после правки parts.)
+UI_JS = UI_JS_RAW
 
 
 def parts_for(prefix):
