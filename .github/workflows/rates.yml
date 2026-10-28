@@ -1,0 +1,38 @@
+name: Курсы ЦБ → rates.json
+
+on:
+  schedule:
+    # 03:17 МСК — курсы на сегодня
+    - cron: '17 0 * * *'
+    # 15:17 МСК — ЦБ уже опубликовал курсы на завтра
+    - cron: '17 12 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  rates:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Обновить assets/rates.json
+        run: python .github/scripts/update_rates.py
+
+      - name: Коммит при изменениях
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if git diff --quiet assets/rates.json; then
+            echo "Курсы не изменились"
+          else
+            git add assets/rates.json
+            DATE=$(python -c "import json; print(json.load(open('assets/rates.json'))['date'])")
+            git commit -m "rates: курсы ЦБ на $DATE"
+            git push
+          fi

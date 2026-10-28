@@ -1888,36 +1888,50 @@ document.addEventListener('DOMContentLoaded', () => {
     return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d.split('-').reverse().join('.') : d;
   }
 
-  function loadRates(){
-    if (!window.RASCHET_API_BASE){
-      srcEl.textContent = 'Курсы ЦБ РФ от ' + OFFLINE_DATE + ' (офлайн)';
-      return;
-    }
+  function offlineLabel(){
+    srcEl.textContent = 'Курсы ЦБ РФ от ' + OFFLINE_DATE + ' (офлайн)';
+  }
+
+  function fetchRatesJson(url){
     var ctrl = new AbortController();
     var timer = setTimeout(function(){ ctrl.abort(); }, 3000);
-    fetch(window.RASCHET_API_BASE + '/api/rates', { signal: ctrl.signal })
+    return fetch(url, { signal: ctrl.signal })
       .then(function(resp){
+        clearTimeout(timer);
         if (!resp.ok) throw new Error('http ' + resp.status);
         return resp.json();
-      })
-      .then(function(data){
-        clearTimeout(timer);
-        if (!data || typeof data !== 'object' || !data.rates) throw new Error('format');
-        Object.keys(rates).forEach(function(code){
-          if (code === 'RUB') return;
-          var v = Number(data.rates[code]);
-          if (isFinite(v) && v > 0) rates[code] = v;
-        });
-        if (data.stale){
-          srcEl.textContent = 'Курсы от ' + fmtRateDate(data.date) + ', обновление временно недоступно';
-        } else {
-          srcEl.textContent = 'Курсы ЦБ РФ от ' + fmtRateDate(data.date);
-        }
-        render();
-      })
+      }, function(err){ clearTimeout(timer); throw err; });
+  }
+
+  function applyRates(data){
+    if (!data || typeof data !== 'object' || !data.rates) throw new Error('format');
+    Object.keys(rates).forEach(function(code){
+      if (code === 'RUB') return;
+      var v = Number(data.rates[code]);
+      if (isFinite(v) && v > 0) rates[code] = v;
+    });
+    var days = (Date.now() - Date.parse(fmtRateDate(data.date).split('.').reverse().join('-'))) / 86400000;
+    if (data.stale || days > 14){
+      srcEl.textContent = 'Курсы от ' + fmtRateDate(data.date) + ', обновление временно недоступно';
+    } else {
+      srcEl.textContent = 'Курсы ЦБ РФ от ' + fmtRateDate(data.date);
+    }
+    render();
+  }
+
+  function loadRates(){
+    // 1) rates.json: ежедневные курсы ЦБ через GitHub Actions, same-origin.
+    //    ?d=YYYYMMDD — дневной cache-bust, чтобы service worker не отдавал вчерашний файл.
+    var t = new Date();
+    var bust = '?d=' + t.getFullYear() + ('0' + (t.getMonth() + 1)).slice(-2) + ('0' + t.getDate()).slice(-2);
+    fetchRatesJson('../assets/rates.json' + bust)
+      .then(applyRates)
       .catch(function(){
-        clearTimeout(timer);
-        srcEl.textContent = 'Курсы ЦБ РФ от ' + OFFLINE_DATE + ' (офлайн)';
+        // 2) бэкенд (если настроен RASCHET_API_BASE)
+        if (!window.RASCHET_API_BASE){ offlineLabel(); return; }
+        fetchRatesJson(window.RASCHET_API_BASE + '/api/rates')
+          .then(applyRates)
+          .catch(offlineLabel);
       });
   }
 

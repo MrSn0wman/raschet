@@ -10,9 +10,9 @@ import os
 import re
 import shutil
 
-SITE = r"C:\Kimi\raschet"
-PARTS = r"C:\Kimi\raschet\_build\parts"
-ASSETS_SRC = r"C:\Kimi\raschet\_build\assets"
+SITE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+PARTS = os.path.join(SITE, "_build", "parts")
+ASSETS_SRC = os.path.join(SITE, "_build", "assets")
 
 HEAD_SNIPPET = (
     '<link rel="manifest" href="{prefix}manifest.webmanifest">\n'
