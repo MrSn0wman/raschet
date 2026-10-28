@@ -1947,7 +1947,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('rate').addEventListener('input', recalcLoanInterest);
   const pzToggle = document.getElementById('pz-schedule-toggle');
-  if (pzToggle) pzToggle.addEventListener('click', () => { pzShowAll = !pzShowAll; pzToggle.closest('.schedule-block').classList.toggle('expanded', pzShowAll); renderPzSchedule(); });
+  if (pzToggle) pzToggle.addEventListener('click', () => {
+    const blk = pzToggle.closest('.schedule-block');
+    const anchorTop = pzShowAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
+    pzShowAll = !pzShowAll; blk.classList.toggle('expanded', pzShowAll); renderPzSchedule();
+    // при сворачивании возвращаем к началу графика, а не роняем в подвал
+    if (!pzShowAll && window.scrollY > anchorTop - 80) window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+  });
   recalcLoanInterest();
 });
 

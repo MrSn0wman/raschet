@@ -87,7 +87,7 @@ async function main() {
   await sleep(WAIT_MS);
 
   if (EVAL) {
-    const r = await send('Runtime.evaluate', { expression: EVAL, returnByValue: true });
+    const r = await send('Runtime.evaluate', { expression: EVAL, returnByValue: true, awaitPromise: true });
     console.log('EVAL:', JSON.stringify(r.result && r.result.value));
   }
   if (SHOT) {

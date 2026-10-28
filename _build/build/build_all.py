@@ -769,9 +769,15 @@ def build_mortgage_page():
   });
   if (toggleBtn){
     toggleBtn.addEventListener('click', function(){
+      var blk = this.closest('.schedule-block');
+      var anchorTop = showAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
       showAll = !showAll;
-      this.closest('.schedule-block').classList.toggle('expanded', showAll);
+      blk.classList.toggle('expanded', showAll);
       renderSchedule();
+      // при сворачивании возвращаем к началу графика, а не роняем в подвал
+      if (!showAll && window.scrollY > anchorTop - 80){
+        window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+      }
     });
   }
   render();

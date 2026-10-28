@@ -1953,7 +1953,13 @@ document.addEventListener('DOMContentLoaded', () => {
   });
   document.getElementById('daily-rate').addEventListener('input', recalcMicroloan);
   const zToggle = document.getElementById('z-schedule-toggle');
-  if (zToggle) zToggle.addEventListener('click', () => { zShowAll = !zShowAll; zToggle.closest('.schedule-block').classList.toggle('expanded', zShowAll); renderZSchedule(); });
+  if (zToggle) zToggle.addEventListener('click', () => {
+    const blk = zToggle.closest('.schedule-block');
+    const anchorTop = zShowAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
+    zShowAll = !zShowAll; blk.classList.toggle('expanded', zShowAll); renderZSchedule();
+    // при сворачивании возвращаем к началу графика, а не роняем в подвал
+    if (!zShowAll && window.scrollY > anchorTop - 80) window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+  });
   recalcMicroloan();
 });
 

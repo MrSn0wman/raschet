@@ -1986,9 +1986,15 @@ document.addEventListener('DOMContentLoaded', () => {
   const carToggle = document.getElementById('car-schedule-toggle');
   if (carToggle){
     carToggle.addEventListener('click', function(){
+      var blk = this.closest('.schedule-block');
+      var anchorTop = carShowAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
       carShowAll = !carShowAll;
-      this.closest('.schedule-block').classList.toggle('expanded', carShowAll);
+      blk.classList.toggle('expanded', carShowAll);
       renderCarSchedule();
+      // при сворачивании возвращаем к началу графика, а не роняем в подвал
+      if (!carShowAll && window.scrollY > anchorTop - 80){
+        window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+      }
     });
   }
   recalcCarLoan();
