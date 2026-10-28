@@ -1032,7 +1032,7 @@ FEEDBACK_JS = r"""
     okBox.style.display = 'none';
   }
   // почтовый адрес собирается из частей: домен проекта не светим в исходнике страницы
-  var MAIL = ['hello', 'raschet', 'rf'];
+  var MAIL = ['helpraschet', 'gmail', 'com'];
   function mailtoFallback(payload){
     var subject = 'Расчёт.рф — ' + (payload.topic || 'обратная связь');
     var body = 'Имя: ' + payload.name + '\nEmail: ' + payload.email + '\n\n' + payload.message;
