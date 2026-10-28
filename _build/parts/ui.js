@@ -139,6 +139,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('raschet-theme', next); } catch (e) {}
+      const tm = document.querySelector('meta[name="theme-color"]');
+      if (tm) tm.setAttribute('content', next === 'dark' ? '#101613' : '#0E7A4A');
     });
   }
 

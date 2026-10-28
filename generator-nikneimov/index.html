@@ -24,7 +24,7 @@
 <meta name="twitter:title" content="Генератор никнеймов онлайн — русские и английские">
 <meta name="twitter:description" content="Подберите никнейм: прилагательное и существительное на русском или латиницей, цифры по желанию. 10 вариантов за раз, клик копирует ник.">
 <meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
-<script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t)}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
+<script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(!m){m=document.createElement('meta');m.setAttribute('name','theme-color');document.head.appendChild(m)}m.setAttribute('content',t==='dark'?'#101613':'#0E7A4A')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
 <style>
 /* Локальные шрифты (self-hosted, офлайн-PWA). ../ заменяется генератором. */
 @font-face{
@@ -1441,6 +1441,8 @@ document.addEventListener('DOMContentLoaded', () => {
       const next = current === 'dark' ? 'light' : 'dark';
       document.documentElement.setAttribute('data-theme', next);
       try { localStorage.setItem('raschet-theme', next); } catch (e) {}
+      const tm = document.querySelector('meta[name="theme-color"]');
+      if (tm) tm.setAttribute('content', next === 'dark' ? '#101613' : '#0E7A4A');
     });
   }
 

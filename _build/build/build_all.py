@@ -15,11 +15,12 @@ import importlib.util
 import traceback
 from html import escape as html_escape
 
-OLD = r"C:\Kimi\raschet-old"
-PARTS = r"C:\Kimi\raschet\_build\parts"
-TOOLS_DIR = r"C:\Kimi\raschet\_build\build\tools"
-OUT = r"C:\Kimi\raschet-site"
-REPORT_PATH = r"C:\Kimi\raschet\_build\build\build_report.txt"
+_REPO = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+OLD = os.path.join(os.path.dirname(_REPO), "raschet-old")   # соседняя папка рядом с репо
+PARTS = os.path.join(_REPO, "_build", "parts")
+TOOLS_DIR = os.path.join(_REPO, "_build", "build", "tools")
+OUT = os.path.join(_REPO, "_build", "out")  # ВНИМАНИЕ: rmtree при каждом прогоне — только эта папка
+REPORT_PATH = os.path.join(_REPO, "_build", "build", "build_report.txt")
 BASE_URL = "https://mrsn0wman.github.io/raschet/"
 
 # --- Карта slug: старый файл -> ЧПУ slug (60 шт.; calc-pension добавлен: в задании
@@ -1300,6 +1301,7 @@ def build_redirects():
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://mc.yandex.ru; font-src 'self'; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="refresh" content="0; url=%s/">
 <link rel="canonical" href="%s%s/">
 <title>%s — Расчёт.рф</title>

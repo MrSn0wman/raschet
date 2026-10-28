@@ -6,9 +6,9 @@ import os
 import re
 import sys
 
-SITE = r"C:\Kimi\raschet"
-BUILD = r"C:\Kimi\raschet\_build\build"
-PARTS = r"C:\Kimi\raschet\_build\parts"
+SITE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+BUILD = os.path.join(SITE, "_build", "build")
+PARTS = os.path.join(SITE, "_build", "parts")
 sys.path.insert(0, BUILD)
 import build_all  # noqa: E402
 
