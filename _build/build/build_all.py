@@ -1152,19 +1152,19 @@ def build_feedback_page():
 # 404.html — абсолютные пути (страница отдаётся с любой глубины)
 # ---------------------------------------------------------------------------
 def build_404_page():
-    prefix = "/raschet/"
+    prefix = "/"
     title = "Страница не найдена — Расчёт.net"
     desc = "Такой страницы нет. Возможно, ссылка устарела — попробуйте начать с главной или выбрать популярный калькулятор."
     popular = [("ipoteka", "Ипотека"), ("vklad", "Вклад"), ("kredit", "Кредит"),
                ("procenty", "Проценты"), ("imt", "ИМТ")]
     links = "\n".join(
-        '          <a class="related-link" href="/raschet/%s/">%s</a>' % (s, t) for s, t in popular)
+        '          <a class="related-link" href="/%s/">%s</a>' % (s, t) for s, t in popular)
     main = """
   <div class="container">
     <div class="calc-card" style="max-width:640px;margin:40px auto;text-align:center;">
       <h1>Страница не найдена</h1>
       <p class="calc-sub">Такой страницы нет — возможно, ссылка устарела после обновления сайта. Начните с главной или выберите популярный калькулятор.</p>
-      <p><a class="btn btn-primary" href="/raschet/">На главную</a></p>
+      <p><a class="btn btn-primary" href="/">На главную</a></p>
     </div>
     <div class="side-card" style="max-width:640px;margin:0 auto;">
       <h4>Популярное</h4>
