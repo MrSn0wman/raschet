@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # =========================================================
-# Генератор сайта «Расчёт.рф» v1.0
+# Генератор сайта «Расчёт.net» v1.0
 # Вход:  C:\Kimi\raschet\            (старый сайт, 60 calc-*.html + статика)
 #        C:\Kimi\raschet-redesign\parts\   (канонические части v2)
 #        C:\Kimi\raschet-redesign\build\tools\*.py  (дескрипторы новых инструментов, опционально)
@@ -21,7 +21,7 @@ PARTS = os.path.join(_REPO, "_build", "parts")
 TOOLS_DIR = os.path.join(_REPO, "_build", "build", "tools")
 OUT = os.path.join(_REPO, "_build", "out")  # ВНИМАНИЕ: rmtree при каждом прогоне — только эта папка
 REPORT_PATH = os.path.join(_REPO, "_build", "build", "build_report.txt")
-BASE_URL = "https://mrsn0wman.github.io/raschet/"
+BASE_URL = "https://raschet.net/"
 
 # --- Карта slug: старый файл -> ЧПУ slug (60 шт.; calc-pension добавлен: в задании
 #     «60 файлов», в карте было 59 — pension есть на диске и в шапке/футере/ui.js) ---
@@ -482,14 +482,14 @@ def render_page(title, desc, canonical, og_title, og_desc, page_css, ld_blocks,
 <meta property="og:type" content="website">
 <meta property="og:locale" content="ru_RU">
 <meta property="og:url" content="%s">
-<meta property="og:site_name" content="Расчёт.рф">
-<meta property="og:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta property="og:site_name" content="Расчёт.net">
+<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="%s">
 <meta name="twitter:description" content="%s">
-<meta name="twitter:image" content="https://mrsn0wman.github.io/raschet/assets/og-cover.png">
+<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
 %s<style>
 %s</style>
 %s</head>
@@ -1033,7 +1033,7 @@ FEEDBACK_JS = r"""
   // почтовый адрес собирается из частей: домен проекта не светим в исходнике страницы
   var MAIL = ['helpraschet', 'gmail', 'com'];
   function mailtoFallback(payload){
-    var subject = 'Расчёт.рф — ' + (payload.topic || 'обратная связь');
+    var subject = 'Расчёт.net — ' + (payload.topic || 'обратная связь');
     var body = 'Имя: ' + payload.name + '\nEmail: ' + payload.email + '\n\n' + payload.message;
     window.location.href = 'mailto:' + MAIL[0] + '@' + MAIL[1] + '.' + MAIL[2] +
                            '?subject=' + encodeURIComponent(subject) +
@@ -1079,7 +1079,7 @@ FEEDBACK_JS = r"""
 
 def build_feedback_page():
     prefix = "../"
-    title = "Обратная связь — Расчёт.рф"
+    title = "Обратная связь — Расчёт.net"
     desc = "Напишите нам: ошибка в расчёте, идея нового калькулятора или предложение по улучшению сайта."
     main = """
   <div class="container">
@@ -1153,7 +1153,7 @@ def build_feedback_page():
 # ---------------------------------------------------------------------------
 def build_404_page():
     prefix = "/raschet/"
-    title = "Страница не найдена — Расчёт.рф"
+    title = "Страница не найдена — Расчёт.net"
     desc = "Такой страницы нет. Возможно, ссылка устарела — попробуйте начать с главной или выбрать популярный калькулятор."
     popular = [("ipoteka", "Ипотека"), ("vklad", "Вклад"), ("kredit", "Кредит"),
                ("procenty", "Проценты"), ("imt", "ИМТ")]
@@ -1302,7 +1302,7 @@ def build_redirects():
 <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://mc.yandex.ru; font-src 'self'; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
 <meta http-equiv="refresh" content="0; url=%s/">
 <link rel="canonical" href="%s%s/">
-<title>%s — Расчёт.рф</title>
+<title>%s — Расчёт.net</title>
 </head>
 <body>
 <p>Страница переехала: <a href="%s/">%s%s/</a></p>
@@ -1437,7 +1437,7 @@ def main():
 
     # --- отчёт ---
     lines = []
-    lines.append("ОТЧЁТ СБОРКИ «Расчёт.рф» v1.0")
+    lines.append("ОТЧЁТ СБОРКИ «Расчёт.net» v1.0")
     lines.append("=" * 50)
     lines.append("Страниц собрано: %d (60 старых + %d новых + 4 статических + index + 404)"
                  % (len(REPORT["pages"]), len(tool_slugs)))

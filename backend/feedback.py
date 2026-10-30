@@ -104,7 +104,7 @@ def _send_mail(item: FeedbackIn) -> None:
         return
 
     msg = EmailMessage()
-    msg["Subject"] = _header_safe("[Расчёт.рф] " + item.topic)[:200]
+    msg["Subject"] = _header_safe("[Расчёт.net] " + item.topic)[:200]
     msg["From"] = mail_from
     msg["To"] = mail_to
     if item.email:

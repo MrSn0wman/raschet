@@ -1,4 +1,4 @@
-"""FastAPI-приложение «Расчёт.рф»: курсы ЦБ, обратная связь, аналитика.
+"""FastAPI-приложение «Расчёт.net»: курсы ЦБ, обратная связь, аналитика.
 
 Запуск: uvicorn main:app --host 127.0.0.1 --port 8000 --proxy-headers
 """
@@ -27,6 +27,8 @@ log = logging.getLogger("raschet")
 MAX_BODY_BYTES = 32 * 1024  # сообщение обратной связи ≤ 5000 символов, хватит с запасом
 
 PROD_ORIGINS = [
+    "https://raschet.net",
+    "https://www.raschet.net",
     "https://mrsn0wman.github.io",
 ]
 

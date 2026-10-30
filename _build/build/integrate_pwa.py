@@ -118,7 +118,7 @@ for rel in html_files:
 print("nbsp fix in", nbsp_fixed, "pages")
 
 # --- 4. аналитика (плейсхолдеры) + .nojekyll ---
-ANALYTICS_JS = """// Расчёт.рф — аналитика. Заполните ID и сохраните файл — больше ничего менять не надо.
+ANALYTICS_JS = """// Расчёт.net — аналитика. Заполните ID и сохраните файл — больше ничего менять не надо.
 // Яндекс.Метрика: https://metrika.yandex.ru → Счётчики → ID счётчика (число)
 // GA4: https://analytics.google.com → Администратор → Потоки данных → G-XXXXXXX
 var YM_ID = '';   // например '12345678'
@@ -155,7 +155,7 @@ for rel in html_files:
         inj2 += 1
 print("analytics injected:", inj2)
 
-sw = """// Расчёт.рф — service worker (полный офлайн).
+sw = """// Расчёт.net — service worker (полный офлайн).
 // Генерируется integrate_pwa.py — не править вручную.
 const CACHE = 'raschet-%s';
 const PRECACHE = %s;

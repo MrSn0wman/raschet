@@ -8,7 +8,7 @@ import os
 SRC = r"C:\Kimi\raschet\calc-mortgage.html"
 PARTS = r"C:\Kimi\raschet-redesign\parts"
 OUT = r"C:\Kimi\raschet-redesign\calc-mortgage.html"
-BASE_URL = "https://mrsn0wman.github.io/raschet/"
+BASE_URL = "https://raschet.net/"
 
 def read(p):
     with io.open(p, "r", encoding="utf-8") as f:

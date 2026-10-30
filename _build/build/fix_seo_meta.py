@@ -5,7 +5,7 @@
 import io, os, re, json, html as htmllib
 
 SITE = r"C:\Kimi\raschet"
-BASE = "https://mrsn0wman.github.io/raschet/"
+BASE = "https://raschet.net/"
 OG_IMG = BASE + "assets/og-cover.png"
 TODAY = "2026-10-18"
 
@@ -45,7 +45,7 @@ for root, dirs, files in os.walk(SITE):
             og_d_m = re.search(r'<meta property="og:description" content="([^"]*)"', t)
             og_d = og_d_m.group(1) if og_d_m else ""
             block = (
-                '<meta property="og:site_name" content="Расчёт.рф">\n'
+                '<meta property="og:site_name" content="Расчёт.net">\n'
                 '<meta property="og:image" content="%s">\n' % OG_IMG +
                 '<meta property="og:image:width" content="1200">\n'
                 '<meta property="og:image:height" content="630">\n'

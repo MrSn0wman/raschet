@@ -1,6 +1,6 @@
 # raschet-backend
 
-Бэкенд для сайта калькуляторов «Расчёт.рф» (статический фронт на GitHub Pages).
+Бэкенд для сайта калькуляторов «Расчёт.net» (статический фронт на GitHub Pages).
 Python 3.9+, FastAPI + SQLite, uvicorn, за nginx.
 
 ## Функции
@@ -181,7 +181,7 @@ async function apiFetch(path, options = {}) {
 
 - Все SQL-запросы параметризованные; `eval`/`exec` нет; секреты только из `.env`.
 - Заголовки: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Content-Security-Policy: default-src 'none'`; лимит тела запроса 32 КБ (плюс 64 КБ в nginx).
-- CORS — строгий список origins: `https://mrsn0wman.github.io` + `CORS_ORIGINS` из `.env`. localhost-origins включаются только при `ENV=dev` в `.env` (в проде не ставить!).
+- CORS — строгий список origins: `https://raschet.net` (+ `https://www.raschet.net`, `https://mrsn0wman.github.io`) + `CORS_ORIGINS` из `.env`. localhost-origins включаются только при `ENV=dev` в `.env` (в проде не ставить!).
 - При недоступности ЦБ `/api/rates` отдаёт последний кэш со `stale:true`; повторный поход к ЦБ — не чаще раза в 60 с (negative-кэш), чтобы не усиливать чужой сбой.
 - Rate limits хранятся в SQLite, работают под несколькими воркерами; IP хэшируется HMAC-SHA256 (секрет генерируется при первом запуске, таблица `settings`), сырой IP нигде не сохраняется.
 - Аналитика — только агрегаты `(day, page, type, count)`. Поле `meta` принимается и валидируется, но **не сохраняется**.
