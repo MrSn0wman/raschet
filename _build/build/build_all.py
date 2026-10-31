@@ -221,7 +221,12 @@ def extract_balanced(text, start_marker):
 
 
 AD_STUB = ('<div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок">'
-           '<span class="tag">Реклама</span><span>Место для партнёрских предложений</span></div>')
+           '<span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>\n'
+           '<script>\nwindow.yaContextCb.push(() => {\n'
+           '    Ya.Context.AdvManager.render({\n'
+           '        "blockId": "R-A-20316097-1",\n'
+           '        "renderTo": "yandex_rtb_R-A-20316097-1"\n'
+           '    })\n})\n</script>')
 
 FAV_BTN = ('<button class="action-btn" id="fav-toggle" type="button" aria-pressed="false">'
            '<svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>'
@@ -473,7 +478,10 @@ def render_page(title, desc, canonical, og_title, og_desc, page_css, ld_blocks,
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://mc.yandex.ru; font-src 'self'; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
 <title>%s</title>
 <meta name="description" content="%s">
 <link rel="canonical" href="%s">
@@ -967,9 +975,17 @@ def build_index_page():
   <div class="container">
     <div class="ad-slot ad-slot--leader" role="complementary" aria-label="Рекламный блок">
       <span class="tag">Реклама</span>
-      <span>728×90 — баннер под шапкой</span>
+      <div id="yandex_rtb_R-A-20316097-1"></div>
     </div>
   </div>
+  <script>
+  window.yaContextCb.push(() => {
+      Ya.Context.AdvManager.render({
+          "blockId": "R-A-20316097-1",
+          "renderTo": "yandex_rtb_R-A-20316097-1"
+      })
+  })
+  </script>
 """
     TRUST_SECTION = """
   <section class="section">
@@ -1265,8 +1281,16 @@ def build_tool_page(t):
         </div>
         <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок">
           <span class="tag">Реклама</span>
-          <span>300×250</span>
+          <div id="yandex_rtb_R-A-20316097-2"></div>
         </div>
+        <script>
+        window.yaContextCb.push(() => {
+            Ya.Context.AdvManager.render({
+                "blockId": "R-A-20316097-2",
+                "renderTo": "yandex_rtb_R-A-20316097-2"
+            })
+        })
+        </script>
       </aside>
     </div>
   </div>
@@ -1299,7 +1323,8 @@ def build_redirects():
 <html lang="ru">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://mc.yandex.ru; font-src 'self'; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
 <meta http-equiv="refresh" content="0; url=%s/">
 <link rel="canonical" href="%s%s/">
 <title>%s — Расчёт.net</title>
