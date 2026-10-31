@@ -205,8 +205,13 @@ write(os.path.join(SITE, "sw.js"), sw)
 print("sw.js written:", len(precache), "precache entries")
 
 # --- 3. инъекции в HTML ---
+# файлы верификации поисковиков (yandex_*.html, google*.html) — не трогаем:
+# содержимое должно оставаться ровно таким, каким его отдал сервис
+VERIFICATION_RE = re.compile(r"^(yandex_[0-9a-f]+|google[0-9a-f]+)\.html$")
 injected = 0
 for rel in html_files:
+    if VERIFICATION_RE.match(rel):
+        continue
     full = os.path.join(SITE, rel)
     text = read(full)
     depth = rel.count("/")
