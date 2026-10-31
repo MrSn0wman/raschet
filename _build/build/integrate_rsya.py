@@ -28,11 +28,21 @@ NEW_CSP = ("default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yan
            "connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com "
            "https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru "
            "https://*.yandex.net https://yastatic.net; "
-           "frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru; "
+           "frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru https://yastatic.net; "
            "media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'")
 
 # предыдущие версии CSP — мигрируем на NEW_CSP
 CSP_PREV = [("default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru "
+             "https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru "
+             "https://yastatic.net https://*.yandex.net; "
+             "style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; "
+             "font-src 'self' https://yastatic.net; "
+             "connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com "
+             "https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru "
+             "https://*.yandex.net https://yastatic.net; "
+             "frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru; "
+             "media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'"),
+            ("default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru "
              "https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru "
              "https://yastatic.net https://*.yandex.net; "
              "style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self'; "
