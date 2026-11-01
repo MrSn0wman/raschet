@@ -14,6 +14,8 @@ Thumbs.db
 # SEO-исследование (рабочая папка: скрейпы конкурентов, замеры)
 _seo_tmp/
 
-# Generated build output; canonical sources stay versioned.
-_build/out/
-.raschet-sync-*
+# Ключи доступа (сервисный аккаунт GSC, OAuth-клиенты) — НИКОГДА не коммитить
+service-account*.json
+client_secret*.json
+credentials*.json
+*.pem
