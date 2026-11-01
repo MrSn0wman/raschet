@@ -579,12 +579,25 @@ p{ margin:0 0 1em; color:var(--ink); }
   padding:0 4px 8px;
 }
 .fav-list{ display:flex; flex-direction:column; gap:2px; }
-.fav-list a{
+.fav-row{ display:flex; align-items:center; gap:4px; border-radius:8px; }
+.fav-row:hover{ background:var(--surface-2); }
+.fav-row a{
+  flex:1 1 auto; min-width:0;
   display:flex; align-items:center; gap:8px;
   text-decoration:none; color:var(--ink); font-size:.9rem; font-weight:500;
   padding:8px 10px; border-radius:8px;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
 }
-.fav-list a:hover{ background:var(--surface-2); color:var(--accent); }
+.fav-row:hover a{ color:var(--accent); }
+.fav-remove{
+  flex:none; display:inline-flex; align-items:center; justify-content:center;
+  width:28px; height:28px; margin-right:4px;
+  background:none; border:0; border-radius:6px;
+  color:var(--ink-soft); cursor:pointer;
+  transition:color .15s ease, background .15s ease;
+}
+.fav-remove:hover{ color:#e5484d; background:rgba(229,72,77,.12); }
+.fav-remove:focus-visible{ outline:2px solid var(--accent); outline-offset:1px; color:var(--ink); }
 .fav-empty{ margin:0; padding:4px; font-size:.82rem; color:var(--ink-soft); }
 
 /* ---------- v2: плотный каталог ---------- */

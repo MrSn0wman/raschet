@@ -248,16 +248,58 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const renderFavPanel = () => {
     if (!favList || !favEmpty) return;
-    const favs = readList(FAV_KEY);
+    // битые записи (не объекты с нормальными строками) отбрасываем: иначе «undefined» и мусорный бейдж
+    const favs = readList(FAV_KEY).filter((i) => i && typeof i.slug === 'string' && typeof i.title === 'string' && typeof i.href === 'string');
     favList.innerHTML = '';
     favs.forEach((item) => {
+      const row = document.createElement('div');
+      row.className = 'fav-row';
       const a = document.createElement('a');
+      a.rel = 'noopener';
       let href = item.href || '';
       // легаси-записи (пустой href или 'index.html' от старого бага) — восстанавливаем по slug
-      if (!/^(\/|\.\.\/)/.test(href)) href = sitePrefix() + item.slug + '/';
+      if (!/^(\/|\.\.\/)/.test(href)) href = sitePrefix() + encodeURIComponent(item.slug) + '/';
+      // схема из localStorage: только http(s) — иначе javascript:/data: на клике исполнились бы
+      try {
+        const proto = new URL(href, location.href).protocol;
+        if (proto !== 'http:' && proto !== 'https:') href = sitePrefix() + encodeURIComponent(item.slug) + '/';
+      } catch (err) { href = sitePrefix() + encodeURIComponent(item.slug) + '/'; }
       a.href = href;
       a.textContent = item.title;
-      favList.appendChild(a);
+      a.title = item.title;
+      row.appendChild(a);
+      // крестик: убрать из избранного, не заходя в калькулятор
+      const rm = document.createElement('button');
+      rm.type = 'button';
+      rm.className = 'fav-remove';
+      rm.setAttribute('aria-label', 'Убрать из избранного: ' + item.title);
+      rm.title = 'Убрать из избранного';
+      rm.innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true"><path d="M2 2l8 8M10 2l-8 8" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>';
+      rm.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        // индекс строки — чтобы после перерисовки фокус остался на том же месте списка
+        const idx = Array.prototype.indexOf.call(favList.children, row);
+        const live = readList(FAV_KEY).filter((i) => !i || i.slug !== item.slug || (i.href || '') !== (item.href || ''));
+        writeList(FAV_KEY, live);
+        renderFavBadge();
+        renderFavPanel();
+        if (window.showToast) window.showToast('Убрано из избранного');
+        // страница этого же калькулятора — синхронизировать звезду в action-bar
+        const t = document.getElementById('fav-toggle');
+        if (t && calcSlug && calcSlug === item.slug){
+          t.classList.remove('is-fav');
+          t.setAttribute('aria-pressed', 'false');
+          const sp = t.querySelector('span');
+          if (sp) sp.textContent = 'В избранное';
+        }
+        const btns = favList.querySelectorAll('.fav-remove');
+        const target = btns[idx] || btns[btns.length - 1];
+        if (target) target.focus();
+        else if (favBtn) favBtn.focus();
+      });
+      row.appendChild(rm);
+      favList.appendChild(row);
     });
     favEmpty.hidden = favs.length > 0;
   };
