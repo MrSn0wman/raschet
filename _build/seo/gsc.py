@@ -53,6 +53,73 @@ def die(msg):
     sys.exit(1)
 
 
+def clean(s):
+    """Убирает управляющие символы: URL из внешних источников не должен
+    управлять терминалом (ANSI/CSI-последовательности)."""
+    return re.sub(r"[\x00-\x1f\x7f-\x9f]", "?", str(s))
+
+
+def api_error(r):
+    """Короткое сообщение об ошибке API без дампа тела ответа:
+    в теле бывают email аккаунта, project_id и URL ресурса."""
+    try:
+        msg = (r.json().get("error") or {}).get("message")
+        if msg:
+            return clean(msg)[:300]
+    except Exception:
+        pass
+    return clean(getattr(r, "reason", "") or "HTTP %d" % r.status_code)
+
+
+def validate_site(site):
+    """--site уходит в путь URL. Пропускаем только две легальные формы GSC,
+    иначе значение (например, '..') молча меняет endpoint."""
+    if not (site.startswith("https://") or site.startswith("sc-domain:")):
+        die("--site должен начинаться с https:// или sc-domain:")
+    if ".." in site or any(c in site for c in "\x00\n\r #?"):
+        die("--site содержит недопустимые символы")
+    return site
+
+
+def reports_dir():
+    """Отчёты пишем только в _seo_tmp/gsc-reports/ (в .gitignore)."""
+    root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+    return os.path.join(root, "_seo_tmp", "gsc-reports")
+
+
+def safe_out_path(name, force):
+    """--out принимает ТОЛЬКО имя файла; путь всегда внутри reports_dir().
+    Защита от перезаписи index.html, ui.js и прочего по невнимательности."""
+    root = os.path.realpath(reports_dir())
+    base = os.path.basename(str(name).replace("\\", "/"))
+    if not base or base in (".", "..") or base != str(name).replace("\\", "/"):
+        die("--out принимает только имя файла, без путей: например --out report.json")
+    if not base.lower().endswith(".json"):
+        die("--out: имя файла должно оканчиваться на .json")
+    os.makedirs(root, exist_ok=True)
+    path = os.path.realpath(os.path.join(root, base))
+    if os.path.commonpath([root, path]) != root:
+        die("--out: путь выходит за пределы папки отчётов")
+    if os.path.exists(path) and not force:
+        die("файл уже существует: %s (добавьте --force, чтобы перезаписать)" % clean(path))
+    return path
+
+
+def atomic_write_json(path, data):
+    """Атомарная запись: недописанный файл не должен выглядеть как отчёт."""
+    tmp = path + ".tmp"
+    try:
+        with open(tmp, "w", encoding="utf-8") as f:
+            json.dump(data, f, ensure_ascii=False, indent=2)
+        os.replace(tmp, path)
+    finally:
+        if os.path.exists(tmp):
+            try:
+                os.remove(tmp)
+            except OSError:
+                pass
+
+
 def load_creds(key_path):
     if not os.path.isfile(key_path):
         die("не найден ключ: %s\n"
@@ -85,37 +152,41 @@ def enc(site):
 
 
 def cmd_whoami(creds, key_path, site):
-    with open(key_path, encoding="utf-8") as f:
-        info = json.load(f)
-    print("Сервисный аккаунт: %s" % info.get("client_email", "?"))
-    print("Проект:            %s" % info.get("project_id", "?"))
+    try:
+        with open(key_path, encoding="utf-8") as f:
+            info = json.load(f)
+    except Exception as e:
+        die("не удалось прочитать ключ (%s)" % type(e).__name__)
+    print("Сервисный аккаунт: %s" % clean(info.get("client_email", "?")))
+    print("Проект:            %s" % clean(info.get("project_id", "?")))
+    if os.path.realpath(key_path).startswith(os.path.realpath(os.getcwd())):
+        print("ВНИМАНИЕ: ключ лежит внутри репозитория — вынесите его в ~/.gsc/")
     r = api(creds, "GET", "%s/sites" % WM_BASE)
     if r.status_code != 200:
-        die("не удалось получить список ресурсов (HTTP %d): %s" % (r.status_code, r.text[:300]))
+        die("не удалось получить список ресурсов: %s" % api_error(r))
     sites = [s.get("siteUrl") for s in r.json().get("siteEntry", [])]
     print("Доступные ресурсы (%d):" % len(sites))
     for s in sites:
-        print("  " + s)
+        print("  " + clean(s))
     if site not in sites:
-        print("\nВНИМАНИЕ: %s отсутствует в списке. Добавьте сервисный аккаунт как пользователя в GSC." % site)
+        print("\nВНИМАНИЕ: %s отсутствует в списке. Добавьте сервисный аккаунт как пользователя в GSC." % clean(site))
     return 0
 
 
 def cmd_sitemaps(creds, site):
     r = api(creds, "GET", "%s/sites/%s/sitemaps" % (WM_BASE, enc(site)))
     if r.status_code != 200:
-        die("HTTP %d: %s" % (r.status_code, r.text[:300]))
+        die(api_error(r))
     items = r.json().get("sitemap", [])
     if not items:
         print("Карт нет.")
         return 0
     for s in items:
-        print("%s" % s.get("path"))
-        print("   последнее чтение: %s | тип: %s" % (s.get("lastDownloaded"), s.get("type")))
-        for k in ("contents",):
-            for c in s.get(k, []) or []:
-                print("   %s: отправлено %s, проиндексировано %s" % (
-                    c.get("type"), c.get("submitted"), c.get("indexed")))
+        print(clean(s.get("path")))
+        print("   последнее чтение: %s | тип: %s" % (clean(s.get("lastDownloaded")), clean(s.get("type"))))
+        for c in s.get("contents", []) or []:
+            print("   %s: отправлено %s, проиндексировано %s" % (
+                clean(c.get("type")), clean(c.get("submitted")), clean(c.get("indexed"))))
         errs = s.get("errors") or 0
         warns = s.get("warnings") or 0
         if errs or warns:
@@ -127,16 +198,16 @@ def cmd_submit(creds, site):
     feed = site.rstrip("/") + "/sitemap.xml"
     r = api(creds, "PUT", "%s/sites/%s/sitemaps/%s" % (WM_BASE, enc(site), enc(feed)))
     if r.status_code in (200, 204):
-        print("Отправлено: %s" % feed)
+        print("Отправлено: %s" % clean(feed))
         return 0
-    die("HTTP %d: %s" % (r.status_code, r.text[:400]))
+    die(api_error(r))
 
 
 def cmd_inspect(creds, site, url):
     body = {"inspectionUrl": url, "siteUrl": site}
     r = api(creds, "POST", INSPECT_URL, json=body)
     if r.status_code != 200:
-        return {"url": url, "error": "HTTP %d: %s" % (r.status_code, r.text[:200])}
+        return {"url": url, "error": api_error(r)}
     res = r.json().get("inspectionResult", {})
     idx = res.get("indexStatusResult", {}) or {}
     return {
@@ -153,7 +224,7 @@ def cmd_inspect(creds, site, url):
     }
 
 
-def cmd_inspect_all(creds, site, out_path):
+def cmd_inspect_all(creds, site, out_name, force):
     # список URL берём из локального sitemap.xml — он совпадает с продом
     sm_path = os.path.join(os.getcwd(), "sitemap.xml")
     if os.path.isfile(sm_path):
@@ -163,9 +234,18 @@ def cmd_inspect_all(creds, site, out_path):
     else:
         die("не найден sitemap.xml в текущей папке")
 
+    # путь проверяем ДО первого запроса к API, а не после 78 вызовов
+    out_path = safe_out_path(out_name, force) if out_name else None
+
     results = []
     for i, u in enumerate(urls, 1):
-        results.append(cmd_inspect(creds, site, u))
+        res = cmd_inspect(creds, site, u)
+        results.append(res)
+        err = res.get("error") or ""
+        if "429" in err or "rateLimit" in err.lower() or "quota" in err.lower():
+            print("\nУпёрлись в квоту API на %d-й странице — останавливаемся, "
+                  "чтобы не сжечь лимит. Повторите позже." % i)
+            break
         if i % 10 == 0 or i == len(urls):
             print("  проверено %d / %d" % (i, len(urls)))
         time.sleep(INSPECT_PAUSE)
@@ -181,12 +261,11 @@ def cmd_inspect_all(creds, site, out_path):
     if other:
         print("Не проиндексировано: %d" % len(other))
         for r in other[:20]:
-            print("  %s -> %s" % (r["url"], r.get("coverageState") or r.get("verdict")))
+            print("  %s -> %s" % (clean(r["url"]), clean(r.get("coverageState") or r.get("verdict"))))
 
     if out_path:
-        with open(out_path, "w", encoding="utf-8") as f:
-            json.dump(results, f, ensure_ascii=False, indent=2)
-        print("Отчёт сохранён: %s" % out_path)
+        atomic_write_json(out_path, results)
+        print("Отчёт сохранён: %s" % clean(out_path))
     return 0
 
 
@@ -222,28 +301,30 @@ def main():
     ap.add_argument("target", nargs="?", help="URL для inspect")
     ap.add_argument("--key", default=os.environ.get("GSC_KEY", DEFAULT_KEY))
     ap.add_argument("--site", default=DEFAULT_SITE)
-    ap.add_argument("--out", default=None)
+    ap.add_argument("--out", default=None, help="имя JSON-отчёта (пишется в _seo_tmp/gsc-reports/)")
+    ap.add_argument("--force", action="store_true", help="перезаписать существующий отчёт")
     ap.add_argument("--days", type=int, default=28)
     ap.add_argument("--limit", type=int, default=50)
     args = ap.parse_args()
 
+    site = validate_site(args.site)
     creds = load_creds(args.key)
 
     if args.command == "whoami":
-        return cmd_whoami(creds, args.key, args.site)
+        return cmd_whoami(creds, args.key, site)
     if args.command == "sitemaps":
-        return cmd_sitemaps(creds, args.site)
+        return cmd_sitemaps(creds, site)
     if args.command == "submit":
-        return cmd_submit(creds, args.site)
+        return cmd_submit(creds, site)
     if args.command == "inspect":
         if not args.target:
             die("укажите URL: gsc.py inspect https://raschet.net/")
-        print(json.dumps(cmd_inspect(creds, args.site, args.target), ensure_ascii=False, indent=2))
+        print(json.dumps(cmd_inspect(creds, site, args.target), ensure_ascii=False, indent=2))
         return 0
     if args.command == "inspect-all":
-        return cmd_inspect_all(creds, args.site, args.out)
+        return cmd_inspect_all(creds, site, args.out, args.force)
     if args.command == "queries":
-        return cmd_queries(creds, args.site, args.days, args.limit)
+        return cmd_queries(creds, site, args.days, args.limit)
     return 0
 
 

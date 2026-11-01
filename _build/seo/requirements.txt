@@ -1,0 +1,5 @@
+# Зависимости инструментов SEO (_build/seo/).
+# Установка:  python -m pip install -r _build/seo/requirements.txt
+# Проверено на Python 3.9.13 (EOL с 10.2025 — по возможности используйте 3.12+).
+google-auth==2.50.0
+requests==2.32.5
