@@ -1,0 +1,102 @@
+
+<meta charset="UTF-8">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0E7A4A">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru https://yastatic.net; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+<title>Сравнение списков онлайн — общие и уникальные элементы</title>
+<meta name="description" content="Сравните два списка онлайн — найдите общие элементы, а также элементы, которые есть только в первом или только во втором списке.">
+<link rel="canonical" href="https://raschet.net/sravnenie-spiskov/">
+<meta property="og:title" content="Сравнение списков — Расчёт.net">
+<meta property="og:description" content="Общие и уникальные элементы двух списков.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://raschet.net/sravnenie-spiskov/">
+<meta property="og:site_name" content="Расчёт.net">
+<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Сравнение списков — Расчёт.net">
+<meta name="twitter:description" content="Общие и уникальные элементы двух списков.">
+<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
+@@RASCHET_HEAD_INIT@@
+<style>
+@@RASCHET_STYLE@@</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Сравнение списков",
+  "url": "https://raschet.net/sravnenie-spiskov/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  }
+}
+</script>
+<script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Как сравнить два списка из Excel или Google Таблиц?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Скопируйте первый столбец и вставьте его в поле «Список A», второй столбец — в «Список Б». Каждая ячейка встанет на свою строку, и результат появится сразу, без формул ВПР и СЧЁТЕСЛИ."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Учитывается ли регистр букв при сравнении?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, сравнение посимвольное: «Иванов» и «иванов» считаются разными элементами. Перед сверкой приведите оба списка к одному регистру, если написание может отличаться."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что происходит с дублями внутри одного списка?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В группе «Общие» каждый элемент показывается один раз, повторы схлопываются. В группах «Только в A» и «Только в Б» дубли сохраняются — видно, сколько раз элемент встречался в исходном списке."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как найти элементы, которых нет во втором списке?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Смотрите карточку «Только в A» — это разность первого списка и второго. Обратная разность, чего нет в первом, показана в карточке «Только в Б»."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Учитываются ли пробелы и пустые строки?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Пробелы в начале и конце каждой строки удаляются автоматически, пустые строки игнорируются. Пробелы внутри строки значимы, поэтому «Иванов И.» с одним и двумя пробелами — разные элементы."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Есть ли ограничение на количество строк?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Жёсткого лимита нет: десятки тысяч строк считаются мгновенно. Весь расчёт выполняется локально в браузере, списки не отправляются на сервер."
+      }
+    }
+  ]
+}
+</script>

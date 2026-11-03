@@ -1,0 +1,108 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var targetEl = document.getElementById('cd-target');
+  var startBtn = document.getElementById('cd-start');
+  var errEl = document.getElementById('cd-error');
+  var valueEl = document.getElementById('cd-value');
+  var targetOutEl = document.getElementById('cd-target-out');
+  var pctEl = document.getElementById('cd-pct');
+  var barEl = document.getElementById('cd-bar');
+
+  // Прогресс-бар отсчитывается от момента загрузки страницы — по ТЗ.
+  var pageStart = Date.now();
+  var targetMs = null;
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function setDefault(){
+    var now = new Date();
+    var ny = new Date(now.getFullYear() + 1, 0, 1, 0, 0, 0);
+    targetEl.value = ny.getFullYear() + '-' + pad(ny.getMonth() + 1) + '-' + pad(ny.getDate()) +
+                     'T' + pad(ny.getHours()) + ':' + pad(ny.getMinutes());
+  }
+
+  function readTarget(){
+    var v = targetEl.value;
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?/.exec(v || '');
+    if (!m) return null;
+    var ms = new Date(+m[1], +m[2] - 1, +m[3], +m[4], +m[5], m[6] ? +m[6] : 0).getTime();
+    return isNaN(ms) ? null : ms;
+  }
+
+  function update(){
+    if (targetMs === null) return;
+    var now = Date.now();
+    var diff = targetMs - now;
+    if (diff <= 0){
+      valueEl.textContent = 'Время наступило!';
+      barEl.style.width = '100%';
+      pctEl.textContent = '100%';
+      return;
+    }
+    var sec = Math.floor(diff / 1000);
+    var d = Math.floor(sec / 86400);
+    var h = Math.floor((sec % 86400) / 3600);
+    var mi = Math.floor((sec % 3600) / 60);
+    var s = sec % 60;
+    valueEl.textContent = d + ' : ' + pad(h) + ' : ' + pad(mi) + ' : ' + pad(s);
+    var total = targetMs - pageStart;
+    var pct = total > 0 ? (now - pageStart) / total * 100 : 100;
+    if (pct < 0) pct = 0;
+    if (pct > 100) pct = 100;
+    barEl.style.width = pct.toFixed(1) + '%';
+    pctEl.textContent = Math.round(pct) + '%';
+  }
+
+  function restart(){
+    var ms = readTarget();
+    if (ms === null){
+      errEl.textContent = 'Выберите дату и время цели.';
+      errEl.classList.add('visible');
+      valueEl.textContent = '—';
+      targetMs = null;
+      return;
+    }
+    if (ms <= Date.now()){
+      errEl.textContent = 'Эта дата уже в прошлом — выберите момент в будущем.';
+      errEl.classList.add('visible');
+    } else {
+      errEl.classList.remove('visible');
+    }
+    targetMs = ms;
+    var d = new Date(ms);
+    targetOutEl.textContent = pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() +
+                            ' ' + pad(d.getHours()) + ':' + pad(d.getMinutes());
+    update();
+  }
+
+  targetEl.addEventListener('change', restart);
+  targetEl.addEventListener('input', restart);
+  startBtn.addEventListener('click', restart);
+  setDefault();
+  restart();
+  setInterval(update, 1000);
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

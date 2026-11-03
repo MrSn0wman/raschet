@@ -1,0 +1,67 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function parseList(text){
+  return text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+}
+
+function compareLists(listA, listB){
+  const setA = new Set(listA);
+  const setB = new Set(listB);
+  const onlyA = listA.filter(x => !setB.has(x));
+  const onlyB = listB.filter(x => !setA.has(x));
+  const common = [...new Set(listA.filter(x => setB.has(x)))];
+  return { onlyA, onlyB, common };
+}
+
+function doCompare(){
+  const listAEl = document.getElementById('list-a');
+  const listBEl = document.getElementById('list-b');
+  const errEl = document.getElementById('err');
+  const outputEl = document.getElementById('compare-output');
+
+  const listA = parseList(listAEl.value);
+  const listB = parseList(listBEl.value);
+
+  if (listA.length === 0 || listB.length === 0){
+    errEl.style.display = 'block';
+    outputEl.innerHTML = '';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const { onlyA, onlyB, common } = compareLists(listA, listB);
+
+  outputEl.innerHTML =
+    '<div class="compare-card"><h5>Только в A (' + onlyA.length + ')</h5><div>' + (onlyA.map(esc).join('\n') || '—') + '</div></div>' +
+    '<div class="compare-card"><h5>Общие (' + common.length + ')</h5><div>' + (common.map(esc).join('\n') || '—') + '</div></div>' +
+    '<div class="compare-card"><h5>Только в Б (' + onlyB.length + ')</h5><div>' + (onlyB.map(esc).join('\n') || '—') + '</div></div>';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('list-a').addEventListener('input', doCompare);
+  document.getElementById('list-b').addEventListener('input', doCompare);
+  doCompare();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

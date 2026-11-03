@@ -1,0 +1,63 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcNumberBase(){
+  const inputEl = document.getElementById('input-number');
+  const fromBaseEl = document.getElementById('from-base');
+  const customBaseEl = document.getElementById('custom-base');
+  const errEl = document.getElementById('err');
+
+  const raw = inputEl.value.trim().toUpperCase();
+  const fromBase = parseInt(fromBaseEl.value, 10);
+
+  const decimal = parseInt(raw, fromBase);
+  const isValidForBase = raw.length > 0 && /^[0-9A-Z]+$/.test(raw) &&
+    [...raw].every(ch => parseInt(ch, 36) < fromBase);
+
+  if (!raw || isNaN(decimal) || !isValidForBase){
+    errEl.style.display = 'block';
+    ['r-main','r-bin','r-oct','r-dec','r-hex','r-custom'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  document.getElementById('r-main').textContent = decimal.toLocaleString('ru-RU');
+  document.getElementById('r-bin').textContent = decimal.toString(2);
+  document.getElementById('r-oct').textContent = decimal.toString(8);
+  document.getElementById('r-dec').textContent = String(decimal);
+  document.getElementById('r-hex').textContent = decimal.toString(16).toUpperCase();
+
+  const customBase = parseInt(customBaseEl.value, 10);
+  if (!isNaN(customBase) && customBase >= 2 && customBase <= 36){
+    document.getElementById('r-custom').textContent = decimal.toString(customBase).toUpperCase();
+  } else {
+    document.getElementById('r-custom').textContent = '—';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('input-number').addEventListener('input', recalcNumberBase);
+  document.getElementById('from-base').addEventListener('change', recalcNumberBase);
+  document.getElementById('custom-base').addEventListener('input', recalcNumberBase);
+  recalcNumberBase();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

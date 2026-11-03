@@ -1,0 +1,64 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcTransportTax(){
+  const hpEl = document.getElementById('hp');
+  const rateEl = document.getElementById('rate');
+  const monthsEl = document.getElementById('months');
+  const luxuryEl = document.getElementById('luxury');
+  const errEl = document.getElementById('err');
+
+  const hp = parseFormattedNumber(hpEl);
+  const rate = parseFormattedNumber(rateEl);
+  const months = parseInt(monthsEl.value, 10);
+  const luxury = luxuryEl.checked;
+
+  if (isNaN(hp) || hp <= 0 || isNaN(rate) || rate < 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-tax').textContent = '—';
+    document.getElementById('r-formula').textContent = '—';
+    document.getElementById('r-monthly').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const ownershipCoef = months / 12;
+  let tax = hp * rate * ownershipCoef;
+  if (luxury) tax *= 3;
+
+  document.getElementById('r-tax').textContent = formatMoney(tax) + '\u00A0₽';
+  document.getElementById('r-formula').textContent = hp + ' л.с. × ' + rate + '\u00A0₽' + (months < 12 ? ' × ' + months + '/12 мес.' : '') + (luxury ? ' × 3' : '');
+  document.getElementById('r-monthly').textContent = formatMoney(tax/12) + '\u00A0₽';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const hpEl = document.getElementById('hp');
+  const rateEl = document.getElementById('rate');
+  attachThousandsInput(hpEl);
+  attachThousandsInput(rateEl);
+  hpEl.addEventListener('input', recalcTransportTax);
+  rateEl.addEventListener('input', recalcTransportTax);
+  document.getElementById('months').addEventListener('change', recalcTransportTax);
+  document.getElementById('luxury').addEventListener('change', recalcTransportTax);
+  recalcTransportTax();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

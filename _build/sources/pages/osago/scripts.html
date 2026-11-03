@@ -1,0 +1,92 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function kmForPower(hp){
+  if (hp <= 50) return 0.6;
+  if (hp <= 70) return 1.0;
+  if (hp <= 100) return 1.1;
+  if (hp <= 120) return 1.2;
+  if (hp <= 150) return 1.4;
+  return 1.6;
+}
+
+function recalcOsago(){
+  const baseRateEl = document.getElementById('base-rate');
+  const ktEl = document.getElementById('kt');
+  const ktCustomEl = document.getElementById('kt-custom');
+  const powerEl = document.getElementById('power');
+  const kbmEl = document.getElementById('kbm');
+  const kvsEl = document.getElementById('kvs');
+  const errEl = document.getElementById('err');
+  const koMode = document.querySelector('input[name="ko-mode"]:checked').value;
+
+  const baseRate = parseFormattedNumber(baseRateEl);
+  const kt = ktEl.value === 'custom' ? parseFloat(String(ktCustomEl.value).replace(',', '.')) : parseFloat(ktEl.value);
+  const power = parseFormattedNumber(powerEl);
+  const kbm = parseFloat(kbmEl.value);
+  const kvs = koMode === 'limited' ? parseFloat(kvsEl.value) : 1;
+  const ko = koMode === 'limited' ? 1 : 3.16;
+
+  if (isNaN(baseRate) || baseRate <= 0 || isNaN(kt) || kt <= 0 || isNaN(power) || power <= 0 || isNaN(kbm)){
+    errEl.style.display = 'block';
+    document.getElementById('r-price').textContent = '—';
+    document.getElementById('r-km').textContent = '—';
+    document.getElementById('r-ko').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const km = kmForPower(power);
+  const ks = 1;
+  const price = baseRate * kt * kbm * kvs * ko * km * ks;
+
+  document.getElementById('r-price').textContent = formatMoney(price) + '\u00A0₽';
+  document.getElementById('r-km').textContent = km.toFixed(2).replace('.', ',');
+  document.getElementById('r-ko').textContent = ko.toFixed(2).replace('.', ',');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  attachThousandsInput(document.getElementById('base-rate'));
+  attachThousandsInput(document.getElementById('power'));
+  document.getElementById('base-rate').addEventListener('input', recalcOsago);
+  document.getElementById('power').addEventListener('input', recalcOsago);
+  document.getElementById('kbm').addEventListener('change', recalcOsago);
+  document.getElementById('kvs').addEventListener('change', recalcOsago);
+  document.getElementById('kt-custom').addEventListener('input', recalcOsago);
+
+  const ktCustomWrap = document.getElementById('kt-custom-wrap');
+  document.getElementById('kt').addEventListener('change', () => {
+    ktCustomWrap.style.display = document.getElementById('kt').value === 'custom' ? 'block' : 'none';
+    recalcOsago();
+  });
+
+  const kvsWrap = document.getElementById('kvs-wrap');
+  document.querySelectorAll('input[name="ko-mode"]').forEach(r => {
+    r.addEventListener('change', () => {
+      kvsWrap.style.display = document.querySelector('input[name="ko-mode"]:checked').value === 'limited' ? 'grid' : 'none';
+      recalcOsago();
+    });
+  });
+
+  recalcOsago();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

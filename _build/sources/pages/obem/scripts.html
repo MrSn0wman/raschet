@@ -1,0 +1,297 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+/* =========================================================
+   РАСЧЁТ.РФ — библиотека формул калькуляторов
+   Чистые функции: не трогают DOM, легко тестируются
+   ========================================================= */
+
+const Calc = {
+
+  // ---------- Площадь ----------
+  areaRectangle(a, b){ return a * b; },
+  areaCircle(r){ return Math.PI * r * r; },
+  areaTriangle(base, height){ return (base * height) / 2; },
+
+  // ---------- Объём ----------
+  volumeBox(a, b, c){ return a * b * c; },
+  volumeCylinder(r, h){ return Math.PI * r * r * h; },
+  volumeSphere(r){ return (4 / 3) * Math.PI * r ** 3; },
+
+  // ---------- Проценты ----------
+  percentOfNumber(percent, number){ return (percent / 100) * number; },
+  numberIsWhatPercentOf(part, whole){ if (whole === 0) return NaN; return (part / whole) * 100; },
+  percentChange(oldValue, newValue){ if (oldValue === 0) return NaN; return ((newValue - oldValue) / oldValue) * 100; },
+
+  // ---------- ИМТ ----------
+  bmi(weightKg, heightCm){
+    const h = heightCm / 100;
+    return weightKg / (h * h);
+  },
+  bmiCategory(bmiValue){
+    if (bmiValue < 16) return 'Выраженный дефицит массы тела';
+    if (bmiValue < 18.5) return 'Недостаточная масса тела';
+    if (bmiValue < 25) return 'Норма';
+    if (bmiValue < 30) return 'Избыточная масса тела';
+    if (bmiValue < 35) return 'Ожирение I степени';
+    if (bmiValue < 40) return 'Ожирение II степени';
+    return 'Ожирение III степени';
+  },
+
+  /**
+   * Аннуитетный платёж по кредиту/ипотеке.
+   * principal — сумма кредита, annualRatePercent — ставка годовых,
+   * months — срок в месяцах
+   * Возвращает { monthlyPayment, totalPayment, totalInterest, schedule }
+   */
+  annuityLoan(principal, annualRatePercent, months){
+    const i = (annualRatePercent / 100) / 12;
+    let monthlyPayment;
+    if (i === 0){
+      monthlyPayment = principal / months;
+    } else {
+      const factor = Math.pow(1 + i, months);
+      monthlyPayment = principal * (i * factor) / (factor - 1);
+    }
+    const totalPayment = monthlyPayment * months;
+    const totalInterest = totalPayment - principal;
+
+    // график первых N платежей (для проверки/детализации), полностью — по запросу
+    const schedule = [];
+    let balance = principal;
+    for (let m = 1; m <= months; m++){
+      const interestPart = i === 0 ? 0 : balance * i;
+      const principalPart = monthlyPayment - interestPart;
+      balance -= principalPart;
+      schedule.push({
+        month: m,
+        payment: monthlyPayment,
+        interest: interestPart,
+        principal: principalPart,
+        balance: Math.max(balance, 0)
+      });
+    }
+
+    return {
+      monthlyPayment,
+      totalPayment,
+      totalInterest,
+      schedule
+    };
+  },
+
+  /**
+   * Вклад с капитализацией процентов (ежемесячная капитализация)
+   * principal — сумма вклада, annualRatePercent — ставка годовых,
+   * months — срок в месяцах, monthlyTopUp — пополнение в месяц (0 если нет)
+   */
+  depositWithCapitalization(principal, annualRatePercent, months, monthlyTopUp = 0){
+    const i = (annualRatePercent / 100) / 12;
+    let balance = principal;
+    let totalTopUp = 0;
+    for (let m = 1; m <= months; m++){
+      balance += balance * i;
+      balance += monthlyTopUp;
+      totalTopUp += monthlyTopUp;
+    }
+    const totalInterest = balance - principal - totalTopUp;
+    return {
+      finalBalance: balance,
+      totalInterest,
+      totalTopUp
+    };
+  },
+
+  /**
+   * Простой вклад без капитализации (проценты выплачиваются, не прибавляются к телу)
+   */
+  depositSimple(principal, annualRatePercent, months){
+    const totalInterest = principal * (annualRatePercent / 100) * (months / 12);
+    return {
+      finalBalance: principal + totalInterest,
+      totalInterest
+    };
+  },
+
+  /**
+   * Ипотека/кредит с досрочными погашениями.
+   * principal — сумма кредита, annualRatePercent — ставка годовых, months — срок в месяцах.
+   * options:
+   *   strategy — 'term' (уменьшение срока, платёж не меняется) | 'payment' (уменьшение платежа, срок не меняется)
+   *   monthlyExtra — регулярный ежемесячный доп. платёж (0, если не используется)
+   *   monthlyExtraFromMonth — с какого месяца начинается регулярный доп. платёж (по умолчанию 1)
+   *   oneTimeExtra — разовый доп. платёж (0, если не используется)
+   *   oneTimeExtraMonth — месяц разового доп. платежа
+   * Возвращает сравнение с исходным графиком без досрочных погашений.
+   */
+  mortgageWithEarlyRepayments(principal, annualRatePercent, months, options = {}){
+    const {
+      strategy = 'term',
+      monthlyExtra = 0,
+      monthlyExtraFromMonth = 1,
+      oneTimeExtra = 0,
+      oneTimeExtraMonth = 0
+    } = options;
+
+    const i = (annualRatePercent / 100) / 12;
+    const annuityPayment = (P, rate, n) => {
+      if (n <= 0) return 0;
+      if (rate === 0) return P / n;
+      const f = Math.pow(1 + rate, n);
+      return P * (rate * f) / (f - 1);
+    };
+
+    const base = this.annuityLoan(principal, annualRatePercent, months);
+
+    let payment = annuityPayment(principal, i, months);
+    let balance = principal;
+    let totalInterest = 0;
+    let totalExtra = 0;
+    let monthsUsed = 0;
+    let finalPayment = payment;
+    const schedule = [];
+
+    for (let m = 1; m <= months; m++){
+      if (balance <= 0.005) break;
+      monthsUsed = m;
+
+      const interest = i === 0 ? 0 : balance * i;
+      let principalPart = payment - interest;
+      if (principalPart > balance) principalPart = balance;
+      balance -= principalPart;
+      totalInterest += interest;
+
+      let extra = 0;
+      if (monthlyExtra > 0 && m >= monthlyExtraFromMonth) extra += monthlyExtra;
+      if (oneTimeExtra > 0 && m === oneTimeExtraMonth) extra += oneTimeExtra;
+      if (extra > balance) extra = Math.max(balance, 0);
+      if (extra > 0){
+        balance -= extra;
+        totalExtra += extra;
+      }
+
+      schedule.push({
+        month: m,
+        interest,
+        principal: principalPart + extra,
+        extra,
+        payment: principalPart + interest + extra,
+        balance: Math.max(balance, 0)
+      });
+
+      if (balance <= 0.005){
+        balance = 0;
+        break;
+      }
+
+      const remainingMonths = months - m;
+      if (extra > 0 && remainingMonths > 0 && strategy === 'payment'){
+        payment = annuityPayment(balance, i, remainingMonths);
+        finalPayment = payment;
+      }
+    }
+
+    const totalPaid = principal + totalInterest;
+    const monthsSaved = months - monthsUsed;
+    const interestSaved = base.totalInterest - totalInterest;
+    const paymentReduced = base.monthlyPayment - finalPayment;
+
+    return {
+      basePayment: base.monthlyPayment,
+      baseTotalInterest: base.totalInterest,
+      monthsUsed,
+      monthsSaved,
+      finalPayment,
+      totalInterest,
+      totalExtra,
+      totalPaid,
+      interestSaved,
+      paymentReduced,
+      schedule
+    };
+  }
+};
+
+if (typeof module !== 'undefined' && module.exports){
+  module.exports = Calc;
+}
+
+
+</script>
+<script>
+
+(function(){
+  const shapeEl = document.getElementById('v-shape');
+  const unitEl = document.getElementById('v-unit');
+  const fields = document.querySelectorAll('[data-shape]');
+  const dimUnitLabels = document.querySelectorAll('.dim-unit');
+  const errorEl = document.getElementById('v-error');
+
+  const UNIT_TO_METERS = { mm: 0.001, cm: 0.01, m: 1, km: 1000 };
+  const UNIT_LABELS = { mm: 'мм', cm: 'см', m: 'м', km: 'км' };
+
+  function toggleFields(){
+    const shape = shapeEl.value;
+    fields.forEach(f => { f.style.display = (f.dataset.shape === shape) ? '' : 'none'; });
+  }
+
+  function updateUnitLabels(){
+    const label = UNIT_LABELS[unitEl.value] || 'м';
+    dimUnitLabels.forEach(el => { el.textContent = label; });
+  }
+
+  function render(){
+    toggleFields();
+    updateUnitLabels();
+    const shape = shapeEl.value;
+    const factor = UNIT_TO_METERS[unitEl.value] || 1;
+    let volume = NaN;
+
+    if (shape === 'box'){
+      const a = parseFloat(document.getElementById('v-a').value) * factor;
+      const b = parseFloat(document.getElementById('v-b').value) * factor;
+      const c = parseFloat(document.getElementById('v-c').value) * factor;
+      if (a > 0 && b > 0 && c > 0) volume = Calc.volumeBox(a, b, c);
+    } else if (shape === 'cylinder'){
+      const r = parseFloat(document.getElementById('v-r').value) * factor;
+      const h = parseFloat(document.getElementById('v-h').value) * factor;
+      if (r > 0 && h > 0) volume = Calc.volumeCylinder(r, h);
+    } else if (shape === 'sphere'){
+      const r = parseFloat(document.getElementById('v-sr').value) * factor;
+      if (r > 0) volume = Calc.volumeSphere(r);
+    }
+
+    const valid = !isNaN(volume) && volume > 0;
+    errorEl.style.display = valid ? 'none' : 'block';
+    if (!valid) return;
+
+    document.getElementById('v-result').textContent = formatSmart(volume) + ' м³';
+    document.getElementById('v-liters').textContent = formatSmart(volume * 1000) + ' л';
+    document.getElementById('v-cm3').textContent = formatSmart(volume * 1000000) + ' см³';
+  }
+
+  document.getElementById('volume-form').addEventListener('input', render);
+  shapeEl.addEventListener('change', render);
+  unitEl.addEventListener('change', render);
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -80,8 +80,8 @@ for fname in sorted(os.listdir(TOOLS_DIR)):
         problems.append("meta_desc %d chars > 160" % len(md))
 
     faq = tool["faq"]
-    if not isinstance(faq, list) or not (3 <= len(faq) <= 4):
-        problems.append("faq must be list of 3-4 pairs, got %s" %
+    if not isinstance(faq, list) or not (3 <= len(faq) <= 6):
+        problems.append("faq must be list of 3-6 pairs, got %s" %
                         (len(faq) if isinstance(faq, list) else type(faq).__name__))
     else:
         for pair in faq:

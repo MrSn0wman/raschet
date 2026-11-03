@@ -1,0 +1,129 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#realty">Недвижимость и налоги</a> / Налог с продажи квартиры
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Налог с продажи квартиры</h1>
+          <p class="calc-sub">Проверьте, нужно ли платить НДФЛ при продаже квартиры, и рассчитайте сумму с учётом срока владения и вычетов.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="saleprice">Цена продажи по договору</label>
+              <div class="unit-input">
+                <input type="text" id="saleprice" value="8 000 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="years">Срок владения</label>
+              <input type="text" id="years" value="2" inputmode="numeric">
+            </div>
+            <div class="field">
+              <label for="minperiod">Минимальный срок для вашего случая</label>
+              <select id="minperiod">
+                <option value="5">5 лет — обычная покупка (общий случай)</option>
+                <option value="3">3 года — наследство, дар от близкого родственника, приватизация, рента или единственное жильё</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="cadastral">Кадастровая стоимость на 1 января года продажи <span class="hint">(необязательно)</span></label>
+              <div class="unit-input">
+                <input type="text" id="cadastral" value="0" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="strategy-toggle" style="margin:18px 0 6px;">
+            <label class="strategy-option">
+              <input type="radio" name="deduction-method" value="fixed" checked>
+              <span><b>Вычет 1 000 000 ₽</b><small>Фиксированный вычет — без подтверждающих документов о покупке</small></span>
+            </label>
+            <label class="strategy-option">
+              <input type="radio" name="deduction-method" value="expenses">
+              <span><b>Вычесть расходы на покупку</b><small>Нужны документы: старый договор купли-продажи и т.п.</small></span>
+            </label>
+          </div>
+          <div class="field-grid" id="expenses-field-wrap" style="display:none; margin-top:10px;">
+            <div class="field full">
+              <label for="purchaseprice">Сумма, за которую вы купили эту квартиру</label>
+              <div class="unit-input">
+                <input type="text" id="purchaseprice" value="5 000 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-tax"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label" id="r-status-label">Налог к уплате</div>
+            <div class="r-value" id="r-tax">—</div>
+            <div class="r-rows">
+              <div><b id="r-base">—</b><span>Налоговая база</span></div>
+              <div><b id="r-effprice">—</b><span>Цена для расчёта налога</span></div>
+              <div><b id="r-deduction">—</b><span>Применённый вычет</span></div>
+              <div><b id="r-note">—</b><span>Декларация 3-НДФЛ</span></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается налог с продажи квартиры</h2>
+<p>Налог при продаже квартиры возникает, только если минимальный срок владения ещё не истёк — 5 лет в общем случае или 3 года для льготных ситуаций. Тогда НДФЛ берётся не со всей суммы сделки, а с разницы между ценой продажи и вычетом: 1&nbsp;000&nbsp;000&nbsp;₽ либо подтверждёнными расходами на покупку этой квартиры. Ставка — 13%, а с части дохода свыше 2,4 млн ₽ — 15%.</p>
+<p>Введите в калькулятор цену продажи, кадастровую стоимость, даты покупки и продажи — и выберите способ вычета. На выходе вы увидите сам налог, налоговую базу, цену, принятую для расчёта, и подсказку, нужно ли подавать декларацию 3-НДФЛ.</p>
+<p>Расчёт идёт в три шага. Сначала определяется цена для налога: если в договоре она ниже 70% кадастровой стоимости на 1 января года продажи, берётся 70% кадастровой. Затем из этой суммы вычитается вычет — миллион рублей или расходы. Остаток и есть налоговая база. Общая схема такая:</p>
+<p><code>Налог = 13% × база до 2&nbsp;400&nbsp;000&nbsp;₽ + 15% × (база − 2&nbsp;400&nbsp;000&nbsp;₽)</code></p>
+<p>Эта шкала для дохода от продажи имущества считается отдельно от зарплатной прогрессии. А если минимальный срок владения истёк, налога нет вообще — и декларацию подавать не нужно.</p>
+<p>Пример. Квартира куплена за 5&nbsp;000&nbsp;000&nbsp;₽ и продана через два года за 8&nbsp;000&nbsp;000&nbsp;₽. Пятилетний срок не истёк, но документы о расходах сохранились. База: 8&nbsp;000&nbsp;000 − 5&nbsp;000&nbsp;000 = 3&nbsp;000&nbsp;000&nbsp;₽. Налог: 13% с 2&nbsp;400&nbsp;000&nbsp;₽ — это 312&nbsp;000&nbsp;₽, плюс 15% с оставшихся 600&nbsp;000&nbsp;₽ — ещё 90&nbsp;000&nbsp;₽. Итого к уплате 402&nbsp;000&nbsp;₽. С фиксированным вычетом в 1&nbsp;000&nbsp;000&nbsp;₽ база была бы 7&nbsp;000&nbsp;000&nbsp;₽, а налог — 1&nbsp;002&nbsp;000&nbsp;₽: разница в 600&nbsp;000&nbsp;₽ в пользу вычета расходов.</p>
+<h3>Минимальный срок владения: когда налога нет</h3>
+<p>В общем случае квартиру нужно держать в собственности 5 лет. Трёх лет достаточно, если это единственное жильё либо квартира получена в наследство, в дар от близкого родственника, по приватизации или по договору ренты. Отсчёт обычно идёт с даты регистрации права в Росреестре; для наследства — со дня смерти наследодателя, а не с даты оформления документов. Срок истёк — доход не облагается, и декларация 3-НДФЛ не нужна.</p>
+<h3>Вычет 1 млн ₽ или расходы: что выбрать</h3>
+<p>Фиксированный вычет 1&nbsp;000&nbsp;000&nbsp;₽ не требует никаких документов о покупке. Вычет в виде расходов требует подтверждений — старого договора купли-продажи, расписок, платёжек. Правило простое: если квартира стоила дороже миллиона и документы сохранились, расходы почти всегда выгоднее. Если документов нет или покупали дешевле миллиона — берите фиксированный вычет. Применить оба сразу нельзя, выбирается один вариант.</p>
+<h3>Почему в расчёте участвует кадастровая стоимость</h3>
+<p>Это защита от занижения цены в договоре. Если цена продажи меньше 70% кадастровой стоимости объекта на 1 января года сделки, налог считается от 70% кадастровой. Например, кадастровая стоимость 10&nbsp;000&nbsp;000&nbsp;₽, а в договоре записано 5&nbsp;000&nbsp;000&nbsp;₽ — налоговая посчитает базу от 7&nbsp;000&nbsp;000&nbsp;₽. Поэтому «заниженный» договор не экономит налог, а лишь добавляет рисков при сделке.</p>
+<h3>Когда подавать декларацию 3-НДФЛ</h3>
+<p>Если минимальный срок истёк — декларация не нужна. Если нет, декларацию подают, даже когда налог вышел нулевым: например, квартиру продали дешевле цены покупки и база обнулилась вычетом расходов. К документам тогда прикладывают подтверждение расходов. Освобождение одно: если доход от продажи не превысил 1&nbsp;000&nbsp;000&nbsp;₽ при фиксированном вычете и других продаж недвижимости за год не было. Подробности уточняйте в ст. 220 НК РФ.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Через сколько лет продажа квартиры не облагается налогом?</summary><p>Через 5 лет владения в общем случае. Минимальный срок сокращается до 3 лет для единственного жилья, а также если квартира получена в наследство или в дар от близкого родственника, приватизирована или получена по договору ренты.</p></details>
+<details><summary>Нужно ли подавать декларацию, если налог получился нулевым?</summary><p>Декларацию можно не подавать, если доход от продажи не превышает 1&nbsp;000&nbsp;000&nbsp;₽ (при использовании фиксированного вычета) и в течение года вы не продавали другие объекты недвижимости.</p></details>
+<details><summary>А если квартиру продали дешевле, чем купили?</summary><p>При выборе вычета в виде расходов налоговая база получается нулевой или отрицательной, значит налог платить не нужно. Но декларацию всё равно подают, приложив подтверждающие документы.</p></details>
+<details><summary>Что выгоднее — вычет 1 млн рублей или расходы на покупку?</summary><p>Если есть документы, подтверждающие расходы на покупку этой квартиры, обычно выгоднее вычесть именно их, а не фиксированный 1 млн ₽ — особенно если квартира стоила дороже миллиона.</p></details>
+<details><summary>С какой даты считается срок владения?</summary><p>Как правило — с даты регистрации права собственности в Росреестре. Для унаследованного имущества — с даты смерти наследодателя, а не с даты оформления наследства.</p></details>
+<details><summary>Зачем в расчёте нужна кадастровая стоимость?</summary><p>Если цена продажи в договоре ниже 70% кадастровой стоимости объекта на 1 января года продажи, налоговая база принимается равной 70% кадастровой стоимости. Это правило защищает от искусственного занижения цены в договоре.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../nalogovyy-vychet-kvartira/">Налоговый вычет за квартиру</a>
+          <a class="related-link" href="../ndfl/">Калькулятор НДФЛ</a>
+          <a class="related-link" href="../ipoteka/">Калькулятор ипотеки</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,87 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var inEl = document.getElementById('inn-in');
+  var errEl = document.getElementById('inn-error');
+  var verdictEl = document.getElementById('inn-verdict');
+  var typeEl = document.getElementById('inn-type');
+  var checkEl = document.getElementById('inn-check');
+
+  function checksum(digits, coeffs){
+    var sum = 0;
+    for (var i = 0; i < coeffs.length; i++) sum += digits[i] * coeffs[i];
+    return (sum % 11) % 10;
+  }
+
+  function valid10(d){
+    return checksum(d, [2, 4, 10, 3, 5, 9, 4, 6, 8]) === d[9];
+  }
+
+  function valid12(d){
+    var n11 = checksum(d, [7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+    var n12 = checksum(d, [3, 7, 2, 4, 10, 3, 5, 9, 4, 6, 8]);
+    return n11 === d[10] && n12 === d[11];
+  }
+
+  function showError(msg){
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+  }
+  function hideError(){ errEl.classList.remove('visible'); }
+
+  function reset(){
+    verdictEl.textContent = '—';
+    verdictEl.style.color = '';
+    typeEl.textContent = '—';
+    checkEl.textContent = '—';
+  }
+
+  function render(){
+    var raw = inEl.value.replace(/[\s-]/g, '');
+    if (raw === ''){ hideError(); reset(); return; }
+    if (!/^\d+$/.test(raw)){
+      showError('ИНН состоит только из цифр.');
+      reset();
+      return;
+    }
+    if (raw.length !== 10 && raw.length !== 12){
+      showError('ИНН состоит из 10 или 12 цифр. Сейчас введено: ' + raw.length + '.');
+      reset();
+      return;
+    }
+    hideError();
+    var digits = [];
+    for (var i = 0; i < raw.length; i++) digits.push(raw.charCodeAt(i) - 48);
+    var ok = raw.length === 10 ? valid10(digits) : valid12(digits);
+    verdictEl.textContent = ok ? 'ИНН действительный' : 'ИНН недействительный';
+    verdictEl.style.color = ok ? 'var(--accent)' : 'var(--danger)';
+    typeEl.textContent = raw.length === 10 ? 'Организация (юрлицо)' : 'Физлицо или ИП';
+    checkEl.textContent = ok ? 'сошлись' : 'не сошлись';
+  }
+
+  inEl.addEventListener('input', render);
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

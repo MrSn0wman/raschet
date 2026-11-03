@@ -1,118 +1,146 @@
 # -*- coding: utf-8 -*-
-# Полный прогон собранного сайта C:\Kimi\raschet-site в headless Chrome
-# с инструментацией (__errs hook) и сверкой против baseline.json.
-import io
+"""Reproducible strict static + Chrome gate. Missing records/errors exit nonzero.
+
+Runs against --site (default _build/out), never copies or instruments public root.
+External requests and service workers are blocked by the CDP harness.
+"""
+import argparse
+import functools
+import http.server
 import json
 import os
 import re
 import shutil
 import subprocess
 import sys
+import tempfile
+import threading
+from pathlib import Path
+from urllib.parse import unquote, urlsplit
+from site_common import BASE_URL, REPO, SOURCES, VERIFICATION_RE, html_files, read, site_parser
 
-SITE = r"C:\Kimi\raschet"
-WORK = r"C:\Kimi\raschet-test\site-instr"
-HARNESS_SRC = r"C:\Kimi\raschet-test\instrumented\harness.html"
-BASELINE = r"C:\Kimi\raschet-test\baseline.json"
-RESULT = r"C:\Kimi\raschet-test\site-result.json"
-PORT = 8322
-CHROME = r"C:\Program Files\Google\Chrome\Application\chrome.exe"
+CHROME = Path(os.environ.get('CHROME', r'C:\Program Files\Google\Chrome\Application\chrome.exe'))
 
-HOOK = ('<script>window.__errs=[];window.addEventListener("error",function(e){'
-        '__errs.push(String(e.message||e.error||"err")+" @"+String(e.filename||"").split("/").pop()+":"+e.lineno)});</script>')
+def static_checks(site, sources=SOURCES):
+    site, sources = Path(site), Path(sources)
+    errors = []
+    try: manifest = json.loads(read(sources / 'manifest.json'))
+    except Exception as exc: return ['Missing/invalid source manifest: ' + str(exc)]
+    expected = {p['path'] for p in manifest['pages']}
+    if len(expected) != 79: errors.append('Expected exactly 79 full pages')
+    if sum(p['calculator'] for p in manifest['pages']) != 73: errors.append('Expected 73 calculators')
+    actual = {p.relative_to(site).as_posix() for p in html_files(site, full=True)}
+    if expected != actual: errors.append('Full-page inventory mismatch: missing=%s extra=%s' % (sorted(expected-actual), sorted(actual-expected)))
+    for rel in sorted(expected):
+        path = site / rel
+        if not path.is_file(): continue
+        text = read(path)
+        for token in ('id="main-content"', 'id="theme-toggle"', 'nav-cat-btn', 'nav-cat-panel', '// Общая логика интерфейса'):
+            if token not in text: errors.append(rel + ': missing ' + token)
+        for stale in ('id="mega-btn"', 'mega-grid', 'mega-panel', 'closeMegaCats', '@@RASCHET_', 'raschet.rf', "RASCHET_API_BASE = 'http"):
+            if stale in text: errors.append(rel + ': stale/unsafe ' + stale)
+        titles = re.findall(r'<title>(.*?)</title>', text, re.S)
+        if len(titles) != 1 or not titles[0].strip() or len(titles[0]) > 60: errors.append(rel + ': title count/length invalid')
+        for name in ('description',):
+            if not re.search(r'<meta name="%s" content="[^"\n]+"' % name, text): errors.append(rel + ': missing SEO ' + name)
+        expected_canonical = BASE_URL + ('' if rel == 'index.html' else rel.removesuffix('index.html') if rel.endswith('/index.html') else rel)
+        if '<link rel="canonical" href="%s"' % expected_canonical not in text: errors.append(rel + ': wrong canonical')
+        for raw in re.findall(r'<script type="application/ld\+json">(.*?)</script>', text, re.S):
+            try: json.loads(raw)
+            except Exception as exc: errors.append(rel + ': invalid JSON-LD ' + str(exc))
+        scripts = re.findall(r'<script\b[^>]*>', text)
+        if not scripts or not re.fullmatch(r'<script src="[^"]*assets/privacy.js">', scripts[0]): errors.append(rel + ': privacy is not first synchronous script')
+        urls = re.findall(r'(?:src|href)="([^"#]+)"', text) + re.findall(r"url\(['\"]?([^)'\"]+)", text)
+        for url in urls:
+            parsed = urlsplit(url)
+            if parsed.scheme or parsed.netloc or url.startswith(('data:', 'mailto:', 'tel:', 'javascript:')): continue
+            target = (site / unquote(parsed.path.lstrip('/'))) if parsed.path.startswith('/') else path.parent / unquote(parsed.path)
+            if parsed.path and not target.exists(): errors.append(rel + ': missing local URL ' + url)
+    for item in manifest['redirects']:
+        path = site / item['path']
+        if not path.is_file() or 'url=%s' % item['target'] not in read(path): errors.append('Missing/invalid redirect: ' + item['path'])
+    for rel in manifest['static'] + ['CNAME', '.nojekyll', 'robots.txt', 'sitemap.xml', 'manifest.webmanifest', 'sw.js', 'assets/analytics.js', 'assets/privacy.js', 'assets/og-cover.png']:
+        if not (site / rel).is_file(): errors.append('Missing required file: ' + rel)
+    try:
+        sw = read(site / 'sw.js')
+        if "url.search" not in sw or "!ALLOWED.has(url.pathname)" not in sw or "response.headers.has('set-cookie')" not in sw: errors.append('Unsafe SW cache gate')
+        if './sw.js' in sw or './rates.json' in sw: errors.append('SW self/json precache is forbidden')
+    except OSError: pass
+    return sorted(set(errors))
 
-def read(p):
-    with io.open(p, "r", encoding="utf-8") as f:
-        return f.read()
+def validate_records(result, manifest, baseline=None):
+    errors = []
+    if not isinstance(result, dict) or result.get('complete') is not True: return ['Chrome harness completion record is missing']
+    records = result.get('pages', [])
+    if not isinstance(records, list): return ['Chrome harness records are not a list']
+    expected = {p['path'] for p in manifest['pages']}
+    observed = [r.get('page') for r in records if isinstance(r, dict)]
+    if len(observed) != len(records) or len(set(observed)) != len(observed): errors.append('Invalid/duplicate page records')
+    if set(observed) != expected: errors.append('Missing/unexpected browser records: ' + str(sorted(expected-set(observed))))
+    errors.extend(result.get('errors', []))
+    for record in records:
+        if not isinstance(record, dict): continue
+        page = record.get('page', '<missing>')
+        if record.get('errors'): errors.append(page + ': JS errors ' + str(record['errors']))
+        if record.get('rendered') is not True: errors.append(page + ': page did not render')
+        if record.get('interactive') is not True: errors.append(page + ': theme toggle failed')
+        if baseline:
+            base = next((r for r in baseline if r.get('page') == page), None)
+            if base and base.get('result_found') and not record.get('result_found'): errors.append(page + ': baseline result lost')
+    return errors
 
-# --- 1. instrumented copy ---
-if os.path.exists(WORK):
-    shutil.rmtree(WORK, onerror=lambda f, p, e: (os.chmod(p, 0o777), os.unlink(p)))
-shutil.copytree(SITE, WORK, ignore=shutil.ignore_patterns(".git", "_build", "backend"))
+class QuietHandler(http.server.SimpleHTTPRequestHandler):
+    def log_message(self, *args): pass
 
-pages = []
-for root, dirs, files in os.walk(WORK):
-    dirs[:] = [d for d in dirs if d not in ("_build", "backend", "assets")]
-    for fn in files:
-        if not fn.endswith(".html"):
-            continue
-        rel = os.path.relpath(os.path.join(root, fn), WORK).replace("\\", "/")
-        # редирект-заглушки не тестируем (они уводят навигацию)
-        if re.match(r"^calc-[a-z0-9-]+\.html$", rel):
-            continue
-        text = read(os.path.join(root, fn))
-        text = text.replace("<head>", "<head>" + HOOK, 1)
-        with io.open(os.path.join(root, fn), "w", encoding="utf-8", newline="\n") as f:
-            f.write(text)
-        pages.append(rel if rel == "index.html" or rel == "404.html" else rel.replace("/index.html", "/"))
+def run_browser(site, sources, chrome=CHROME, node=None, result_path=None, baseline=None):
+    node = node or os.environ.get('NODE') or shutil.which('node')
+    if not node:
+        bundled = Path.home() / '.dsh/dsh-runtimes/dsh-primary-runtime/dependencies/node/bin/node.exe'
+        if bundled.is_file(): node = str(bundled)
+    if not node or not Path(chrome).is_file(): raise ValueError('Node/Chrome unavailable: pass --node and --chrome')
+    manifest = json.loads(read(Path(sources) / 'manifest.json'))
+    handler = functools.partial(QuietHandler, directory=str(Path(site).resolve()))
+    server = http.server.ThreadingHTTPServer(('127.0.0.1', 0), handler)
+    thread = threading.Thread(target=server.serve_forever, daemon=True)
+    thread.start()
+    try:
+        with tempfile.TemporaryDirectory(prefix='raschet-test-') as work:
+            output = Path(work) / 'records.json'
+            pages = Path(work) / 'pages.json'
+            pages.write_text(json.dumps([p['path'] for p in manifest['pages']]), encoding='utf-8')
+            completed = subprocess.run([str(node), str(REPO / 'tests/build_harness.js'), '--url', 'http://127.0.0.1:%d/' % server.server_port, '--pages', str(pages), '--result', str(output), '--chrome', str(chrome)], timeout=600)
+            if not output.is_file(): raise ValueError('Chrome produced no records (exit %s)' % completed.returncode)
+            result = json.loads(read(output))
+            if result_path: Path(result_path).write_text(json.dumps(result, ensure_ascii=False, indent=2), encoding='utf-8')
+            errors = validate_records(result, manifest, baseline)
+            if completed.returncode: errors.append('Chrome harness exit: %d' % completed.returncode)
+            return result, errors
+    finally:
+        server.shutdown()
+        server.server_close()
+        thread.join(timeout=5)
 
-pages.sort()
-with io.open(os.path.join(WORK, "pages.json"), "w", encoding="utf-8") as f:
-    json.dump(pages, f)
-shutil.copy(HARNESS_SRC, os.path.join(WORK, "harness.html"))
-print("instrumented pages:", len(pages))
-
-# --- 2. server + chrome ---
-server = subprocess.Popen([sys.executable, "-m", "http.server", str(PORT), "--bind", "127.0.0.1", "--directory", WORK],
-                          stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-try:
-    import time
-    time.sleep(1.5)
-    out = subprocess.run([CHROME, "--headless=new", "--disable-gpu", "--no-first-run",
-                          "--user-data-dir=" + r"C:\Kimi\raschet-test\chrome-sitetest",
-                          "--virtual-time-budget=420000",
-                          "--dump-dom", "http://127.0.0.1:%d/harness.html" % PORT],
-                         capture_output=True, timeout=600)
-    dom = out.stdout.decode("utf-8", "ignore")
-finally:
-    server.kill()
-
-# --- 3. parse ---
-records = []
-for ln in dom.splitlines():
-    ln = ln.strip()
-    if ln.startswith("{") and '"page"' in ln or '"__done__"' in ln:
+def main():
+    parser = site_parser(__doc__)
+    parser.add_argument('--sources', type=Path, default=SOURCES)
+    parser.add_argument('--chrome', type=Path, default=CHROME)
+    parser.add_argument('--node')
+    parser.add_argument('--result', type=Path)
+    parser.add_argument('--baseline', type=Path)
+    parser.add_argument('--static-only', action='store_true')
+    args = parser.parse_args()
+    errors = static_checks(args.site, args.sources)
+    if not errors and not args.static_only:
+        baseline = json.loads(read(args.baseline)) if args.baseline else None
+        if isinstance(baseline, dict): baseline = baseline.get('pages', [])
         try:
-            records.append(json.loads(ln))
-        except Exception:
-            pass
+            result, browser_errors = run_browser(args.site, args.sources, args.chrome, args.node, args.result, baseline)
+            errors += browser_errors
+            print('Browser records:', len(result.get('pages', [])))
+        except Exception as exc: errors.append('Browser harness failed: ' + str(exc))
+    for error in errors: print('FAIL:', error)
+    print('SITE GATE:', 'FAIL' if errors else 'PASS')
+    return 1 if errors else 0
 
-done = [r for r in records if r.get("__done__")]
-recs = [r for r in records if r.get("page")]
-with io.open(RESULT, "w", encoding="utf-8") as f:
-    json.dump(recs, f, ensure_ascii=False, indent=2)
-
-print("records:", len(recs))
-if done:
-    print("summary:", json.dumps(done[0], ensure_ascii=False))
-
-# --- 4. сверка с baseline ---
-if os.path.exists(BASELINE):
-    base = json.load(open(BASELINE, encoding="utf-8"))
-    if isinstance(base, dict):
-        base = base.get("pages", [])
-    # карта old calc-xxx.html -> slug/ из редирект-заглушек
-    m = {}
-    for fn in os.listdir(SITE):
-        if re.match(r"^calc-[a-z0-9-]+\.html$", fn):
-            t = read(os.path.join(SITE, fn))
-            mm = re.search(r'url=([a-z0-9-]+)/"', t)
-            if mm:
-                m[fn] = mm.group(1) + "/"
-    base_by_new = {}
-    for b in base:
-        newp = m.get(b["page"], b["page"])
-        base_by_new[newp] = b
-    regressions = []
-    for r in recs:
-        b = base_by_new.get(r["page"])
-        if not b:
-            continue
-        if b.get("errors") == [] and r.get("errors"):
-            regressions.append((r["page"], "JS errors appeared", r["errors"]))
-        if b.get("result_found") and not r.get("result_found"):
-            regressions.append((r["page"], "result lost", None))
-        if b.get("interactive") is True and r.get("interactive") is False:
-            regressions.append((r["page"], "interactive lost", None))
-    print("regressions vs baseline:", len(regressions))
-    for rg in regressions:
-        print("  -", rg)
+if __name__ == '__main__':
+    raise SystemExit(main())

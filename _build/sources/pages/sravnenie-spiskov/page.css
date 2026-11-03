@@ -1,0 +1,10 @@
+
+/* --- страничные стили --- */
+.list-textarea{ width:100%; min-height:160px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; font-family:var(--font-mono); font-size:.92rem; resize:vertical; background:var(--surface); color:var(--ink); }
+.list-textarea:focus{ outline:none; border-color:var(--accent); }
+.two-col{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.compare-output{ display:grid; grid-template-columns:repeat(auto-fit, minmax(160px, 1fr)); gap:14px; margin-top:16px; }
+.compare-card{ border:1px solid var(--line); border-radius:10px; padding:12px 14px; background:var(--surface); }
+.compare-card h5{ margin:0 0 8px; font-size:.82rem; text-transform:uppercase; letter-spacing:.04em; color:var(--ink-soft); }
+.compare-card div{ font-family:var(--font-mono); font-size:.9rem; line-height:1.7; white-space:pre-wrap; }
+@media (max-width:640px){ .two-col{ grid-template-columns:1fr; } }

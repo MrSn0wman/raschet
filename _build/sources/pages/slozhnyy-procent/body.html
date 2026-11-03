@@ -1,0 +1,121 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#misc">Разное</a> / Сложный процент
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Сложный процент</h1>
+          <p class="calc-sub">Рост капитала при регулярном начислении процентов и ежемесячных довложениях.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="principal">Начальная сумма</label>
+              <div class="unit-input">
+                <input type="text" id="principal" value="100 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="monthly">Довложение в месяц</label>
+              <div class="unit-input">
+                <input type="text" id="monthly" value="5 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="rate">Ставка</label>
+              <div class="unit-input">
+                <input type="text" id="rate" value="10" inputmode="decimal">
+                <span>% годовых</span>
+              </div>
+            </div>
+            <div class="field full">
+              <label for="years">Срок</label>
+              <div class="unit-input">
+                <input type="text" id="years" value="5" inputmode="numeric">
+                <span>лет</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-balance"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Итоговая сумма</div>
+            <div class="r-value" id="r-balance">—</div>
+            <div class="r-rows">
+              <div><b id="r-contributed">—</b><span>Всего вложено</span></div>
+              <div><b id="r-earned">—</b><span>Заработано на процентах</span></div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg id="sp-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение взносов и процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="sp-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="72.5 27.5" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="sp-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="27.5 72.5" stroke-dashoffset="-47.5" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Взносы&nbsp;— <b id="sp-legend-a">400 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Проценты&nbsp;— <b id="sp-legend-b">151 716 ₽</b></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается сложный процент</h2>
+<p>При сложном проценте проценты начисляются не только на первоначальную сумму, но и на уже накопленные проценты — капитал растёт с ускорением. Калькулятор считает помесячно: в конце каждого месяца на текущий баланс начисляется 1/12 годовой ставки, затем добавляется очередное довложение. Введите стартовую сумму, ставку, срок и ежемесячное пополнение — и увидите итог, сколько вложено и сколько заработано.</p>
+<p>Формула роста суммы без довложений:</p>
+<p><code>S = P × (1 + r / 12)ⁿ</code></p>
+<p>Здесь P — стартовая сумма, r — годовая ставка в долях, n — число месяцев. Каждый месяц баланс умножается на (1 + r/12), и к этому результату прибавляется довложение. Именно повторное умножение создаёт эффект «проценты на процентах».</p>
+<p>Пример: 100&nbsp;000&nbsp;₽ под 10% годовых без довложений. За 12 месяцев сумма вырастает примерно до 110&nbsp;471&nbsp;₽. Обратите внимание: это больше, чем ровно 10% от ста тысяч (110&nbsp;000&nbsp;₽), потому что проценты каждый месяц начисляются на чуть больший баланс.</p>
+<p>Добавим довложения: те же 100&nbsp;000&nbsp;₽ под 10% плюс по 10&nbsp;000&nbsp;₽ в месяц. Через год на счету будет около 236&nbsp;000&nbsp;₽, из них 220&nbsp;000&nbsp;₽ — ваши вложения, а остальное заработали проценты. Год спустя доля процентов станет ещё заметнее: ускорение нарастает.</p>
+<p>На длинных горизонтах эффект ещё сильнее. Те же 100&nbsp;000&nbsp;₽ под 10% годовых без единого довложения через 10 лет превращаются примерно в 270&nbsp;700&nbsp;₽, а через 20 лет — примерно в 732&nbsp;800&nbsp;₽. Заметьте: второй десяток лет добавил почти в три раза больше, чем первый. Это и есть экспонента — рост ускоряется сам собой, нужно только время.</p>
+<h3>Что такое капитализация</h3>
+<p>Капитализация — это присоединение начисленных процентов к основной сумме, чтобы в следующем периоде проценты считались уже с увеличенного баланса. Чем чаще капитализация, тем выше итог: при ежемесячной начислении доход больше, чем при годовой с той же номинальной ставкой. Поэтому, сравнивая вклады, смотрите не только на ставку, но и на периодичность начисления процентов.</p>
+<h3>Чем сложный процент отличается от простого</h3>
+<p>При простом проценте доход каждый раз считается от исходной суммы: 100&nbsp;000&nbsp;₽ под 10% годовых дают ровно 10&nbsp;000&nbsp;₽ за год, каждый год одинаково. При сложном проценте с ежемесячной капитализацией тот же год даёт 10&nbsp;471&nbsp;₽, а за десять лет разница разрастается в разы: простой процент удвоит деньги за 10 лет, сложный — примерно за 7 лет. Кстати, быстрый способ прикинуть срок удвоения — разделить 72 на ставку: 72 / 10 ≈ 7,2 года.</p>
+<h3>Как довложения меняют результат</h3>
+<p>Регулярные пополнения работают в два слоя. Каждая внесённая сумма сама по себе начинает расти по сложному проценту, а ранние взносы успевают накопить больше поздних. Поэтому 1&nbsp;000&nbsp;₽ в месяц с первого года часто дают больше, чем 2&nbsp;000&nbsp;₽ в месяц, начатые через пять лет. Калькулятор показывает это наглядно: диаграмма делит итог на ваши вложения и заработанные проценты, и с ростом срока «процентная» часть уверенно увеличивается.</p>
+<p>Есть и обратная сторона: сложный процент не отменяет инфляцию. Если цены растут на 8% в год, а вклад даёт 10%, реальная покупательная способность капитала растёт лишь на пару процентов в год. Поэтому итог калькулятора стоит воспринимать как номинальную сумму, а не как гарантию будущего богатства. Для долгих целей полезно прогнать расчёт при нескольких ставках — пессимистичной, средней и оптимистичной — и смотреть на диапазон результатов.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Как регулярные пополнения влияют на итоговую сумму?</summary><p>Да, эффект накапливается за счёт времени — чем раньше начать откладывать даже небольшие суммы, тем больше итоговый капитал благодаря процентам на процентах.</p></details>
+<details><summary>Чем сложный процент отличается от простого?</summary><p>Простой процент всегда начисляется на исходную сумму, а сложный — на сумму вместе с ранее накопленными процентами. На длинных сроках разница огромная: сложный процент растёт по экспоненте.</p></details>
+<details><summary>Что такое капитализация процентов?</summary><p>Это присоединение начисленных процентов к телу вклада. После капитализации следующие проценты считаются уже от увеличенной суммы.</p></details>
+<details><summary>Как быстро прикинуть, за сколько удвоится капитал?</summary><p>Разделите 72 на годовую ставку в процентах. При ставке 10% деньги удвоятся примерно за 7,2 года.</p></details>
+<details><summary>Почему выгоднее вклад с ежемесячной капитализацией?</summary><p>При той же годовой ставке чем чаще проценты присоединяются к сумме, тем быстрее растёт база для следующих начислений. Ежемесячная капитализация даёт немного больше, чем годовая.</p></details>
+<details><summary>Работает ли сложный процент против меня?</summary><p>Да, если это долг. По кредитам и просрочкам проценты на проценты увеличивают задолженность по тому же принципу, поэтому просрочки растут быстрее, чем кажется.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../vklad/">Калькулятор вклада</a>
+          <a class="related-link" href="../procenty/">Проценты</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

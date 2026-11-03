@@ -1,0 +1,5 @@
+
+/* --- страничные стили --- */
+.pw-display{ font-family:var(--font-mono); font-size:1.5rem; letter-spacing:.03em; word-break:break-all; }
+.copy-btn{ margin-top:10px; background:var(--accent); color:#fff; border:none; border-radius:8px; padding:9px 16px; font-size:.88rem; cursor:pointer; }
+.copy-btn:hover{ opacity:.9; }

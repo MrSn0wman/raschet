@@ -1,0 +1,126 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function renderChart(principal, interest, total){
+  const c1 = document.getElementById('pz-chart-a');
+  const c2 = document.getElementById('pz-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (principal / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('pz-legend-a').textContent = formatMoney(principal) + '\u00A0₽';
+  document.getElementById('pz-legend-b').textContent = formatMoney(interest) + '\u00A0₽';
+}
+
+// График нарастания долга: простые проценты за дни, единое погашение в конце срока.
+// Период — неделя при сроке до 90 дней, месяц (30 дней) — при более длинном.
+let pzSchedule = [];
+let pzShowAll = false;
+
+function buildGrowthSchedule(accruedFn, principal, days){
+  days = Math.min(Math.max(Math.round(days), 1), 1825);
+  const step = days <= 90 ? 7 : 30;
+  const n = Math.max(1, Math.ceil(days / step));
+  const rows = [];
+  let prevCum = 0;
+  for (let k = 1; k <= n; k++){
+    const cum = Math.round(accruedFn(Math.min(days, k * step)));
+    rows.push({
+      label: k === n ? 'Погашение' : (step === 7 ? 'Нед. ' : 'Мес. ') + k,
+      period: cum - prevCum,
+      cum: cum,
+      debt: principal + cum
+    });
+    prevCum = cum;
+  }
+  return rows;
+}
+
+function renderPzSchedule(){
+  const tbody = document.getElementById('pz-schedule');
+  const toggleBtn = document.getElementById('pz-schedule-toggle');
+  if (!tbody) return;
+  const rows = pzShowAll ? pzSchedule : pzSchedule.slice(0, 12);
+  tbody.innerHTML = rows.map(function(r){
+    return '<tr><td>' + r.label + '</td><td>' + formatMoney(r.period) + '</td><td>' +
+           formatMoney(r.cum) + '</td><td>' + formatMoney(r.debt) + '</td></tr>';
+  }).join('');
+  if (toggleBtn){
+    toggleBtn.style.display = pzSchedule.length > 12 ? '' : 'none';
+    toggleBtn.querySelector('span').textContent = pzShowAll
+      ? 'Свернуть график'
+      : 'Показать весь график (' + pzSchedule.length + ' периодов)';
+  }
+}
+
+function recalcLoanInterest(){
+  const principalEl = document.getElementById('principal');
+  const rateEl = document.getElementById('rate');
+  const daysEl = document.getElementById('days');
+  const errEl = document.getElementById('err');
+
+  const principal = parseFormattedNumber(principalEl);
+  const rate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const days = parseFormattedNumber(daysEl);
+
+  if (isNaN(principal) || principal <= 0 || isNaN(rate) || rate < 0 || isNaN(days) || days <= 0){
+    errEl.style.display = 'block';
+    ['r-total','r-interest','r-daily'].forEach(id => document.getElementById(id).textContent = '—');
+    pzSchedule = [];
+    pzShowAll = false;
+    renderPzSchedule();
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const interest = principal * (rate/100) * (days/365);
+  const total = principal + interest;
+  const dailyInterest = interest / days;
+
+  document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+  document.getElementById('r-interest').textContent = formatMoney(interest) + '\u00A0₽';
+  document.getElementById('r-daily').textContent = formatMoney2(dailyInterest) + '\u00A0₽';
+  renderChart(principal, interest, total);
+  pzSchedule = buildGrowthSchedule(function(d){ return principal * (rate/100) * (d/365); }, principal, days);
+  pzShowAll = false;
+  renderPzSchedule();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('principal'), document.getElementById('days')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcLoanInterest);
+  });
+  document.getElementById('rate').addEventListener('input', recalcLoanInterest);
+  const pzToggle = document.getElementById('pz-schedule-toggle');
+  if (pzToggle) pzToggle.addEventListener('click', () => {
+    const blk = pzToggle.closest('.schedule-block');
+    const anchorTop = pzShowAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
+    pzShowAll = !pzShowAll; blk.classList.toggle('expanded', pzShowAll); renderPzSchedule();
+    // при сворачивании возвращаем к началу графика, а не роняем в подвал
+    if (!pzShowAll && window.scrollY > anchorTop - 80) window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+  });
+  recalcLoanInterest();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

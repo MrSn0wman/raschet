@@ -1,0 +1,67 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script src="../assets/vendor/qrcode.min.js" crossorigin="anonymous" referrerpolicy="no-referrer" onerror="document.getElementById('qr-error').style.display='block'"></script>
+<script>
+
+let qrInstance = null;
+
+function regenerateQr(){
+  const textEl = document.getElementById('qr-text');
+  const sizeEl = document.getElementById('qr-size');
+  const errEl = document.getElementById('err');
+  const box = document.getElementById('qrcode');
+  const downloadLink = document.getElementById('download-link');
+
+  const text = textEl.value.trim();
+  const size = parseInt(sizeEl.value, 10);
+
+  if (!text){
+    errEl.style.display = 'block';
+    box.innerHTML = '';
+    downloadLink.style.display = 'none';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  box.innerHTML = '';
+  if (typeof QRCode !== 'undefined'){
+    qrInstance = new QRCode(box, {
+      text: text,
+      width: size,
+      height: size,
+      colorDark: '#2B2A28',
+      colorLight: '#ffffff',
+      correctLevel: QRCode.CorrectLevel.M
+    });
+    downloadLink.style.display = 'inline-block';
+    setTimeout(() => {
+      const canvas = box.querySelector('canvas');
+      if (canvas) downloadLink.href = canvas.toDataURL('image/png');
+    }, 80);
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('qr-text').addEventListener('input', regenerateQr);
+  document.getElementById('qr-size').addEventListener('change', regenerateQr);
+  regenerateQr();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

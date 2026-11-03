@@ -1,0 +1,83 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  var form = document.getElementById('feedback-form');
+  var okBox = document.getElementById('fb-ok');
+  var errBox = document.getElementById('fb-err');
+  if (!form) return;
+
+  function showOk(msg){
+    okBox.textContent = msg;
+    okBox.style.display = 'block';
+    errBox.classList.remove('visible');
+  }
+  function showErr(msg){
+    errBox.textContent = msg;
+    errBox.classList.add('visible');
+    okBox.style.display = 'none';
+  }
+  // почтовый адрес собирается из частей: домен проекта не светим в исходнике страницы
+  var MAIL = ['helpraschet', 'gmail', 'com'];
+  function mailtoFallback(payload){
+    var subject = 'Расчёт.net — ' + (payload.topic || 'обратная связь');
+    var body = 'Имя: ' + payload.name + '\nEmail: ' + payload.email + '\n\n' + payload.message;
+    window.location.href = 'mailto:' + MAIL[0] + '@' + MAIL[1] + '.' + MAIL[2] +
+                           '?subject=' + encodeURIComponent(subject) +
+                           '&body=' + encodeURIComponent(body);
+    showOk('Не удалось отправить через сайт — открываем почтовый клиент, письмо уже заполнено.');
+  }
+
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    // honeypot: боты заполняют скрытое поле website — делаем вид, что всё хорошо
+    if (form.website && form.website.value){ showOk('Спасибо! Сообщение отправлено.'); form.reset(); return; }
+    var payload = {
+      name: document.getElementById('fb-name').value.trim(),
+      email: document.getElementById('fb-email').value.trim(),
+      topic: document.getElementById('fb-topic').value,
+      message: document.getElementById('fb-message').value.trim()
+    };
+    if (!payload.name || !payload.email || !payload.message){
+      showErr('Заполните имя, email и текст сообщения.');
+      return;
+    }
+    var base = window.RASCHET_API_BASE || '';
+    if (!base){ mailtoFallback(payload); return; }
+    var ctrl = new AbortController();
+    setTimeout(function(){ ctrl.abort(); }, 3000);
+    fetch(base + '/api/feedback', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+      signal: ctrl.signal
+    }).then(function(r){
+      if (r && r.ok){
+        showOk('Спасибо! Сообщение отправлено — отвечаем обычно в течение пары дней.');
+        form.reset();
+      } else {
+        mailtoFallback(payload);
+      }
+    }).catch(function(){ mailtoFallback(payload); });
+  });
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

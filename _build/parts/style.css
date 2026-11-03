@@ -162,7 +162,7 @@ p{ margin:0 0 1em; color:var(--ink); }
 }
 
 /* ---- Main nav ---- */
-.main-nav{ display:flex; align-items:center; gap:4px; flex:1; }
+.main-nav{ display:flex; align-items:center; gap:4px; flex:1; min-width:0; }
 .main-nav > a{
   text-decoration:none; color:var(--ink-soft);
   font-size:.93rem; font-weight:500;
@@ -451,7 +451,8 @@ p{ margin:0 0 1em; color:var(--ink); }
   .footer-grid{ grid-template-columns:1fr 1fr; }
   .trust-strip{ grid-template-columns:1fr 1fr; }
 }
-@media (max-width: 900px){
+/* Switch to mobile navigation before long labels overflow. */
+@media (max-width: 1200px){
   .main-nav{ display:none; }
   .nav-toggle{ display:inline-flex; align-items:center; justify-content:center; }
   .site-header .row{ padding:12px 20px; }
@@ -508,6 +509,12 @@ p{ margin:0 0 1em; color:var(--ink); }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior:auto; }
   *,*::before,*::after{ transition-duration:.01ms !important; animation-duration:.01ms !important; }
+}
+
+/* Compact desktop navigation leaves room for branding and action buttons. */
+@media (min-width: 1201px){
+  .site-header .row{ gap:12px; }
+  .main-nav .nav-cat-btn{ padding-inline:8px; }
 }
 
 /* ---------- v3: категории в шапке (hover-дропдауны) ---------- */

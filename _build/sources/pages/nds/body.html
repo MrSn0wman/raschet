@@ -1,0 +1,114 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#realty">Недвижимость и налоги</a> / Калькулятор НДС
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Калькулятор НДС</h1>
+          <p class="calc-sub">Начислите НДС на сумму без налога или выделите его из суммы, которая уже включает НДС.</p>
+
+          <div class="strategy-toggle" style="margin-bottom:18px;">
+            <label class="strategy-option">
+              <input type="radio" name="mode" value="add" checked>
+              <span><b>Начислить НДС</b><small>Есть сумма без налога, нужно добавить НДС</small></span>
+            </label>
+            <label class="strategy-option">
+              <input type="radio" name="mode" value="extract">
+              <span><b>Выделить НДС</b><small>Сумма уже включает налог, нужно его выделить</small></span>
+            </label>
+          </div>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="amount" id="amount-label">Сумма без НДС</label>
+              <div class="unit-input">
+                <input type="text" id="amount" value="100 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field full">
+              <label for="rate">Ставка НДС</label>
+              <select id="rate">
+                <option value="22" selected>22% — базовая ставка (с 2026 года)</option>
+                <option value="10">10% — льготная (продукты, детские товары, лекарства, книги)</option>
+                <option value="0">0% — экспорт</option>
+                <option value="5">5% — спецставка УСН (доход 20–272,5 млн ₽)</option>
+                <option value="7">7% — спецставка УСН (доход 272,5–490,5 млн ₽)</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-total"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label" id="r-label">Сумма с НДС</div>
+            <div class="r-value" id="r-total">—</div>
+            <div class="r-rows">
+              <div><b id="r-vat">—</b><span>Сумма НДС</span></div>
+              <div><b id="r-other">—</b><span id="r-other-label">Сумма без НДС</span></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Введите корректную сумму</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается НДС</h2>
+<p>НДС считается двумя способами. Чтобы начислить налог на цену без НДС, сумму умножают на ставку и делят на 100. Чтобы выделить налог из итоговой суммы, её умножают на ставку и делят на 100 плюс ставка. Базовая ставка в 2026 году — 22%. Калькулятор выше делает оба расчёта сразу.</p>
+<p>Формулы для базовой ставки:</p>
+<ul>
+<li>начислить: <code>НДС = сумма × 22 / 100</code>;</li>
+<li>выделить: <code>НДС = сумма × 22 / 122</code>.</li>
+</ul>
+<p>Пример. Товар стоит 100&nbsp;000&nbsp;₽ без НДС. Начисляем налог: 100&nbsp;000 × 22% = 22&nbsp;000&nbsp;₽. Покупатель платит 122&nbsp;000&nbsp;₽. Теперь обратная задача: в счёте стоит 122&nbsp;000&nbsp;₽ с НДС. Выделяем налог: 122&nbsp;000 × 22/122 = 22&nbsp;000&nbsp;₽. Сумма без налога — 100&nbsp;000&nbsp;₽.</p>
+<h3>Начислить или выделить: в чём разница</h3>
+<p>Начисление нужно, когда вы знаете цену без налога и хотите выставить счёт покупателю. Налог добавляется сверху, и итоговая сумма вырастает. Так продавец формирует цену в договоре.</p>
+<p>Выделение нужно, когда сумма уже включает НДС, а налог из неё надо достать — например, для книги продаж или проверки счёта поставщика. Здесь работает расчётная ставка 22/122, а не 22%: налог — это часть итоговой суммы, а не надбавка к ней. Частая ошибка — выделить НДС как 22% от итога. От 122&nbsp;000&nbsp;₽ это дало бы 26&nbsp;840&nbsp;₽ вместо правильных 22&nbsp;000&nbsp;₽.</p>
+<p>Запомнить просто: если налога в сумме ещё нет — умножайте на 22 и делите на 100. Если налог уже внутри — умножайте на 22 и делите на 122. Калькулятор выше переключает оба режима и показывает сумму с налогом, без налога и сам НДС.</p>
+<h3>Кто платит НДС в 2026 году</h3>
+<p>НДС платят компании и ИП на общей системе налогообложения. С 2026 года к ним добавились упрощенцы с доходом выше 20&nbsp;млн&nbsp;₽ за предыдущий год — при превышении порога они становятся плательщиками НДС. Такой бизнес выбирает: работать по базовой ставке 22% с правом на вычет входного налога или по спецставкам 5% и 7% без права на вычет. Порог будет снижаться поэтапно до 10&nbsp;млн&nbsp;₽ к 2028 году.</p>
+<p>Платит налог в бюджет продавец, но экономически его несёт конечный покупатель: НДС заложен в цену товара. Продавец перечисляет разницу между начисленным налогом и входным НДС от своих поставщиков.</p>
+<p>Вычет — ключевая часть механизма. Если вы купили материалы с НДС, этот входной налог уменьшает ваш платёж в бюджет. Поэтому компаниям на общей системе выгодно работать с поставщиками, которые выставляют счета-фактуры с НДС. Декларацию подают ежеквартально, а детали порядка исчисления уточняйте в главе 21 НК РФ.</p>
+<h3>Ставки 22%, 10% и 0%</h3>
+<p>Базовая ставка 22% действует с 1 января 2026 года — её повысили с 20% Федеральным законом № 425-ФЗ. Льготная ставка 10% сохранена для социально значимых товаров: продуктов питания, детских товаров, лекарств и книг. Ставка 0% применяется к экспорту и ряду международных операций.</p>
+<p>Спецставки УСН — 5% при доходе от 20 до 272,5&nbsp;млн&nbsp;₽ и 7% при доходе от 272,5 до 490,5&nbsp;млн&nbsp;₽ — работают без вычета входного НДС. Что выгоднее, зависит от доли покупок с НДС в ваших расходах. Точный перечень льготных категорий и условия спецставок уточняйте в главе 21 НК РФ.</p>
+<p>Для льготной ставки формулы те же, меняется только число. Например, партия детских товаров за 100&nbsp;000&nbsp;₽ без НДС: начисляем 100&nbsp;000 × 10% = 10&nbsp;000&nbsp;₽, итоговая сумма — 110&nbsp;000&nbsp;₽. Выделить налог из неё можно расчётной ставкой 10/110.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Какая ставка НДС действует в 2026 году?</summary><p>Базовая — 22%. Льготная 10% действует для продуктов питания, детских товаров, лекарств и книг, экспорт облагается по ставке 0%. Для упрощенцев есть спецставки 5% и 7%.</p></details>
+<details><summary>Как выделить НДС из суммы, которая уже включает налог?</summary><p>Используйте расчётную ставку: сумму умножают на ставку и делят на 100 плюс ставка. Для 22% это сумма × 22/122: например, из 122&nbsp;000&nbsp;₽ выделяется ровно 22&nbsp;000&nbsp;₽ налога.</p></details>
+<details><summary>Кто обязан платить НДС в 2026 году?</summary><p>Компании и ИП на общей системе налогообложения, а также плательщики УСН с доходом выше 20&nbsp;млн&nbsp;₽ за 2025 год. Упрощенец выбирает между ставкой 22% с вычетом и спецставками 5%/7% без вычета.</p></details>
+<details><summary>Что изменилось с 2026 года?</summary><p>Базовая ставка выросла с 20% до 22% (Федеральный закон № 425-ФЗ от 28.11.2025), а порог дохода на УСН для уплаты НДС снизился до 20&nbsp;млн&nbsp;₽. Дальше он будет снижаться поэтапно до 10&nbsp;млн&nbsp;₽ к 2028 году.</p></details>
+<details><summary>Что за ставки 5% и 7% на УСН?</summary><p>Это пониженные ставки без права на вычет входного НДС: 5% — при доходе от 20 до 272,5&nbsp;млн&nbsp;₽, 7% — от 272,5 до 490,5&nbsp;млн&nbsp;₽ в 2026 году. Альтернатива — базовая ставка 22% с правом на вычет.</p></details>
+<details><summary>Чем начисление НДС отличается от выделения?</summary><p>Начисление — это надбавка к цене без налога: НДС = сумма × 22/100. Выделение — извлечение налога из итоговой суммы: НДС = сумма × 22/122. Путать их нельзя: расчётная ставка всегда меньше прямой.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../nalog-samozanyatyh/">Налог для самозанятых</a>
+          <a class="related-link" href="../ndfl/">Калькулятор НДФЛ</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

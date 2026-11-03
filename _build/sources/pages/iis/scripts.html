@@ -1,0 +1,79 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const CONTRIBUTION_LIMIT = 400000;
+const PROFIT_EXEMPTION_LIMIT = 30000000;
+
+function renderChart(deduction, taxSaved, total){
+  const c1 = document.getElementById('ii-chart-a');
+  const c2 = document.getElementById('ii-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (deduction / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('ii-legend-a').textContent = formatMoney(deduction) + '\u00A0₽';
+  document.getElementById('ii-legend-b').textContent = formatMoney(taxSaved) + '\u00A0₽';
+}
+
+function recalcIis(){
+  const contributionEl = document.getElementById('annual-contribution');
+  const rateEl = document.getElementById('ndfl-rate');
+  const yearsEl = document.getElementById('years');
+  const profitEl = document.getElementById('investment-profit');
+  const errEl = document.getElementById('err');
+
+  const contribution = parseFormattedNumber(contributionEl);
+  const rate = parseFloat(rateEl.value);
+  const years = parseInt(yearsEl.value, 10);
+  const profit = parseFormattedNumber(profitEl);
+
+  if (isNaN(contribution) || contribution < 0 || isNaN(rate) || isNaN(years) || years <= 0 || isNaN(profit) || profit < 0){
+    errEl.style.display = 'block';
+    ['r-annual-deduction','r-total-deduction','r-tax-saved','r-exempt-note'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const annualDeduction = Math.min(contribution, CONTRIBUTION_LIMIT) * (rate/100);
+  const totalDeduction = annualDeduction * years;
+
+  document.getElementById('r-annual-deduction').textContent = formatMoney(annualDeduction) + '\u00A0₽';
+  document.getElementById('r-total-deduction').textContent = formatMoney(totalDeduction) + ' ₽ за ' + years + ' лет';
+
+  const exemptProfit = Math.min(profit, PROFIT_EXEMPTION_LIMIT);
+  const taxSaved = exemptProfit * (rate/100);
+  document.getElementById('r-tax-saved').textContent = formatMoney(taxSaved) + '\u00A0₽';
+  document.getElementById('r-exempt-note').textContent = profit > PROFIT_EXEMPTION_LIMIT ? 'Доход выше лимита 30 млн ₽ — освобождается только часть' : 'В пределах лимита 30 млн ₽';
+  renderChart(totalDeduction, taxSaved, totalDeduction + taxSaved);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('annual-contribution'), document.getElementById('investment-profit')].forEach(el => attachThousandsInput(el));
+  document.getElementById('annual-contribution').addEventListener('input', recalcIis);
+  document.getElementById('ndfl-rate').addEventListener('change', recalcIis);
+  document.getElementById('years').addEventListener('input', recalcIis);
+  document.getElementById('investment-profit').addEventListener('input', recalcIis);
+  recalcIis();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / <a href="../#math">Математика</a> / Объём</p>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Калькулятор объёма</h1>
+          <p class="calc-sub">Выберите форму и введите размеры в метрах — получите объём в м³ и литрах.</p>
+
+          <form id="volume-form" novalidate>
+            <div class="field-grid">
+              <div class="field full">
+                <label for="v-shape">Форма</label>
+                <select id="v-shape" data-share="v-shape">
+                  <option value="box">Параллелепипед (коробка, комната)</option>
+                  <option value="cylinder">Цилиндр</option>
+                  <option value="sphere">Шар</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="v-unit">Единица измерения размеров</label>
+                <select id="v-unit" data-share="v-unit">
+                  <option value="mm">Миллиметры (мм)</option>
+                  <option value="cm">Сантиметры (см)</option>
+                  <option value="m" selected>Метры (м)</option>
+                  <option value="km">Километры (км)</option>
+                </select>
+              </div>
+              <div class="field" data-shape="box">
+                <label for="v-a">Длина</label>
+                <div class="unit-input"><input type="number" id="v-a" value="2" min="0" step="0.01" data-share="v-a"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="box">
+                <label for="v-b">Ширина</label>
+                <div class="unit-input"><input type="number" id="v-b" value="1.5" min="0" step="0.01" data-share="v-b"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="box">
+                <label for="v-c">Высота</label>
+                <div class="unit-input"><input type="number" id="v-c" value="1" min="0" step="0.01" data-share="v-c"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="cylinder" style="display:none">
+                <label for="v-r">Радиус</label>
+                <div class="unit-input"><input type="number" id="v-r" value="0.5" min="0" step="0.01" data-share="v-r"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="cylinder" style="display:none">
+                <label for="v-h">Высота</label>
+                <div class="unit-input"><input type="number" id="v-h" value="1" min="0" step="0.01" data-share="v-h"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="sphere" style="display:none">
+                <label for="v-sr">Радиус</label>
+                <div class="unit-input"><input type="number" id="v-sr" value="0.5" min="0" step="0.01" data-share="v-sr"><span class="dim-unit">м</span></div>
+              </div>
+            </div>
+            <div class="error-msg" role="alert" id="v-error">Введите положительные значения размеров.</div>
+          </form>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="v-result"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Объём</div>
+            <div class="r-value" id="v-result">3 м³</div>
+            <div class="r-rows">
+              <div><b id="v-liters">3 000 л</b><span>В литрах</span></div>
+              <div><b id="v-cm3">3 000 000 см³</b><span>В кубических сантиметрах</span></div>
+            </div>
+          </div>
+        </div>
+
+        <article class="calc-explain">
+          <h2>Как считается объём</h2>
+<p>Объём показывает, сколько места занимает тело или сколько жидкости и материала помещается в ёмкость. Калькулятор считает объём трёх тел — параллелепипеда, цилиндра и шара — и сразу переводит результат в литры и кубические сантиметры. Для коробки, бака или комнаты нужно три размера: длина, ширина и высота. Перемножьте их — и получите объём в кубических метрах.</p>
+<p>Формулы основных тел:</p>
+<ul>
+<li><strong>Параллелепипед (коробка, бак, комната):</strong> <code>V = a × b × h</code></li>
+<li><strong>Цилиндр (бочка, труба, кастрюля):</strong> <code>V = π × r² × h</code>, где r — радиус основания</li>
+<li><strong>Шар:</strong> <code>V = (4/3) × π × r³</code></li>
+</ul>
+<p>Пример: прямоугольный бак 2 × 1 × 0,5 м. Считаем: <code>V = 2 × 1 × 0,5 = 1 м³</code>. Один кубический метр — это ровно 1000 литров, значит, в бак помещается 1000 л воды. Калькулятор делает этот перевод автоматически и дополнительно показывает объём в кубических сантиметрах — для нашего бака это 1 000 000 см³.</p>
+<p>Тот же приём работает для воздуха в комнате: спальня 4 × 3 м с потолком 2,7 м вмещает <code>V = 4 × 3 × 2,7 = 32,4 м³</code> воздуха. Эта цифра нужна при выборе обогревателя, кондиционера или приточной вентиляции — их мощность привязана именно к объёму помещения, а не к площади пола.</p>
+<h3>Кубические метры, литры и сантиметры</h3>
+<p>Главное соотношение, которое стоит запомнить: <code>1 м³ = 1000 л</code>. Литр, в свою очередь, равен одному кубическому дециметру, то есть кубу со стороной 10 см. Отсюда частая ошибка: если размеры сняты рулеткой в сантиметрах, их нужно перевести в метры до расчёта. Бак 200 × 100 × 50 см — это те же 2 × 1 × 0,5 м, и литраж тот же самый: 1000 л. Введёте сантиметры как метры — получите результат в миллион раз больше реального.</p>
+<p>Обратный перевод тоже простой: чтобы получить кубические метры из литров, разделите их на 1000. Пятилитровая канистра — это 0,005 м³.</p>
+<p>С шаром дело обстоит хитрее: объём растёт кубически от радиуса, поэтому даже небольшой шар обманчиво вместителен. Шар диаметром 50 см (радиус 0,25 м) вмещает около 65 литров — столько же, сколько крупный дорожный чемодан. Для полых сферических ёмкостей радиус мерьте по внутренней полости, а не по внешнему габариту.</p>
+<h3>Уровень заполнения ёмкости</h3>
+<p>Формулы выше дают полный объём, но на практике чаще нужно знать, сколько жидкости в баке прямо сейчас. Приём простой: вместо полной высоты подставляйте в формулу высоту уровня жидкости. Если тот же бак 2 × 1 × 0,5 м заполнен водой на 30 см, объём воды: <code>V = 2 × 1 × 0,3 = 0,6 м³</code>, то есть 600 литров.</p>
+<p>С цилиндрической бочкой логика та же: измерьте радиус (половину диаметра дна) и высоту уровня, а не полную высоту. А вот для бака, лежащего на боку, или ёмкости со сферическим дном такой фокус не сработает — там объём растёт с уровнем неравномерно, и нужна более сложная геометрия.</p>
+<h3>Где это пригождается</h3>
+<p>Расчёт объёма нужен чаще, чем кажется:</p>
+<ul>
+<li>бетон для фундамента или стяжки — заказывают именно кубометрами;</li>
+<li>вода в аквариуме, бассейне и системе отопления — в литрах;</li>
+<li>грунт для грядок и щебень для дорожки — в м³ с запасом на усадку;</li>
+<li>коробки и фургон при переезде — чтобы понять, влезут ли вещи.</li>
+</ul>
+<p>Для сыпучих материалов берите запас 10–15%: грунт и щебень со временем уплотняются, и заказанного «впритык» объёма не хватит. А при переезде работает обратная задача: посчитайте объём крупных коробок и мебели, сложите — и сравните с кузовом фургона. Стандартная коробка 60 × 40 × 40 см — это 0,096 м³, двадцать таких коробок займут почти 2 м³.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Как посчитать объём воды в аквариуме или бассейне?</summary><p>Прямоугольный аквариум или бассейн считается как параллелепипед: длина × ширина × высота уровня воды. Круглый — как цилиндр.</p></details>
+<details><summary>Почему объём в литрах больше, чем ожидалось?</summary><p>Часто путают сантиметры и метры при вводе размеров. Проверьте, что все размеры указаны именно в метрах.</p></details>
+<details><summary>Сколько литров в одном кубическом метре?</summary><p>Ровно 1000 литров. Один литр — это куб со стороной 10 см, то есть 1000 см³.</p></details>
+<details><summary>Чем объём отличается от площади?</summary><p>Площадь измеряет поверхность в квадратных метрах и отвечает на вопрос «сколько места на полу». Объём измеряет пространство в кубических метрах и отвечает на вопрос «сколько сюда поместится».</p></details>
+<details><summary>Как посчитать объём круглой бочки или трубы?</summary><p>Измерьте диаметр, разделите его пополам — получите радиус — и используйте формулу цилиндра: V = π × r² × высота. Для бочки диаметром 60 см и высотой 90 см выйдет около 0,25 м³, или 254 литра.</p></details>
+<details><summary>Как узнать, сколько воды сейчас в баке, если он заполнен не полностью?</summary><p>Подставьте в формулу высоту уровня жидкости вместо полной высоты бака. Для прямоугольного бака 2 × 1 м с водой на отметке 30 см это 0,6 м³, то есть 600 литров.</p></details>
+          </div>
+        </article>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../ploshad/">Площадь</a>
+          <a class="related-link" href="../procenty/">Проценты</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

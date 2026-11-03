@@ -1,0 +1,7 @@
+
+/* --- страничные стили --- */
+.frac-input{ display:flex; align-items:center; justify-content:center; gap:8px; }
+.frac-input input{ width:64px; text-align:center; }
+.frac-input .frac-bar{ font-size:1.4rem; color:var(--ink-soft); }
+.frac-row{ display:flex; align-items:center; justify-content:center; gap:16px; flex-wrap:wrap; margin:20px 0; }
+.frac-op-select{ font-size:1.3rem; padding:8px 12px; }

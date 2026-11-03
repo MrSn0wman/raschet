@@ -1,0 +1,106 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcFuel(){
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const errEl = document.getElementById('err');
+
+  if (mode === 'plan'){
+    const distance = parseFormattedNumber(document.getElementById('distance1'));
+    const rate = parseFloat(String(document.getElementById('rate100').value).replace(',', '.'));
+    const price = parseFloat(String(document.getElementById('price1').value).replace(',', '.'));
+
+    if (isNaN(distance) || distance < 0 || isNaN(rate) || rate < 0 || isNaN(price) || price < 0){
+      errEl.style.display = 'block';
+      ['r-main','r-secondary','r-per-km'].forEach(id => document.getElementById(id).textContent = '—');
+      return;
+    }
+    errEl.style.display = 'none';
+
+    const liters = distance * rate / 100;
+    const cost = liters * price;
+    const perKm = distance > 0 ? cost / distance : 0;
+
+    document.getElementById('r-label').textContent = 'Понадобится топлива';
+    document.getElementById('r-main').textContent = liters.toFixed(1).replace('.', ',') + ' л';
+    document.getElementById('r-secondary-label').textContent = 'Стоимость поездки';
+    document.getElementById('r-secondary').textContent = formatMoney(cost) + '\u00A0₽';
+    document.getElementById('r-per-km').textContent = perKm.toFixed(2).replace('.', ',') + ' ₽/км';
+  } else {
+    const distance = parseFormattedNumber(document.getElementById('distance2'));
+    const liters = parseFloat(String(document.getElementById('liters2').value).replace(',', '.'));
+    const priceRaw = document.getElementById('price2').value;
+    const price = parseFloat(String(priceRaw).replace(',', '.'));
+
+    if (isNaN(distance) || distance <= 0 || isNaN(liters) || liters < 0){
+      errEl.style.display = 'block';
+      ['r-main','r-secondary','r-per-km'].forEach(id => document.getElementById(id).textContent = '—');
+      return;
+    }
+    errEl.style.display = 'none';
+
+    const rate = liters / distance * 100;
+    document.getElementById('r-label').textContent = 'Фактический расход';
+    document.getElementById('r-main').textContent = rate.toFixed(1).replace('.', ',') + ' л/100км';
+
+    if (!isNaN(price) && price > 0){
+      const cost = liters * price;
+      const perKm = cost / distance;
+      document.getElementById('r-secondary-label').textContent = 'Стоимость поездки';
+      document.getElementById('r-secondary').textContent = formatMoney(cost) + '\u00A0₽';
+      document.getElementById('r-per-km').textContent = perKm.toFixed(2).replace('.', ',') + ' ₽/км';
+    } else {
+      document.getElementById('r-secondary-label').textContent = 'Стоимость поездки';
+      document.getElementById('r-secondary').textContent = '—';
+      document.getElementById('r-per-km').textContent = '—';
+    }
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const planWrap = document.getElementById('plan-fields');
+  const actualWrap = document.getElementById('actual-fields');
+
+  [document.getElementById('distance1'), document.getElementById('price1'),
+   document.getElementById('distance2'), document.getElementById('liters2'), document.getElementById('price2')
+  ].forEach(el => attachThousandsInput(el));
+
+  document.querySelectorAll('#plan-fields input, #actual-fields input').forEach(el => {
+    el.addEventListener('input', recalcFuel);
+  });
+
+  document.querySelectorAll('input[name="mode"]').forEach(r => {
+    r.addEventListener('change', () => {
+      if (document.querySelector('input[name="mode"]:checked').value === 'plan'){
+        planWrap.style.display = 'grid';
+        actualWrap.style.display = 'none';
+      } else {
+        planWrap.style.display = 'none';
+        actualWrap.style.display = 'grid';
+      }
+      recalcFuel();
+    });
+  });
+
+  recalcFuel();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

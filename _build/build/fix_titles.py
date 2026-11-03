@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
-# Укорочение title до ≤60 символов (пиксельный лимит выдачи ~600px).
-# Патчит сгенерированные страницы; зеркало — old-источники и tools-дескрипторы ниже.
-import io, os, re, sys
-
-SITE = r"C:\Kimi\raschet"
-OLD = r"C:\Kimi\raschet-old"
-sys.path.insert(0, r"C:\Kimi\raschet\_build\build")
-import build_all  # noqa: E402  (импорт без запуска: main() под guard)
+"""Idempotent title shortening on output only; page sources retain SEO metadata."""
+import io, os, re
+from site_common import read, write, site_parser
 
 NEW = {
     "": "Расчёт.net — онлайн-калькуляторы: ипотека, налоги, проценты",
@@ -43,37 +38,26 @@ NEW = {
     "zaryadka-elektromobilya": "Зарядка электромобиля — время и стоимость | Расчёт.net",
 }
 
-for slug, nt in NEW.items():
-    assert len(nt) <= 60, (slug, len(nt))
-
 def patch_title(path, new_title):
-    t = io.open(path, encoding="utf-8").read()
+    t = read(path)
     m = re.search(r"(?s)<title>(.*?)</title>", t)
     if not m:
         return False
     t2 = t[:m.start(1)] + new_title + t[m.end(1):]
     if t2 != t:
-        io.open(path, "w", encoding="utf-8", newline="\n").write(t2)
+        write(path, t2)
         return True
     return False
 
-# обратная карта slug -> старое имя calc-*.html
-rev = {v: k for k, v in build_all.LINK_MAP.items()}
+def process(site):
+    from site_common import safe_destination
+    site = safe_destination(site)
+    count = 0
+    for slug, title in NEW.items():
+        if len(title) > 60: raise ValueError("Title exceeds limit: " + slug)
+        path = site / (slug + "/index.html" if slug else "index.html")
+        if path.is_file() and patch_title(path, title): count += 1
+    print("Titles shortened:", count)
 
-done_site, done_old, missed_old = 0, 0, []
-for slug, nt in NEW.items():
-    page = os.path.join(SITE, "index.html" if slug == "" else slug + r"\index.html")
-    if os.path.isfile(page) and patch_title(page, nt):
-        done_site += 1
-    old_name = rev.get(slug)
-    if old_name:
-        op = os.path.join(OLD, old_name)
-        if os.path.isfile(op) and patch_title(op, nt):
-            done_old += 1
-        else:
-            missed_old.append(slug)
-    else:
-        missed_old.append(slug)  # главная и tools-страницы — источник не в raschet-old
-
-print("site pages patched:", done_site, "| old sources patched:", done_old)
-print("no old-source (main/tools):", missed_old)
+if __name__ == "__main__":
+    process(site_parser(__doc__).parse_args().site)

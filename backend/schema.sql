@@ -20,6 +20,8 @@ CREATE TABLE IF NOT EXISTS feedback (
     emailed    INTEGER NOT NULL DEFAULT 0  -- 1 = письмо ушло через SMTP
 );
 
+CREATE INDEX IF NOT EXISTS idx_feedback_created_at ON feedback(created_at);
+
 -- Агрегированная аналитика: счётчики по дню/странице/типу. Без персональных данных.
 CREATE TABLE IF NOT EXISTS stats_daily (
     day   TEXT NOT NULL,               -- YYYY-MM-DD (UTC)

@@ -1,0 +1,126 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / <a href="../#math">Математика</a> / Площадь</p>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Калькулятор площади</h1>
+          <p class="calc-sub">Выберите фигуру и введите размеры — площадь пересчитывается мгновенно.</p>
+
+          <form id="area-form" novalidate>
+            <div class="field-grid">
+              <div class="field full">
+                <label for="a-shape">Фигура</label>
+                <select id="a-shape" data-share="a-shape">
+                  <option value="rect">Прямоугольник (комната, участок)</option>
+                  <option value="circle">Круг</option>
+                  <option value="triangle">Треугольник</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="a-unit">Единица измерения размеров</label>
+                <select id="a-unit" data-share="a-unit">
+                  <option value="mm">Миллиметры (мм)</option>
+                  <option value="cm">Сантиметры (см)</option>
+                  <option value="m" selected>Метры (м)</option>
+                  <option value="km">Километры (км)</option>
+                </select>
+              </div>
+              <div class="field" data-shape="rect">
+                <label for="a-w">Ширина</label>
+                <div class="unit-input"><input type="number" id="a-w" value="4" min="0" step="0.01" data-share="a-w"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="rect">
+                <label for="a-h">Длина</label>
+                <div class="unit-input"><input type="number" id="a-h" value="5" min="0" step="0.01" data-share="a-h"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="circle" style="display:none">
+                <label for="a-r">Радиус</label>
+                <div class="unit-input"><input type="number" id="a-r" value="3" min="0" step="0.01" data-share="a-r"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="triangle" style="display:none">
+                <label for="a-base">Основание</label>
+                <div class="unit-input"><input type="number" id="a-base" value="6" min="0" step="0.01" data-share="a-base"><span class="dim-unit">м</span></div>
+              </div>
+              <div class="field" data-shape="triangle" style="display:none">
+                <label for="a-th">Высота</label>
+                <div class="unit-input"><input type="number" id="a-th" value="4" min="0" step="0.01" data-share="a-th"><span class="dim-unit">м</span></div>
+              </div>
+            </div>
+            <div class="error-msg" role="alert" id="a-error">Введите положительные значения размеров.</div>
+          </form>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="a-result"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Площадь</div>
+            <div class="r-value" id="a-result">20 м²</div>
+            <div class="r-rows">
+              <div><b id="a-cm2">200 000 см²</b><span>В квадратных сантиметрах</span></div>
+              <div><b id="a-sotka">0.2 сотки</b><span>В сотках (для участков)</span></div>
+            </div>
+          </div>
+        </div>
+
+        <article class="calc-explain">
+          <h2>Как считается площадь</h2>
+<p>Площадь показывает, сколько квадратных метров занимает поверхность: пол комнаты, стена, участок земли или деталь на чертеже. Калькулятор считает площадь трёх базовых фигур — прямоугольника, круга и треугольника — и показывает результат сразу в м², см² и сотках. Для прямоугольной комнаты достаточно двух промеров: умножьте длину на ширину, и вы получите площадь пола в квадратных метрах.</p>
+<p>Формулы простые, главное — вводить все размеры в одних и тех же единицах:</p>
+<ul>
+<li><strong>Прямоугольник и квадрат:</strong> <code>S = a × b</code></li>
+<li><strong>Круг:</strong> <code>S = π × r²</code>, где r — радиус, то есть половина диаметра</li>
+<li><strong>Треугольник:</strong> <code>S = (a × h) / 2</code>, где a — основание, h — высота, опущенная на него</li>
+</ul>
+<p>Зачем вообще считать площадь? Чаще всего — чтобы купить материалы без лишних трат: ламинат и плитку на пол, обои и краску на стены, утеплитель на фасад. Продавцы в магазине спрашивают именно метраж, а не размеры комнаты. Вторая частая задача — проверить планировку квартиры или участок в объявлении: посчитать самому быстрее, чем верить цифре на слух.</p>
+<p>Пример: комната 5 на 4 метра. Площадь пола: <code>S = 5 × 4 = 20 м²</code>
+<p>Это же число в квадратных сантиметрах — 200 000 см², а в сотках — 0,2 сотки. Если измерения сделаны рулеткой в сантиметрах (500 и 400 см), переведите их в метры до расчёта, иначе получите число в десять тысяч раз больше — частая ошибка при подсчёте материалов.</p>
+<h3>Неправильные и Г-образные комнаты</h3>
+<p>Квартира редко состоит из идеальных прямоугольников: встречаются эркеры, ниши, скошенные углы и Г-образные комнаты. Приём один — разбить помещение на простые фигуры, посчитать площадь каждой части и сложить результаты.</p>
+<p>Скажем, Г-образная комната делится на два прямоугольника: 3 × 4 м и 2 × 2 м. Считаем: <code>S = 12 + 4 = 16 м²</code>
+<p>Скошенный угол удобно представить треугольником: замерьте два катета у стены и поделите их произведение пополам. Треугольный выступ 1,5 × 1 м добавит к площади 0,75 м².</p>
+<p>Точность при этом важнее элегантности: разбивайте фигуру так, чтобы каждую часть можно было промерить рулеткой от стены до стены, без угловых догадок.</p>
+<p>Ещё два практических момента. Ниши и встроенные шкафы считайте отдельно: если шкаф стоит от стены до стены, его площадь разумно вычесть из пола — ламинат туда всё равно не пойдёт. А мерить комнату лучше по плинтусу, а не на уровне пояса: старые стены неровные, и разница между «верхом» и «низом» может достигать нескольких сантиметров.</p>
+<h3>Пол, потолок и стены — разные числа</h3>
+<p>Площадь пола и потолка в обычной комнате совпадают, а вот стены считаются иначе: периметр умножается на высоту. Для той же комнаты 5 × 4 м с потолками 2,7 м: периметр 18 м, площадь стен — <code>S = 18 × 2,7 = 48,6 м²</code>
+<p>Если покупаете обои или краску, вычтите из этого числа окна и двери — типичный дверной проём «съедает» около 2 м².</p>
+<h3>Сотки и другие единицы</h3>
+<p>Для земельных участков площадь принято мерить в сотках: одна сотка — это ровно 100 м², квадрат со стороной 10 метров. Участок 25 × 40 м имеет площадь 1000 м², то есть 10 соток — калькулятор покажет это автоматически. Гектар, встречающийся в документах на большие наделы, равен 100 соткам или 10 000 м². А квадратные сантиметры нужны в основном для мелких деталей и школьных задач: в одном квадратном метре их десять тысяч.</p>
+<p>Обратный перевод — из соток в метры — тоже простой: умножьте число соток на 100. Классические «шесть соток» — это 600 м², например участок 20 × 30 м. Если участок вытянутый или со скошенной границей, считайте его как комнату неправильной формы: делите на прямоугольники и треугольники по межевому плану.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Как посчитать площадь комнаты неправильной формы?</summary><p>Разбейте помещение на простые фигуры — прямоугольники и треугольники, посчитайте площадь каждой части отдельно и сложите результаты.</p></details>
+<details><summary>Нужно ли вычитать площадь окон и дверей при расчёте для ремонта?</summary><p>Для расчёта количества обоев или краски — да, для оценки общей площади помещения — обычно нет. Уточните, что именно вы считаете.</p></details>
+<details><summary>Чем площадь отличается от периметра?</summary><p>Периметр — это длина границы фигуры в метрах, площадь — вся поверхность внутри неё в квадратных метрах. Периметр нужен для плинтуса и забора, площадь — для ламината, обоев и плитки.</p></details>
+<details><summary>Сколько квадратных метров в одной сотке?</summary><p>Ровно 100 м² — это квадрат со стороной 10 метров. Чтобы перевести площадь участка в сотки, разделите значение в квадратных метрах на 100.</p></details>
+<details><summary>Как посчитать площадь круга, если известен только диаметр?</summary><p>Разделите диаметр пополам — получите радиус — и подставьте в формулу S = π × r². Например, для круглого стола диаметром 1,2 м радиус равен 0,6 м, а площадь столешницы — примерно 1,13 м².</p></details>
+<details><summary>Как посчитать площадь стен под поклейку обоев?</summary><p>Сложите длины всех стен и умножьте на высоту потолка, затем вычтите площадь окон и дверей. Для комнаты 5 × 4 м с потолком 2,7 м стены займут 48,6 м² до вычета проёмов.</p></details>
+          </div>
+        </article>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../obem/">Объём</a>
+          <a class="related-link" href="../procenty/">Проценты</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

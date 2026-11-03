@@ -1,0 +1,145 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / <a href="../#finance">Финансы</a> / Вклад</p>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Калькулятор вклада</h1>
+          <p class="calc-sub">Расчёт с ежемесячной капитализацией процентов и возможностью пополнения — как в большинстве банковских вкладов.</p>
+
+          <form id="deposit-form" novalidate>
+            <div class="field-grid">
+              <div class="field">
+                <label for="d-amount">Сумма вклада</label>
+                <div class="unit-input">
+                  <input type="text" id="d-amount" value="300000" required data-share="d-amount">
+                  <span>₽</span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="d-rate">Ставка, годовых</label>
+                <div class="unit-input">
+                  <input type="number" id="d-rate" value="16" min="0" max="50" step="0.1" required data-share="d-rate">
+                  <span>%</span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="d-months">Срок</label>
+                <div class="unit-input">
+                  <input type="number" id="d-months" value="12" min="1" max="60" step="1" required data-share="d-months">
+                  <span>мес.</span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="d-topup">Пополнение в месяц <span class="hint">(необязательно)</span></label>
+                <div class="unit-input">
+                  <input type="text" id="d-topup" value="0" data-share="d-topup">
+                  <span>₽</span>
+                </div>
+              </div>
+              <div class="field full">
+                <label for="d-capitalization">Тип начисления процентов</label>
+                <select id="d-capitalization" data-share="d-capitalization">
+                  <option value="cap">С капитализацией (проценты прибавляются к телу вклада)</option>
+                  <option value="simple">Без капитализации (проценты начисляются на исходную сумму)</option>
+                </select>
+              </div>
+            </div>
+            <div class="error-msg" role="alert" id="d-error">Проверьте введённые значения — сумма и срок должны быть больше нуля.</div>
+          </form>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="d-final"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Сумма на конец срока</div>
+            <div class="r-value" id="d-final">351 681 ₽</div>
+            <div class="r-rows">
+              <div><b id="d-interest">51 681 ₽</b><span>Начислено процентов</span></div>
+              <div><b id="d-topups">0 ₽</b><span>Пополнено за срок</span></div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg id="v-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение вкладов и начисленных процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="v-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="85.30 14.70" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="v-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="14.70 85.30" stroke-dashoffset="-60.30" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Вклады (начальный + пополнения)&nbsp;— <b id="v-legend-a">300 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Начисленные проценты&nbsp;— <b id="v-legend-b">51 681 ₽</b></div>
+            </div>
+          </div>
+
+          <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        </div>
+
+        <article class="calc-explain">
+          <h2>Как считается доход по вкладу</h2>
+<p>Калькулятор считает, сколько денег окажется на вкладе к концу срока: итоговую сумму, начисленные проценты и сумму пополнений. Учитываются ставка, срок, ежемесячная капитализация и регулярные взносы. Главный вывод: при капитализации проценты каждый месяц прибавляются к телу вклада и сами начинают приносить доход, поэтому итог выше, чем у вклада без капитализации при той же ставке.</p>
+<p>За основу берётся формула сложного процента с ежемесячной капитализацией: <code>S = S₀ × (1 + r/12)^m</code>. Здесь S₀ — начальная сумма вклада, r — годовая ставка в долях (15% — это 0,15), m — срок в месяцах. Каждый месяц сумма на счёте умножается на (1 + r/12), и к следующему начислению база становится чуть больше.</p>
+<p>Пример с реальными цифрами. Вы открываете вклад на 500&nbsp;000&nbsp;₽ под 15% годовых на 12 месяцев. С ежемесячной капитализацией к концу срока на счёте будет 580&nbsp;377&nbsp;₽, из них начисленные проценты — 80&nbsp;377&nbsp;₽. Тот же вклад без капитализации даст ровно 575&nbsp;000&nbsp;₽, где проценты — 75&nbsp;000&nbsp;₽. Разница за год — 5&nbsp;377&nbsp;₽: это и есть «проценты на проценты». Если при этом пополнять вклад на 10&nbsp;000&nbsp;₽ каждый месяц, к концу срока получится уже 708&nbsp;981&nbsp;₽: 620&nbsp;000&nbsp;₽ ваших денег и 88&nbsp;981&nbsp;₽ процентов.</p>
+<h3>Капитализация или выплата процентов</h3>
+<p>При капитализации проценты остаются на вкладе и увеличивают базу для следующего начисления. У вклада без капитализации проценты каждый месяц считаются от исходной суммы и обычно выплачиваются на отдельный счёт или карту — их можно тратить, но они больше не работают.</p>
+<p>На коротких сроках (1–3 месяца) разница между двумя схемами небольшая. Чем длиннее срок и выше ставка, тем заметнее выигрыш капитализации. Сравнивая предложения банков, смотрите не только на номинальную ставку, но и на тип начисления: вклад с капитализацией при чуть меньшей ставке иногда выгоднее вклада без неё.</p>
+<h3>Что такое эффективная ставка</h3>
+<p>Эффективная ставка — это номинальная ставка с учётом капитализации, то есть реальный годовой доход в процентах. Для вклада под 15% с ежемесячной капитализацией она составляет около 16,08%: именно настолько за год вырастает сумма. Если банк в рекламе указывает ставку «до N%», проверьте, номинальная она или эффективная, — и сравнивайте вклады по одному типу ставки.</p>
+<h3>Как пополнения влияют на доход</h3>
+<p>У пополняемого вклада каждый взнос начинает приносить проценты со следующего периода начисления. Калькулятор прибавляет пополнение к остатку в конце каждого месяца, поэтому взнос, сделанный в первый месяц, «проработает» дольше всех и принесёт больше процентов, чем такой же взнос в конце срока.</p>
+<p>Практический вывод: если деньги появляются регулярно, например часть зарплаты, выгоднее вносить их сразу, а не копить несколько месяцев ради одного крупного пополнения.</p>
+<h3>Налог на проценты по вкладу</h3>
+<p>Калькулятор показывает доход до вычета налога. НДФЛ применяется только к сумме процентов, которая превышает необлагаемый лимит, — он считается по всем вашим вкладам за год вместе и зависит от ключевой ставки ЦБ. Если проценты в лимит укладываются, налога нет, и сумма из калькулятора совпадает с той, что вы получите на руки.</p>
+<p>Перед тем как открыть вклад, проверьте в договоре несколько моментов:</p>
+<ul>
+<li>есть ли капитализация и как часто начисляются проценты — раз в месяц, в квартал или в конце срока;</li>
+<li>можно ли пополнять вклад и не меняется ли ставка после пополнения;</li>
+<li>что происходит при досрочном закрытии — обычно проценты пересчитываются по минимальной ставке.</li>
+</ul>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Учитывается ли налог на доход по вкладу?</summary><p>Нет, калькулятор показывает доход до вычета НДФЛ. Налог применяется, только если совокупный процентный доход по всем вашим вкладам за год превышает необлагаемый лимит, который зависит от ключевой ставки ЦБ.</p></details>
+<details><summary>Что выгоднее — вклад с капитализацией или без?</summary><p>При одинаковой номинальной ставке капитализация всегда выгоднее на длинных сроках, потому что проценты начинают приносить проценты. На коротких сроках (1–3 месяца) разница минимальна.</p></details>
+<details><summary>Как часто бывает капитализация по вкладу?</summary><p>Чаще всего проценты капитализируются раз в месяц, реже — раз в квартал или в конце срока. При той же номинальной ставке более частая капитализация даёт чуть больший доход.</p></details>
+<details><summary>Чем эффективная ставка отличается от номинальной?</summary><p>Номинальная ставка — просто процент в договоре. Эффективная учитывает капитализацию и показывает реальный годовой доход: например, 15% с ежемесячной капитализацией — это около 16,08% эффективных.</p></details>
+<details><summary>Когда пополнение начинает приносить проценты?</summary><p>Со следующего периода начисления. В этом калькуляторе пополнение прибавляется к остатку в конце месяца, поэтому взнос первого месяца работает дольше остальных.</p></details>
+<details><summary>Что будет с процентами, если закрыть вклад досрочно?</summary><p>Чаще всего банк пересчитывает начисленные проценты по ставке «до востребования», и доход почти обнуляется. Точные условия смотрите в договоре — у отдельных вкладов бывает льготное расторжение без потери процентов.</p></details>
+          </div>
+        </article>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../ipoteka/">Ипотека</a>
+          <a class="related-link" href="../kredit/">Потребительский кредит</a>
+          <a class="related-link" href="../procenty/">Калькулятор процентов</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

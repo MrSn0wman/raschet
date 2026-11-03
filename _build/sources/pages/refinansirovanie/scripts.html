@@ -1,0 +1,157 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function annuityLoan(principal, annualRatePercent, months){
+  const i = (annualRatePercent/100)/12;
+  let monthlyPayment;
+  if (i === 0) monthlyPayment = principal/months;
+  else {
+    const factor = Math.pow(1+i, months);
+    monthlyPayment = principal * (i*factor)/(factor-1);
+  }
+  const totalPayment = monthlyPayment*months;
+  return { monthlyPayment, totalPayment, totalInterest: totalPayment-principal };
+}
+
+function renderChart(newTotal, savings, total){
+  const c1 = document.getElementById('rf-chart-a');
+  const c2 = document.getElementById('rf-chart-b');
+  if (!c1 || !c2 || !(total > 0) || savings < 0) return;
+  const p = Math.max(0, Math.min(100, (newTotal / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('rf-legend-a').textContent = formatMoney(newTotal) + '\u00A0₽';
+  document.getElementById('rf-legend-b').textContent = formatMoney(savings) + '\u00A0₽';
+}
+
+const schedTbody = document.getElementById('r-schedule');
+const schedToggle = document.getElementById('r-schedule-toggle');
+let showAll = false;
+let schedule = [];
+
+function buildSchedule(principal, rate, months, monthlyPayment){
+  const rows = [];
+  let balance = principal;
+  const i = rate / 100 / 12;
+  for (let m = 1; m <= months; m++){
+    const interest = balance * i;
+    let body = monthlyPayment - interest;
+    if (body > balance) body = balance;
+    balance = Math.max(0, balance - body);
+    rows.push({ m: m, pay: interest + body, interest: interest, body: body, balance: balance });
+    if (balance <= 0) break;
+  }
+  return rows;
+}
+
+function renderSchedule(){
+  if (!schedTbody) return;
+  const rows = showAll ? schedule : schedule.slice(0, 12);
+  schedTbody.innerHTML = rows.map(function(r){
+    return '<tr><td>' + r.m + '</td><td>' + formatMoney(r.pay) + '</td><td>' +
+           formatMoney(r.interest) + '</td><td>' + formatMoney(r.body) + '</td><td>' +
+           formatMoney(r.balance) + '</td></tr>';
+  }).join('');
+  if (schedToggle){
+    schedToggle.style.display = schedule.length > 12 ? '' : 'none';
+    schedToggle.querySelector('span').textContent = showAll
+      ? 'Свернуть график'
+      : 'Показать весь график (' + schedule.length + ' мес.)';
+  }
+}
+
+function recalcRefinancing(){
+  const balanceEl = document.getElementById('balance');
+  const oldRateEl = document.getElementById('old-rate');
+  const monthsLeftEl = document.getElementById('months-left');
+  const newRateEl = document.getElementById('new-rate');
+  const newTermEl = document.getElementById('new-term');
+  const feesEl = document.getElementById('fees');
+  const errEl = document.getElementById('err');
+
+  const balance = parseFormattedNumber(balanceEl);
+  const oldRate = parseFloat(String(oldRateEl.value).replace(',', '.'));
+  const monthsLeft = parseFormattedNumber(monthsLeftEl);
+  const newRate = parseFloat(String(newRateEl.value).replace(',', '.'));
+  const newTerm = parseFormattedNumber(newTermEl);
+  const fees = parseFormattedNumber(feesEl) || 0;
+
+  if (isNaN(balance) || balance <= 0 || isNaN(oldRate) || oldRate < 0 || isNaN(monthsLeft) || monthsLeft <= 0 ||
+      isNaN(newRate) || newRate < 0 || isNaN(newTerm) || newTerm <= 0){
+    errEl.style.display = 'block';
+    ['r-savings','r-old-payment','r-new-payment','r-old-total','r-new-total'].forEach(id => document.getElementById(id).textContent = '—');
+    schedule = [];
+    showAll = false;
+    renderSchedule();
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const oldLoan = annuityLoan(balance, oldRate, monthsLeft);
+  const newLoan = annuityLoan(balance, newRate, newTerm);
+  const savings = oldLoan.totalPayment - newLoan.totalPayment - fees;
+
+  const labelEl = document.getElementById('r-label');
+  const savingsEl = document.getElementById('r-savings');
+  if (savings >= 0){
+    labelEl.textContent = 'Экономия при рефинансировании';
+    savingsEl.textContent = formatMoney(savings) + '\u00A0₽';
+  } else {
+    labelEl.textContent = 'Рефинансирование невыгодно, переплата';
+    savingsEl.textContent = formatMoney(Math.abs(savings)) + '\u00A0₽';
+  }
+
+  document.getElementById('r-old-payment').textContent = formatMoney(oldLoan.monthlyPayment) + '\u00A0₽';
+  document.getElementById('r-new-payment').textContent = formatMoney(newLoan.monthlyPayment) + '\u00A0₽';
+  document.getElementById('r-old-total').textContent = formatMoney(oldLoan.totalPayment) + '\u00A0₽';
+  document.getElementById('r-new-total').textContent = formatMoney(newLoan.totalPayment + fees) + '\u00A0₽';
+  renderChart(newLoan.totalPayment + fees, savings, oldLoan.totalPayment);
+  schedule = buildSchedule(balance, newRate, Math.min(Math.max(Math.round(newTerm), 1), 600), newLoan.monthlyPayment);
+  showAll = false;
+  renderSchedule();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('balance'), document.getElementById('old-rate'), document.getElementById('months-left'),
+   document.getElementById('new-rate'), document.getElementById('new-term'), document.getElementById('fees')
+  ].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcRefinancing);
+  });
+  if (schedToggle){
+    schedToggle.addEventListener('click', function(){
+      var blk = this.closest('.schedule-block');
+      var anchorTop = showAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
+      showAll = !showAll;
+      blk.classList.toggle('expanded', showAll);
+      renderSchedule();
+      // при сворачивании возвращаем к началу графика, а не роняем в подвал
+      if (!showAll && window.scrollY > anchorTop - 80){
+        window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+      }
+    });
+  }
+  recalcRefinancing();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+
+<meta charset="UTF-8">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0E7A4A">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru https://yastatic.net; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+<title>Генератор случайных чисел онлайн | Расчёт.net</title>
+<meta name="description" content="Сгенерируйте случайные числа в заданном диапазоне — одно число или несколько сразу, с повторами или без, целые или дробные.">
+<link rel="canonical" href="https://raschet.net/sluchaynye-chisla/">
+<meta property="og:title" content="Генератор случайных чисел — Расчёт.net">
+<meta property="og:description" content="Случайные числа в диапазоне, с повторами или без.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://raschet.net/sluchaynye-chisla/">
+<meta property="og:site_name" content="Расчёт.net">
+<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Генератор случайных чисел — Расчёт.net">
+<meta name="twitter:description" content="Случайные числа в диапазоне, с повторами или без.">
+<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
+@@RASCHET_HEAD_INIT@@
+<style>
+@@RASCHET_STYLE@@</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Генератор случайных чисел",
+  "url": "https://raschet.net/sluchaynye-chisla/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  }
+}
+</script>
+<script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Чем этот генератор отличается от Math.random?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Здесь используется crypto.getRandomValues — криптографический генератор браузера, опирающийся на энтропию операционной системы. Последовательность Math.random теоретически предсказуема, а crypto — нет."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли использовать генератор для розыгрыша призов?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да: задайте диапазон по номерам участников и включите режим «без повторов». Для прозрачности розыгрыша зафиксируйте процесс на скриншоте или видео."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Входят ли границы диапазона в выборку?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, минимум и максимум могут выпасть наравне с остальными числами. Например, в диапазоне 1–100 возможны и 1, и 100."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему нельзя получить 20 чисел без повторов из диапазона 1–10?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В диапазоне всего 10 разных чисел, поэтому 20 неповторяющихся взять неоткуда. Расширьте диапазон или выключите опцию «без повторов»."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли генерировать отрицательные числа?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, минимум и максимум могут быть отрицательными. Главное, чтобы минимум был меньше максимума."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сохраняются ли мои числа на сервере?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. Весь расчёт выполняется в вашем браузере, данные никуда не отправляются и нигде не хранятся."
+      }
+    }
+  ]
+}
+</script>

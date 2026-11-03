@@ -16,7 +16,7 @@ import rates  # noqa: E402
 import stats  # noqa: E402
 from fastapi import FastAPI, Request  # noqa: E402
 from fastapi.middleware.cors import CORSMiddleware  # noqa: E402
-from fastapi.responses import JSONResponse  # noqa: E402
+from body_limit import BodyLimitMiddleware  # noqa: E402
 
 logging.basicConfig(
     level=logging.INFO,
@@ -70,16 +70,7 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-@app.middleware("http")
-async def limit_body_size(request: Request, call_next):
-    raw = request.headers.get("content-length")
-    if raw is not None:
-        try:
-            if int(raw) > MAX_BODY_BYTES:
-                return JSONResponse(status_code=413, content={"detail": "payload too large"})
-        except ValueError:
-            return JSONResponse(status_code=400, content={"detail": "bad content-length"})
-    return await call_next(request)
+app.add_middleware(BodyLimitMiddleware, max_body_bytes=MAX_BODY_BYTES)
 
 
 @app.middleware("http")

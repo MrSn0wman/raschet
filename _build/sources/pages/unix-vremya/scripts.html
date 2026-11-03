@@ -1,0 +1,106 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var tsEl = document.getElementById('ux-ts');
+  var dateEl = document.getElementById('ux-date');
+  var tzEl = document.getElementById('ux-tz');
+  var errEl = document.getElementById('ux-error');
+  var nowEl = document.getElementById('ux-now');
+  var nowLocalEl = document.getElementById('ux-now-local');
+  var nowUtcEl = document.getElementById('ux-now-utc');
+  var fromTsEl = document.getElementById('ux-from-ts');
+  var fromDateEl = document.getElementById('ux-from-date');
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function fmtLocal(ms){
+    var d = new Date(ms);
+    if (isNaN(d.getTime())) return '—';
+    return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear() + ' ' +
+           pad(d.getHours()) + ':' + pad(d.getMinutes()) + ':' + pad(d.getSeconds());
+  }
+
+  function fmtUtc(ms){
+    var d = new Date(ms);
+    if (isNaN(d.getTime())) return '—';
+    return pad(d.getUTCDate()) + '.' + pad(d.getUTCMonth() + 1) + '.' + d.getUTCFullYear() + ' ' +
+           pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + ':' + pad(d.getUTCSeconds()) + ' UTC';
+  }
+
+  function showError(msg){
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+  }
+  function hideError(){ errEl.classList.remove('visible'); }
+
+  function tick(){
+    var now = Date.now();
+    nowEl.textContent = window.formatMoney(Math.floor(now / 1000));
+    nowLocalEl.textContent = fmtLocal(now);
+    nowUtcEl.textContent = fmtUtc(now);
+  }
+
+  function renderTs(){
+    var raw = tsEl.value.replace(/[\s_]/g, '');
+    if (raw === ''){ fromTsEl.textContent = '—'; hideError(); return; }
+    if (!/^-?\d+$/.test(raw)){
+      showError('Timestamp — это целое число секунд или миллисекунд.');
+      fromTsEl.textContent = '—';
+      return;
+    }
+    var n = parseInt(raw, 10);
+    if (!isFinite(n)){
+      showError('Число слишком большое для точного перевода.');
+      fromTsEl.textContent = '—';
+      return;
+    }
+    hideError();
+    var ms = Math.abs(n) >= 1e12 ? n : n * 1000;
+    if (isNaN(new Date(ms).getTime())){
+      showError('Такой timestamp не помещается в диапазон дат JavaScript.');
+      fromTsEl.textContent = '—';
+      return;
+    }
+    fromTsEl.textContent = fmtLocal(ms) + ' / ' + fmtUtc(ms);
+  }
+
+  function renderDate(){
+    var v = dateEl.value;
+    if (!v){ fromDateEl.textContent = '—'; return; }
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?/.exec(v);
+    if (!m){ fromDateEl.textContent = '—'; return; }
+    var y = +m[1], mo = +m[2] - 1, d = +m[3], h = +m[4], mi = +m[5], s = m[6] ? +m[6] : 0;
+    var ms = tzEl.value === 'utc' ? Date.UTC(y, mo, d, h, mi, s) : new Date(y, mo, d, h, mi, s).getTime();
+    fromDateEl.textContent = window.formatMoney(Math.floor(ms / 1000)) + ' с (' + window.formatMoney(ms) + ' мс)';
+  }
+
+  tsEl.addEventListener('input', renderTs);
+  dateEl.addEventListener('input', renderDate);
+  tzEl.addEventListener('change', renderDate);
+  tick();
+  setInterval(tick, 1000);
+  renderTs();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

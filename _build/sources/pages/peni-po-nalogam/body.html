@@ -1,0 +1,120 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#legal">Юридические</a> / Пени по налогам
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Пени по налогам</h1>
+          <p class="calc-sub">Расчёт пеней за просрочку уплаты налогов, сборов и страховых взносов по ст. 75 НК РФ.</p>
+
+          <div class="strategy-toggle" style="margin-bottom:18px;">
+            <label class="strategy-option">
+              <input type="radio" name="payer-type" value="individual" checked>
+              <span><b>Физлицо или ИП</b><small>1/300 ключевой ставки за весь период просрочки</small></span>
+            </label>
+            <label class="strategy-option">
+              <input type="radio" name="payer-type" value="org">
+              <span><b>Организация</b><small>1/300 первые 30 дней, затем 1/150</small></span>
+            </label>
+          </div>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="debt">Сумма долга (недоимка)</label>
+              <div class="unit-input">
+                <input type="text" id="debt" value="100 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="key-rate">Ключевая ставка ЦБ</label>
+              <div class="unit-input">
+                <input type="text" id="key-rate" value="14" inputmode="decimal">
+                <span>%</span>
+              </div>
+              <span class="hint">Актуальную ставку смотрите на сайте cbr.ru</span>
+            </div>
+            <div class="field">
+              <label for="days">Дней просрочки</label>
+              <div class="unit-input">
+                <input type="text" id="days" value="30" inputmode="numeric">
+                <span>дней</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-penalty"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Сумма пеней</div>
+            <div class="r-value" id="r-penalty">—</div>
+            <div class="r-rows">
+              <div><b id="r-total">—</b><span>Долг + пени</span></div>
+              <div><b id="r-rate-note">—</b><span>Применённая ставка</span></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считаются пени по налогам</h2>
+<p>Пени — это плата за просрочку уплаты налога, сбора или страхового взноса. По ст. 75 НК РФ они начисляются на сумму недоимки за каждый календарный день просрочки: со дня, следующего за установленным сроком уплаты, по день фактической уплаты долга включительно. Размер пеней зависит от ключевой ставки Банка России и от того, кто должен бюджету — физлицо, ИП или организация.</p>
+<p>Базовая формула расчёта выглядит так:</p>
+<p><code>Пени = недоимка × (ключевая ставка / 300) × дни просрочки</code></p>
+<p>Недоимка — это неуплаченная в срок сумма налога или взноса. Ключевую ставку берите в процентах годовых: при ставке 21% дневная доля для расчёта — 21 / 300 = 0,07%. Дни просрочки считаются календарные, выходные и праздники не исключаются.</p>
+<p>Пример: организация не уплатила вовремя 820&nbsp;000&nbsp;₽, просрочка составила 45 дней при ключевой ставке 21%. Первые 30 дней пени идут по 1/300 ставки: 820&nbsp;000&nbsp;₽ × 21% / 300 × 30 = 17&nbsp;220&nbsp;₽. Следующие 15 дней — уже по 1/150: 820&nbsp;000&nbsp;₽ × 21% / 150 × 15 = 17&nbsp;220&nbsp;₽. Итого за 45 дней набежит 34&nbsp;440&nbsp;₽ пеней, и платить придётся 854&nbsp;440&nbsp;₽ вместо 820&nbsp;000&nbsp;₽.</p>
+<h3>1/300 для физлиц и ИП</h3>
+<p>Физические лица и индивидуальные предприниматели платят пени по одной ставке за весь период просрочки — 1/300 ключевой ставки за каждый день. Длительность просрочки на размер доли не влияет: хоть 10 дней, хоть полгода, ставка остаётся той же. Это самый простой случай — достаточно одной формулы выше. Сравните с примером из начала статьи: физлицо с тем же долгом 820&nbsp;000&nbsp;₽ и той же просрочкой 45 дней заплатило бы только 25&nbsp;830&nbsp;₽ — все 45 дней по 1/300.</p>
+<h3>1/150 для организаций с 31-го дня</h3>
+<p>Для организаций правила жёстче. Первые 30 календарных дней просрочки считаются по 1/300 ключевой ставки. Начиная с 31-го дня доля удваивается — 1/150, и так до дня уплаты долга: возврата к 1/300 при длинной просрочке нет. В калькуляторе выберите вариант «Организация» — переход на 1/150 он учтёт сам, вручную дробить период не придётся.</p>
+<h3>Какую ключевую ставку брать</h3>
+<p>Применяется ставка, которая действовала в конкретные дни просрочки. Актуальное значение смотрите на сайте cbr.ru. Если за период долга ставка менялась, точный расчёт дробят на отрезки: для каждого берут свою ставку, а результаты складывают. Этот калькулятор для простоты использует одну ставку на весь период — подставьте ту, что действовала большую часть срока, или посчитайте отрезки по отдельности и сложите.</p>
+<h3>Что учесть при расчёте</h3>
+<ul>
+<li>Пени растут и в день уплаты долга — он тоже включается в период просрочки.</li>
+<li>Частичная оплата уменьшает недоимку: после неё пени считаются уже от меньшей суммы.</li>
+<li>Пени не начисляются за период, когда налогоплательщик не мог погасить долг из-за ареста счёта или приостановления операций по решению суда либо налоговой.</li>
+<li>Пени — не единственная санкция. За неуплату налога штрафуют отдельно, поэтому затягивать с погашением недоимки невыгодно вдвойне.</li>
+</ul>
+<p>Если инспекция уже прислала требование с суммой пеней, сверьте её со своим расчётом: ошибки встречаются, и лишнее можно оспорить. Сумма по требованию не всегда совпадает с расчётом по формуле — обычно из-за смены ставки внутри периода или из-за того, что часть долга гасилась по частям. Расхождение в вашу пользу — повод написать заявление в инспекцию и попросить пересчитать.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>С какого дня начинают начисляться пени?</summary><p>Пени начисляются со дня, следующего за установленным сроком уплаты налога, по день фактической уплаты долга включительно.</p></details>
+<details><summary>Чем отличается расчёт пеней для физлиц и организаций?</summary><p>Физические лица и ИП платят пени по ставке 1/300 ключевой ставки Банка России за каждый день просрочки, независимо от её продолжительности. Организации платят 1/300 за первые 30 дней просрочки и 1/150 — начиная с 31-го дня и далее до уплаты долга.</p></details>
+<details><summary>Если ключевая ставка менялась в период просрочки?</summary><p>Тогда расчёт нужно делать по каждому периоду отдельно, применяя ставку, действовавшую именно в эти дни. Этот калькулятор использует одну ставку на весь период для простоты — для точного расчёта за длительный срок стоит разбить его на отрезки с разными ставками.</p></details>
+<details><summary>Начисляются ли пени на сами пени?</summary><p>Нет, пени начисляются только на сумму основного долга (недоимки), а не на уже начисленные пени.</p></details>
+<details><summary>Чем пени отличаются от штрафа?</summary><p>Пени растут ежедневно и зависят от срока просрочки, а штраф — разовая санкция, обычно в процентах от недоимки или в фиксированной сумме. За одно нарушение могут назначить и то и другое.</p></details>
+<details><summary>Начисляются ли пени на страховые взносы?</summary><p>Да, правила ст. 75 НК РФ действуют и для страховых взносов: те же 1/300 для ИП и физлиц и та же шкала 1/300–1/150 для организаций.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../neustoika-po-dogovoru/">Неустойка по договору</a>
+          <a class="related-link" href="../procenty-395-gk/">Проценты по ст. 395 ГК РФ</a>
+          <a class="related-link" href="../ndfl/">Калькулятор НДФЛ</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

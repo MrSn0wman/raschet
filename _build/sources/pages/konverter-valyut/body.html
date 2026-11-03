@@ -1,0 +1,129 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Конвертер валют</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Конвертер валют</h1>
+          <p class="calc-sub">Перевод суммы между рублём и девятью валютами по курсу ЦБ РФ.</p>
+          <form id="tool-form" novalidate>
+
+<div class="field-grid">
+  <div class="field">
+    <label for="cv-amount">Сумма</label>
+    <div class="unit-input"><input type="text" id="cv-amount" value="1000" inputmode="numeric" data-share="amount"><span id="cv-unit">USD</span></div>
+  </div>
+  <div class="field">
+    <label for="cv-from">Из валюты</label>
+    <select id="cv-from" data-share="from">
+      <option value="USD" selected>USD — доллар США</option>
+      <option value="EUR">EUR — евро</option>
+      <option value="CNY">CNY — китайский юань</option>
+      <option value="GBP">GBP — фунт стерлингов</option>
+      <option value="TRY">TRY — турецкая лира</option>
+      <option value="AED">AED — дирхам ОАЭ</option>
+      <option value="KZT">KZT — казахский тенге</option>
+      <option value="BYN">BYN — белорусский рубль</option>
+      <option value="UAH">UAH — украинская гривна</option>
+      <option value="RUB">RUB — российский рубль</option>
+    </select>
+  </div>
+  <div class="field">
+    <label for="cv-to">В валюту</label>
+    <select id="cv-to" data-share="to">
+      <option value="RUB" selected>RUB — российский рубль</option>
+      <option value="USD">USD — доллар США</option>
+      <option value="EUR">EUR — евро</option>
+      <option value="CNY">CNY — китайский юань</option>
+      <option value="GBP">GBP — фунт стерлингов</option>
+      <option value="TRY">TRY — турецкая лира</option>
+      <option value="AED">AED — дирхам ОАЭ</option>
+      <option value="KZT">KZT — казахский тенге</option>
+      <option value="BYN">BYN — белорусский рубль</option>
+      <option value="UAH">UAH — украинская гривна</option>
+    </select>
+  </div>
+  <div class="field full">
+    <span class="hint" id="cv-src">Курсы ЦБ РФ от 15.10.2026 (офлайн)</span>
+  </div>
+</div>
+
+</form>
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="cv-result"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+
+
+<div class="result-panel">
+  <div class="r-label">Итог конвертации</div>
+  <div class="r-value" id="cv-result">—</div>
+  <div class="r-rows">
+    <div><b id="cv-rate">—</b><span>прямой курс</span></div>
+    <div><b id="cv-inv">—</b><span>обратный курс</span></div>
+  </div>
+</div>
+
+        </div>
+        <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        <article class="calc-explain">
+          <h2>Как считается конвертация валют</h2>
+<p>Конвертер переводит суммы между рублём и девятью иностранными валютами по официальным курсам Центрального банка РФ. Введите сумму, выберите валюту «из» и валюту «в» — итог, прямой и обратный курс появятся сразу. Под курсом указана дата, на которую он действует, а расчёт пересчитывается при каждом изменении полей.</p>
+<p>ЦБ публикует курсы всех валют в рублях, поэтому любая пара считается через рубль. Сумма сначала переводится в рубли по курсу исходной валюты, затем из рублей — в целевую:</p>
+<p><code>результат = сумма × курс исходной / курс целевой</code></p>
+<p>Пример по курсам, зашитым в страницу на 15.10.2026: доллар — 83,9497&nbsp;₽, евро — 93,9229&nbsp;₽. Переведём 100 долларов в евро: 100 × 83,9497 / 93,9229 ≈ 89,38 €. Это и есть кросс-курс — тот же принцип банки используют, обменивая одну иностранную валюту на другую без рублей в кассе.</p>
+<p>Под результатом видны два справочных значения. Прямой курс — сколько целевой валюты дают за одну единицу исходной; обратный — наоборот. По ним удобно проверить расчёт или прикинуть сделку в другую сторону, не меняя поля местами.</p>
+<p>Кроме рубля доступны доллар США, евро, китайский юань, британский фунт, турецкая лира, дирхам ОАЭ, казахстанский тенге, белорусский рубль и украинская гривна. Пары собираются в любую сторону — хоть юани в тенге, хоть фунты в дирхамы: расчёт всё равно пройдёт через рубль по курсам ЦБ.</p>
+<p>Официальный курс нужен не только туристам: по нему пересчитывают таможенные платежи, валютную выручку в отчётности и цены в контрактах с иностранными партнёрами. Для таких задач важна и дата курса — она всегда указана под результатом.</p>
+<p>Если нужной валюты нет в списке, пересчитайте её в два шага: сначала переведите сумму в доллары или евро по курсу вашего банка, а затем — из них в рубли здесь. Копейки в итоге сохраняются: результат округляется до двух знаков, как принято в денежных расчётах.</p>
+<h3>Курс ЦБ и курс в банке — не одно и то же</h3>
+<p>Курс ЦБ — официальный ориентир для бухгалтерии, таможни и контрактов, а не цена сделки в кассе. Банки и обменники закладывают маржу: продают валюту дороже курса ЦБ, покупают дешевле, и разница обычно составляет 1–3%. При официальном курсе около 84&nbsp;₽ за доллар банк может продавать по 85–86&nbsp;₽, а покупать по 82–83&nbsp;₽: на сумме в 1&nbsp;000 $ разница с расчётом по ЦБ выльется в пару тысяч рублей. Поэтому конвертер отвечает на вопрос «сколько это по официальному курсу», а реальный курс обмена уточняйте в своём банке.</p>
+<h3>Номиналы: за сколько единиц дан курс</h3>
+<p>Некоторые курсы ЦБ публикует не за одну единицу валюты: гривна — за 10, тенге — за 100. Если смотреть на них без поправки, тенге кажется в разы дороже, чем есть на самом деле. Конвертер сам делит на номинал и показывает цену ровно одной единицы, поэтому валюты сравниваются напрямую и сюрпризов в расчёте нет.</p>
+<h3>Откуда берутся курсы и зачем нужен офлайн-режим</h3>
+<p>При открытии страница запрашивает свежие курсы у сервера и ждёт ответ не дольше трёх секунд. Успех — считаем по актуальным данным, дата указана под курсом. Нет ответа — включается офлайн-режим: расчёт идёт по курсам, сохранённым в самой странице, с пометкой «офлайн» и датой этих курсов. Бывает и третий вариант: сервер ответил, но свежих данных у него нет, — тогда появляется пометка «обновление временно недоступно», а расчёт остаётся корректным на указанную дату. Курсы ЦБ обновляются раз в рабочий день, в первой половине дня; на выходные и праздники действует курс пятницы.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Почему в банке курс отличается от показанного здесь?</summary><p>Здесь — официальный курс ЦБ РФ. Банки продают и покупают валюту с наценкой: курс покупки ниже курса ЦБ, курс продажи выше. Разница обычно составляет 1–3%.</p></details>
+<details><summary>Что означает пометка «офлайн»?</summary><p>Сервер с актуальными курсами не ответил за три секунды, и расчёт выполнен по курсам, сохранённым прямо в странице. Дата этих курсов указана в пометке.</p></details>
+<details><summary>Как перевести евро в доллары, если курс задан только к рублю?</summary><p>Ничего дополнительно делать не нужно: выберите «из валюты» EUR, «в валюту» USD. Конвертер сам пересчитает сумму через рубль по кросс-курсу.</p></details>
+<details><summary>Как часто обновляются курсы?</summary><p>ЦБ РФ публикует официальные курсы один раз в рабочий день, в первой половине дня; на выходные и праздники действует курс пятницы. Наш сервер забирает обновление сразу после публикации.</p></details>
+<details><summary>Что показывают прямой и обратный курс под результатом?</summary><p>Прямой — сколько целевой валюты дают за одну единицу исходной, обратный — наоборот. По ним можно проверить расчёт без повторного ввода.</p></details>
+<details><summary>Почему курс тенге или гривны выглядит таким маленьким?</summary><p>ЦБ публикует эти курсы за 10 или 100 единиц, а конвертер показывает цену одной единицы. Поэтому тенге стоит копейки, а не рубли — так и должно быть.</p></details>
+          </div>
+        </article>
+      </div>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../procenty/">Калькулятор процентов</a>
+          <a class="related-link" href="../slozhnyy-procent/">Сложный процент</a>
+          <a class="related-link" href="../skidki/">Калькулятор скидок</a>
+          <a class="related-link" href="../chasovye-poyasa/">Разница часовых поясов</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

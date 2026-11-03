@@ -13,3 +13,7 @@ Thumbs.db
 
 # SEO-исследование (рабочая папка: скрейпы конкурентов, замеры)
 _seo_tmp/
+
+# Generated build output; canonical sources stay versioned.
+_build/out/
+.raschet-sync-*

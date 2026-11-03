@@ -1,0 +1,106 @@
+
+<meta charset="UTF-8">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0E7A4A">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru https://yastatic.net; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+<title>Unix timestamp онлайн — конвертер в дату и обратно</title>
+<meta name="description" content="Текущее Unix-время в реальном времени, перевод timestamp в дату (секунды и миллисекунды определяются сами) и даты в timestamp. UTC и локальный пояс.">
+<link rel="canonical" href="https://raschet.net/unix-vremya/">
+<meta property="og:title" content="Unix timestamp онлайн — конвертер в дату и обратно">
+<meta property="og:description" content="Текущее Unix-время в реальном времени, перевод timestamp в дату (секунды и миллисекунды определяются сами) и даты в timestamp. UTC и локальный пояс.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://raschet.net/unix-vremya/">
+<meta property="og:site_name" content="Расчёт.net">
+<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Unix timestamp онлайн — конвертер в дату и обратно">
+<meta name="twitter:description" content="Текущее Unix-время в реальном времени, перевод timestamp в дату (секунды и миллисекунды определяются сами) и даты в timestamp. UTC и локальный пояс.">
+<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
+@@RASCHET_HEAD_INIT@@
+<style>
+@@RASCHET_STYLE@@</style>
+<script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Unix-время: timestamp ↔ дата",
+  "description": "Текущее Unix-время в реальном времени, перевод timestamp в дату (секунды и миллисекунды определяются сами) и даты в timestamp. UTC и локальный пояс.",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  },
+  "url": "https://raschet.net/unix-vremya/",
+  "dateModified": "2026-10-18",
+  "inLanguage": "ru-RU"
+}
+</script>
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Чем отличаются timestamp в секундах и миллисекундах?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В миллисекундах значение в тысячу раз больше. JavaScript (Date.now) и Java используют миллисекунды, Unix-утилиты и большинство API — секунды. Конвертер определяет формат по величине числа."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему 1970 год называется эпохой Unix?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Так решили авторы первых версий Unix: отсчёт времени в системе начался с полуночи 1 января 1970 года по UTC. Даты раньше эпохи кодируются отрицательными числами."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что будет 19 января 2038 года?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "В этот день 32-битный счётчик секунд переполнится (проблема 2038 года). Современные 64-битные системы, включая этот конвертер, ей не подвержены."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Timestamp одинаковый во всём мире?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, это абсолютное число секунд от эпохи, без часовых поясов. Различия возникают только при превращении timestamp в читаемую дату — тут и нужен выбор пояса."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как узнать текущий timestamp?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Он показан в верхней части этой страницы и обновляется каждую секунду. В коде текущее время получают через Date.now() в JavaScript, time() в PHP или time.time() в Python."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Почему конвертер показывает дату со сдвигом на несколько часов?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Почти наверняка дело в часовом поясе: одна сторона трактует время как UTC, другая — как локальное. Переключите режим и сравните результаты — сдвиг совпадёт с вашим смещением от UTC."
+      }
+    }
+  ]
+}
+</script>

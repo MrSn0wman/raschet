@@ -1,0 +1,97 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#realty">Недвижимость и налоги</a> / Страховые взносы ИП
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Страховые взносы ИП</h1>
+          <p class="calc-sub">Фиксированные страховые взносы «за себя» на 2026 год плюс дополнительный 1% с дохода свыше 300&nbsp;000&nbsp;₽.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="annual-income">Годовой доход ИП</label>
+              <div class="unit-input">
+                <input type="text" id="annual-income" value="2 000 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+              <span class="hint">На УСН «Доходы» и патенте берётся весь доход, на УСН «Доходы минус расходы» — доход за вычетом расходов</span>
+            </div>
+            <div class="field">
+              <label for="start-date">Дата регистрации ИП <span class="hint">(если открылись в 2026 году)</span></label>
+              <input type="date" id="start-date" value="2026-01-01">
+            </div>
+            <div class="field">
+              <label for="end-date">Дата прекращения деятельности <span class="hint">(если закрылись в 2026 году)</span></label>
+              <input type="date" id="end-date" value="2026-12-31">
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-total"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Всего взносов за 2026 год</div>
+            <div class="r-value" id="r-total">—</div>
+            <div class="r-rows">
+              <div><b id="r-fixed">—</b><span>Фиксированная часть</span></div>
+              <div><b id="r-additional">—</b><span>Дополнительный 1% с дохода свыше 300&nbsp;000&nbsp;₽</span></div>
+              <div><b id="r-capped">—</b><span>Лимит 321&nbsp;818&nbsp;₽ применён</span></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте даты и сумму дохода</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считаются страховые взносы ИП за себя</h2>
+<p>В 2026 году каждый ИП платит фиксированные взносы 57&nbsp;390&nbsp;₽ за полный год — даже если дохода не было вообще. Сверх того, когда годовой доход превышает 300&nbsp;000&nbsp;₽, добавляется 1% с суммы превышения. Дополнительная часть ограничена: максимум 321&nbsp;818&nbsp;₽, сколько бы вы ни заработали.</p>
+<p>Формула для полного года:</p>
+<p><code>Взносы = 57&nbsp;390&nbsp;₽ + (доход − 300&nbsp;000&nbsp;₽) × 1%</code></p>
+<p>Если доход не превысил 300&nbsp;000&nbsp;₽, вторая часть обнуляется — платится только фиксированная. Это единый платёж, который заменил отдельные взносы на пенсионное и медицинское страхование: делить сумму между фондами больше не нужно. Взносы обязательны с момента регистрации ИП и до снятия с учёта, паузы «на время простоя» закон не предусматривает.</p>
+<p>Пример: ИП отработал весь 2026 год и заработал 2&nbsp;000&nbsp;000&nbsp;₽. Фиксированная часть — 57&nbsp;390&nbsp;₽. Дополнительная: (2&nbsp;000&nbsp;000 − 300&nbsp;000) × 1% = 17&nbsp;000&nbsp;₽. Итого за год — 74&nbsp;390&nbsp;₽. А вот при доходе 40&nbsp;000&nbsp;000&nbsp;₽ один процент дал бы 397&nbsp;000&nbsp;₽, но сработает лимит: доплатить придётся только 321&nbsp;818&nbsp;₽, а всего — 379&nbsp;208&nbsp;₽.</p>
+<p>Эти платежи не уходят «в никуда»: фиксированные взносы формируют ваш пенсионный стаж и пенсионные коэффициенты, а также дают право на обязательное медицинское страхование. Поэтому даже при нулевом доходе взносы стоит платить вовремя — иначе год выпадет из стажа.</p>
+<h3>Неполный год: как пересчитывается фиксированная часть</h3>
+<p>Зарегистрировались в середине года или закрылись раньше декабря — платите не всю сумму, а пропорционально периоду работы. За каждый полный месяц берётся 1/12 от 57&nbsp;390&nbsp;₽, то есть 4&nbsp;782,5&nbsp;₽. За неполный месяц сумма делится на число дней в этом месяце и умножается на дни в статусе ИП — включая день регистрации и день снятия с учёта.</p>
+<p>Пример: ИП зарегистрировался 10 марта 2026 года и работал до конца года. Полных месяцев — девять (апрель–декабрь), плюс 22 дня марта. Выходит примерно 43&nbsp;043&nbsp;₽ за полные месяцы и около 3&nbsp;394&nbsp;₽ за март — итого порядка 46&nbsp;400&nbsp;₽ вместо полных 57&nbsp;390&nbsp;₽. Калькулятор выше считает это автоматически по датам регистрации и закрытия.</p>
+<h3>Что считать доходом для 1%</h3>
+<p>База зависит от налогового режима. На УСН «Доходы» и патенте берётся весь полученный доход. На УСН «Доходы минус расходы» — доход за вычетом расходов. Если совмещаете несколько режимов, доходы по ним суммируются. Порог в 300&nbsp;000&nbsp;₽ общий, на каждый режим отдельно он не делится. Для редких режимов и спорных ситуаций сверяйтесь со ст. 430 НК РФ.</p>
+<h3>Когда платить</h3>
+<p>Дедлайнов два: фиксированную часть за 2026 год — до 28 декабря 2026 года, дополнительный 1% — до 1 июля 2027 года. Платить можно частями в течение года, а не одной суммой в конце. ИП на УСН «Доходы» так и делают: уплаченные взносы уменьшают авансовые платежи по налогу, а без работников налог можно свести к нулю полностью.</p>
+<p>Два отдельных случая. Если закрываете ИП, взносы за неполный год нужно заплатить в течение 15 календарных дней после снятия с учёта — общий дедлайн тут не действует. Если просто просрочили платёж, налоговая начислит пени за каждый день задержки, а при долгой неуплате может взыскать сумму со счёта.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Что если ИП открылся и закрылся в течение года?</summary><p>Фиксированная часть пересчитывается пропорционально фактическому периоду деятельности — с даты регистрации по дату снятия с учёта включительно.</p></details>
+<details><summary>Входят ли взносы за работников в этот расчёт?</summary><p>Нет, этот калькулятор считает только взносы ИП «за себя». Взносы с зарплат наёмных сотрудников считаются отдельно, по другим ставкам и с учётом предельной базы.</p></details>
+<details><summary>Нужно ли платить взносы, если ИП не ведёт деятельность?</summary><p>Да, фиксированная часть обязательна для каждого ИП независимо от дохода. Исключения — отдельные периоды вроде ухода за ребёнком или военной службы по мобилизации.</p></details>
+<details><summary>Можно ли уменьшить налог на сумму страховых взносов?</summary><p>Да, ИП на УСН «Доходы» и патенте уменьшают налог на взносы, подлежащие уплате в этом же году. На УСН без работников налог можно зачесть вплоть до нуля.</p></details>
+<details><summary>До какого числа нужно заплатить взносы за 2026 год?</summary><p>Фиксированную часть — до 28 декабря 2026 года. Дополнительный взнос 1% с дохода свыше 300&nbsp;000&nbsp;₽ — до 1 июля 2027 года.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../nalog-samozanyatyh/">Налог для самозанятых</a>
+          <a class="related-link" href="../ndfl/">Калькулятор НДФЛ</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

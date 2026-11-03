@@ -1,0 +1,136 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#finance">Финансы</a> / ИИС
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>ИИС — вычет на взнос и на доход</h1>
+          <p class="calc-sub">ИИС-3 сочетает обе льготы: ежегодный вычет на взнос и освобождение инвестиционного дохода от налога при закрытии счёта.</p>
+
+          <h3 style="font-size:.95rem; margin:0 0 12px;">Вычет на взнос</h3>
+          <div class="field-grid">
+            <div class="field">
+              <label for="annual-contribution">Пополнение счёта в год</label>
+              <div class="unit-input">
+                <input type="text" id="annual-contribution" value="400 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+              <span class="hint">Вычет считается максимум с 400 000 ₽ в год, даже если внесёте больше</span>
+            </div>
+            <div class="field">
+              <label for="ndfl-rate">Ваша ставка НДФЛ</label>
+              <select id="ndfl-rate">
+                <option value="13" selected>13%</option>
+                <option value="15">15%</option>
+                <option value="18">18%</option>
+                <option value="20">20%</option>
+                <option value="22">22%</option>
+              </select>
+            </div>
+            <div class="field full">
+              <label for="years">Сколько лет планируете пополнять</label>
+              <input type="text" id="years" value="5" inputmode="numeric">
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-annual-deduction"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Вычет на взнос за год</div>
+            <div class="r-value" id="r-annual-deduction">—</div>
+            <div class="r-rows">
+              <div><b id="r-total-deduction">—</b><span>Вычет за весь срок</span></div>
+            </div>
+          </div>
+
+          <h3 style="font-size:.95rem; margin:24px 0 12px;">Вычет на доход (при закрытии счёта)</h3>
+          <div class="field-grid">
+            <div class="field full">
+              <label for="investment-profit">Инвестиционный доход за весь срок</label>
+              <div class="unit-input">
+                <input type="text" id="investment-profit" value="1 500 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+              <span class="hint">Прибыль от продажи бумаг и купонный доход, лимит освобождения — 30 млн ₽ за весь срок</span>
+            </div>
+          </div>
+
+          <div class="result-panel">
+            <div class="r-label">Налог, которого вы избежите</div>
+            <div class="r-value" id="r-tax-saved">—</div>
+            <div class="r-rows">
+              <div><b id="r-exempt-note">—</b><span>Лимит освобождения</span></div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg id="ii-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение вычета на взнос и вычета на доход">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="ii-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="57.14 42.86" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="ii-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="42.86 57.14" stroke-dashoffset="-32.14" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Вычет на взнос за весь срок&nbsp;— <b id="ii-legend-a">260 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Вычет на доход&nbsp;— <b id="ii-legend-b">195 000 ₽</b></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считаются льготы по ИИС</h2>
+<p>По индивидуальному инвестиционному счёту государство даёт две налоговые льготы. Первая — вычет на взнос: возврат части уплаченного вами НДФЛ за каждое пополнение счёта, максимум с 400&nbsp;000&nbsp;₽ в год. Вторая — вычет на доход: при закрытии счёта после минимального срока владения вся инвестиционная прибыль освобождается от НДФЛ в пределах 30&nbsp;000&nbsp;000&nbsp;₽ за весь срок.</p>
+<p>Вычет на взнос считается по формуле: <code>Вычет = min(Взнос; 400&nbsp;000&nbsp;₽) × ставка НДФЛ</code>. При ставке 13% максимальный возврат — 52&nbsp;000&nbsp;₽ в год; у тех, чьи доходы облагаются по повышенным ступеням прогрессивной шкалы, возврат больше — до 88&nbsp;000&nbsp;₽. Ограничение одно: вернуть можно не больше, чем вы фактически заплатили НДФЛ за год. Нет облагаемого дохода — нет и вычета.</p>
+<p>Вычет на доход работает иначе: он применяется один раз, при закрытии счёта. Если счёт прожил минимальный срок (для открытых в 2024–2026 годах — 5 лет, дальше срок постепенно растёт и к 2031 году достигнет 10 лет), весь заработанный на счёте доход не облагается НДФЛ в пределах лимита. Продали бумаги с прибылью — налог с неё не удержат.</p>
+<h3>Пример расчёта</h3>
+<p>Вы вносите 400&nbsp;000&nbsp;₽ в год, ваша ставка НДФЛ — 13%. Каждый год возвращаете по 52&nbsp;000&nbsp;₽, за 5 лет — 260&nbsp;000&nbsp;₽. За это время инвестиции принесли 1&nbsp;500&nbsp;000&nbsp;₽ прибыли. На обычном брокерском счёте с неё удержали бы 195&nbsp;000&nbsp;₽ налога, а по ИИС-3 эта сумма остаётся у вас. Итого за срок счёта бюджет возвращает вам 455&nbsp;000&nbsp;₽ сверх инвестиционного результата.</p>
+<h3>Что будет, если закрыть счёт раньше срока</h3>
+<p>Досрочное закрытие обнуляет льготы. Все уже полученные вычеты на взносы придётся вернуть в бюджет вместе с пенями, а с инвестиционного дохода заплатить НДФЛ на общих основаниях, как по обычному брокерскому счёту. Поэтому размещайте на ИИС только те деньги, которые точно не понадобятся в ближайшие годы.</p>
+<h3>Лимит взноса для вычета — на человека, а не на счёт</h3>
+<p>Сейчас можно держать до трёх ИИС одновременно, но лимит 400&nbsp;000&nbsp;₽ в год считается один раз на человека, а не на каждый счёт. Внесли 250&nbsp;000&nbsp;₽ на один счёт и 300&nbsp;000&nbsp;₽ на другой — вычет всё равно получите максимум с 400&nbsp;000&nbsp;₽. При этом лимит применяется к каждому году отдельно: пополняете счёт ежегодно — получаете вычет ежегодно, пока счёт действует.</p>
+<h3>Ставка НДФЛ решает, сколько вернут</h3>
+<p>Вычет — это возврат налога, который вы уже заплатили, поэтому его размер привязан к вашей ставке. При доходах в пределах базовой шкалы действует 13%, и возврат ограничен 52&nbsp;000&nbsp;₽ в год. Если доход попадает под повышенные ступени прогрессивной шкалы, вычет считается по более высокой ставке и может достигать 88&nbsp;000&nbsp;₽. Самозанятые на налоге на профессиональный доход вычет получить не могут — НДФЛ они не платят.</p>
+<h3>Как оформить вычет</h3>
+<p>Вычет на взнос оформляется через налоговую: после окончания года подаёте декларацию и подтверждение пополнения счёта, деньги возвращаются на ваш банковский счёт. У многих брокеров действует упрощённый порядок — они сами передают сведения о взносах в налоговую, и заявление подписывается в личном кабинете за пару минут. Вычет на доход применит сам брокер при закрытии счёта: он просто не удержит налог с прибыли в пределах лимита.</p>
+<h3>Вычет на взнос и вычет на доход — вместе</h3>
+<p>У старых типов ИИС приходилось выбирать одну льготу: тип А давал вычет на взнос, тип Б — освобождение дохода. ИИС-3 объединяет обе: вы ежегодно возвращаете НДФЛ со взносов, а при закрытии счёта не платите налог с прибыли. Платой за это служит более длинный минимальный срок владения.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Чем ИИС-3 отличается от старых типов А и Б?</summary><p>ИИС-3 объединяет обе льготы сразу — вычет на взнос (как раньше был у типа А) и освобождение дохода от налога при закрытии счёта (как у типа Б). Взамен минимальный срок владения вырос с 3 до 5 лет для счетов, открытых в 2024–2026 годах, и будет постепенно увеличиваться до 10 лет к 2031 году.</p></details>
+<details><summary>Можно ли получать вычет на взнос каждый год?</summary><p>Да, вычет на взнос можно оформлять ежегодно, пока действует счёт, — правило 400&nbsp;000&nbsp;₽ применяется отдельно к каждому году.</p></details>
+<details><summary>Что будет, если закрыть счёт раньше минимального срока?</summary><p>Придётся вернуть все полученные вычеты на взносы вместе с пенями, а также заплатить налог с инвестиционного дохода на общих основаниях.</p></details>
+<details><summary>Можно ли открыть несколько ИИС?</summary><p>Да, можно одновременно иметь до трёх счетов, но лимит вычета на взнос (400&nbsp;000&nbsp;₽ в год) считается один раз на человека, а не на каждый счёт отдельно.</p></details>
+<details><summary>Можно ли использовать вычет на взнос для родственников?</summary><p>Если вы уже исчерпали свой годовой лимит 400&nbsp;000&nbsp;₽, можно внести дополнительные средства на ИИС-3, открытый на несовершеннолетнего ребёнка, и получить вычет также с этой суммы.</p></details>
+<details><summary>Можно ли снять часть денег с ИИС без закрытия счёта?</summary><p>Нет, частичный вывод не предусмотрен: любое снятие денег или бумаг со счёта означает его закрытие. Если счёт закрыт раньше минимального срока, льготы теряются, а полученные вычеты возвращаются с пенями.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../ndfl/">Калькулятор НДФЛ</a>
+          <a class="related-link" href="../slozhnyy-procent/">Сложный процент</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

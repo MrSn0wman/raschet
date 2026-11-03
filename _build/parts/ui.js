@@ -91,30 +91,55 @@ window.showToast = (text) => {
 };
 
 // Буфер обмена с фолбэком
-window.copyText = (text, okMessage) => {
+window.copyText = async (text, okMessage) => {
   const done = () => window.showToast(okMessage || 'Скопировано');
-  if (navigator.clipboard && window.isSecureContext){
-    navigator.clipboard.writeText(text).then(done).catch(() => window.copyTextFallback(text, done));
-  } else {
-    window.copyTextFallback(text, done);
-  }
+  try {
+    if (navigator.clipboard && window.isSecureContext){
+      await navigator.clipboard.writeText(String(text));
+      done();
+      return true;
+    }
+  } catch (e) {}
+  if (window.copyTextFallback(text, done)) return true;
+  window.showToast('Не удалось скопировать. Выделите текст и скопируйте вручную.');
+  return false;
 };
 window.copyTextFallback = (text, done) => {
+  const active = document.activeElement;
+  const selection = window.getSelection();
+  const ranges = [];
+  if (selection) for (let i = 0; i < selection.rangeCount; i++) ranges.push(selection.getRangeAt(i).cloneRange());
+  const start = active && active.selectionStart;
+  const end = active && active.selectionEnd;
   const ta = document.createElement('textarea');
-  ta.value = text;
-  ta.setAttribute('readonly', '');
-  ta.style.position = 'fixed';
-  ta.style.opacity = '0';
-  document.body.appendChild(ta);
-  ta.select();
-  try { document.execCommand('copy'); } catch (e) {}
-  document.body.removeChild(ta);
-  done();
+  let copied = false;
+  try {
+    ta.value = String(text);
+    ta.setAttribute('readonly', '');
+    ta.className = 'ym-hide-content';
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    ta.style.left = '0';
+    ta.style.top = '0';
+    document.body.appendChild(ta);
+    ta.focus({ preventScroll: true });
+    ta.select();
+    copied = document.execCommand('copy') === true;
+  } catch (e) {} finally {
+    ta.remove();
+    try {
+      if (active && active.isConnected && active.focus) active.focus({ preventScroll: true });
+      if (selection){ selection.removeAllRanges(); ranges.forEach((range) => selection.addRange(range)); }
+      if (active && typeof start === 'number' && active.setSelectionRange) active.setSelectionRange(start, end);
+    } catch (e) {}
+  }
+  if (copied && typeof done === 'function') done();
+  return copied;
 };
 
 // Отправка события своей аналитике; никогда не бросает и не влияет на UX.
 window.trackEvent = (type, page, meta) => {
-  if (!window.RASCHET_API_BASE) return;
+  if (!window.RASCHET_API_BASE || !window.RASCHET_PRIVACY || !window.RASCHET_PRIVACY.canTrack()) return;
   try{
     const ctrl = new AbortController();
     setTimeout(() => ctrl.abort(), 3000);
@@ -221,7 +246,20 @@ document.addEventListener('DOMContentLoaded', () => {
   const FAV_KEY = 'raschet-favs';
   const RECENT_KEY = 'raschet-recent';
   const readList = (key) => {
-    try { return JSON.parse(localStorage.getItem(key) || '[]') || []; } catch (e) { return []; }
+    try {
+      const raw = localStorage.getItem(key) || '[]';
+      if (raw.length > 100000) return [];
+      const parsed = JSON.parse(raw);
+      if (!Array.isArray(parsed)) return [];
+      const seen = new Set();
+      return parsed.filter((item) => {
+        if (!item || typeof item !== 'object' || typeof item.slug !== 'string' ||
+            !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(item.slug) || item.slug.length > 80 ||
+            typeof item.title !== 'string' || !item.title.trim() || seen.has(item.slug)) return false;
+        seen.add(item.slug);
+        return true;
+      }).slice(0, 100).map((item) => ({ slug: item.slug, title: item.title.trim().slice(0, 160) }));
+    } catch (e) { return []; }
   };
   const writeList = (key, list) => {
     try { localStorage.setItem(key, JSON.stringify(list)); } catch (e) {}
@@ -248,23 +286,16 @@ document.addEventListener('DOMContentLoaded', () => {
   };
   const renderFavPanel = () => {
     if (!favList || !favEmpty) return;
-    // битые записи (не объекты с нормальными строками) отбрасываем: иначе «undefined» и мусорный бейдж
-    const favs = readList(FAV_KEY).filter((i) => i && typeof i.slug === 'string' && typeof i.title === 'string' && typeof i.href === 'string');
+    // Валидация едина для бейджа, панели и переключателя; href из хранилища не доверяем.
+    const favs = readList(FAV_KEY);
     favList.innerHTML = '';
     favs.forEach((item) => {
       const row = document.createElement('div');
       row.className = 'fav-row';
       const a = document.createElement('a');
       a.rel = 'noopener';
-      let href = item.href || '';
-      // легаси-записи (пустой href или 'index.html' от старого бага) — восстанавливаем по slug
-      if (!/^(\/|\.\.\/)/.test(href)) href = sitePrefix() + encodeURIComponent(item.slug) + '/';
-      // схема из localStorage: только http(s) — иначе javascript:/data: на клике исполнились бы
-      try {
-        const proto = new URL(href, location.href).protocol;
-        if (proto !== 'http:' && proto !== 'https:') href = sitePrefix() + encodeURIComponent(item.slug) + '/';
-      } catch (err) { href = sitePrefix() + encodeURIComponent(item.slug) + '/'; }
-      a.href = href;
+      // Канонический относительный путь из проверенного slug, без query и внешнего origin.
+      a.href = sitePrefix() + item.slug + '/';
       a.textContent = item.title;
       a.title = item.title;
       row.appendChild(a);
@@ -280,7 +311,7 @@ document.addEventListener('DOMContentLoaded', () => {
         e.stopPropagation();
         // индекс строки — чтобы после перерисовки фокус остался на том же месте списка
         const idx = Array.prototype.indexOf.call(favList.children, row);
-        const live = readList(FAV_KEY).filter((i) => !i || i.slug !== item.slug || (i.href || '') !== (item.href || ''));
+        const live = readList(FAV_KEY).filter((i) => i.slug !== item.slug);
         writeList(FAV_KEY, live);
         renderFavBadge();
         renderFavPanel();
@@ -337,7 +368,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const isFav = readList(FAV_KEY).some((i) => i.slug === calcSlug);
         favToggle.classList.toggle('is-fav', isFav);
         favToggle.setAttribute('aria-pressed', isFav ? 'true' : 'false');
-        favToggle.querySelector('span').textContent = isFav ? 'В избранном' : 'В избранное';
+        const label = favToggle.querySelector('span');
+        if (label) label.textContent = isFav ? 'В избранном' : 'В избранное';
       };
       favToggle.addEventListener('click', () => {
         let favs = readList(FAV_KEY);
@@ -385,27 +417,48 @@ document.addEventListener('DOMContentLoaded', () => {
   // Экшены калькулятора: поделиться / копировать / печать.
   // Поля, попадающие в ссылку, помечены data-share="paramName".
   const shareBtn = document.getElementById('share-btn');
-  if (shareBtn){
-    // восстановить состояние из URL при загрузке
-    const params = new URLSearchParams(location.search);
-    let restored = false;
-    document.querySelectorAll('[data-share]').forEach((el) => {
+  const privacy = window.RASCHET_PRIVACY;
+  if (shareBtn && (!privacy || !privacy.canShare())){
+    shareBtn.disabled = true;
+    shareBtn.hidden = true;
+    // .action-btn задаёт display и переопределяет браузерное правило [hidden].
+    shareBtn.style.setProperty('display', 'none', 'important');
+  } else if (shareBtn){
+    const fields = Array.from(document.querySelectorAll('[data-share]')).filter((el) => privacy.canShareField(el));
+    const params = privacy.getShareParams();
+    let firstRestored = null;
+    let rejected = false;
+    fields.forEach((el) => {
       const name = el.getAttribute('data-share');
-      if (params.has(name)){
-        el.value = params.get(name);
-        restored = true;
+      if (!params.has(name)) return;
+      const value = privacy.shareValue(el, params.get(name));
+      if (value === null){ rejected = true; return; }
+      const checkable = el.type === 'checkbox' || el.type === 'radio';
+      const previous = checkable ? el.checked : el.value;
+      if (checkable) el.checked = value === 'true'; else el.value = value;
+      if (el.validity && !el.validity.valid){
+        if (checkable) el.checked = previous; else el.value = previous;
+        rejected = true;
+        return;
       }
+      if (!firstRestored) firstRestored = el;
     });
-    if (restored){
-      const first = document.querySelector('[data-share]');
-      if (first) first.dispatchEvent(new Event('input', { bubbles: true }));
-    }
+    if (firstRestored) firstRestored.dispatchEvent(new Event('input', { bubbles: true }));
+    if (rejected) window.showToast('Некоторые параметры ссылки не восстановлены: проверьте расчёт');
     shareBtn.addEventListener('click', () => {
+      if (shareBtn.disabled || !privacy.canShare()) return;
       const p = new URLSearchParams();
-      document.querySelectorAll('[data-share]').forEach((el) => {
-        p.set(el.getAttribute('data-share'), String(el.value).replace(/\s/g, ''));
-      });
-      const url = location.origin + location.pathname + '?' + p.toString();
+      for (const el of fields){
+        const raw = el.type === 'checkbox' || el.type === 'radio' ? String(el.checked) : String(el.value);
+        const value = privacy.shareValue(el, raw);
+        if (value === null || (el.validity && !el.validity.valid)){
+          window.showToast('Проверьте поля расчёта перед отправкой ссылки.');
+          return;
+        }
+        p.set(el.getAttribute('data-share'), value);
+      }
+      const query = p.toString();
+      const url = privacy.safeURL(location.href) + (query ? '?' + query : '');
       window.copyText(url, 'Ссылка на расчёт скопирована');
     });
   }

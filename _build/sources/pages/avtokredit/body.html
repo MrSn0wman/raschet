@@ -1,0 +1,151 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#finance">Финансы</a> / Автокредит
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Автокредит</h1>
+          <p class="calc-sub">Ежемесячный платёж по аннуитетной схеме с учётом первоначального взноса и стоимости trade-in.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="car-price">Стоимость автомобиля</label>
+              <div class="unit-input">
+                <input type="text" id="car-price" value="2 500 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="down-payment">Первоначальный взнос</label>
+              <div class="unit-input">
+                <input type="text" id="down-payment" value="400 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="trade-in">Оценка авто в trade-in <span class="hint">(0, если нет)</span></label>
+              <div class="unit-input">
+                <input type="text" id="trade-in" value="0" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="rate">Процентная ставка</label>
+              <div class="unit-input">
+                <input type="text" id="rate" value="18" inputmode="decimal">
+                <span>% годовых</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="term">Срок кредита</label>
+              <div class="unit-input">
+                <input type="text" id="term" value="60" inputmode="numeric">
+                <span>месяцев</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-payment"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Ежемесячный платёж</div>
+            <div class="r-value" id="r-payment">—</div>
+            <div class="r-rows">
+              <div><b id="r-loan-amount">—</b><span>Сумма кредита</span></div>
+              <div><b id="r-overpay">—</b><span>Переплата за весь срок</span></div>
+              <div><b id="r-total">—</b><span>Всего выплат</span></div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg id="a-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение суммы кредита и процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="a-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="65.63 34.37" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="a-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="34.37 65.63" stroke-dashoffset="-40.63" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Сумма кредита&nbsp;— <b id="a-legend-a">2 100 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Проценты&nbsp;— <b id="a-legend-b">1 099 572 ₽</b></div>
+            </div>
+          </div>
+
+
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead><tr><th>Мес.</th><th>Платёж, ₽</th><th>Проценты, ₽</th><th>Тело, ₽</th><th>Остаток, ₽</th></tr></thead>
+              <tbody id="car-schedule"></tbody>
+            </table>
+          </div>
+          <button class="action-btn schedule-toggle" id="car-schedule-toggle" type="button"><span>Показать весь график</span></button>
+          </div>
+
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения — взнос и trade-in не должны превышать стоимость авто</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается платёж по автокредиту</h2>
+<p>Калькулятор считает автокредит по аннуитетной схеме: ежемесячный платёж одинаков весь срок. Сумма кредита — это цена автомобиля минус первоначальный взнос и оценка старой машины, сданной в trade-in. Введите ставку и срок — и вы увидите платёж, общую сумму выплат и переплату по процентам.</p>
+<p>Формула аннуитетного платежа — та же, что у ипотеки или обычного потребительского кредита:</p>
+<p><code>П = К × (i × (1 + i)ⁿ) / ((1 + i)ⁿ − 1)</code></p>
+<p>Здесь К — сумма кредита, i — месячная ставка (годовая, делённая на 12), n — срок в месяцах. Каждый платёж состоит из двух частей: процентов на остаток долга и погашения самого долга. Соотношение этих частей меняется каждый месяц, а сумма платежа остаётся прежней.</p>
+<p>Пример: автомобиль за 2&nbsp;500&nbsp;000&nbsp;₽, первоначальный взнос 400&nbsp;000&nbsp;₽, кредит 2&nbsp;100&nbsp;000&nbsp;₽ под 18% годовых на 5 лет. Месячная ставка — 1,5%, платежей — 60. Подставляем в формулу: платёж выходит около 53&nbsp;300&nbsp;₽. За весь срок вы отдадите банку примерно 3&nbsp;195&nbsp;000&nbsp;₽, из них около 1&nbsp;095&nbsp;000&nbsp;₽ — проценты. Переплата превышает половину суммы кредита.</p>
+<p>Теперь сократим срок до 3 лет при тех же условиях. Платёж вырастет примерно до 75&nbsp;900&nbsp;₽, зато переплата упадёт примерно до 633&nbsp;000&nbsp;₽ — разница более 460&nbsp;000&nbsp;₽. Поэтому перед походом в банк подставьте в калькулятор несколько сроков и найдите точку, где платёж ещё комфортен, а переплата уже разумна.</p>
+<h3>Как взнос и trade-in меняют расчёт</h3>
+<p>Оба параметра уменьшают тело кредита, а значит, и базу для процентов. Эффект двойной: ниже платёж и меньше переплата. Старый автомобиль в trade-in работает как часть взноса: дилер оценивает его, и эта сумма вычитается из цены нового. Имейте в виду: оценка в trade-in обычно ниже цены самостоятельной продажи — сравните оба варианта в калькуляторе, прежде чем решать.</p>
+<h3>Почему первые платежи почти не гасят долг</h3>
+<p>Проценты каждый месяц начисляются на остаток долга. В начале срока остаток большой, поэтому бо́льшую часть платежа съедают проценты. В примере выше из первого платежа 53&nbsp;300&nbsp;₽ на проценты уходит 31&nbsp;500&nbsp;₽ — это 1,5% от 2,1 млн, — а сам долг уменьшается лишь на 21&nbsp;800&nbsp;₽. Ближе к концу срока картина переворачивается: процентов в платеже почти нет, и почти вся сумма идёт на погашение.</p>
+<h3>Чем автокредит отличается от потребительского кредита</h3>
+<p>Автокредит выдаётся под залог покупаемой машины, поэтому ставка по нему обычно ниже, чем по кредиту наличными. Плата за низкую ставку — ограничения: автомобиль до конца выплат находится в залоге у банка, его нельзя продать без согласия банка, а банк вправе требовать КАСКО. Если хотите свободно распоряжаться машиной, сравните оба варианта: посчитайте автокредит здесь, а затем кредит наличными — и смотрите на разницу в переплате.</p>
+<h3>Что даёт досрочное погашение</h3>
+<p>Досрочный платёж уменьшает остаток долга, а проценты начисляются именно на остаток — поэтому экономия ощутимая. Банк предложит на выбор сократить срок или платёж. Сокращение срока почти всегда выгоднее по процентам: долг гасится быстрее. Уменьшение платежа разгружает бюджет прямо сейчас — это разумно, если доход просел. Оценить эффект можно заранее: уменьшите сумму кредита на планируемый досрочный платёж и сравните переплату.</p>
+<h3>Что калькулятор не учитывает</h3>
+<p>Расчёт показывает платёж по телу кредита и процентам. Он не включает:</p>
+<ul>
+<li>КАСКО — банки часто требуют его при автокредите, а стоимость полиса иногда добавляют в тело кредита;</li>
+<li>страхование жизни, от которого зависит ставка;</li>
+<li>комиссии банка и дилера за оформление;</li>
+<li>дополнительные услуги вроде техпомощи на дороге, которые предлагают пакетом.</li>
+</ul>
+<p>Эти расходы у каждого банка свои. Перед подписанием договора смотрите полную стоимость кредита в индивидуальных условиях — она может заметно отличаться от рекламной ставки.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Что выгоднее — короткий или длинный срок кредита?</summary><p>Чем короче срок, тем выше ежемесячный платёж, но меньше общая переплата — так как проценты начисляются на остаток долга каждый месяц. Стоит выбирать минимальный срок, при котором платёж комфортен для бюджета.</p></details>
+<details><summary>Нужно ли учитывать КАСКО в расчёте?</summary><p>Банки часто требуют оформить КАСКО при автокредите, и его стоимость иногда включают в тело кредита. Этот калькулятор считает платёж только по стоимости автомобиля — расходы на страховку стоит добавлять отдельно.</p></details>
+<details><summary>Чем автокредит отличается от потребительского кредита?</summary><p>Автокредит выдаётся под залог покупаемого автомобиля, поэтому ставка обычно ниже. Но машина до конца выплат остаётся в залоге у банка: продать её без согласия банка нельзя.</p></details>
+<details><summary>Какой первоначальный взнос лучше внести?</summary><p>Чем больше взнос, тем меньше тело кредита, платёж и переплата. При маленьком взносе или его отсутствии многие банки поднимают ставку, поэтому экономия на взносе часто оборачивается более дорогим кредитом.</p></details>
+<details><summary>Можно ли погасить автокредит досрочно?</summary><p>Да, закон разрешает полное и частичное досрочное погашение. При частичном банк предложит уменьшить срок или платёж: сокращение срока экономит больше на процентах, снижение платежа разгружает бюджет.</p></details>
+<details><summary>Что такое trade-in?</summary><p>Это обмен старого автомобиля на новый с доплатой у дилера. Оценку старой машины засчитывают как часть первоначального взноса, но цена обычно ниже рыночной при самостоятельной продаже.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../kredit/">Потребительский кредит</a>
+          <a class="related-link" href="../refinansirovanie/">Рефинансирование</a>
+          <a class="related-link" href="../transportnyy-nalog/">Транспортный налог</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,167 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / <a href="../#finance">Финансы</a> / <a href="../ipoteka/">Ипотека</a> / Досрочное погашение</p>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Досрочное погашение ипотеки</h1>
+          <p class="calc-sub">Внесите условия кредита и параметры досрочных платежей — калькулятор покажет, сколько вы сэкономите на процентах и как изменится срок или платёж.</p>
+
+          <form id="early-form" novalidate>
+            <div class="field-grid">
+              <div class="field">
+                <label for="e-amount">Сумма кредита</label>
+                <div class="unit-input"><input type="text" id="e-amount" value="5000000" data-share="e-amount"><span>₽</span></div>
+              </div>
+              <div class="field">
+                <label for="e-rate">Ставка, годовых</label>
+                <div class="unit-input"><input type="number" id="e-rate" value="12" min="0" max="50" step="0.1" data-share="e-rate"><span>%</span></div>
+              </div>
+              <div class="field full">
+                <label for="e-years">Срок</label>
+                <div class="unit-input"><input type="number" id="e-years" value="20" min="1" max="30" step="1" data-share="e-years"><span>лет</span></div>
+              </div>
+            </div>
+
+            <div class="field full" style="margin:18px 0 6px;">
+              <label>Что делаем при досрочном погашении</label>
+              <div class="strategy-toggle">
+                <label class="strategy-option">
+                  <input type="radio" name="e-strategy" value="term" checked>
+                  <span><b>Уменьшаем срок</b><small>Платёж остаётся прежним, кредит закрывается раньше</small></span>
+                </label>
+                <label class="strategy-option">
+                  <input type="radio" name="e-strategy" value="payment">
+                  <span><b>Уменьшаем платёж</b><small>Срок остаётся прежним, платёж становится меньше</small></span>
+                </label>
+              </div>
+            </div>
+
+            <div class="field-grid" style="margin-top:14px;">
+              <div class="field">
+                <label for="e-monthly-extra">Ежемесячный доп. платёж <span class="hint">(необязательно)</span></label>
+                <div class="unit-input"><input type="text" id="e-monthly-extra" value="10000" data-share="e-monthly-extra"><span>₽/мес</span></div>
+              </div>
+              <div class="field">
+                <label for="e-monthly-from">С какого месяца</label>
+                <div class="unit-input"><input type="number" id="e-monthly-from" value="1" min="1" step="1" data-share="e-monthly-from"><span>мес.</span></div>
+              </div>
+              <div class="field">
+                <label for="e-once-amount">Разовый доп. платёж <span class="hint">(необязательно)</span></label>
+                <div class="unit-input"><input type="text" id="e-once-amount" value="0" data-share="e-once-amount"><span>₽</span></div>
+              </div>
+              <div class="field">
+                <label for="e-once-month">В каком месяце</label>
+                <div class="unit-input"><input type="number" id="e-once-month" value="12" min="1" step="1" data-share="e-once-month"><span>мес.</span></div>
+              </div>
+            </div>
+            <div class="error-msg" role="alert" id="e-error">Проверьте введённые значения — сумма, ставка и срок должны быть положительными.</div>
+          </form>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="e-result-main"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label" id="e-result-label">Срок сократится до</div>
+            <div class="r-value" id="e-result-main">—</div>
+            <div class="r-rows">
+              <div><b id="e-interest-saved">—</b><span>Экономия на процентах</span></div>
+              <div><b id="e-new-interest">—</b><span>Новая переплата</span></div>
+              <div><b id="e-base-payment">—</b><span>Обычный платёж (без досрочных)</span></div>
+              <div><b id="e-extra-total">—</b><span>Всего внесено доп. платежей</span></div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg id="dp-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение новой переплаты и сэкономленных процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="dp-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="55.63 44.37" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="dp-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="44.37 55.63" stroke-dashoffset="-30.63" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Новая переплата&nbsp;— <b id="dp-legend-a">4 568 629 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Сэкономленные проценты&nbsp;— <b id="dp-legend-b">3 644 405 ₽</b></div>
+            </div>
+          </div>
+
+
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead><tr><th>Мес.</th><th>Платёж, ₽</th><th>Проценты, ₽</th><th>Тело, ₽</th><th>Остаток, ₽</th></tr></thead>
+              <tbody id="e-schedule"></tbody>
+            </table>
+          </div>
+          <button class="action-btn schedule-toggle" id="e-schedule-toggle" type="button"><span>Показать весь график</span></button>
+          </div>
+
+          <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        </div>
+
+        <article class="calc-explain">
+          <h2>Как считается досрочное погашение</h2>
+<p>Калькулятор показывает, как досрочные платежи меняют график ипотеки: новый срок или новый ежемесячный платёж, экономию на процентах и новую переплату. Главный вывод: любой досрочный взнос целиком уменьшает тело долга, а проценты дальше начисляются на меньший остаток, поэтому переплата заметно падает, а кредит закрывается раньше — особенно если гасить в первые годы.</p>
+<p>Ипотека обычно гасится аннуитетом — равными платежами. Платёж считается по формуле <code>P = S × r × (1+r)^n / ((1+r)^n − 1)</code>, где S — сумма кредита, r — месячная ставка (годовая, делённая на 12), n — число месяцев. Из каждого платежа банк сначала берёт проценты на текущий остаток долга, а оставшаяся часть уменьшает тело кредита. Досрочный взнос уходит в тело целиком — и сразу снижает все будущие проценты.</p>
+<p>Пример. Ипотека 3&nbsp;000&nbsp;000&nbsp;₽ под 12% годовых на 15 лет (180 месяцев): ежемесячный платёж — 36&nbsp;004&nbsp;₽. Если с первых месяцев вносить дополнительно по 10&nbsp;000&nbsp;₽ с уменьшением срока, кредит закроется примерно за 106 месяцев вместо 180 — почти на 6 лет раньше. Экономия на процентах составит около 1,6 млн&nbsp;₽. Те же 10&nbsp;000&nbsp;₽ в месяц с уменьшением платежа тоже сокращают переплату, но заметно меньше.</p>
+<p>В результатах видно четыре цифры: новый срок (или новый платёж), экономию на процентах, новую переплату и общую сумму дополнительных взносов. Подставьте свои параметры и сравните обе стратегии — переключатель прямо в форме, пересчёт мгновенный. Часто оказывается, что даже скромный довзнос в 3&nbsp;000–5&nbsp;000&nbsp;₽ в месяц сокращает ипотеку на несколько лет.</p>
+<h3>Уменьшение срока или уменьшение платежа — что выгоднее</h3>
+<p>При уменьшении срока платёж остаётся прежним, но кредит гасится быстрее: остаток долга после досрочного взноса меньше, значит, меньше и все последующие проценты. При уменьшении платежа срок не меняется — банк пересчитывает платёж от нового остатка на оставшиеся месяцы. Нагрузка на бюджет падает, но экономия на процентах скромнее.</p>
+<p>По итоговой переплате уменьшение срока почти всегда выгоднее: деньги перестают «работать против вас» раньше. Уменьшение платежа оправдано, если важнее снизить ежемесячную нагрузку — например, доход стал нестабильным. Есть и комбинированный подход: уменьшить платёж, а разницу между старым и новым платежом по-прежнему вносить досрочно. По эффекту это близко к сокращению срока, но с запасом безопасности: в трудный месяц можно заплатить только обязательный, уже сниженный платёж.</p>
+<h3>Когда досрочный платёж даёт больше всего</h3>
+<p>В первые годы ипотеки бо́льшая часть платежа уходит на проценты, а тело долга уменьшается медленно. Досрочный взнос в этот период «срезает» самую дорогую часть графика. Одни и те же 100&nbsp;000&nbsp;₽, внесённые в первый год, сэкономят больше процентов, чем в десятый, поэтому откладывать досрочное погашение «на потом» невыгодно.</p>
+<h3>Разовый крупный платёж или небольшие ежемесячные</h3>
+<p>Калькулятор умеет считать оба варианта одновременно: регулярный ежемесячный довзнос с выбранного месяца и один разовый платёж в конкретном месяце. Если крупной суммы нет, регулярные небольшие взносы дают сопоставимый эффект — главное, начинать раньше, а не копить. Математика здесь простая: каждый месяц отсрочки — это месяц, когда проценты начислялись на более крупный остаток.</p>
+<p>Досрочное погашение имеет смысл почти всегда, пока по кредиту действует высокая ставка. Разумное исключение — подушка безопасности: не стоит отдавать банку последние свободные деньги, если после этого не останется запаса хотя бы на пару месяцев жизни. Сначала небольшой резерв, потом досрочные платежи.</p>
+<p>Перед внесением проверьте условия вашего банка:</p>
+<ul>
+<li>нужно ли заявление на досрочное погашение и за сколько дней его подавать;</li>
+<li>есть ли минимальная сумма досрочного платежа;</li>
+<li>что банк делает по умолчанию — сокращает срок или уменьшает платёж.</li>
+</ul>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Что выгоднее — уменьшение срока или уменьшение платежа?</summary><p>По сумме переплаты уменьшение срока почти всегда выгоднее: платёж остаётся прежним, а весь досрочный взнос сразу снижает будущие проценты. Уменьшение платежа снижает ежемесячную финансовую нагрузку, но экономия на процентах за всё время меньше.</p></details>
+<details><summary>Можно ли комбинировать разовый и ежемесячный досрочный платёж?</summary><p>Да, калькулятор считает их одновременно: регулярный ежемесячный довзнос с выбранного месяца и один разовый платёж в отдельном месяце.</p></details>
+<details><summary>Нужно ли предупреждать банк о досрочном погашении?</summary><p>Да, нужно подать заявление в банк заранее (обычно за несколько дней), указав сумму и выбрав, что делать дальше — сократить срок или уменьшить платёж. Без заявления банк пересчитает график по своему регламенту, который может отличаться от выбранного вами сценария.</p></details>
+<details><summary>Есть ли комиссия за досрочное погашение ипотеки?</summary><p>Нет, банк не вправе брать комиссию или штраф за досрочное погашение жилищного кредита. Единственное условие — заранее уведомить банк заявлением.</p></details>
+<details><summary>Когда выгоднее всего гасить ипотеку досрочно?</summary><p>В первые годы срока, когда большая часть платежа уходит на проценты. Взнос в начале графика экономит заметно больше, чем тот же взнос ближе к концу кредита.</p></details>
+<details><summary>Что делать, если платёж после уменьшения стал совсем небольшим?</summary><p>Продолжайте вносить разницу между старым и новым платежом досрочно. Так вы получите почти ту же экономию, что при сокращении срока, но сохраните низкий обязательный платёж на случай трудных месяцев.</p></details>
+          </div>
+        </article>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../ipoteka/">Обычная ипотека</a>
+          <a class="related-link" href="../kredit/">Потребительский кредит</a>
+          <a class="related-link" href="../vklad/">Вклад</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

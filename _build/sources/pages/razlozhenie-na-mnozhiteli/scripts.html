@@ -1,0 +1,71 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function primeFactors(n){
+  n = Math.abs(Math.round(n));
+  const factors = [];
+  let d = 2;
+  while (d*d <= n){
+    while (n % d === 0){ factors.push(d); n /= d; }
+    d++;
+  }
+  if (n > 1) factors.push(n);
+  return factors;
+}
+
+function recalcFactorization(){
+  const numberEl = document.getElementById('number');
+  const errEl = document.getElementById('err');
+  const n = parseInt(String(numberEl.value).replace(/\D/g,''), 10);
+
+  if (isNaN(n) || n <= 1){
+    errEl.style.display = 'block';
+    document.getElementById('r-factors').textContent = '—';
+    document.getElementById('r-count').textContent = '—';
+    document.getElementById('r-unique').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const factors = primeFactors(n);
+
+  if (factors.length === 1){
+    document.getElementById('r-label').textContent = 'Число простое';
+    document.getElementById('r-factors').textContent = String(n);
+  } else {
+    document.getElementById('r-label').textContent = 'Разложение';
+    document.getElementById('r-factors').textContent = factors.join(' × ');
+  }
+
+  const counts = {};
+  factors.forEach(f => counts[f] = (counts[f]||0) + 1);
+  const powerForm = Object.keys(counts).map(f => counts[f] > 1 ? f + '^' + counts[f] : f).join(' × ');
+
+  document.getElementById('r-count').textContent = String(factors.length) + (factors.length > 1 ? ' (' + powerForm + ')' : '');
+  document.getElementById('r-unique').textContent = String(Object.keys(counts).length);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('number').addEventListener('input', recalcFactorization);
+  recalcFactorization();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

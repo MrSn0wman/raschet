@@ -1,0 +1,108 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function dutyRate35(volumeCc){
+  if (volumeCc <= 1000) return 1.5;
+  if (volumeCc <= 1500) return 1.7;
+  if (volumeCc <= 1800) return 2.5;
+  if (volumeCc <= 2300) return 2.7;
+  if (volumeCc <= 3000) return 3.0;
+  return 3.6;
+}
+function dutyRateOver5(volumeCc){
+  if (volumeCc <= 1000) return 3.0;
+  if (volumeCc <= 1500) return 3.2;
+  if (volumeCc <= 1800) return 3.5;
+  if (volumeCc <= 2300) return 4.8;
+  if (volumeCc <= 3000) return 5.0;
+  return 5.7;
+}
+function dutyRateUnder3(valueEur){
+  if (valueEur <= 8500) return {pct:0.54, min:2.5};
+  if (valueEur <= 16700) return {pct:0.48, min:3.5};
+  if (valueEur <= 42300) return {pct:0.48, min:5.5};
+  if (valueEur <= 84500) return {pct:0.48, min:7.5};
+  if (valueEur <= 169000) return {pct:0.48, min:15};
+  return {pct:0.48, min:20};
+}
+
+function recalcCustoms(){
+  const ageCategory = document.getElementById('age-category').value;
+  const volumeEl = document.getElementById('volume');
+  const valueEl = document.getElementById('value-eur');
+  const eurRateEl = document.getElementById('eur-rate');
+  const errEl = document.getElementById('err');
+
+  const volume = parseFormattedNumber(volumeEl);
+  const value = parseFormattedNumber(valueEl);
+  const eurRate = parseFloat(String(eurRateEl.value).replace(',', '.'));
+
+  if (isNaN(volume) || volume <= 0 || isNaN(eurRate) || eurRate <= 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-duty').textContent = '—';
+    document.getElementById('r-duty-eur').textContent = '—';
+    document.getElementById('r-rate-used').textContent = '—';
+    return;
+  }
+
+  let dutyEur, rateLabel;
+  if (ageCategory === 'under3'){
+    if (isNaN(value) || value <= 0){
+      errEl.style.display = 'block';
+      document.getElementById('r-duty').textContent = '—';
+      return;
+    }
+    const r = dutyRateUnder3(value);
+    const byValue = value * r.pct;
+    const byVolume = volume * r.min;
+    dutyEur = Math.max(byValue, byVolume);
+    rateLabel = (r.pct*100) + '% от стоимости, не менее ' + r.min + ' €/см³ (применена большая величина)';
+  } else if (ageCategory === '3to5'){
+    const rate = dutyRate35(volume);
+    dutyEur = volume * rate;
+    rateLabel = rate + ' €/см³';
+  } else {
+    const rate = dutyRateOver5(volume);
+    dutyEur = volume * rate;
+    rateLabel = rate + ' €/см³';
+  }
+  errEl.style.display = 'none';
+
+  const dutyRub = dutyEur * eurRate;
+  document.getElementById('r-duty').textContent = formatMoney(dutyRub) + '\u00A0₽';
+  document.getElementById('r-duty-eur').textContent = formatMoney(dutyEur) + ' €';
+  document.getElementById('r-rate-used').textContent = rateLabel;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const valueField = document.getElementById('value-field');
+  [document.getElementById('volume'), document.getElementById('value-eur')].forEach(el => attachThousandsInput(el));
+  document.getElementById('volume').addEventListener('input', recalcCustoms);
+  document.getElementById('value-eur').addEventListener('input', recalcCustoms);
+  document.getElementById('eur-rate').addEventListener('input', recalcCustoms);
+  document.getElementById('age-category').addEventListener('change', () => {
+    valueField.style.display = document.getElementById('age-category').value === 'under3' ? 'block' : 'none';
+    recalcCustoms();
+  });
+  recalcCustoms();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,103 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var inEl = document.getElementById('card-in');
+  var errEl = document.getElementById('card-error');
+  var verdictEl = document.getElementById('card-verdict');
+  var brandEl = document.getElementById('card-brand');
+  var luhnEl = document.getElementById('card-luhn');
+  var maskEl = document.getElementById('card-mask');
+  var lenEl = document.getElementById('card-len');
+
+  function luhnOk(digits){
+    var sum = 0;
+    var dbl = false;
+    for (var i = digits.length - 1; i >= 0; i--){
+      var d = digits.charCodeAt(i) - 48;
+      if (dbl){
+        d *= 2;
+        if (d > 9) d -= 9;
+      }
+      sum += d;
+      dbl = !dbl;
+    }
+    return sum % 10 === 0;
+  }
+
+  function detectBrand(d){
+    var p4 = parseInt(d.slice(0, 4), 10);
+    if (p4 >= 2200 && p4 <= 2204) return 'Мир';
+    if (d.charAt(0) === '2') return 'Мир';
+    if (d.charAt(0) === '4') return 'Visa';
+    if (d.charAt(0) === '5') return 'Mastercard';
+    if (/^3[47]/.test(d)) return 'American Express';
+    if (/^62/.test(d)) return 'UnionPay';
+    if (/^35/.test(d)) return 'JCB';
+    return 'не определена';
+  }
+
+  function showError(msg){
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+  }
+  function hideError(){ errEl.classList.remove('visible'); }
+
+  function reset(){
+    verdictEl.textContent = '—';
+    verdictEl.style.color = '';
+    brandEl.textContent = '—';
+    luhnEl.textContent = '—';
+    maskEl.textContent = '—';
+    lenEl.textContent = '—';
+  }
+
+  function render(){
+    if (inEl.value.trim() === ''){ hideError(); reset(); return; }
+    var raw = inEl.value.replace(/[\s-]/g, '');
+    if (!/^\d+$/.test(raw)){
+      showError('Номер карты состоит только из цифр.');
+      reset();
+      return;
+    }
+    if (raw.length < 13 || raw.length > 19){
+      showError('В номере карты от 13 до 19 цифр. Сейчас введено: ' + raw.length + '.');
+      reset();
+      return;
+    }
+    hideError();
+
+    var ok = luhnOk(raw);
+    verdictEl.textContent = ok ? 'Номер корректный' : 'Номер некорректный';
+    verdictEl.style.color = ok ? 'var(--accent)' : 'var(--danger)';
+    brandEl.textContent = detectBrand(raw);
+    luhnEl.textContent = ok ? 'пройден' : 'не пройден';
+    lenEl.textContent = String(raw.length);
+    maskEl.textContent = '•••• ' + raw.slice(-4);
+  }
+
+  inEl.addEventListener('input', render);
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

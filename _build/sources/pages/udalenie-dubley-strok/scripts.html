@@ -1,0 +1,100 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var inEl = document.getElementById('dd-in');
+  var outEl = document.getElementById('dd-out');
+  var runBtn = document.getElementById('dd-run');
+  var copyBtn = document.getElementById('dd-copy');
+  var ciEl = document.getElementById('dd-ci');
+  var trimEl = document.getElementById('dd-trim');
+  var emptyEl = document.getElementById('dd-empty');
+  var totalEl = document.getElementById('dd-total');
+  var dupsEl = document.getElementById('dd-dups');
+  var emptyNEl = document.getElementById('dd-empty-n');
+  var leftEl = document.getElementById('dd-left');
+
+  function copyText(text, btn){
+    function done(){
+      if (!btn) return;
+      var prev = btn.textContent;
+      btn.textContent = 'Скопировано!';
+      setTimeout(function(){ btn.textContent = prev; }, 1500);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  function run(){
+    if (inEl.value === ''){
+      outEl.value = '';
+      totalEl.textContent = '0';
+      dupsEl.textContent = '0';
+      emptyNEl.textContent = '0';
+      leftEl.textContent = '0';
+      return;
+    }
+    var lines = inEl.value.split(/\r\n|\r|\n/);
+    var seen = {};
+    var kept = [];
+    var dups = 0;
+    var empties = 0;
+    for (var i = 0; i < lines.length; i++){
+      var line = lines[i];
+      if (trimEl.checked) line = line.replace(/^\s+|\s+$/g, '');
+      if (line === '' && emptyEl.checked){ empties++; continue; }
+      var key = ciEl.checked ? line.toLowerCase() : line;
+      if (Object.prototype.hasOwnProperty.call(seen, key)){ dups++; continue; }
+      seen[key] = true;
+      kept.push(line);
+    }
+    outEl.value = kept.join('\n');
+    totalEl.textContent = window.formatMoney(lines.length);
+    dupsEl.textContent = window.formatMoney(dups);
+    emptyNEl.textContent = window.formatMoney(empties);
+    leftEl.textContent = window.formatMoney(kept.length);
+  }
+
+  runBtn.addEventListener('click', run);
+  copyBtn.addEventListener('click', function(){ copyText(outEl.value, copyBtn); });
+  [ciEl, trimEl, emptyEl].forEach(function(el){
+    el.addEventListener('change', function(){ if (inEl.value !== '') run(); });
+  });
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

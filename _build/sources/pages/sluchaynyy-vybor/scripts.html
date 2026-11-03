@@ -1,0 +1,71 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function parseList(text){
+  return text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+}
+
+function secureInt(max){const a=new Uint32Array(1);const limit=Math.floor(4294967296/max)*max;let x;do{crypto.getRandomValues(a);x=a[0];}while(x>=limit);return x%max;}
+function pickRandom(){
+  const listEl = document.getElementById('list-input');
+  const countEl = document.getElementById('pick-count');
+  const allowRepeatEl = document.getElementById('allow-repeat');
+  const errEl = document.getElementById('err');
+
+  const items = parseList(listEl.value);
+  const count = parseInt(countEl.value, 10);
+  const allowRepeat = allowRepeatEl.checked;
+
+  document.getElementById('r-total').textContent = String(items.length);
+
+  if (items.length === 0 || isNaN(count) || count <= 0 || (!allowRepeat && count > items.length)){
+    errEl.style.display = 'block';
+    document.getElementById('r-result').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  let results = [];
+  if (allowRepeat){
+    for (let i = 0; i < count; i++){
+      results.push(items[secureInt(items.length)]);
+    }
+  } else {
+    const pool = [...items];
+    for (let i = pool.length - 1; i > 0; i--){
+      const j = secureInt(i + 1);
+      [pool[i], pool[j]] = [pool[j], pool[i]];
+    }
+    results = pool.slice(0, count);
+  }
+
+  document.getElementById('r-result').textContent = results.join(', ');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('list-input').addEventListener('input', pickRandom);
+  document.getElementById('pick-count').addEventListener('input', pickRandom);
+  document.getElementById('allow-repeat').addEventListener('change', pickRandom);
+  document.getElementById('pick-btn').addEventListener('click', pickRandom);
+  pickRandom();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

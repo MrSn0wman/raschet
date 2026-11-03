@@ -1,0 +1,155 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#auto">Авто</a> / ОСАГО
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>ОСАГО</h1>
+          <p class="calc-sub">Ориентировочная стоимость полиса по официальной формуле Банка России. Точную цену считает страховая компания — здесь можно понять порядок цифр и логику коэффициентов.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="base-rate">Базовый тариф страховой</label>
+              <div class="unit-input">
+                <input type="text" id="base-rate" value="4 118" inputmode="numeric">
+                <span>₽</span>
+              </div>
+              <span class="hint">Коридор ЦБ на 2026 год для легковых авто физлиц — от 1 399 до 8 665 ₽; конкретную ставку устанавливает страховая</span>
+            </div>
+            <div class="field">
+              <label for="kt">Территория (КТ)</label>
+              <select id="kt">
+                <option value="1.8" selected>Москва (1,80)</option>
+                <option value="1.64">Санкт-Петербург (1,64)</option>
+                <option value="1.2">Крупный областной центр (≈1,20)</option>
+                <option value="0.9">Средний город (≈0,90)</option>
+                <option value="0.7">Малый город, село (≈0,70)</option>
+                <option value="custom">Указать вручную</option>
+              </select>
+            </div>
+            <div class="field" id="kt-custom-wrap" style="display:none;">
+              <label for="kt-custom">Свой коэффициент КТ</label>
+              <input type="text" id="kt-custom" value="1.0" inputmode="decimal">
+            </div>
+            <div class="field">
+              <label for="power">Мощность двигателя</label>
+              <div class="unit-input">
+                <input type="text" id="power" value="106" inputmode="numeric">
+                <span>л.с.</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="kbm">Класс КБМ (безаварийность)</label>
+              <select id="kbm">
+                <option value="2.94">М / 0 — впервые или после аварий (2,94)</option>
+                <option value="1.17" selected>3 — начинающий водитель (1,17)</option>
+                <option value="1.00">4 (1,00)</option>
+                <option value="0.83">6 (0,83)</option>
+                <option value="0.74">8 (0,74)</option>
+                <option value="0.63">10 (0,63)</option>
+                <option value="0.52">12 (0,52)</option>
+                <option value="0.46">13 — максимальная скидка (0,46)</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="strategy-toggle" style="margin:16px 0;">
+            <label class="strategy-option">
+              <input type="radio" name="ko-mode" value="limited" checked>
+              <span><b>Ограниченный список водителей</b><small>Учитывается возраст и стаж вписанных водителей</small></span>
+            </label>
+            <label class="strategy-option">
+              <input type="radio" name="ko-mode" value="unlimited">
+              <span><b>Без ограничений</b><small>Любой водитель, коэффициент КО = 3,16</small></span>
+            </label>
+          </div>
+
+          <div class="field-grid" id="kvs-wrap">
+            <div class="field full">
+              <label for="kvs">Возраст и стаж водителя (КВС)</label>
+              <select id="kvs">
+                <option value="2.27">До 22 лет и стаж до 3 лет (≈2,27)</option>
+                <option value="1.30">22–24 года и/или стаж 3–6 лет (≈1,30)</option>
+                <option value="1.00" selected>25+ лет, стаж 6–9 лет (≈1,00)</option>
+                <option value="0.93">25+ лет, стаж 9–15 лет (≈0,93)</option>
+                <option value="0.83">Стаж более 15 лет (≈0,83)</option>
+              </select>
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-price"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Ориентировочная стоимость полиса</div>
+            <div class="r-value" id="r-price">—</div>
+            <div class="r-rows">
+              <div><b id="r-km">—</b><span>Коэффициент мощности (КМ)</span></div>
+              <div><b id="r-ko">—</b><span>Коэффициент ограничения (КО)</span></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается стоимость полиса ОСАГО</h2>
+<p>Цена полиса ОСАГО считается по единой формуле Банка России: базовый тариф страховой компании умножается на шесть коэффициентов — территории (КТ), безаварийности водителя (КБМ), возраста и стажа (КВС), ограничения списка водителей (КО), мощности двигателя (КМ) и сезонности (КС). Для полиса на год КС равен 1 и на результат не влияет.</p>
+<p><code>Цена = Базовый тариф × КТ × КБМ × КВС × КО × КМ × КС</code></p>
+<p>Каждый множитель отвечает за свой фактор риска:</p>
+<ul>
+<li><strong>Базовый тариф</strong> — его каждая страховая выбирает сама внутри коридора ЦБ: на 2026 год для легковых автомобилей физлиц это от 1&nbsp;399 до 8&nbsp;665&nbsp;₽.</li>
+<li><strong>КТ</strong> — территория регистрации владельца: Москва — 1,80, Санкт-Петербург — 1,64, малый город или село — около 0,70.</li>
+<li><strong>КБМ</strong> — скидка за безаварийную езду: от 3,92 у штрафного класса М до 0,46 у класса 13.</li>
+<li><strong>КВС</strong> — возраст и стаж: водителю до 22 лет со стажем до 3 лет — коэффициент около 2,27, при стаже больше 15 лет — около 0,83.</li>
+<li><strong>КО</strong> — 1 при ограниченном списке водителей и 3,16 для полиса без ограничений.</li>
+<li><strong>КМ</strong> — мощность мотора: 0,6 для машин до 50 л.с., 1,0 для 51–70 л.с., 1,1 для 71–100 л.с., 1,2 для 101–120 л.с., 1,4 для 121–150 л.с. и 1,6 свыше 150 л.с.</li>
+</ul>
+<p>Пример. Базовый тариф 4&nbsp;118&nbsp;₽, Москва (КТ 1,80), КБМ 1,17 (начинающий водитель), КВС 1,00, список водителей ограничен (КО 1), двигатель 106 л.с. (КМ 1,2): 4&nbsp;118 × 1,80 × 1,17 × 1,00 × 1 × 1,2 ≈ 10&nbsp;400&nbsp;₽. Тот же водитель в малом городе с КТ 0,70 заплатил бы около 4&nbsp;050&nbsp;₽ — разница почти в 2,5 раза из-за одного коэффициента.</p>
+<p>Из шести множителей вы реально влияете на три: скидку за безаварийность, выбор между ограниченным списком и открытым полисом и территорию — КТ берётся по регистрации собственника. Мощность машины не поменяешь, зато базовый тариф можно фактически выбрать, сравнив предложения разных компаний.</p>
+<h3>Как снизить КБМ</h3>
+<p>КБМ пересчитывается один раз в год — 1 апреля, по итогам периода с 1 апреля по 31 марта. Год без аварий по вашей вине повышает класс и уменьшает коэффициент, авария откатывает его назад. За десять лет аккуратной езды КБМ падает с 1,17 до 0,46 — полис дешевеет более чем вдвое. Перед покупкой проверьте свой КБМ в базе РСА: ошибки там встречаются, и их можно оспорить.</p>
+<h3>Почему у разных страховых разная цена</h3>
+<p>ЦБ задаёт не фиксированную ставку, а тарифный коридор, и компания вправе взять базу по нижней или верхней границе. В примере выше при базе 1&nbsp;399&nbsp;₽ полис стоил бы около 4&nbsp;160&nbsp;₽, при базе 8&nbsp;665&nbsp;₽ — уже около 19&nbsp;000&nbsp;₽. Коэффициенты у всех страховых одинаковые, а итог различается в разы, поэтому перед покупкой стоит посчитать цену хотя бы в трёх-четырёх компаниях.</p>
+<h3>Почему расчёт ориентировочный</h3>
+<p>С 2022 года таблица КВС включает 58 категорий вместо нескольких широких диапазонов, а территориальный коэффициент устанавливается для каждого города отдельно. Здесь используются округлённые представительные значения — так проще понять логику и порядок цифр. Точную цену посчитает страховая компания по данным РСА при оформлении полиса.</p>
+<h3>Что вообще покрывает полис</h3>
+<p>ОСАГО — это страхование ответственности, а не самой машины. Если ДТП случилось по вашей вине, страховая возместит ущерб пострадавшим: до 400&nbsp;000&nbsp;₽ за вред имуществу и до 500&nbsp;000&nbsp;₽ за вред жизни и здоровью каждого пострадавшего. Свой автомобиль по ОСАГО виновнику не чинят — для этого существует каско. Езда без полиса — это штраф, а при аварии — полная оплата чужого ремонта из своего кармана.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Что выгоднее — ограниченный список водителей или открытый полис?</summary><p>Ограниченный список почти всегда дешевле, если все вписанные водители опытные и их КВС низкий. Открытый полис (КО = 3,16) может быть выгоден, только если в семье есть молодой водитель с высоким личным КВС.</p></details>
+<details><summary>С какой даты меняется класс КБМ?</summary><p>КБМ пересчитывается один раз в год — 1 апреля, по итогам периода с 1 апреля по 31 марта. Если за этот период не было аварий по вашей вине, класс повышается и коэффициент снижается.</p></details>
+<details><summary>Как узнать свой КБМ?</summary><p>Через базу РСА на сайте Союза автостраховщиков — понадобятся ФИО, дата рождения и номер водительского удостоверения. Если коэффициент в базе неверный, подайте заявление на исправление через свою страховую или РСА.</p></details>
+<details><summary>Что будет, если ездить без полиса ОСАГО?</summary><p>За управление без полиса положен штраф 500&nbsp;₽. А при ДТП по вашей вине весь ущерб пострадавшему придётся возмещать из своего кармана.</p></details>
+<details><summary>Влияет ли возраст автомобиля на цену ОСАГО?</summary><p>Нет, год выпуска машины в формуле не участвует. Из характеристик автомобиля учитывается только мощность двигателя — коэффициент КМ.</p></details>
+<details><summary>Можно ли оформить ОСАГО не на год, а на несколько месяцев?</summary><p>Да, можно оформить полис на период использования от трёх месяцев — тогда применяется коэффициент сезонности КС. Цена снижается не пропорционально сроку: полис на три месяца стоит примерно половину годового.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../transportnyy-nalog/">Транспортный налог</a>
+          <a class="related-link" href="../avtokredit/">Автокредит</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

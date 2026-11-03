@@ -1,0 +1,108 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcSaleTax(){
+  const salepriceEl = document.getElementById('saleprice');
+  const yearsEl = document.getElementById('years');
+  const cadastralEl = document.getElementById('cadastral');
+  const purchasepriceEl = document.getElementById('purchaseprice');
+  const errEl = document.getElementById('err');
+
+  const salePrice = parseFormattedNumber(salepriceEl);
+  const years = parseFloat(yearsEl.value.replace(',', '.'));
+  const minPeriod = parseInt(document.getElementById('minperiod').value, 10);
+  const cadastral = parseFormattedNumber(cadastralEl);
+  const useExpenses = document.querySelector('input[name="deduction-method"]:checked').value === 'expenses';
+  const purchasePrice = useExpenses ? parseFormattedNumber(purchasepriceEl) : 0;
+
+  const invalid = isNaN(salePrice) || salePrice < 0 || isNaN(years) || years < 0 ||
+    (useExpenses && (isNaN(purchasePrice) || purchasePrice < 0));
+
+  if (invalid){
+    errEl.style.display = 'block';
+    ['r-tax','r-base','r-effprice','r-deduction','r-note'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const statusLabel = document.getElementById('r-status-label');
+
+  if (years >= minPeriod){
+    statusLabel.textContent = 'Налог к уплате';
+    document.getElementById('r-tax').textContent = '0 ₽ — продажа не облагается налогом';
+    document.getElementById('r-base').textContent = '0 ₽';
+    document.getElementById('r-effprice').textContent = '—';
+    document.getElementById('r-deduction').textContent = '—';
+    document.getElementById('r-note').textContent = 'Не требуется';
+    return;
+  }
+
+  let effectivePrice = salePrice;
+  if (!isNaN(cadastral) && cadastral > 0){
+    effectivePrice = Math.max(salePrice, cadastral * 0.7);
+  }
+
+  const deduction = (useExpenses && purchasePrice > 0) ? purchasePrice : 1000000;
+  const base = Math.max(0, effectivePrice - deduction);
+
+  let tax;
+  if (base <= 2400000){
+    tax = base * 0.13;
+  } else {
+    tax = 2400000 * 0.13 + (base - 2400000) * 0.15;
+  }
+
+  statusLabel.textContent = 'Налог к уплате';
+  document.getElementById('r-tax').textContent = formatMoney(tax) + '\u00A0₽';
+  document.getElementById('r-base').textContent = formatMoney(base) + '\u00A0₽';
+  document.getElementById('r-effprice').textContent = formatMoney(effectivePrice) + '\u00A0₽';
+  document.getElementById('r-deduction').textContent = formatMoney(deduction) + '\u00A0₽';
+  document.getElementById('r-note').textContent = (base > 0 && salePrice > 1000000) ? 'Нужна' : 'Обычно не нужна';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const salepriceEl = document.getElementById('saleprice');
+  const cadastralEl = document.getElementById('cadastral');
+  const purchasepriceEl = document.getElementById('purchaseprice');
+  [salepriceEl, cadastralEl, purchasepriceEl].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcSaleTax);
+  });
+  document.getElementById('years').addEventListener('input', recalcSaleTax);
+  document.getElementById('minperiod').addEventListener('change', recalcSaleTax);
+
+  const expensesWrap = document.getElementById('expenses-field-wrap');
+  document.querySelectorAll('input[name="deduction-method"]').forEach(r => {
+    r.addEventListener('change', () => {
+      expensesWrap.style.display = (r.value === 'expenses' && r.checked) ? 'grid' : expensesWrap.style.display;
+      if (document.querySelector('input[name="deduction-method"]:checked').value === 'expenses'){
+        expensesWrap.style.display = 'grid';
+      } else {
+        expensesWrap.style.display = 'none';
+      }
+      recalcSaleTax();
+    });
+  });
+
+  recalcSaleTax();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Генератор UUID</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Генератор UUID</h1>
+          <p class="calc-sub">Криптографически стойкие UUID версии 4 — от одного до пятидесяти штук за раз.</p>
+          <form id="tool-form" novalidate>
+
+<div class="field-grid">
+  <div class="field">
+    <label for="uu-count">Количество (1–50)</label>
+    <input type="number" id="uu-count" min="1" max="50" value="5" step="1" data-share="uu-count">
+  </div>
+  <div class="field">
+    <label>Действие</label>
+    <button class="btn btn-primary" id="uu-gen" type="button">Сгенерировать</button>
+  </div>
+</div>
+
+</form>
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+
+
+<div class="result-panel">
+  <div class="r-label">UUID версии 4 — клик по строке копирует её</div>
+  <ul class="uuid-list" id="uu-list"></ul>
+  <div class="action-bar">
+    <button class="btn btn-ghost" id="uu-more" type="button">Ещё</button>
+    <button class="btn btn-ghost" id="uu-copy" type="button">Скопировать все</button>
+  </div>
+</div>
+
+        </div>
+        <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        <article class="calc-explain">
+          <h2>Как работает генератор UUID v4</h2>
+<p>Нажмите кнопку — и получите порцию случайных идентификаторов стандарта RFC 4122. Каждый UUID v4 — это 128 бит, из которых 122 бита случайны, а 6 заняты служебными метками версии и варианта. Случайность даёт crypto.getRandomValues — криптографический генератор браузера. Всё происходит локально: идентификаторы не покидают ваш компьютер.</p>
+<p>Привычная запись 8-4-4-4-12 — это 32 шестнадцатеричные цифры, разбитые дефисами на пять групп:</p>
+<p><code>xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx</code></p>
+<p>Цифра 4 в начале третьей группы — метка версии. Первый символ четвёртой группы (y) принимает значения 8, 9, a или b — это метка варианта. Всё остальное — чистая случайность, Math.random здесь не используется вовсе.</p>
+<p>О вероятности коллизий судит парадокс дней рождения: совпадения возможны задолго до перебора всех вариантов. Но пространство в 2¹²² настолько велико, что для шанса коллизии в 50% потребуется сгенерировать около 2,7 квинтиллиона UUID. При миллиарде идентификаторов в секунду на это ушло бы около 85 лет. Практическим риском пренебрегают. Для пачки в тысячу идентификаторов вероятность совпадения хотя бы одной пары — порядка одной квинтиллионной.</p>
+<p>Пример: вы создаёте заказ в базе на одном сервере, а коллега — на другом. С автоинкрементом ключи столкнулись бы при слиянии. С UUID v4 каждый получает свой идентификатор вида 3f6b2a41-9c5e-4d1f-8a2b-7e0c4f6d8a91 — и никакой координации между серверами не нужно. Так же работают офлайн-приложения: запись, созданная без интернета, получает свой UUID и при синхронизации не конфликтует с чужими.</p>
+<h3>Где применяют UUID</h3>
+<p>Идентификаторы нужны всюду, где объекты создаются независимо друг от друга: первичные ключи в распределённых базах, имена временных файлов, номера сессий, заказов и платежей, метки в логах. UUID удобен ещё и тем, что не выдаёт порядок создания и количество записей — в отличие от последовательных номеров.</p>
+<h3>Почему здесь только версия 4</h3>
+<p>У стандарта семь версий. V1 и v6 строятся от MAC-адреса и времени, v7 — от метки времени: они сортируются и дружелюбны к индексам, но раскрывают, когда и где созданы. V4 — чистая случайность: ничего не раскрывает и не требует исходных данных. Для большинства задач, от ключей в базе до имён файлов, это самый простой выбор.</p>
+<p>Есть и обратная сторона: случайные UUID плохо сортируются, и вставка их в индекс базы данных идёт медленнее, чем у последовательных ключей. Если таблица огромная и запись в неё непрерывная, посмотрите в сторону UUID v7. Для обычных проектов разница незаметна.</p>
+<p>Отдельно стоят версии v3, v5 и v8: они не случайны, а строятся хешированием имени внутри пространства имён — одинаковый вход всегда даёт одинаковый UUID. Это удобно, когда идентификатор нужно воспроизводить по исходным данным. Для свежих уникальных ключей, которые никому не должны быть предсказуемы, берут v4 или v7.</p>
+<h3>Как пользоваться генератором</h3>
+<p>Инструмент пригодится разработчику, тестировщику и аналитику: заполнить тестовую базу, разметить выгрузку, назначить идентификаторы черновикам. Порядок такой:</p>
+<ul>
+<li>Укажите количество — от одного идентификатора до целой пачки.</li>
+<li>Кнопка «Ещё» заменяет текущую порцию новой, «Скопировать все» отправляет список в буфер обмена.</li>
+<li>Сохраняйте нужные UUID сразу: генератор не хранит историю, после обновления страницы они исчезнут.</li>
+</ul>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Чем UUID v4 отличается от v7?</summary><p>V4 — чистая случайность. V7 кодирует в начало метку времени, поэтому идентификаторы сортируются по времени создания и дружелюбнее к индексам баз данных. Здесь генерируется только v4.</p></details>
+<details><summary>Насколько надёжна генерация?</summary><p>Используется crypto.getRandomValues — тот же генератор, что браузер применяет для ключей шифрования. Math.random не используется вовсе.</p></details>
+<details><summary>Могут ли два сгенерированных UUID совпасть?</summary><p>Теоретически да, практически — нет: при миллиарде UUID в секунду столетие генерации даст шанс одной коллизии порядка 50%. Для любых прикладных задач риском пренебрегают.</p></details>
+<details><summary>Что делает кнопка «Ещё»?</summary><p>Генерирует новую порцию идентификаторов взамен текущей — в том же количестве, что указано в поле.</p></details>
+<details><summary>Что означает запись 8-4-4-4-12?</summary><p>Это 32 шестнадцатеричные цифры, разбитые дефисами на группы из 8, 4, 4, 4 и 12 символов. Цифра 4 в начале третьей группы — метка версии, первый символ четвёртой группы — метка варианта.</p></details>
+<details><summary>Можно ли использовать UUID как секретный токен?</summary><p>У UUID v4 — 122 бита энтропии, что достаточно для многих задач. Но для токенов доступа и ссылок сброса пароля лучше брать специально сгенерированные секреты: стандарт не считает UUID секретом.</p></details>
+          </div>
+        </article>
+      </div>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../generator-paroley/">Генератор паролей</a>
+          <a class="related-link" href="../generator-promokodov/">Генератор промокодов</a>
+          <a class="related-link" href="../generator-nikneimov/">Генератор никнеймов</a>
+          <a class="related-link" href="../sluchaynye-chisla/">Генератор случайных чисел</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

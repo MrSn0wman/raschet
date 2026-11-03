@@ -1,0 +1,83 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function compoundInterest(principal, monthlyContribution, annualRatePercent, months){
+  const monthlyRate = annualRatePercent/100/12;
+  let balance = principal;
+  let totalContributed = principal;
+  for (let i=0;i<months;i++){
+    balance = balance*(1+monthlyRate) + monthlyContribution;
+    totalContributed += monthlyContribution;
+  }
+  return { balance, totalContributed, interestEarned: balance-totalContributed };
+}
+
+function renderChart(contributed, earned, total){
+  const c1 = document.getElementById('sp-chart-a');
+  const c2 = document.getElementById('sp-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (contributed / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('sp-legend-a').textContent = formatMoney(contributed) + '\u00A0₽';
+  document.getElementById('sp-legend-b').textContent = formatMoney(earned) + '\u00A0₽';
+}
+
+function recalcCompoundInterest(){
+  const principalEl = document.getElementById('principal');
+  const monthlyEl = document.getElementById('monthly');
+  const rateEl = document.getElementById('rate');
+  const yearsEl = document.getElementById('years');
+  const errEl = document.getElementById('err');
+
+  const principal = parseFormattedNumber(principalEl) || 0;
+  const monthly = parseFormattedNumber(monthlyEl) || 0;
+  const rate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const years = parseFloat(yearsEl.value);
+
+  if (isNaN(principal) || principal < 0 || isNaN(monthly) || monthly < 0 || isNaN(rate) || rate < 0 || isNaN(years) || years <= 0){
+    errEl.style.display = 'block';
+    ['r-balance','r-contributed','r-earned'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const months = Math.round(years*12);
+  const result = compoundInterest(principal, monthly, rate, months);
+
+  document.getElementById('r-balance').textContent = formatMoney(result.balance) + '\u00A0₽';
+  document.getElementById('r-contributed').textContent = formatMoney(result.totalContributed) + '\u00A0₽';
+  document.getElementById('r-earned').textContent = formatMoney(result.interestEarned) + '\u00A0₽';
+  renderChart(result.totalContributed, result.interestEarned, result.balance);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('principal'), document.getElementById('monthly')].forEach(el => attachThousandsInput(el));
+  document.getElementById('principal').addEventListener('input', recalcCompoundInterest);
+  document.getElementById('monthly').addEventListener('input', recalcCompoundInterest);
+  document.getElementById('rate').addEventListener('input', recalcCompoundInterest);
+  document.getElementById('years').addEventListener('input', recalcCompoundInterest);
+  recalcCompoundInterest();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

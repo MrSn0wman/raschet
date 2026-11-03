@@ -1,0 +1,78 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+let discId = 0;
+
+function addDiscountRow(val){
+  discId++;
+  const wrap = document.getElementById('discounts-wrap');
+  const row = document.createElement('div');
+  row.className = 'disc-row';
+  row.innerHTML =
+    '<div class="unit-input"><input type="text" class="disc-percent" value="' + (val!==undefined?val:'') + '" inputmode="decimal" placeholder="Скидка"><span>%</span></div>' +
+    '<button type="button" class="disc-remove" aria-label="Удалить">✕</button>';
+  wrap.appendChild(row);
+  row.querySelector('.disc-percent').addEventListener('input', recalcDiscount);
+  row.querySelector('.disc-remove').addEventListener('click', () => {
+    row.remove();
+    recalcDiscount();
+  });
+}
+
+function recalcDiscount(){
+  const priceEl = document.getElementById('price');
+  const errEl = document.getElementById('err');
+  const price = parseFormattedNumber(priceEl);
+
+  const discountEls = document.querySelectorAll('.disc-percent');
+  const discounts = [];
+  discountEls.forEach(el => {
+    const v = parseFloat(String(el.value).replace(',', '.'));
+    if (!isNaN(v) && v >= 0 && v <= 100) discounts.push(v);
+  });
+
+  if (isNaN(price) || price <= 0 || discounts.length === 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-final').textContent = '—';
+    document.getElementById('r-savings').textContent = '—';
+    document.getElementById('r-total-percent').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const finalPrice = discounts.reduce((p,d) => p*(1-d/100), price);
+  const savings = price - finalPrice;
+  const totalPercent = (savings/price)*100;
+
+  document.getElementById('r-final').textContent = formatMoney(finalPrice) + '\u00A0₽';
+  document.getElementById('r-savings').textContent = formatMoney(savings) + '\u00A0₽';
+  document.getElementById('r-total-percent').textContent = totalPercent.toFixed(1).replace('.', ',') + '%';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  attachThousandsInput(document.getElementById('price'));
+  document.getElementById('price').addEventListener('input', recalcDiscount);
+  addDiscountRow(20);
+  document.getElementById('add-discount').addEventListener('click', () => addDiscountRow(''));
+  recalcDiscount();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

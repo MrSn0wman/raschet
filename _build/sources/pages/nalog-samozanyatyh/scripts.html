@@ -1,0 +1,61 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcSamozanyaty(){
+  const incomeIndEl = document.getElementById('income-individuals');
+  const incomeBizEl = document.getElementById('income-business');
+  const bonusEl = document.getElementById('bonus-left');
+  const errEl = document.getElementById('err');
+
+  const incomeInd = parseFormattedNumber(incomeIndEl) || 0;
+  const incomeBiz = parseFormattedNumber(incomeBizEl) || 0;
+  const bonusLeft = parseFormattedNumber(bonusEl) || 0;
+
+  if (incomeInd < 0 || incomeBiz < 0 || bonusLeft < 0 || (incomeIndEl.value.trim()==='' && incomeBizEl.value.trim()==='')){
+    errEl.style.display = 'block';
+    ['r-tax','r-before-bonus','r-bonus-used','r-bonus-left','r-net'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const taxInd = incomeInd * 0.04;
+  const taxBiz = incomeBiz * 0.06;
+  const totalTax = taxInd + taxBiz;
+  const bonusUsed = Math.min(bonusLeft, totalTax);
+  const finalTax = totalTax - bonusUsed;
+  const totalIncome = incomeInd + incomeBiz;
+
+  document.getElementById('r-tax').textContent = formatMoney(finalTax) + '\u00A0₽';
+  document.getElementById('r-before-bonus').textContent = formatMoney(totalTax) + '\u00A0₽';
+  document.getElementById('r-bonus-used').textContent = formatMoney(bonusUsed) + '\u00A0₽';
+  document.getElementById('r-bonus-left').textContent = formatMoney(bonusLeft - bonusUsed) + '\u00A0₽';
+  document.getElementById('r-net').textContent = formatMoney(totalIncome - finalTax) + '\u00A0₽';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('income-individuals'), document.getElementById('income-business'), document.getElementById('bonus-left')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcSamozanyaty);
+  });
+  recalcSamozanyaty();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

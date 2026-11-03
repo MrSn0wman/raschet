@@ -1,0 +1,103 @@
+
+<meta charset="UTF-8">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0E7A4A">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru https://yastatic.net; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+<title>Калькулятор НОК — наименьшее общее кратное</title>
+<meta name="description" content="Найдите наименьшее общее кратное (НОК) двух или нескольких чисел онлайн — через связь с НОД по алгоритму Евклида.">
+<link rel="canonical" href="https://raschet.net/nok/">
+<meta property="og:title" content="Калькулятор НОК — Расчёт.net">
+<meta property="og:description" content="Наименьшее общее кратное нескольких чисел.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://raschet.net/nok/">
+<meta property="og:site_name" content="Расчёт.net">
+<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор НОК — Расчёт.net">
+<meta name="twitter:description" content="Наименьшее общее кратное нескольких чисел.">
+<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
+@@RASCHET_HEAD_INIT@@
+<style>
+@@RASCHET_STYLE@@</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Калькулятор НОК",
+  "url": "https://raschet.net/nok/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  }
+}
+</script>
+
+<script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Что такое НОК?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Наименьшее общее кратное (НОК) — это самое маленькое натуральное число, которое делится без остатка на каждое из заданных чисел."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как связаны НОК и НОД?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Для двух чисел выполняется равенство: НОК(a, b) × НОД(a, b) = a × b. Поэтому, найдя НОД по алгоритму Евклида, НОК вычисляют простым делением произведения чисел на их НОД."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Где на практике нужен НОК?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Чаще всего — при сложении и вычитании дробей с разными знаменателями: НОК знаменателей даёт наименьший общий знаменатель для приведения дробей."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Чему равен НОК взаимно простых чисел?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Если у чисел нет общих делителей, кроме единицы, их НОК равен их произведению — например, НОК(8, 15) = 120."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как найти НОК трёх и более чисел?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "По цепочке: сначала находят НОК первых двух чисел, затем НОК полученного результата с третьим числом — и так до конца списка."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Может ли НОК быть меньше самих чисел?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. НОК всегда не меньше наибольшего из заданных чисел, ведь кратное числа не может быть меньше самого числа."
+      }
+    }
+  ]
+}
+</script>

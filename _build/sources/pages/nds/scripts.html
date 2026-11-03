@@ -1,0 +1,69 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcVat(){
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const amountEl = document.getElementById('amount');
+  const rateEl = document.getElementById('rate');
+  const errEl = document.getElementById('err');
+
+  const amount = parseFormattedNumber(amountEl);
+  const rate = parseFloat(rateEl.value);
+
+  if (isNaN(amount) || amount < 0 || isNaN(rate)){
+    errEl.style.display = 'block';
+    document.getElementById('r-total').textContent = '—';
+    document.getElementById('r-vat').textContent = '—';
+    document.getElementById('r-other').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  if (mode === 'add'){
+    document.getElementById('amount-label').textContent = 'Сумма без НДС';
+    const vat = amount * (rate/100);
+    const total = amount + vat;
+    document.getElementById('r-label').textContent = 'Сумма с НДС';
+    document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+    document.getElementById('r-vat').textContent = formatMoney(vat) + '\u00A0₽';
+    document.getElementById('r-other-label').textContent = 'Сумма без НДС (введено)';
+    document.getElementById('r-other').textContent = formatMoney(amount) + '\u00A0₽';
+  } else {
+    document.getElementById('amount-label').textContent = 'Сумма с НДС';
+    const vat = rate > 0 ? amount * (rate/(100+rate)) : 0;
+    const excl = amount - vat;
+    document.getElementById('r-label').textContent = 'Сумма без НДС';
+    document.getElementById('r-total').textContent = formatMoney(excl) + '\u00A0₽';
+    document.getElementById('r-vat').textContent = formatMoney(vat) + '\u00A0₽';
+    document.getElementById('r-other-label').textContent = 'Сумма с НДС (введено)';
+    document.getElementById('r-other').textContent = formatMoney(amount) + '\u00A0₽';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  attachThousandsInput(document.getElementById('amount'));
+  document.getElementById('amount').addEventListener('input', recalcVat);
+  document.getElementById('rate').addEventListener('change', recalcVat);
+  document.querySelectorAll('input[name="mode"]').forEach(r => r.addEventListener('change', recalcVat));
+  recalcVat();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

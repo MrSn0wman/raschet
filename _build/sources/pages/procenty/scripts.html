@@ -1,0 +1,189 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+/* =========================================================
+   РАСЧЁТ.РФ — библиотека формул калькуляторов
+   Чистые функции: не трогают DOM, легко тестируются
+   ========================================================= */
+
+const Calc = {
+
+  // ---------- Площадь ----------
+  areaRectangle(a, b){ return a * b; },
+  areaCircle(r){ return Math.PI * r * r; },
+  areaTriangle(base, height){ return (base * height) / 2; },
+
+  // ---------- Объём ----------
+  volumeBox(a, b, c){ return a * b * c; },
+  volumeCylinder(r, h){ return Math.PI * r * r * h; },
+  volumeSphere(r){ return (4 / 3) * Math.PI * r ** 3; },
+
+  // ---------- Проценты ----------
+  percentOfNumber(percent, number){ return (percent / 100) * number; },
+  numberIsWhatPercentOf(part, whole){ if (whole === 0) return NaN; return (part / whole) * 100; },
+  percentChange(oldValue, newValue){ if (oldValue === 0) return NaN; return ((newValue - oldValue) / oldValue) * 100; },
+
+  // ---------- ИМТ ----------
+  bmi(weightKg, heightCm){
+    const h = heightCm / 100;
+    return weightKg / (h * h);
+  },
+  bmiCategory(bmiValue){
+    if (bmiValue < 16) return 'Выраженный дефицит массы тела';
+    if (bmiValue < 18.5) return 'Недостаточная масса тела';
+    if (bmiValue < 25) return 'Норма';
+    if (bmiValue < 30) return 'Избыточная масса тела';
+    if (bmiValue < 35) return 'Ожирение I степени';
+    if (bmiValue < 40) return 'Ожирение II степени';
+    return 'Ожирение III степени';
+  },
+
+  /**
+   * Аннуитетный платёж по кредиту/ипотеке.
+   * principal — сумма кредита, annualRatePercent — ставка годовых,
+   * months — срок в месяцах
+   * Возвращает { monthlyPayment, totalPayment, totalInterest, schedule }
+   */
+  annuityLoan(principal, annualRatePercent, months){
+    const i = (annualRatePercent / 100) / 12;
+    let monthlyPayment;
+    if (i === 0){
+      monthlyPayment = principal / months;
+    } else {
+      const factor = Math.pow(1 + i, months);
+      monthlyPayment = principal * (i * factor) / (factor - 1);
+    }
+    const totalPayment = monthlyPayment * months;
+    const totalInterest = totalPayment - principal;
+
+    // график первых N платежей (для проверки/детализации), полностью — по запросу
+    const schedule = [];
+    let balance = principal;
+    for (let m = 1; m <= months; m++){
+      const interestPart = i === 0 ? 0 : balance * i;
+      const principalPart = monthlyPayment - interestPart;
+      balance -= principalPart;
+      schedule.push({
+        month: m,
+        payment: monthlyPayment,
+        interest: interestPart,
+        principal: principalPart,
+        balance: Math.max(balance, 0)
+      });
+    }
+
+    return {
+      monthlyPayment,
+      totalPayment,
+      totalInterest,
+      schedule
+    };
+  },
+
+  /**
+   * Вклад с капитализацией процентов (ежемесячная капитализация)
+   * principal — сумма вклада, annualRatePercent — ставка годовых,
+   * months — срок в месяцах, monthlyTopUp — пополнение в месяц (0 если нет)
+   */
+  depositWithCapitalization(principal, annualRatePercent, months, monthlyTopUp = 0){
+    const i = (annualRatePercent / 100) / 12;
+    let balance = principal;
+    let totalTopUp = 0;
+    for (let m = 1; m <= months; m++){
+      balance += balance * i;
+      balance += monthlyTopUp;
+      totalTopUp += monthlyTopUp;
+    }
+    const totalInterest = balance - principal - totalTopUp;
+    return {
+      finalBalance: balance,
+      totalInterest,
+      totalTopUp
+    };
+  },
+
+  /**
+   * Простой вклад без капитализации (проценты выплачиваются, не прибавляются к телу)
+   */
+  depositSimple(principal, annualRatePercent, months){
+    const totalInterest = principal * (annualRatePercent / 100) * (months / 12);
+    return {
+      finalBalance: principal + totalInterest,
+      totalInterest
+    };
+  }
+};
+
+if (typeof module !== 'undefined' && module.exports){
+  module.exports = Calc;
+}
+
+
+</script>
+<script>
+
+(function(){
+  const modeEl = document.getElementById('p-mode');
+  const fields = document.querySelectorAll('[data-mode]');
+  const errorEl = document.getElementById('p-error');
+
+  function toggleFields(){
+    const mode = modeEl.value;
+    fields.forEach(f => { f.style.display = (f.dataset.mode === mode) ? '' : 'none'; });
+  }
+
+  function render(){
+    toggleFields();
+    const mode = modeEl.value;
+    let result = NaN;
+
+    if (mode === 'of'){
+      const percent = document.getElementById('p-percent').valueAsNumber;
+      const number = document.getElementById('p-number').valueAsNumber;
+      if (Number.isFinite(percent) && Number.isFinite(number)) result = Calc.percentOfNumber(percent, number);
+    } else if (mode === 'share'){
+      const part = document.getElementById('p-part').valueAsNumber;
+      const whole = document.getElementById('p-whole').valueAsNumber;
+      if (Number.isFinite(part) && Number.isFinite(whole) && whole !== 0) result = Calc.numberIsWhatPercentOf(part, whole);
+    } else if (mode === 'change'){
+      const oldV = document.getElementById('p-old').valueAsNumber;
+      const newV = document.getElementById('p-new').valueAsNumber;
+      if (Number.isFinite(oldV) && Number.isFinite(newV) && oldV !== 0) result = Calc.percentChange(oldV, newV);
+    }
+
+    const valid = Number.isFinite(result);
+    errorEl.style.display = valid ? 'none' : 'block';
+    ['copy-btn', 'share-btn'].forEach(id => { document.getElementById(id).disabled = !valid; });
+    if (!valid){
+      document.getElementById('p-result').textContent = '—';
+      return;
+    }
+
+    const suffix = mode === 'of' ? '' : ' %';
+    document.getElementById('p-result').textContent = formatMoney2(result) + suffix;
+  }
+
+  document.getElementById('percent-form').addEventListener('input', render);
+  modeEl.addEventListener('change', render);
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

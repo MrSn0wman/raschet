@@ -1,0 +1,71 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function taxPenalty(debt, keyRatePercent, days, isOrg){
+  if (!isOrg){
+    return debt * (keyRatePercent/100/300) * days;
+  }
+  let penalty = 0;
+  const d1 = Math.min(days, 30);
+  penalty += debt * (keyRatePercent/100/300) * d1;
+  if (days > 30){
+    penalty += debt * (keyRatePercent/100/150) * (days - 30);
+  }
+  return penalty;
+}
+
+function recalcTaxPenalty(){
+  const debtEl = document.getElementById('debt');
+  const rateEl = document.getElementById('key-rate');
+  const daysEl = document.getElementById('days');
+  const errEl = document.getElementById('err');
+  const isOrg = document.querySelector('input[name="payer-type"]:checked').value === 'org';
+
+  const debt = parseFormattedNumber(debtEl);
+  const rate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const days = parseFormattedNumber(daysEl);
+
+  if (isNaN(debt) || debt <= 0 || isNaN(rate) || rate < 0 || isNaN(days) || days <= 0){
+    errEl.style.display = 'block';
+    ['r-penalty','r-total','r-rate-note'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const penalty = taxPenalty(debt, rate, days, isOrg);
+  const total = debt + penalty;
+
+  document.getElementById('r-penalty').textContent = formatMoney(penalty) + '\u00A0₽';
+  document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+  document.getElementById('r-rate-note').textContent = isOrg ? '1/300 (первые 30 дней) → 1/150 (с 31-го)' : '1/300 (весь период)';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('debt'), document.getElementById('days')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcTaxPenalty);
+  });
+  document.getElementById('key-rate').addEventListener('input', recalcTaxPenalty);
+  document.querySelectorAll('input[name="payer-type"]').forEach(r => r.addEventListener('change', recalcTaxPenalty));
+  recalcTaxPenalty();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

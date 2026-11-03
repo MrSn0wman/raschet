@@ -1,0 +1,5 @@
+
+/* --- страничные стили --- */
+.list-textarea{ width:100%; min-height:160px; padding:12px 14px; border:1px solid var(--line); border-radius:10px; font-family:var(--font-mono); font-size:.92rem; resize:vertical; background:var(--surface); color:var(--ink); }
+.list-textarea:focus{ outline:none; border-color:var(--accent); }
+.result-list{ font-family:var(--font-mono); font-size:1rem; line-height:1.9; white-space:pre-wrap; text-align:left; }

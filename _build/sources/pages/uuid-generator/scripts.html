@@ -1,0 +1,107 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var countEl = document.getElementById('uu-count');
+  var genBtn = document.getElementById('uu-gen');
+  var moreBtn = document.getElementById('uu-more');
+  var copyBtn = document.getElementById('uu-copy');
+  var listEl = document.getElementById('uu-list');
+  var current = [];
+
+  function copyText(text, btn){
+    function done(){
+      if (!btn) return;
+      var prev = btn.textContent;
+      btn.textContent = 'Скопировано!';
+      setTimeout(function(){ btn.textContent = prev; }, 1500);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  function randomUuid(){
+    var buf = new Uint8Array(16);
+    crypto.getRandomValues(buf);
+    buf[6] = (buf[6] & 15) | 64;    // версия 4
+    buf[8] = (buf[8] & 63) | 128;   // вариант RFC 4122
+    var parts = [];
+    for (var i = 0; i < 16; i++){
+      var h = buf[i].toString(16);
+      parts.push(h.length === 1 ? '0' + h : h);
+    }
+    return parts.slice(0, 4).join('') + '-' + parts.slice(4, 6).join('') + '-' +
+           parts.slice(6, 8).join('') + '-' + parts.slice(8, 10).join('') + '-' +
+           parts.slice(10, 16).join('');
+  }
+
+  function getCount(){
+    var n = parseInt(countEl.value, 10);
+    if (isNaN(n)) return 5;
+    if (n < 1) return 1;
+    if (n > 50) return 50;
+    return n;
+  }
+
+  function renderList(){
+    listEl.textContent = '';
+    current.forEach(function(id){
+      var li = document.createElement('li');
+      li.textContent = id;
+      li.title = 'Нажмите, чтобы скопировать';
+      li.addEventListener('click', function(){ copyText(id, null); });
+      listEl.appendChild(li);
+    });
+  }
+
+  function generate(){
+    var n = getCount();
+    current = [];
+    for (var i = 0; i < n; i++) current.push(randomUuid());
+    renderList();
+  }
+
+  genBtn.addEventListener('click', generate);
+  moreBtn.addEventListener('click', generate);
+  copyBtn.addEventListener('click', function(){
+    if (current.length) copyText(current.join('\n'), copyBtn);
+  });
+  generate();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

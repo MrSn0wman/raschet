@@ -1,0 +1,64 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcTimezone(){
+  const fromOffset = parseFloat(document.getElementById('city-from').value);
+  const toOffset = parseFloat(document.getElementById('city-to').value);
+  const timeFromEl = document.getElementById('time-from');
+  const errEl = document.getElementById('err');
+
+  const timeVal = timeFromEl.value;
+  if (!timeVal || isNaN(fromOffset) || isNaN(toOffset)){
+    errEl.style.display = 'block';
+    document.getElementById('r-time-to').textContent = '—';
+    document.getElementById('r-diff').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const [h, m] = timeVal.split(':').map(Number);
+  const diffHours = toOffset - fromOffset;
+
+  let totalMinutes = h*60 + m + diffHours*60;
+  let dayShift = 0;
+  while (totalMinutes < 0){ totalMinutes += 1440; dayShift--; }
+  while (totalMinutes >= 1440){ totalMinutes -= 1440; dayShift++; }
+
+  const resultH = Math.floor(totalMinutes/60);
+  const resultM = Math.round(totalMinutes%60);
+  const timeStr = String(resultH).padStart(2,'0') + ':' + String(resultM).padStart(2,'0');
+  const dayNote = dayShift === 1 ? ' (на следующий день)' : (dayShift === -1 ? ' (накануне)' : '');
+
+  document.getElementById('r-time-to').textContent = timeStr + dayNote;
+
+  const diffAbs = Math.abs(diffHours);
+  const diffSign = diffHours > 0 ? 'больше на' : (diffHours < 0 ? 'меньше на' : 'совпадает');
+  document.getElementById('r-diff').textContent = diffHours === 0 ? 'Часовые пояса совпадают' : (diffSign + ' ' + diffAbs + ' ч');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('city-from').addEventListener('change', recalcTimezone);
+  document.getElementById('city-to').addEventListener('change', recalcTimezone);
+  document.getElementById('time-from').addEventListener('input', recalcTimezone);
+  recalcTimezone();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

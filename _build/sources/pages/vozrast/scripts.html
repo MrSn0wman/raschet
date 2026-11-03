@@ -1,0 +1,90 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function dateDiffYMD(startStr, endStr){
+  const start = new Date(startStr + 'T00:00:00');
+  const end = new Date(endStr + 'T00:00:00');
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  let days = end.getDate() - start.getDate();
+  if (days < 0){
+    months -= 1;
+    const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0){ years -= 1; months += 12; }
+  return {years, months, days};
+}
+
+function pluralYears(n){ const n10=n%10,n100=n%100; if(n100>=11&&n100<=14)return'лет'; if(n10===1)return'год'; if(n10>=2&&n10<=4)return'года'; return'лет'; }
+function pluralMonths(n){ const n10=n%10,n100=n%100; if(n100>=11&&n100<=14)return'месяцев'; if(n10===1)return'месяц'; if(n10>=2&&n10<=4)return'месяца'; return'месяцев'; }
+function pluralDays(n){ const n10=n%10,n100=n%100; if(n100>=11&&n100<=14)return'дней'; if(n10===1)return'день'; if(n10>=2&&n10<=4)return'дня'; return'дней'; }
+
+function recalcAge(){
+  const birthEl = document.getElementById('birth-date');
+  const calcEl = document.getElementById('calc-date');
+  const errEl = document.getElementById('err');
+
+  const birthVal = birthEl.value;
+  const calcVal = calcEl.value;
+
+  if (!birthVal || !calcVal){
+    errEl.style.display = 'block';
+    document.getElementById('r-age').textContent = '—';
+    document.getElementById('r-days-total').textContent = '—';
+    document.getElementById('r-next-birthday').textContent = '—';
+    return;
+  }
+
+  const birth = new Date(birthVal+'T00:00:00');
+  const calc = new Date(calcVal+'T00:00:00');
+  if (calc < birth){
+    errEl.style.display = 'block';
+    document.getElementById('r-age').textContent = '—';
+    document.getElementById('r-days-total').textContent = '—';
+    document.getElementById('r-next-birthday').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const age = dateDiffYMD(birthVal, calcVal);
+  document.getElementById('r-age').textContent = age.years + ' ' + pluralYears(age.years) + ' ' + age.months + ' ' + pluralMonths(age.months) + ' ' + age.days + ' ' + pluralDays(age.days);
+
+  const totalDays = Math.round((calc-birth)/86400000);
+  document.getElementById('r-days-total').textContent = totalDays.toLocaleString('ru-RU');
+
+  let nextBday = new Date(calc.getFullYear(), birth.getMonth(), birth.getDate());
+  if (nextBday < calc || (nextBday.getTime() === calc.getTime())){
+    nextBday = new Date(calc.getFullYear()+1, birth.getMonth(), birth.getDate());
+  }
+  const daysToNext = Math.round((nextBday-calc)/86400000);
+  document.getElementById('r-next-birthday').textContent = daysToNext === 0 ? 'Сегодня!' : (daysToNext.toLocaleString('ru-RU') + ' ' + pluralDays(daysToNext));
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('birth-date').value = '1995-06-15';
+  document.getElementById('calc-date').value = new Date().toISOString().slice(0,10);
+  document.getElementById('birth-date').addEventListener('input', recalcAge);
+  document.getElementById('calc-date').addEventListener('input', recalcAge);
+  recalcAge();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

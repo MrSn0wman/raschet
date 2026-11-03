@@ -1,0 +1,95 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const BRACKETS = [
+  {limit: 2400000, rate: 0.13},
+  {limit: 5000000, rate: 0.15},
+  {limit: 20000000, rate: 0.18},
+  {limit: 50000000, rate: 0.20},
+  {limit: Infinity, rate: 0.22}
+];
+
+function progressiveTax(income){
+  if (income <= 0) return 0;
+  let tax = 0, prevLimit = 0;
+  for (const b of BRACKETS){
+    if (income > prevLimit){
+      const taxableInBracket = Math.min(income, b.limit) - prevLimit;
+      tax += taxableInBracket * b.rate;
+      prevLimit = b.limit;
+    } else break;
+  }
+  return tax;
+}
+
+function marginalRateLabel(income){
+  if (income <= 2400000) return '13%';
+  if (income <= 5000000) return '15%';
+  if (income <= 20000000) return '18%';
+  if (income <= 50000000) return '20%';
+  return '22%';
+}
+
+function recalcNdfl(){
+  const incomeEl = document.getElementById('income');
+  const income = parseFormattedNumber(incomeEl);
+  const errEl = document.getElementById('err');
+  const isResident = document.querySelector('input[name="residency"]:checked').value === 'resident';
+
+  if (isNaN(income) || income < 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-tax').textContent = '—';
+    document.getElementById('r-net').textContent = '—';
+    document.getElementById('r-effrate').textContent = '—';
+    document.getElementById('r-monthly-tax').textContent = '—';
+    document.getElementById('r-marginal').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  let tax, marginal;
+  if (isResident){
+    tax = progressiveTax(income);
+    marginal = marginalRateLabel(income);
+  } else {
+    tax = income * 0.30;
+    marginal = '30%';
+  }
+
+  const net = income - tax;
+  const effRate = income > 0 ? (tax / income * 100) : 0;
+
+  document.getElementById('r-tax').textContent = formatMoney(tax) + '\u00A0₽';
+  document.getElementById('r-net').textContent = formatMoney(net) + '\u00A0₽';
+  document.getElementById('r-effrate').textContent = effRate.toFixed(1).replace('.', ',') + '%';
+  document.getElementById('r-monthly-tax').textContent = formatMoney(tax/12) + '\u00A0₽';
+  document.getElementById('r-marginal').textContent = marginal;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const incomeEl = document.getElementById('income');
+  attachThousandsInput(incomeEl);
+  incomeEl.addEventListener('input', recalcNdfl);
+  document.querySelectorAll('input[name="residency"]').forEach(r => r.addEventListener('change', recalcNdfl));
+  recalcNdfl();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

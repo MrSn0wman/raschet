@@ -1,0 +1,148 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function annuityLoan(principal, annualRatePercent, months){
+  const i = (annualRatePercent/100)/12;
+  let monthlyPayment;
+  if (i === 0) monthlyPayment = principal/months;
+  else {
+    const factor = Math.pow(1+i, months);
+    monthlyPayment = principal * (i*factor)/(factor-1);
+  }
+  const totalPayment = monthlyPayment*months;
+  return { monthlyPayment, totalPayment, totalInterest: totalPayment-principal };
+}
+
+function renderChart(principal, interest, total){
+  const c1 = document.getElementById('a-chart-a');
+  const c2 = document.getElementById('a-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (principal / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('a-legend-a').textContent = formatMoney(principal) + '\u00A0₽';
+  document.getElementById('a-legend-b').textContent = formatMoney(interest) + '\u00A0₽';
+}
+
+let carShowAll = false;
+let carSchedule = [];
+
+function buildCarSchedule(principal, rate, months, monthlyPayment){
+  const rows = [];
+  let balance = principal;
+  const i = rate / 100 / 12;
+  for (let m = 1; m <= months; m++){
+    const interest = balance * i;
+    let body = monthlyPayment - interest;
+    if (body > balance) body = balance;
+    balance = Math.max(0, balance - body);
+    rows.push({ m: m, pay: interest + body, interest: interest, body: body, balance: balance });
+    if (balance <= 0) break;
+  }
+  return rows;
+}
+
+function renderCarSchedule(){
+  const tbody = document.getElementById('car-schedule');
+  const toggleBtn = document.getElementById('car-schedule-toggle');
+  if (!tbody) return;
+  const rows = carShowAll ? carSchedule : carSchedule.slice(0, 12);
+  tbody.innerHTML = rows.map(function(r){
+    return '<tr><td>' + r.m + '</td><td>' + formatMoney(r.pay) + '</td><td>' +
+           formatMoney(r.interest) + '</td><td>' + formatMoney(r.body) + '</td><td>' +
+           formatMoney(r.balance) + '</td></tr>';
+  }).join('');
+  if (toggleBtn){
+    toggleBtn.style.display = carSchedule.length > 12 ? '' : 'none';
+    toggleBtn.querySelector('span').textContent = carShowAll
+      ? 'Свернуть график'
+      : 'Показать весь график (' + carSchedule.length + ' мес.)';
+  }
+}
+
+function recalcCarLoan(){
+  const priceEl = document.getElementById('car-price');
+  const downEl = document.getElementById('down-payment');
+  const tradeEl = document.getElementById('trade-in');
+  const rateEl = document.getElementById('rate');
+  const termEl = document.getElementById('term');
+  const errEl = document.getElementById('err');
+
+  const price = parseFormattedNumber(priceEl);
+  const down = parseFormattedNumber(downEl);
+  const trade = parseFormattedNumber(tradeEl);
+  const rate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const term = parseFormattedNumber(termEl);
+
+  const principal = price - down - trade;
+
+  if (isNaN(price) || price <= 0 || isNaN(down) || down < 0 || isNaN(trade) || trade < 0 ||
+      isNaN(rate) || rate < 0 || isNaN(term) || term <= 0 || principal <= 0){
+    errEl.style.display = 'block';
+    ['r-payment','r-loan-amount','r-overpay','r-total'].forEach(id => document.getElementById(id).textContent = '—');
+    carSchedule = [];
+    carShowAll = false;
+    renderCarSchedule();
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const result = annuityLoan(principal, rate, term);
+
+  document.getElementById('r-payment').textContent = formatMoney(result.monthlyPayment) + '\u00A0₽';
+  document.getElementById('r-loan-amount').textContent = formatMoney(principal) + '\u00A0₽';
+  document.getElementById('r-overpay').textContent = formatMoney(result.totalInterest) + '\u00A0₽';
+  document.getElementById('r-total').textContent = formatMoney(result.totalPayment) + '\u00A0₽';
+  renderChart(principal, result.totalInterest, result.totalPayment);
+  // кламп срока: максимум 600 строк помесячного графика
+  const monthsInt = Math.min(Math.max(Math.round(term), 1), 600);
+  carSchedule = buildCarSchedule(principal, rate, monthsInt, result.monthlyPayment);
+  carShowAll = false;
+  renderCarSchedule();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('car-price'), document.getElementById('down-payment'),
+   document.getElementById('trade-in'), document.getElementById('rate'), document.getElementById('term')
+  ].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcCarLoan);
+  });
+  const carToggle = document.getElementById('car-schedule-toggle');
+  if (carToggle){
+    carToggle.addEventListener('click', function(){
+      var blk = this.closest('.schedule-block');
+      var anchorTop = carShowAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
+      carShowAll = !carShowAll;
+      blk.classList.toggle('expanded', carShowAll);
+      renderCarSchedule();
+      // при сворачивании возвращаем к началу графика, а не роняем в подвал
+      if (!carShowAll && window.scrollY > anchorTop - 80){
+        window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+      }
+    });
+  }
+  recalcCarLoan();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

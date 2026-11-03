@@ -9,6 +9,7 @@ import logging
 import os
 import re
 import smtplib
+import ssl
 import time
 from email.message import EmailMessage
 from typing import Optional
@@ -55,6 +56,7 @@ class FeedbackIn(BaseModel):
 def _save(item: FeedbackIn, ip_hash: str) -> int:
     conn = db.connect()
     try:
+        db.purge_expired_feedback(conn)
         cur = conn.execute(
             "INSERT INTO feedback (created_at, name, email, topic, message, page, ip_hash) "
             "VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -126,15 +128,17 @@ def _send_mail(item: FeedbackIn) -> None:
     )
     msg.set_content(body)
 
+    # Проверяем сертификат и имя SMTP-сервера в обеих TLS-ветках.
+    tls_context = ssl.create_default_context()
     if port == 465:
-        with smtplib.SMTP_SSL(host, port, timeout=15) as smtp:
+        with smtplib.SMTP_SSL(host, port, timeout=15, context=tls_context) as smtp:
             if user:
                 smtp.login(user, password)
             smtp.send_message(msg)
     else:
         with smtplib.SMTP(host, port, timeout=15) as smtp:
             smtp.ehlo()
-            smtp.starttls()
+            smtp.starttls(context=tls_context)
             if user:
                 smtp.login(user, password)
             smtp.send_message(msg)

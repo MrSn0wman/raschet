@@ -1,0 +1,58 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcVacationPay(){
+  const incomeEl = document.getElementById('annual-income');
+  const daysEl = document.getElementById('vacation-days');
+  const mrotEl = document.getElementById('mrot');
+  const errEl = document.getElementById('err');
+
+  const income = parseFormattedNumber(incomeEl);
+  const days = parseFormattedNumber(daysEl);
+  const mrot = parseFormattedNumber(mrotEl);
+
+  if (isNaN(income) || income < 0 || isNaN(days) || days <= 0 || isNaN(mrot) || mrot < 0){
+    errEl.style.display = 'block';
+    ['r-pay','r-sdz','r-min-sdz','r-note'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const sdz = income / 12 / 29.3;
+  const minSdz = mrot / 29.3;
+  const effectiveSdz = Math.max(sdz, minSdz);
+  const pay = effectiveSdz * days;
+
+  document.getElementById('r-pay').textContent = formatMoney(pay) + '\u00A0₽';
+  document.getElementById('r-sdz').textContent = formatMoney2(sdz) + '\u00A0₽';
+  document.getElementById('r-min-sdz').textContent = formatMoney2(minSdz) + '\u00A0₽';
+  document.getElementById('r-note').textContent = sdz >= minSdz ? 'Фактический заработок' : 'Минимум по МРОТ';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('annual-income'), document.getElementById('vacation-days'), document.getElementById('mrot')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcVacationPay);
+  });
+  recalcVacationPay();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

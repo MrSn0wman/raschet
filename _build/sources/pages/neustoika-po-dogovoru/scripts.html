@@ -1,0 +1,67 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function contractPenalty(debt, dailyRatePercent, days, capPercent){
+  const raw = debt * (dailyRatePercent/100) * days;
+  if (capPercent && capPercent > 0){
+    const cap = debt * (capPercent/100);
+    return { amount: Math.min(raw, cap), raw, capped: raw > cap };
+  }
+  return { amount: raw, raw, capped: false };
+}
+
+function recalcContractPenalty(){
+  const debtEl = document.getElementById('debt');
+  const rateEl = document.getElementById('daily-rate');
+  const daysEl = document.getElementById('days');
+  const capEl = document.getElementById('cap');
+  const errEl = document.getElementById('err');
+
+  const debt = parseFormattedNumber(debtEl);
+  const rate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const days = parseFormattedNumber(daysEl);
+  const cap = parseFloat(String(capEl.value).replace(',', '.')) || 0;
+
+  if (isNaN(debt) || debt <= 0 || isNaN(rate) || rate < 0 || isNaN(days) || days <= 0){
+    errEl.style.display = 'block';
+    ['r-penalty','r-raw','r-note'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const result = contractPenalty(debt, rate, days, cap);
+
+  document.getElementById('r-penalty').textContent = formatMoney(result.amount) + '\u00A0₽';
+  document.getElementById('r-raw').textContent = formatMoney(result.raw) + '\u00A0₽';
+  document.getElementById('r-note').textContent = result.capped ? 'Да, сумма ограничена лимитом' : (cap > 0 ? 'Нет, лимит не достигнут' : 'Лимит не задан');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('debt'), document.getElementById('days')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcContractPenalty);
+  });
+  document.getElementById('daily-rate').addEventListener('input', recalcContractPenalty);
+  document.getElementById('cap').addEventListener('input', recalcContractPenalty);
+  recalcContractPenalty();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

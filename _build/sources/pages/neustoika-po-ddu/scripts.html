@@ -1,0 +1,61 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function dduPenalty(contractPrice, keyRatePercent, days, isIndividual){
+  const divisor = isIndividual ? 150 : 300;
+  return contractPrice * (keyRatePercent/100/divisor) * days;
+}
+
+function recalcDduPenalty(){
+  const priceEl = document.getElementById('price');
+  const rateEl = document.getElementById('key-rate');
+  const daysEl = document.getElementById('days');
+  const errEl = document.getElementById('err');
+  const isIndividual = document.querySelector('input[name="participant-type"]:checked').value === 'individual';
+
+  const price = parseFormattedNumber(priceEl);
+  const rate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const days = parseFormattedNumber(daysEl);
+
+  if (isNaN(price) || price <= 0 || isNaN(rate) || rate < 0 || isNaN(days) || days <= 0){
+    errEl.style.display = 'block';
+    ['r-penalty','r-rate-note'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const penalty = dduPenalty(price, rate, days, isIndividual);
+
+  document.getElementById('r-penalty').textContent = formatMoney(penalty) + '\u00A0₽';
+  document.getElementById('r-rate-note').textContent = isIndividual ? '1/150 ключевой ставки' : '1/300 ключевой ставки';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('price'), document.getElementById('days')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcDduPenalty);
+  });
+  document.getElementById('key-rate').addEventListener('input', recalcDduPenalty);
+  document.querySelectorAll('input[name="participant-type"]').forEach(r => r.addEventListener('change', recalcDduPenalty));
+  recalcDduPenalty();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

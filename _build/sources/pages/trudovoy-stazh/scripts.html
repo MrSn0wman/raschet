@@ -1,0 +1,144 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+let periodId = 0;
+
+function addPeriodRow(startVal, endVal){
+  periodId++;
+  const id = periodId;
+  const wrap = document.getElementById('periods-wrap');
+  const row = document.createElement('div');
+  row.className = 'period-row';
+  row.dataset.id = id;
+  row.innerHTML =
+    '<div class="field"><label>Начало работы</label><input type="date" class="period-start" value="' + (startVal||'') + '"></div>' +
+    '<div class="field"><label>Окончание (пусто — по сегодня)</label><input type="date" class="period-end" value="' + (endVal||'') + '"></div>' +
+    '<button type="button" class="period-remove" aria-label="Удалить период">✕</button>';
+  wrap.appendChild(row);
+  row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', recalcExperience));
+  row.querySelector('.period-remove').addEventListener('click', () => {
+    row.remove();
+    recalcExperience();
+  });
+}
+
+function dateDiffInclusive(startStr, endStr){
+  const start = new Date(startStr + 'T00:00:00');
+  const end = new Date(endStr + 'T00:00:00');
+  if (end < start) return null;
+  const totalDays = Math.round((end - start) / 86400000) + 1;
+  return totalDays;
+}
+
+function daysToYMD(totalDays){
+  // переводим суммарные дни обратно в года/месяцы/дни, отталкиваясь от условного месяца в 30.44 дня
+  let years = Math.floor(totalDays / 365.25);
+  let remDays = totalDays - Math.round(years * 365.25);
+  let months = Math.floor(remDays / 30.44);
+  let days = Math.round(remDays - months * 30.44);
+  if (days >= 30){ months += 1; days -= 30; }
+  if (months >= 12){ years += 1; months -= 12; }
+  if (days < 0) days = 0;
+  return {years, months, days};
+}
+
+function recalcExperience(){
+  const rows = document.querySelectorAll('.period-row');
+  const errEl = document.getElementById('err');
+  let totalDays = 0;
+  let validCount = 0;
+  let hasError = false;
+
+  const today = new Date().toISOString().slice(0,10);
+
+  rows.forEach(row => {
+    const startEl = row.querySelector('.period-start');
+    const endEl = row.querySelector('.period-end');
+    const startVal = startEl.value;
+    const endVal = endEl.value || today;
+    if (!startVal) return;
+    const diff = dateDiffInclusive(startVal, endVal);
+    if (diff === null){
+      hasError = true;
+      return;
+    }
+    totalDays += diff;
+    validCount++;
+  });
+
+  if (hasError){
+    errEl.style.display = 'block';
+    document.getElementById('r-total').textContent = '—';
+    document.getElementById('r-days').textContent = '—';
+    document.getElementById('r-periods-count').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  if (validCount === 0){
+    document.getElementById('r-total').textContent = '—';
+    document.getElementById('r-days').textContent = '—';
+    document.getElementById('r-periods-count').textContent = '0';
+    return;
+  }
+
+  const ymd = daysToYMD(totalDays);
+  const yLabel = ymd.years + ' ' + pluralYears(ymd.years);
+  const mLabel = ymd.months + ' ' + pluralMonths(ymd.months);
+  const dLabel = ymd.days + ' ' + pluralDays(ymd.days);
+
+  document.getElementById('r-total').textContent = yLabel + ' ' + mLabel + ' ' + dLabel;
+  document.getElementById('r-days').textContent = totalDays.toLocaleString('ru-RU');
+  document.getElementById('r-periods-count').textContent = String(validCount);
+}
+
+function pluralYears(n){
+  const n10 = n % 10, n100 = n % 100;
+  if (n100 >= 11 && n100 <= 14) return 'лет';
+  if (n10 === 1) return 'год';
+  if (n10 >= 2 && n10 <= 4) return 'года';
+  return 'лет';
+}
+function pluralMonths(n){
+  const n10 = n % 10, n100 = n % 100;
+  if (n100 >= 11 && n100 <= 14) return 'месяцев';
+  if (n10 === 1) return 'месяц';
+  if (n10 >= 2 && n10 <= 4) return 'месяца';
+  return 'месяцев';
+}
+function pluralDays(n){
+  const n10 = n % 10, n100 = n % 100;
+  if (n100 >= 11 && n100 <= 14) return 'дней';
+  if (n10 === 1) return 'день';
+  if (n10 >= 2 && n10 <= 4) return 'дня';
+  return 'дней';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date();
+  const fiveYearsAgo = new Date(today);
+  fiveYearsAgo.setFullYear(fiveYearsAgo.getFullYear() - 5);
+  addPeriodRow(fiveYearsAgo.toISOString().slice(0,10), '');
+  document.getElementById('add-period').addEventListener('click', () => addPeriodRow('', ''));
+  recalcExperience();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

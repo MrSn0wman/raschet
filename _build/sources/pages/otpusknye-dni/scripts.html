@@ -1,0 +1,116 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function dateDiffYMD(startStr, endStr){
+  const start = new Date(startStr + 'T00:00:00');
+  const end = new Date(endStr + 'T00:00:00');
+  let years = end.getFullYear() - start.getFullYear();
+  let months = end.getMonth() - start.getMonth();
+  let days = end.getDate() - start.getDate();
+  if (days < 0){
+    months -= 1;
+    const prevMonth = new Date(end.getFullYear(), end.getMonth(), 0);
+    days += prevMonth.getDate();
+  }
+  if (months < 0){
+    years -= 1;
+    months += 12;
+  }
+  return {years, months, days};
+}
+
+function recalcVacationDays(){
+  const startEl = document.getElementById('start-date');
+  const calcEl = document.getElementById('calc-date');
+  const normEl = document.getElementById('annual-norm');
+  const usedEl = document.getElementById('used-days');
+  const errEl = document.getElementById('err');
+
+  const startVal = startEl.value;
+  const calcVal = calcEl.value;
+  const norm = parseFormattedNumber(normEl);
+  const used = parseFormattedNumber(usedEl) || 0;
+
+  if (!startVal || !calcVal || isNaN(norm) || norm <= 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-remaining').textContent = '—';
+    document.getElementById('r-months').textContent = '—';
+    document.getElementById('r-accrued').textContent = '—';
+    return;
+  }
+
+  const start = new Date(startVal + 'T00:00:00');
+  const calc = new Date(calcVal + 'T00:00:00');
+  if (calc < start){
+    errEl.style.display = 'block';
+    document.getElementById('r-remaining').textContent = '—';
+    document.getElementById('r-months').textContent = '—';
+    document.getElementById('r-accrued').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const d = dateDiffYMD(startVal, calcVal);
+  let totalMonths = d.years * 12 + d.months;
+  if (d.days >= 15) totalMonths += 1;
+
+  const dailyRate = norm / 12;
+  const accrued = Math.floor(totalMonths * dailyRate + 1e-9);
+  const remaining = accrued - used;
+
+  document.getElementById('r-remaining').textContent = remaining + ' ' + pluralDays(remaining);
+  document.getElementById('r-months').textContent = totalMonths + ' ' + pluralMonths(totalMonths);
+  document.getElementById('r-accrued').textContent = accrued + ' ' + pluralDays(accrued);
+}
+
+function pluralMonths(n){
+  const n10 = n % 10, n100 = n % 100;
+  if (n100 >= 11 && n100 <= 14) return 'месяцев';
+  if (n10 === 1) return 'месяц';
+  if (n10 >= 2 && n10 <= 4) return 'месяца';
+  return 'месяцев';
+}
+function pluralDays(n){
+  const n10 = n % 10, n100 = n % 100;
+  if (n100 >= 11 && n100 <= 14) return 'дней';
+  if (n10 === 1) return 'день';
+  if (n10 >= 2 && n10 <= 4) return 'дня';
+  return 'дней';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date();
+  const oneYearAgo = new Date(today);
+  oneYearAgo.setFullYear(oneYearAgo.getFullYear() - 1);
+  document.getElementById('start-date').value = oneYearAgo.toISOString().slice(0,10);
+  document.getElementById('calc-date').value = today.toISOString().slice(0,10);
+
+  [document.getElementById('annual-norm'), document.getElementById('used-days')].forEach(el => attachThousandsInput(el));
+
+  document.getElementById('start-date').addEventListener('input', recalcVacationDays);
+  document.getElementById('calc-date').addEventListener('input', recalcVacationDays);
+  document.getElementById('annual-norm').addEventListener('input', recalcVacationDays);
+  document.getElementById('used-days').addEventListener('input', recalcVacationDays);
+
+  recalcVacationDays();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

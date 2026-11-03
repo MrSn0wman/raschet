@@ -1,0 +1,97 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var MAP = {
+    'а':'a', 'б':'b', 'в':'v', 'г':'g', 'д':'d', 'е':'e', 'ё':'e', 'ж':'zh',
+    'з':'z', 'и':'i', 'й':'y', 'к':'k', 'л':'l', 'м':'m', 'н':'n', 'о':'o',
+    'п':'p', 'р':'r', 'с':'s', 'т':'t', 'у':'u', 'ф':'f', 'х':'kh', 'ц':'ts',
+    'ч':'ch', 'ш':'sh', 'щ':'shch', 'ъ':'', 'ы':'y', 'ь':'', 'э':'e', 'ю':'yu', 'я':'ya'
+  };
+
+  var inEl = document.getElementById('tr-in');
+  var outEl = document.getElementById('tr-out');
+  var slugEl = document.getElementById('tr-slug');
+  var copyBtn = document.getElementById('tr-copy');
+
+  function copyText(text, btn){
+    function done(){
+      if (!btn) return;
+      var prev = btn.textContent;
+      btn.textContent = 'Скопировано!';
+      setTimeout(function(){ btn.textContent = prev; }, 1500);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  function translit(text){
+    var out = '';
+    for (var i = 0; i < text.length; i++){
+      var ch = text.charAt(i);
+      var low = ch.toLowerCase();
+      if (Object.prototype.hasOwnProperty.call(MAP, low)){
+        var rep = MAP[low];
+        if (ch !== low && rep !== '') rep = rep.charAt(0).toUpperCase() + rep.slice(1);
+        out += rep;
+      } else {
+        out += ch;
+      }
+    }
+    return out;
+  }
+
+  function toSlug(text){
+    return translit(text).toLowerCase()
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/-{2,}/g, '-')
+      .replace(/^-+|-+$/g, '');
+  }
+
+  function render(){
+    var src = inEl.value;
+    outEl.value = slugEl.checked ? toSlug(src) : translit(src);
+  }
+
+  copyBtn.addEventListener('click', function(){ copyText(outEl.value, copyBtn); });
+  inEl.addEventListener('input', render);
+  slugEl.addEventListener('change', render);
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

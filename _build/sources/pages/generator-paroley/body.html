@@ -1,0 +1,108 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#tools">Инструменты</a> / Генератор паролей
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Генератор паролей</h1>
+          <p class="calc-sub">Пароль создаётся прямо в браузере и никуда не отправляется.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="length">Длина пароля: <span id="length-val">16</span> символов</label>
+              <input type="range" id="length" min="6" max="64" value="16" style="width:100%;">
+            </div>
+          </div>
+
+          <div class="field-grid" style="margin-top:6px;">
+            <label style="display:flex; align-items:center; gap:8px; font-weight:400; cursor:pointer;">
+              <input type="checkbox" id="use-upper" checked style="width:18px; height:18px; margin:0;">
+              <span>Заглавные буквы (A-Z)</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-weight:400; cursor:pointer;">
+              <input type="checkbox" id="use-lower" checked style="width:18px; height:18px; margin:0;">
+              <span>Строчные буквы (a-z)</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-weight:400; cursor:pointer;">
+              <input type="checkbox" id="use-digits" checked style="width:18px; height:18px; margin:0;">
+              <span>Цифры (0-9)</span>
+            </label>
+            <label style="display:flex; align-items:center; gap:8px; font-weight:400; cursor:pointer;">
+              <input type="checkbox" id="use-symbols" checked style="width:18px; height:18px; margin:0;">
+              <span>Символы (!@#$...)</span>
+            </label>
+          </div>
+
+          <button type="button" class="add-num-btn" id="generate-btn" style="cursor:pointer; margin-top:16px;">Сгенерировать новый пароль</button>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Пароль</div>
+            <div class="pw-display" id="r-password">—</div>
+            <button type="button" class="copy-btn" id="copy-btn">Скопировать</button>
+            <div class="r-rows" style="margin-top:14px;">
+              <div><b id="r-strength">—</b><span>Надёжность</span></div>
+              <div><b id="r-entropy">—</b><span>Энтропия (бит)</span></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Выберите хотя бы один набор символов</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как сгенерировать надёжный пароль</h2>
+<p>Выберите длину (от 6 до 64 символов), отметьте наборы знаков — заглавные и строчные буквы, цифры, спецсимволы — и нажмите кнопку. Пароль создаётся прямо в вашем браузере через crypto.getRandomValues, встроенный криптографический генератор случайных чисел. На сервер ничего не отправляется: готовый пароль знаете только вы.</p>
+<p>Надёжность пароля измеряется энтропией — количеством бит случайности. Она считается по формуле:</p>
+<p><code>энтропия (бит) = длина пароля × log2(размер набора символов)</code></p>
+<p>Каждый включённый набор расширяет алфавит: строчные буквы дают 26 знаков, заглавные ещё 26, цифры — 10, спецсимволы — около 30. Со всеми четырьмя наборами алфавит вырастает примерно до 94 знаков, а это почти 6,5 бита на каждый символ пароля. Рядом с готовым паролем сервис показывает его энтропию — по ней сразу видно, хватает ли запаса прочности.</p>
+<p>Выбрать нужно хотя бы один набор — иначе генерировать не из чего. Если сервис, для которого вы делаете пароль, не принимает спецсимволы, просто снимите эту галочку и компенсируйте потерю длиной: 20 знаков из букв и цифр надёжнее, чем 12 со спецсимволами.</p>
+<p>Пример: пароль из восьми строчных букв — это 26⁸ вариантов, около 38 бит энтропии. Современный компьютер переберёт такие пароли за часы. Пароль длиной 16 символов из полного набора — уже около 105 бит: чтобы перебрать все варианты, миллиарду компьютеров понадобится больше времени, чем существует Вселенная. Вывод простой: длина решает больше всего, а наборы символов усиливают каждый знак.</p>
+<h3>Почему генерация происходит в браузере</h3>
+<p>Генератор работает локально, без сетевых запросов: crypto.getRandomValues выдаёт криптографически стойкие случайные числа прямо на вашем устройстве, а не предсказуемые значения обычного random(). Пароль не передаётся на сервер, не записывается в логи и не сохраняется. Для полной уверенности можно отключить интернет после загрузки страницы — генерация продолжит работать.</p>
+<h3>Почему не стоит придумывать пароль самому</h3>
+<p>Человек предсказуем: мы берём имена, даты, слова из словаря и добавляем пару цифр в конец. Такие пароли взламывают не перебором, а по словарям утечек и типовых шаблонов — за секунды. Машинная случайность таких шаблонов не даёт: в сгенерированном пароле нет смысла, который можно угадать.</p>
+<h3>Как работает оценка надёжности</h3>
+<p>Под полем результата сервис показывает энтропию сгенерированного пароля в битах. Ориентиры простые: меньше 50 бит — слабый пароль, его переберут быстро; 60–80 бит — нормально для обычных сайтов; от 80 бит — надёжный запас для почты, банка и менеджера паролей. Меняйте длину и наборы и смотрите, как растёт число.</p>
+<h3>Какой длины достаточно</h3>
+<p>Минимум для важных аккаунтов — 12–16 символов. Почта и банк заслуживают 16–20. Пароль короче восьми символов не защищает почти ничего, какой бы набор знаков вы ни выбрали: перебор такой длины занимает минуты.</p>
+<h3>Как не потерять сгенерированный пароль</h3>
+<p>Длинный случайный пароль не запомнить — и не нужно. Сохраните его в менеджере паролей: он зашифрует базу и подставит пароль при входе. Не храните пароли в заметках на телефоне и в открытых текстовых файлах. Главные правила остаются прежними: один пароль — один сайт, а на почту и банк добавьте двухфакторную защиту.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Какой длины должен быть надёжный пароль?</summary><p>Для большинства сервисов рекомендуется пароль длиной не менее 12–16 символов, включающий заглавные и строчные буквы, цифры и спецсимволы.</p></details>
+<details><summary>Безопасно ли генерировать пароли на сайте?</summary><p>Пароль создаётся прямо в вашем браузере и никуда не отправляется — на сервер сайта не передаётся ни один сгенерированный пароль.</p></details>
+<details><summary>Что такое энтропия пароля?</summary><p>Это мера случайности в битах: сколько вариантов придётся перебрать злоумышленнику. Энтропия растёт с длиной пароля и размером набора символов.</p></details>
+<details><summary>Зачем добавлять спецсимволы?</summary><p>Они расширяют алфавит, из которого выбирается каждый знак, и поднимают энтропию. Но короткий пароль со спецсимволами всё равно слабее длинного без них.</p></details>
+<details><summary>Можно ли использовать один пароль на разных сайтах?</summary><p>Нельзя: при утечке базы одного сервиса под угрозой окажутся все аккаунты. Генерируйте отдельный пароль для каждого сайта.</p></details>
+<details><summary>Как запомнить случайный пароль?</summary><p>Никак: длинные случайные пароли хранят в менеджере паролей. Он зашифрует базу и подставит нужный пароль на сайте автоматически.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../generator-promokodov/">Генератор промокодов</a>
+          <a class="related-link" href="../sluchaynye-chisla/">Случайные числа</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,55 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const POINT_VALUE_2026 = 156.76;
+const FIXED_2026 = 9584.69;
+
+function recalcPension(){
+  const ipkEl = document.getElementById('ipk');
+  const northernEl = document.getElementById('northern');
+  const errEl = document.getElementById('err');
+
+  const ipk = parseFloat(String(ipkEl.value).replace(',', '.'));
+  const northern = northernEl.checked;
+
+  if (isNaN(ipk) || ipk < 0){
+    errEl.style.display = 'block';
+    ['r-pension','r-points-part','r-fixed-part'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const pointsPart = ipk * POINT_VALUE_2026;
+  const fixedPart = northern ? FIXED_2026 * 1.5 : FIXED_2026;
+  const total = pointsPart + fixedPart;
+
+  document.getElementById('r-pension').textContent = formatMoney(total) + '\u00A0₽';
+  document.getElementById('r-points-part').textContent = formatMoney(pointsPart) + '\u00A0₽';
+  document.getElementById('r-fixed-part').textContent = formatMoney(fixedPart) + '\u00A0₽';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('ipk').addEventListener('input', recalcPension);
+  document.getElementById('northern').addEventListener('change', recalcPension);
+  recalcPension();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

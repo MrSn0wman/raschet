@@ -1,0 +1,129 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function renderChart(principal, interest, total){
+  const c1 = document.getElementById('z-chart-a');
+  const c2 = document.getElementById('z-chart-b');
+  if (!c1 || !c2 || !(total > 0)) return;
+  const p = Math.max(0, Math.min(100, (principal / total) * 100));
+  const o = 100 - p;
+  c1.setAttribute('stroke-dasharray', p.toFixed(2) + ' ' + o.toFixed(2));
+  c2.setAttribute('stroke-dasharray', o.toFixed(2) + ' ' + p.toFixed(2));
+  c2.setAttribute('stroke-dashoffset', (25 - p).toFixed(2));
+  document.getElementById('z-legend-a').textContent = formatMoney(principal) + '\u00A0₽';
+  document.getElementById('z-legend-b').textContent = formatMoney(interest) + '\u00A0₽';
+}
+
+// График нарастания долга: простые проценты за дни, единое погашение в конце срока.
+// Период — неделя при сроке до 90 дней, месяц (30 дней) — при более длинном.
+let zSchedule = [];
+let zShowAll = false;
+
+function buildGrowthSchedule(accruedFn, principal, days){
+  days = Math.min(Math.max(Math.round(days), 1), 1825);
+  const step = days <= 90 ? 7 : 30;
+  const n = Math.max(1, Math.ceil(days / step));
+  const rows = [];
+  let prevCum = 0;
+  for (let k = 1; k <= n; k++){
+    const cum = Math.round(accruedFn(Math.min(days, k * step)));
+    rows.push({
+      label: k === n ? 'Погашение' : (step === 7 ? 'Нед. ' : 'Мес. ') + k,
+      period: cum - prevCum,
+      cum: cum,
+      debt: principal + cum
+    });
+    prevCum = cum;
+  }
+  return rows;
+}
+
+function renderZSchedule(){
+  const tbody = document.getElementById('z-schedule');
+  const toggleBtn = document.getElementById('z-schedule-toggle');
+  if (!tbody) return;
+  const rows = zShowAll ? zSchedule : zSchedule.slice(0, 12);
+  tbody.innerHTML = rows.map(function(r){
+    return '<tr><td>' + r.label + '</td><td>' + formatMoney(r.period) + '</td><td>' +
+           formatMoney(r.cum) + '</td><td>' + formatMoney(r.debt) + '</td></tr>';
+  }).join('');
+  if (toggleBtn){
+    toggleBtn.style.display = zSchedule.length > 12 ? '' : 'none';
+    toggleBtn.querySelector('span').textContent = zShowAll
+      ? 'Свернуть график'
+      : 'Показать весь график (' + zSchedule.length + ' периодов)';
+  }
+}
+
+function recalcMicroloan(){
+  const principalEl = document.getElementById('principal');
+  const rateEl = document.getElementById('daily-rate');
+  const daysEl = document.getElementById('days');
+  const errEl = document.getElementById('err');
+
+  const principal = parseFormattedNumber(principalEl);
+  const dailyRate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const days = parseFormattedNumber(daysEl);
+
+  if (isNaN(principal) || principal <= 0 || isNaN(dailyRate) || dailyRate < 0 || isNaN(days) || days <= 0){
+    errEl.style.display = 'block';
+    ['r-total','r-interest','r-annual','r-capped'].forEach(id => document.getElementById(id).textContent = '—');
+    zSchedule = [];
+    zShowAll = false;
+    renderZSchedule();
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const rawInterest = principal * (dailyRate/100) * days;
+  const cap = principal * 1.0; // лимит переплаты 100% с 1 апреля 2026
+  const interest = Math.min(rawInterest, cap);
+  const total = principal + interest;
+  const annualEquivalent = dailyRate * 365;
+
+  document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+  document.getElementById('r-interest').textContent = formatMoney(interest) + '\u00A0₽';
+  document.getElementById('r-annual').textContent = annualEquivalent.toFixed(0) + '% годовых';
+  document.getElementById('r-capped').textContent = rawInterest > cap ? 'Применён (проценты превысили лимит)' : 'Не достигнут';
+  renderChart(principal, interest, total);
+  zSchedule = buildGrowthSchedule(function(d){ return Math.min(principal * (dailyRate/100) * d, cap); }, principal, days);
+  zShowAll = false;
+  renderZSchedule();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('principal'), document.getElementById('days')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcMicroloan);
+  });
+  document.getElementById('daily-rate').addEventListener('input', recalcMicroloan);
+  const zToggle = document.getElementById('z-schedule-toggle');
+  if (zToggle) zToggle.addEventListener('click', () => {
+    const blk = zToggle.closest('.schedule-block');
+    const anchorTop = zShowAll ? blk.getBoundingClientRect().top + window.scrollY : 0;
+    zShowAll = !zShowAll; blk.classList.toggle('expanded', zShowAll); renderZSchedule();
+    // при сворачивании возвращаем к началу графика, а не роняем в подвал
+    if (!zShowAll && window.scrollY > anchorTop - 80) window.scrollTo({ top: Math.max(anchorTop - 80, 0), behavior: 'smooth' });
+  });
+  recalcMicroloan();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

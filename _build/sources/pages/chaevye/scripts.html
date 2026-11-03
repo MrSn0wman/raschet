@@ -1,0 +1,56 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcTip(){
+  const billEl = document.getElementById('bill');
+  const tipEl = document.getElementById('tip-percent');
+  const peopleEl = document.getElementById('people');
+  const errEl = document.getElementById('err');
+
+  const bill = parseFormattedNumber(billEl);
+  const tipPercent = parseFloat(String(tipEl.value).replace(',', '.'));
+  const people = parseInt(peopleEl.value, 10);
+
+  if (isNaN(bill) || bill < 0 || isNaN(tipPercent) || tipPercent < 0 || isNaN(people) || people <= 0){
+    errEl.style.display = 'block';
+    ['r-per-person','r-tip','r-total'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const tip = bill * (tipPercent/100);
+  const total = bill + tip;
+  const perPerson = total / people;
+
+  document.getElementById('r-per-person').textContent = formatMoney(perPerson) + '\u00A0₽';
+  document.getElementById('r-tip').textContent = formatMoney(tip) + '\u00A0₽';
+  document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  attachThousandsInput(document.getElementById('bill'));
+  document.getElementById('bill').addEventListener('input', recalcTip);
+  document.getElementById('tip-percent').addEventListener('input', recalcTip);
+  document.getElementById('people').addEventListener('input', recalcTip);
+  recalcTip();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

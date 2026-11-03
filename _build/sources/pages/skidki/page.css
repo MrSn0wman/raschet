@@ -1,0 +1,7 @@
+
+/* --- страничные стили --- */
+.disc-row{ display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; margin-bottom:10px; }
+.disc-remove{ height:44px; width:44px; border:1px solid var(--line); background:var(--surface); border-radius:8px; color:var(--ink-soft); cursor:pointer; }
+.disc-remove:hover{ color:#b23b3b; border-color:#b23b3b; }
+.add-disc-btn{ display:inline-flex; align-items:center; gap:6px; background:var(--surface-2); border:1px dashed var(--line); border-radius:8px; padding:9px 14px; font-size:.88rem; color:var(--ink); cursor:pointer; margin-bottom:20px; }
+.add-disc-btn:hover{ border-color:var(--accent); color:var(--accent); }

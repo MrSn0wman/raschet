@@ -1,0 +1,785 @@
+{
+  "version": 1,
+  "pages": [
+    {
+      "path": "404.html",
+      "source": "not-found",
+      "sha256": "28df51096868520038251f575e8abdf954472a044df0446ab7faaaba5a63d214",
+      "calculator": false
+    },
+    {
+      "path": "about/index.html",
+      "source": "about",
+      "sha256": "f591134b049cc3c4b052baa2b2f3f9bdef35a237d0a59ade30652fa6789eff16",
+      "calculator": false
+    },
+    {
+      "path": "advertising/index.html",
+      "source": "advertising",
+      "sha256": "3ca8fcd781e0f55733bb11fbef0efb2ba4c23a93fb2b69de0e86136a37130044",
+      "calculator": false
+    },
+    {
+      "path": "avtokredit/index.html",
+      "source": "avtokredit",
+      "sha256": "560a18f06fa259b142dda1851c65e0fc56c6ca11692f31350ec5b5272ca84af2",
+      "calculator": true
+    },
+    {
+      "path": "bolnichnyy/index.html",
+      "source": "bolnichnyy",
+      "sha256": "3967c8cadb54cdc1b6fba00350a09fb7532b518d5d1e77411b1acebebe5d851a",
+      "calculator": true
+    },
+    {
+      "path": "chaevye/index.html",
+      "source": "chaevye",
+      "sha256": "d437e48724dd077e394687a81ea108a0c97d4a3f41678315b7f1773ee3639cab",
+      "calculator": true
+    },
+    {
+      "path": "chasovye-poyasa/index.html",
+      "source": "chasovye-poyasa",
+      "sha256": "821649299c5dea888c9bd37ffb86ff0a7798bc36ef620babe3145b5596a2c203",
+      "calculator": true
+    },
+    {
+      "path": "dekretnye/index.html",
+      "source": "dekretnye",
+      "sha256": "2de46f41f3ec9bc35c9cd1cefb651027a27625008f85234156040b072ac7a3a7",
+      "calculator": true
+    },
+    {
+      "path": "dni/index.html",
+      "source": "dni",
+      "sha256": "5d0a7eab0a8596780ecd6d30b20fe007959564f3f7347ca8266c0d8f55244b5b",
+      "calculator": true
+    },
+    {
+      "path": "doli-po-materinskomu-kapitalu/index.html",
+      "source": "doli-po-materinskomu-kapitalu",
+      "sha256": "ea1ebe7f944528c1c09f6590442ebc2f1cb9de20cef229a0e99d8a26d4f9102d",
+      "calculator": true
+    },
+    {
+      "path": "doli-v-kvartire/index.html",
+      "source": "doli-v-kvartire",
+      "sha256": "a873e7a96c981febe76621a6138b25ccbed471a77ce4f04fcd5212d7ddab3aa0",
+      "calculator": true
+    },
+    {
+      "path": "dosrochnoe-pogashenie/index.html",
+      "source": "dosrochnoe-pogashenie",
+      "sha256": "46a47a8a392f682bcecec9f6741e3a80b6c14666d7fad9624ae4607cc57f4569",
+      "calculator": true
+    },
+    {
+      "path": "drobi/index.html",
+      "source": "drobi",
+      "sha256": "8fc8b7fdd3622f095b1304be256cf5e1b88b8a1f74fbfd686cf678413aa08ee1",
+      "calculator": true
+    },
+    {
+      "path": "feedback/index.html",
+      "source": "feedback",
+      "sha256": "14ceaf4fecd93bc51d9cc557cc46be194ad0ee7ef9a6e3d3d3ba189850665c9a",
+      "calculator": false
+    },
+    {
+      "path": "generator-nikneimov/index.html",
+      "source": "generator-nikneimov",
+      "sha256": "fd22d209569288e143e4655e9948d523a7ff30a19262b578700ede5ea52934a8",
+      "calculator": true
+    },
+    {
+      "path": "generator-paroley/index.html",
+      "source": "generator-paroley",
+      "sha256": "aea3a9ea99be8813f426db0e5d314bbbea6a59fa7397a4d0f8c219a282fe6698",
+      "calculator": true
+    },
+    {
+      "path": "generator-promokodov/index.html",
+      "source": "generator-promokodov",
+      "sha256": "24367b9c9a022753ec91728905911ee0170c7385bb08e695307e2662f26d96c8",
+      "calculator": true
+    },
+    {
+      "path": "idealnyy-ves/index.html",
+      "source": "idealnyy-ves",
+      "sha256": "0206c19f63d337663d2db7f18fd05dff503596cc627985f0fd25fa4eaac0e4e0",
+      "calculator": true
+    },
+    {
+      "path": "iis/index.html",
+      "source": "iis",
+      "sha256": "a14e5dde3065022bdb50ac3cacdcee8eb422985e5124366ada11d6bdf7ca472d",
+      "calculator": true
+    },
+    {
+      "path": "imt/index.html",
+      "source": "imt",
+      "sha256": "71370b32f050d1c12624bc0a520327089a995a388c4775652685cf0561de1892",
+      "calculator": true
+    },
+    {
+      "path": "index.html",
+      "source": "home",
+      "sha256": "88d6d208c631ed319e792ebd10229ea72746edffa6bd4393c27ca6a2290082ba",
+      "calculator": false
+    },
+    {
+      "path": "ipoteka/index.html",
+      "source": "ipoteka",
+      "sha256": "34047b0c75cbfda63b771537c88f3de0b0663a0297a510350f1de9e88b00cde8",
+      "calculator": true
+    },
+    {
+      "path": "konverter-edinic/index.html",
+      "source": "konverter-edinic",
+      "sha256": "cb23cc91c7efe125e41d5fe87ed5a3e98deb52be4f7ec67e55869565332df0fa",
+      "calculator": true
+    },
+    {
+      "path": "konverter-valyut/index.html",
+      "source": "konverter-valyut",
+      "sha256": "2a032ca2043011453b5dcb7aa4bfe349605c7e4816a05ceb8716ba9d5d0bd9ec",
+      "calculator": true
+    },
+    {
+      "path": "kredit/index.html",
+      "source": "kredit",
+      "sha256": "3a849c294b9c4ec919cc536686e0e03ad161542a19afb4c5e1fae92d0619a3e5",
+      "calculator": true
+    },
+    {
+      "path": "lorem-ipsum/index.html",
+      "source": "lorem-ipsum",
+      "sha256": "74f04903da0a7f338c321de4875a4ccb7f7a414b5e9200a7b6836f712dbee926",
+      "calculator": true
+    },
+    {
+      "path": "mikrozaim/index.html",
+      "source": "mikrozaim",
+      "sha256": "79c22b2727a9bcdc0d82503cc8e19bfc42a56b69ab1016e1efaf7013a79a28ce",
+      "calculator": true
+    },
+    {
+      "path": "nalog-s-prodazhi-kvartiry/index.html",
+      "source": "nalog-s-prodazhi-kvartiry",
+      "sha256": "094d600e2db2b164bc36e62ed00e062370d85a78a4a0356c4b2fe4a267e87a12",
+      "calculator": true
+    },
+    {
+      "path": "nalog-samozanyatyh/index.html",
+      "source": "nalog-samozanyatyh",
+      "sha256": "89b86f29d9676466e2b7bca9cd3325e39633633c8af3ff045dcdcd40716625c0",
+      "calculator": true
+    },
+    {
+      "path": "nalogovyy-vychet-kvartira/index.html",
+      "source": "nalogovyy-vychet-kvartira",
+      "sha256": "bc78901ba2ee287b22edaa70c317bbe1bd66007a4f51777a7a81912b37c4422d",
+      "calculator": true
+    },
+    {
+      "path": "ndfl/index.html",
+      "source": "ndfl",
+      "sha256": "3dc3f8a3c1666d843bc7964ddf1838985c6da68202cc4e275ff7c75e863789a3",
+      "calculator": true
+    },
+    {
+      "path": "nds/index.html",
+      "source": "nds",
+      "sha256": "7f731906285b60c01303ee3eae1b0e66a53e85037035bad0e7ed114abbdb7bda",
+      "calculator": true
+    },
+    {
+      "path": "neustoika-po-ddu/index.html",
+      "source": "neustoika-po-ddu",
+      "sha256": "86e1fb06523f54b0af804f9eb71cbbe0c5995fc23a08d51b9db06f31efa2fbeb",
+      "calculator": true
+    },
+    {
+      "path": "neustoika-po-dogovoru/index.html",
+      "source": "neustoika-po-dogovoru",
+      "sha256": "42b1a4560b5adcddf72fd08663f9fa32edea2fe3c0e96f3737eb052324e1db68",
+      "calculator": true
+    },
+    {
+      "path": "nod/index.html",
+      "source": "nod",
+      "sha256": "daeb195fd54e82a90833da679c5802cd68c0cda5a7ae9a1e29ab2269cae8c969",
+      "calculator": true
+    },
+    {
+      "path": "nok/index.html",
+      "source": "nok",
+      "sha256": "1fd4ee65fdefb07e6fe7387d4a54f0ae6feb9dec3176521ddb09a340e87b42ab",
+      "calculator": true
+    },
+    {
+      "path": "obem/index.html",
+      "source": "obem",
+      "sha256": "8ea38705c817f54b27d50d71df9d64cbf246742d69b6f684ce06898ad7757ab5",
+      "calculator": true
+    },
+    {
+      "path": "obratnyy-otschet/index.html",
+      "source": "obratnyy-otschet",
+      "sha256": "52553e9bd363738ce40f86a202f6b24ec8fa61a70fec61b6fe864b5663fe8b84",
+      "calculator": true
+    },
+    {
+      "path": "osago/index.html",
+      "source": "osago",
+      "sha256": "7147b725333f7f249b3effa531790ca34f2699d81dd8316d7a67bb7e0d794782",
+      "calculator": true
+    },
+    {
+      "path": "otpusknye-dni/index.html",
+      "source": "otpusknye-dni",
+      "sha256": "1127f39e08a127818c8e30f47cab9cbd1ff91304ee7d84c661c27c4d48f27c59",
+      "calculator": true
+    },
+    {
+      "path": "otpusknye/index.html",
+      "source": "otpusknye",
+      "sha256": "20b67ca7ea32f68f03af3aa308e722ff78dfafcd5d9e5f1241dfa74355501b07",
+      "calculator": true
+    },
+    {
+      "path": "peni-po-nalogam/index.html",
+      "source": "peni-po-nalogam",
+      "sha256": "7649e2e1150ff47a31f95d88dda621d8628b6a01dfdc7cc60033f3b0488ff133",
+      "calculator": true
+    },
+    {
+      "path": "pensiya/index.html",
+      "source": "pensiya",
+      "sha256": "48bb4e57e634ce5f4576172d09c90930137f69ed023a71ae022fe0b3905cc7d5",
+      "calculator": true
+    },
+    {
+      "path": "peremeshat-spisok/index.html",
+      "source": "peremeshat-spisok",
+      "sha256": "1bdeae63bfdb6946f9f0ebe4673c09a9a36011be6da3c6e948c82eb261c795d5",
+      "calculator": true
+    },
+    {
+      "path": "ploshad/index.html",
+      "source": "ploshad",
+      "sha256": "95628e40000d42dd6ec081c11a010cc1eefe1b3e1123531abb246b57144eee60",
+      "calculator": true
+    },
+    {
+      "path": "privacy/index.html",
+      "source": "privacy",
+      "sha256": "772fb5746a3908a2f74e3c08e27e1f3f2e851da521235987d18c9e4f7f5b8a1d",
+      "calculator": false
+    },
+    {
+      "path": "procenty-395-gk/index.html",
+      "source": "procenty-395-gk",
+      "sha256": "b918f6e288b9f22bb2d5772308947d72339a0066186733a987dbd194d9b369fd",
+      "calculator": true
+    },
+    {
+      "path": "procenty-po-zaimu/index.html",
+      "source": "procenty-po-zaimu",
+      "sha256": "a63615b9fca361de17ce5bb5f370e114a8b8865834b9fac1d0d017e39a3f15ed",
+      "calculator": true
+    },
+    {
+      "path": "procenty/index.html",
+      "source": "procenty",
+      "sha256": "b956f97fa801007bcc4fbd03047185e6b0936aaab964638c4f7ed8812695e0b2",
+      "calculator": true
+    },
+    {
+      "path": "proverka-inn/index.html",
+      "source": "proverka-inn",
+      "sha256": "ff32fcbfcad5ee3e197045dcc6552559bab11146f1e60dec6015af83bc57120d",
+      "calculator": true
+    },
+    {
+      "path": "proverka-nomera-karty/index.html",
+      "source": "proverka-nomera-karty",
+      "sha256": "8fff55309cf2a20ecc9ac553c3bb51550ed12f42155574369db4c34451426604",
+      "calculator": true
+    },
+    {
+      "path": "proverka-snils/index.html",
+      "source": "proverka-snils",
+      "sha256": "1e6a34fe3427e227b76cc42e0750040c21183d0686c6bb6dc0313e2921d350ce",
+      "calculator": true
+    },
+    {
+      "path": "qr-generator/index.html",
+      "source": "qr-generator",
+      "sha256": "1c81fa483c95a43fdce28f8f99e23ed65df6091409a8519932cbef2dc5736308",
+      "calculator": true
+    },
+    {
+      "path": "rabochie-dni/index.html",
+      "source": "rabochie-dni",
+      "sha256": "237020b1e1be2a7fb763e82e642daca3afc3dd3a638e8fe30dbee79aabb2e473",
+      "calculator": true
+    },
+    {
+      "path": "rashod-topliva/index.html",
+      "source": "rashod-topliva",
+      "sha256": "932c1b5380caaecaf444e1cf0bdf3c70e329e013cfdeb6070547e946bb0a9596",
+      "calculator": true
+    },
+    {
+      "path": "rastamozhka/index.html",
+      "source": "rastamozhka",
+      "sha256": "4facebb6998ae375c7c18cafc416fb4c5bed2e6467a8742f80dcb207d8048e21",
+      "calculator": true
+    },
+    {
+      "path": "razdelit-na-gruppy/index.html",
+      "source": "razdelit-na-gruppy",
+      "sha256": "51be9eec005822c3160b32e7296d8632a81cd1c79300f417379632c8ca83a6a8",
+      "calculator": true
+    },
+    {
+      "path": "razlozhenie-na-mnozhiteli/index.html",
+      "source": "razlozhenie-na-mnozhiteli",
+      "sha256": "60587a06a39ed7f6521073b0cd0c88e3f4244c002acee0cd15c20ad764448be5",
+      "calculator": true
+    },
+    {
+      "path": "refinansirovanie/index.html",
+      "source": "refinansirovanie",
+      "sha256": "4bd7b650ba2d490611a4f8d0ee6ea0eb0eaf107ebb6a3f63d0994127a9f9b7cb",
+      "calculator": true
+    },
+    {
+      "path": "schetchik-slov/index.html",
+      "source": "schetchik-slov",
+      "sha256": "428ad1bfe22471c6ab49d473f188c1083bdf3bc34ea429a676461fd95b826131",
+      "calculator": true
+    },
+    {
+      "path": "sistemy-schisleniya/index.html",
+      "source": "sistemy-schisleniya",
+      "sha256": "6b9cb5160f3e31217cce09f63419b742e7a2ec387d5b71315e64b34180bb5f14",
+      "calculator": true
+    },
+    {
+      "path": "skidki/index.html",
+      "source": "skidki",
+      "sha256": "291062a44e9480a29debd29330c890ffbe4a80ad9a36f21723a278ca5a83d602",
+      "calculator": true
+    },
+    {
+      "path": "slozhnyy-procent/index.html",
+      "source": "slozhnyy-procent",
+      "sha256": "dffc3586c8d11abcb9f341318fcc980c7696b4cfd458c0da6e56bd6ca5408626",
+      "calculator": true
+    },
+    {
+      "path": "sluchaynye-chisla/index.html",
+      "source": "sluchaynye-chisla",
+      "sha256": "448b01aedeb4060667bdba583ff9c4740ffb5ec540e70fcb2586c1eeb0e2e4d4",
+      "calculator": true
+    },
+    {
+      "path": "sluchaynyy-vybor/index.html",
+      "source": "sluchaynyy-vybor",
+      "sha256": "ccb5a402e60e9b4c9a1954b151408528ceb94e8d3ed0770d8a9e0cd39e06f87a",
+      "calculator": true
+    },
+    {
+      "path": "sravnenie-spiskov/index.html",
+      "source": "sravnenie-spiskov",
+      "sha256": "3ae2157a902512ba17dbcadfc12a4ab0e1876b3cc9fb09ede47d5af424a1f9c5",
+      "calculator": true
+    },
+    {
+      "path": "stepeni/index.html",
+      "source": "stepeni",
+      "sha256": "6fffe59567f14ca7575631158c6c5e7f369940468259b626060b38d64d6e279a",
+      "calculator": true
+    },
+    {
+      "path": "strahovye-vznosy-ip/index.html",
+      "source": "strahovye-vznosy-ip",
+      "sha256": "6d92a994654a77157fb1f955a299d5150cde31d198548ed7d1e0bcc712e37cef",
+      "calculator": true
+    },
+    {
+      "path": "summa-propisyu/index.html",
+      "source": "summa-propisyu",
+      "sha256": "3117e55ca036805bd0e3ba8da8c610e97e9b2c45e0be7a7cf7a8040c2b397b2b",
+      "calculator": true
+    },
+    {
+      "path": "transliteraciya/index.html",
+      "source": "transliteraciya",
+      "sha256": "5c70e86e9731d1b0e3c2293c346b3a18e682ce3905f1a3a87d13aca8b74b7bb3",
+      "calculator": true
+    },
+    {
+      "path": "transportnyy-nalog/index.html",
+      "source": "transportnyy-nalog",
+      "sha256": "ef339b39ffb7bd20c60bf6f99fb977cf51c253564ff84161966c97655b65d2af",
+      "calculator": true
+    },
+    {
+      "path": "trudovoy-stazh/index.html",
+      "source": "trudovoy-stazh",
+      "sha256": "8f5405bf1c372ee4b0502b92b1c9fc0219445743e4885fd9295d9e1cd4cba7ef",
+      "calculator": true
+    },
+    {
+      "path": "udalenie-dubley-strok/index.html",
+      "source": "udalenie-dubley-strok",
+      "sha256": "31fca3f9cbe213addb95e9e7513f4975de0186c68a975a37c033d52b93b8ea3a",
+      "calculator": true
+    },
+    {
+      "path": "unix-vremya/index.html",
+      "source": "unix-vremya",
+      "sha256": "ef4ed06903e4b32832fab4b4d52cb80147bd28c0c979d13ed8a74cc07bfee3bd",
+      "calculator": true
+    },
+    {
+      "path": "utilsbor/index.html",
+      "source": "utilsbor",
+      "sha256": "74b3283d813eceaff877abfc4e26f1cc0900745993b82a92501288ba89a170bb",
+      "calculator": true
+    },
+    {
+      "path": "uuid-generator/index.html",
+      "source": "uuid-generator",
+      "sha256": "31b13c4d24cb750e2d3d0fb29f1e8a0491f53b777f1c4ba4afdda29841ce8f8c",
+      "calculator": true
+    },
+    {
+      "path": "vklad/index.html",
+      "source": "vklad",
+      "sha256": "8ee1c55a598139ea6f0dfc1dbc57ddf2f24c2d3ea5b46c9dd16f2168bf3c4221",
+      "calculator": true
+    },
+    {
+      "path": "vozrast/index.html",
+      "source": "vozrast",
+      "sha256": "5920b9e6a631ea0d904624dd8f31d59ba7c50c4b2efcdecd0c67161e2da68414",
+      "calculator": true
+    },
+    {
+      "path": "zaryadka-elektromobilya/index.html",
+      "source": "zaryadka-elektromobilya",
+      "sha256": "fadec4c197d416195e2066c0b1cb75a3b2f957102f273f9df577262c9352cf14",
+      "calculator": true
+    }
+  ],
+  "redirects": [
+    {
+      "path": "calc-age.html",
+      "target": "vozrast/",
+      "title": "Калькулятор возраста — Расчёт.net"
+    },
+    {
+      "path": "calc-amount-in-words.html",
+      "target": "summa-propisyu/",
+      "title": "Сумма прописью — Расчёт.net"
+    },
+    {
+      "path": "calc-area.html",
+      "target": "ploshad/",
+      "title": "Калькулятор площади — Расчёт.net"
+    },
+    {
+      "path": "calc-art395.html",
+      "target": "procenty-395-gk/",
+      "title": "Проценты по ст. 395 ГК РФ — Расчёт.net"
+    },
+    {
+      "path": "calc-bmi.html",
+      "target": "imt/",
+      "title": "Калькулятор ИМТ — Расчёт.net"
+    },
+    {
+      "path": "calc-car-loan.html",
+      "target": "avtokredit/",
+      "title": "Автокредит — Расчёт.net"
+    },
+    {
+      "path": "calc-compare-lists.html",
+      "target": "sravnenie-spiskov/",
+      "title": "Сравнение списков — Расчёт.net"
+    },
+    {
+      "path": "calc-compound-interest.html",
+      "target": "slozhnyy-procent/",
+      "title": "Сложный процент — Расчёт.net"
+    },
+    {
+      "path": "calc-credit.html",
+      "target": "kredit/",
+      "title": "Калькулятор потребительского кредита — Расчёт.net"
+    },
+    {
+      "path": "calc-customs-clearance.html",
+      "target": "rastamozhka/",
+      "title": "Растаможка автомобиля — Расчёт.net"
+    },
+    {
+      "path": "calc-days.html",
+      "target": "dni/",
+      "title": "Калькулятор дней — Расчёт.net"
+    },
+    {
+      "path": "calc-deposit.html",
+      "target": "vklad/",
+      "title": "Калькулятор вклада — Расчёт.net"
+    },
+    {
+      "path": "calc-discount.html",
+      "target": "skidki/",
+      "title": "Калькулятор скидок — Расчёт.net"
+    },
+    {
+      "path": "calc-ev-charging.html",
+      "target": "zaryadka-elektromobilya/",
+      "title": "Зарядка электромобиля — Расчёт.net"
+    },
+    {
+      "path": "calc-factorization.html",
+      "target": "razlozhenie-na-mnozhiteli/",
+      "title": "Разложение на простые множители — Расчёт.net"
+    },
+    {
+      "path": "calc-fractions.html",
+      "target": "drobi/",
+      "title": "Калькулятор дробей — Расчёт.net"
+    },
+    {
+      "path": "calc-fuel.html",
+      "target": "rashod-topliva/",
+      "title": "Расход топлива — Расчёт.net"
+    },
+    {
+      "path": "calc-gcd.html",
+      "target": "nod/",
+      "title": "Наибольший общий делитель (НОД) — Расчёт.net"
+    },
+    {
+      "path": "calc-iis.html",
+      "target": "iis/",
+      "title": "ИИС — вычет на взнос и на доход — Расчёт.net"
+    },
+    {
+      "path": "calc-insurance-contributions.html",
+      "target": "strahovye-vznosy-ip/",
+      "title": "Страховые взносы ИП — Расчёт.net"
+    },
+    {
+      "path": "calc-lcm.html",
+      "target": "nok/",
+      "title": "Наименьшее общее кратное (НОК) — Расчёт.net"
+    },
+    {
+      "path": "calc-loan-interest.html",
+      "target": "procenty-po-zaimu/",
+      "title": "Проценты по займу — Расчёт.net"
+    },
+    {
+      "path": "calc-maternal-capital-shares.html",
+      "target": "doli-po-materinskomu-kapitalu/",
+      "title": "Доли по материнскому капиталу — Расчёт.net"
+    },
+    {
+      "path": "calc-maternity-leave.html",
+      "target": "dekretnye/",
+      "title": "Декретные — Расчёт.net"
+    },
+    {
+      "path": "calc-microloan.html",
+      "target": "mikrozaim/",
+      "title": "Микрозайм — Расчёт.net"
+    },
+    {
+      "path": "calc-mortgage-early.html",
+      "target": "dosrochnoe-pogashenie/",
+      "title": "Досрочное погашение ипотеки — Расчёт.net"
+    },
+    {
+      "path": "calc-mortgage.html",
+      "target": "ipoteka/",
+      "title": "Ипотека — Расчёт.net"
+    },
+    {
+      "path": "calc-ndfl.html",
+      "target": "ndfl/",
+      "title": "Калькулятор НДФЛ — Расчёт.net"
+    },
+    {
+      "path": "calc-number-base.html",
+      "target": "sistemy-schisleniya/",
+      "title": "Перевод систем счисления — Расчёт.net"
+    },
+    {
+      "path": "calc-osago.html",
+      "target": "osago/",
+      "title": "ОСАГО — Расчёт.net"
+    },
+    {
+      "path": "calc-password-generator.html",
+      "target": "generator-paroley/",
+      "title": "Генератор паролей — Расчёт.net"
+    },
+    {
+      "path": "calc-penalty-contract.html",
+      "target": "neustoika-po-dogovoru/",
+      "title": "Неустойка по договору — Расчёт.net"
+    },
+    {
+      "path": "calc-penalty-ddu.html",
+      "target": "neustoika-po-ddu/",
+      "title": "Неустойка по ДДУ — Расчёт.net"
+    },
+    {
+      "path": "calc-penalty-tax.html",
+      "target": "peni-po-nalogam/",
+      "title": "Пени по налогам — Расчёт.net"
+    },
+    {
+      "path": "calc-pension.html",
+      "target": "pensiya/",
+      "title": "Пенсия по баллам — Расчёт.net"
+    },
+    {
+      "path": "calc-percent.html",
+      "target": "procenty/",
+      "title": "Калькулятор процентов — Расчёт.net"
+    },
+    {
+      "path": "calc-power.html",
+      "target": "stepeni/",
+      "title": "Степени и корни — Расчёт.net"
+    },
+    {
+      "path": "calc-promo-generator.html",
+      "target": "generator-promokodov/",
+      "title": "Генератор промокодов — Расчёт.net"
+    },
+    {
+      "path": "calc-property-sale-tax.html",
+      "target": "nalog-s-prodazhi-kvartiry/",
+      "title": "Налог с продажи квартиры — Расчёт.net"
+    },
+    {
+      "path": "calc-qr-generator.html",
+      "target": "qr-generator/",
+      "title": "Генератор QR-кодов — Расчёт.net"
+    },
+    {
+      "path": "calc-random-number.html",
+      "target": "sluchaynye-chisla/",
+      "title": "Генератор случайных чисел — Расчёт.net"
+    },
+    {
+      "path": "calc-random-pick.html",
+      "target": "sluchaynyy-vybor/",
+      "title": "Случайный выбор из списка — Расчёт.net"
+    },
+    {
+      "path": "calc-recycling-fee.html",
+      "target": "utilsbor/",
+      "title": "Утилизационный сбор — Расчёт.net"
+    },
+    {
+      "path": "calc-refinancing.html",
+      "target": "refinansirovanie/",
+      "title": "Рефинансирование кредита — Расчёт.net"
+    },
+    {
+      "path": "calc-samozanyaty.html",
+      "target": "nalog-samozanyatyh/",
+      "title": "Налог для самозанятых (НПД) — Расчёт.net"
+    },
+    {
+      "path": "calc-shares-apartment.html",
+      "target": "doli-v-kvartire/",
+      "title": "Доли в квартире — Расчёт.net"
+    },
+    {
+      "path": "calc-shuffle-list.html",
+      "target": "peremeshat-spisok/",
+      "title": "Перемешать список — Расчёт.net"
+    },
+    {
+      "path": "calc-sick-leave.html",
+      "target": "bolnichnyy/",
+      "title": "Больничный лист — Расчёт.net"
+    },
+    {
+      "path": "calc-split-groups.html",
+      "target": "razdelit-na-gruppy/",
+      "title": "Разделить список на группы — Расчёт.net"
+    },
+    {
+      "path": "calc-tax-deduction.html",
+      "target": "nalogovyy-vychet-kvartira/",
+      "title": "Налоговый вычет за квартиру — Расчёт.net"
+    },
+    {
+      "path": "calc-timezone.html",
+      "target": "chasovye-poyasa/",
+      "title": "Разница часовых поясов — Расчёт.net"
+    },
+    {
+      "path": "calc-tip.html",
+      "target": "chaevye/",
+      "title": "Калькулятор чаевых — Расчёт.net"
+    },
+    {
+      "path": "calc-transport-tax.html",
+      "target": "transportnyy-nalog/",
+      "title": "Транспортный налог — Расчёт.net"
+    },
+    {
+      "path": "calc-unit-converter.html",
+      "target": "konverter-edinic/",
+      "title": "Конвертер единиц измерения — Расчёт.net"
+    },
+    {
+      "path": "calc-vacation-days.html",
+      "target": "otpusknye-dni/",
+      "title": "Отпускные дни — Расчёт.net"
+    },
+    {
+      "path": "calc-vacation-pay.html",
+      "target": "otpusknye/",
+      "title": "Отпускные — Расчёт.net"
+    },
+    {
+      "path": "calc-vat.html",
+      "target": "nds/",
+      "title": "Калькулятор НДС — Расчёт.net"
+    },
+    {
+      "path": "calc-volume.html",
+      "target": "obem/",
+      "title": "Калькулятор объёма — Расчёт.net"
+    },
+    {
+      "path": "calc-weight.html",
+      "target": "idealnyy-ves/",
+      "title": "Идеальный вес — Расчёт.net"
+    },
+    {
+      "path": "calc-work-experience.html",
+      "target": "trudovoy-stazh/",
+      "title": "Трудовой стаж — Расчёт.net"
+    }
+  ],
+  "static": [
+    "google0c4ac994cf6febfa.html",
+    "yandex_db59c33396ad30ae.html"
+  ]
+}

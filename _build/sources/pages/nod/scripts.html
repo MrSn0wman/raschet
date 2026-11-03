@@ -1,0 +1,71 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+let numId = 0;
+
+function addNumRow(val){
+  numId++;
+  const wrap = document.getElementById('nums-wrap');
+  const row = document.createElement('div');
+  row.className = 'num-row';
+  row.innerHTML =
+    '<div class="field"><input type="text" class="gcd-num" value="' + (val||'') + '" inputmode="numeric" placeholder="Число"></div>' +
+    '<button type="button" class="num-remove" aria-label="Удалить">✕</button>';
+  wrap.appendChild(row);
+  row.querySelector('.gcd-num').addEventListener('input', recalcGcd);
+  row.querySelector('.num-remove').addEventListener('click', () => {
+    row.remove();
+    recalcGcd();
+  });
+}
+
+function gcd2(a,b){ a=Math.abs(a); b=Math.abs(b); while(b){ const t=b; b=a%b; a=t; } return a; }
+
+function recalcGcd(){
+  const rows = document.querySelectorAll('.gcd-num');
+  const errEl = document.getElementById('err');
+  const nums = [];
+  rows.forEach(el => {
+    const v = parseInt(String(el.value).replace(/\D/g,''), 10);
+    if (!isNaN(v) && v > 0) nums.push(v);
+  });
+
+  if (nums.length < 2){
+    errEl.style.display = 'block';
+    document.getElementById('r-gcd').textContent = '—';
+    document.getElementById('r-steps').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const result = nums.reduce((acc, n) => gcd2(acc, n));
+  document.getElementById('r-gcd').textContent = String(result);
+  document.getElementById('r-steps').textContent = nums.join(' ; ');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  addNumRow('48');
+  addNumRow('18');
+  document.getElementById('add-num').addEventListener('click', () => addNumRow(''));
+  recalcGcd();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

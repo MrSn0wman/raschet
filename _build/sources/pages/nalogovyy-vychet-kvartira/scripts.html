@@ -1,0 +1,85 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const BRACKETS = [
+  {limit: 2400000, rate: 0.13},
+  {limit: 5000000, rate: 0.15},
+  {limit: 20000000, rate: 0.18},
+  {limit: 50000000, rate: 0.20},
+  {limit: Infinity, rate: 0.22}
+];
+
+function progressiveTax(income){
+  if (income <= 0) return 0;
+  let tax = 0, prevLimit = 0;
+  for (const b of BRACKETS){
+    if (income > prevLimit){
+      const taxableInBracket = Math.min(income, b.limit) - prevLimit;
+      tax += taxableInBracket * b.rate;
+      prevLimit = b.limit;
+    } else break;
+  }
+  return tax;
+}
+
+function recalcDeduction(){
+  const propcostEl = document.getElementById('propcost');
+  const interestEl = document.getElementById('interest');
+  const incomeEl = document.getElementById('income');
+  const errEl = document.getElementById('err');
+
+  const propcost = parseFormattedNumber(propcostEl);
+  const interest = parseFormattedNumber(interestEl);
+  const income = parseFormattedNumber(incomeEl);
+
+  if (isNaN(propcost) || propcost < 0 || isNaN(interest) || interest < 0 || isNaN(income) || income < 0){
+    errEl.style.display = 'block';
+    ['r-refund','r-total-deduction','r-base-deduction','r-interest-deduction','r-carryover'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const baseDeduction = Math.min(propcost, 2000000);
+  const interestDeduction = Math.min(interest, 3000000);
+  const totalDeduction = baseDeduction + interestDeduction;
+
+  const taxOnFull = progressiveTax(income);
+  const taxOnReduced = progressiveTax(Math.max(0, income - totalDeduction));
+  const theoreticalRefund = taxOnFull - taxOnReduced;
+  const refundThisYear = Math.min(theoreticalRefund, taxOnFull);
+  const carryover = Math.max(0, theoreticalRefund - refundThisYear);
+
+  document.getElementById('r-refund').textContent = formatMoney(refundThisYear) + '\u00A0₽';
+  document.getElementById('r-total-deduction').textContent = formatMoney(totalDeduction) + '\u00A0₽';
+  document.getElementById('r-base-deduction').textContent = formatMoney(baseDeduction) + '\u00A0₽';
+  document.getElementById('r-interest-deduction').textContent = formatMoney(interestDeduction) + '\u00A0₽';
+  document.getElementById('r-carryover').textContent = formatMoney(carryover) + '\u00A0₽';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('propcost'), document.getElementById('interest'), document.getElementById('income')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcDeduction);
+  });
+  recalcDeduction();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

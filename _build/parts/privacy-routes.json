@@ -1,0 +1,19 @@
+{
+  "routes": [
+    "proverka-nomera-karty",
+    "proverka-inn",
+    "proverka-snils",
+    "generator-paroley",
+    "qr-generator",
+    "generator-promokodov",
+    "sluchaynyy-vybor",
+    "peremeshat-spisok",
+    "razdelit-na-gruppy",
+    "sravnenie-spiskov",
+    "udalenie-dubley-strok",
+    "transliteraciya",
+    "schetchik-slov",
+    "feedback",
+    "doli-v-kvartire"
+  ]
+}

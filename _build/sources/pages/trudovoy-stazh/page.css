@@ -1,0 +1,9 @@
+
+/* --- страничные стили --- */
+.period-row{ display:grid; grid-template-columns:1fr 1fr auto; gap:10px; align-items:end; margin-bottom:12px; }
+.period-row .field{ margin:0; }
+.period-remove{ height:44px; width:44px; border:1px solid var(--line); background:var(--surface); border-radius:8px; color:var(--ink-soft); cursor:pointer; display:flex; align-items:center; justify-content:center; }
+.period-remove:hover{ color:#b23b3b; border-color:#b23b3b; }
+.add-period-btn{ display:inline-flex; align-items:center; gap:6px; background:var(--surface-2); border:1px dashed var(--line); border-radius:8px; padding:9px 14px; font-size:.88rem; color:var(--ink); cursor:pointer; margin-bottom:20px; }
+.add-period-btn:hover{ border-color:var(--accent); color:var(--accent); }
+@media (max-width:640px){ .period-row{ grid-template-columns:1fr; } .period-remove{ width:100%; } }

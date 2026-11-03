@@ -8,7 +8,7 @@ lastmod и реже переобходит сайт.
 
 Запуск (из корня репозитория, после build_all.py):
     python _build/build/fix_sitemap_lastmod.py
-    python _build/build/fix_sitemap_lastmod.py --site C:\\САЙТ --dry-run
+    python _build/build/fix_sitemap_lastmod.py --site _build/out --dry-run
 """
 import argparse
 import io
@@ -26,7 +26,7 @@ except Exception:
     pass
 
 BASE_URL = "https://raschet.net/"
-DEFAULT_SITE = r"C:\САЙТ"
+from site_common import DEFAULT_SITE, REPO
 
 
 def git_date(repo, rel_path):
@@ -75,7 +75,7 @@ def main():
         if not os.path.isfile(os.path.join(site, rel.replace("/", os.sep))):
             missing.append((url, "нет файла " + rel))
             continue
-        d = git_date(site, rel)
+        d = git_date(REPO, rel)
         if d is None:
             missing.append((url, "нет истории git для " + rel))
             continue

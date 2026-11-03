@@ -1,0 +1,116 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Удаление дублей строк</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Удаление дублей строк</h1>
+          <p class="calc-sub">Очистите список от повторов: порядок сохраняется, дубли и пустые строки исчезают.</p>
+          <form id="tool-form" novalidate>
+
+<div class="field-grid">
+  <div class="field full">
+    <label for="dd-in">Строки, по одной на строку</label>
+    <textarea id="dd-in" rows="8" placeholder="яблоко&#10;груша&#10;Яблоко&#10;&#10;груша" data-share="dd-in"></textarea>
+  </div>
+  <div class="field full">
+    <div class="check-grid">
+      <label class="check-option"><input type="checkbox" id="dd-ci" data-share="dd-ci"> Не учитывать регистр</label>
+      <label class="check-option"><input type="checkbox" id="dd-trim" checked data-share="dd-trim"> Обрезать пробелы по краям</label>
+      <label class="check-option"><input type="checkbox" id="dd-empty" checked data-share="dd-empty"> Удалить пустые строки</label>
+    </div>
+  </div>
+  <div class="field full">
+    <button class="btn btn-primary" id="dd-run" type="button">Удалить дубли</button>
+  </div>
+</div>
+
+</form>
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="dd-left"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+
+
+<div class="result-panel">
+  <div class="r-label">Осталось строк</div>
+  <div class="r-value" id="dd-left">—</div>
+  <div class="r-rows">
+    <div><b id="dd-total">—</b><span>было строк</span></div>
+    <div><b id="dd-dups">—</b><span>удалено дублей</span></div>
+    <div><b id="dd-empty-n">—</b><span>удалено пустых</span></div>
+  </div>
+  <textarea id="dd-out" class="dd-out" rows="7" readonly placeholder="Здесь появится очищенный список"></textarea>
+  <div class="action-bar">
+    <button class="btn btn-ghost" id="dd-copy" type="button">Скопировать результат</button>
+  </div>
+</div>
+
+        </div>
+        <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        <article class="calc-explain">
+          <h2>Как убрать повторяющиеся строки из списка</h2>
+<p>Вставьте список в поле — по одному элементу на строку — и нажмите кнопку очистки. Инструмент пройдёт по строкам сверху вниз и оставит только первое вхождение каждой: повторы исчезнут, порядок сохранится. Перед сравнением можно включить обрезку пробелов, игнорирование регистра и удаление пустых строк. Результат копируется одной кнопкой или скачивается файлом.</p>
+<p>Дубль — это строка, которая уже встречалась выше. Сравнение идёт через хеш-таблицу: каждая новая строка проверяется против уже увиденных за доли секунды, поэтому списки в сотни тысяч строк обрабатываются мгновенно, без попарного перебора. Первое вхождение всегда остаётся на своём месте, удаляются только повторные — сортировка не выполняется.</p>
+<p>Три опции меняют то, что считается «одинаковым». Обрезка пробелов убирает пробелы и табуляции по краям строки до сравнения: « слово» и «слово » станут одной строкой. Игнорирование регистра приравнивает «Яблоко» и «яблоко» — останется вариант, который встретился первым. Удаление пустых строк вычищает строки без символов или состоящие только из пробелов.</p>
+<p>Пример: список «молоко, хлеб, молоко, Сыр, сыр, хлеб». Без опций останется «молоко, хлеб, Сыр, сыр» — регистр различает два «сыра». С включённым игнорированием регистра останется «молоко, хлеб, Сыр»: строка «сыр» в нижнем регистре сочтётся дублём «Сыр» и пропадёт.</p>
+<h3>Откуда в списках берутся дубли</h3>
+<p>Повторы появляются почти всегда при склейке данных из разных мест:</p>
+<ul>
+<li>объединение баз клиентов из CRM, почтовой рассылки и таблицы Excel;</li>
+<li>выгрузки, где один заказ или товар попадает в отчёт дважды;</li>
+<li>списки ключевых слов, собранные из нескольких подборщиков;</li>
+<li>email-рассылки, куда адрес попал и вручную, и из импорта.</li>
+</ul>
+<p>Ручная чистка таких списков — часы работы и гарантированные пропуски. Автоматическая очистка снимает задачу за секунду: вставили, проверили счётчик, скопировали.</p>
+<h3>Что именно считается дублём</h3>
+<p>Строки сравниваются целиком, посимвольно. «Иванов И.» и «Иванов И» — разные строки, как и «10» и «10,0». Невидимые символы тоже участвуют в сравнении: пробел в конце строки делает её отличной от такой же без пробела. Если список собран копипастой из разных источников, сначала включите обрезку пробелов — она убирает большинство таких ложных «недублей».</p>
+<h3>Регистр: когда разные строки на самом деле одинаковые</h3>
+<p>По умолчанию сравнение строгое: «Apple» и «apple» — две разные строки. Для email-адресов, доменов и тегов это часто нежелательно — там регистр значения не имеет. Включите опцию «Не учитывать регистр»: сравнение пойдёт без учёта заглавных, а в результате останется написание первого вхождения. Для имён собственных, где регистр важен, опцию лучше не трогать.</p>
+<h3>Как не потерять данные</h3>
+<p>Инструмент не меняет исходный текст: он показывает очищенную копию, а поле ввода остаётся нетронутым, пока вы его не перезапишете. Перед копированием результата сверьтесь со счётчиком — он показывает, сколько строк было и сколько стало. Разница между этими числами и есть количество найденных дублей: если их подозрительно мало, скорее всего, строки отличаются невидимыми пробелами или регистром. В таком случае попробуйте другую комбинацию опций и сравните счётчик ещё раз.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Останется ли порядок строк как в исходном списке?</summary><p>Да. Удаляются только повторные вхождения, первое вхождение каждой строки остаётся на своём месте. Сортировка не выполняется.</p></details>
+<details><summary>Как сравнить два списка, а не очистить один?</summary><p>Для этого есть отдельный инструмент «Сравнение списков» — он покажет пересечение и различия двух списков.</p></details>
+<details><summary>«Яблоко» и «яблоко» — это дубли?</summary><p>По умолчанию нет: сравнение учитывает регистр. Включите опцию «Не учитывать регистр», и такие строки будут считаться одинаковыми.</p></details>
+<details><summary>Что считается пустой строкой?</summary><p>Строка без символов или состоящая только из пробелов и табуляций. Такие строки убирает отдельная опция «Удалить пустые строки» — у неё свой счётчик; обрезка пробелов сама по себе пустые строки не удаляет.</p></details>
+<details><summary>А если нужны сами дубли, а не уникальный список?</summary><p>Этот инструмент показывает счётчик удалённых строк, но не выводит их списком. Чтобы увидеть, что именно повторялось, очистите список и сравните результат с исходником в инструменте «Сравнение списков».</p></details>
+<details><summary>Текст списка куда-то отправляется?</summary><p>Нет. Обработка выполняется локально в вашем браузере, данные не покидают устройство и нигде не сохраняются.</p></details>
+          </div>
+        </article>
+      </div>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../schetchik-slov/">Счётчик слов и символов</a>
+          <a class="related-link" href="../transliteraciya/">Транслитерация</a>
+          <a class="related-link" href="../sravnenie-spiskov/">Сравнение списков</a>
+          <a class="related-link" href="../peremeshat-spisok/">Перемешать список</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

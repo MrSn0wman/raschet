@@ -1,0 +1,83 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const CAP_2024 = 2225000;
+const CAP_2025 = 2759000;
+const MROT_2026 = 27093;
+const MAX_AVG_DAILY = (CAP_2024+CAP_2025)/730;
+const MIN_AVG_DAILY = MROT_2026*24/730;
+
+function avgDailyEarnings(income2024, income2025){
+  const capped2024 = Math.min(income2024, CAP_2024);
+  const capped2025 = Math.min(income2025, CAP_2025);
+  let avg = (capped2024+capped2025)/730;
+  avg = Math.max(avg, MIN_AVG_DAILY);
+  avg = Math.min(avg, MAX_AVG_DAILY);
+  return avg;
+}
+
+function stazhPercent(years){
+  if (years >= 8) return 1.0;
+  if (years >= 5) return 0.8;
+  return 0.6;
+}
+
+function recalcSickLeave(){
+  const income2024El = document.getElementById('income-2024');
+  const income2025El = document.getElementById('income-2025');
+  const stazhEl = document.getElementById('stazh');
+  const daysEl = document.getElementById('days');
+  const childCareEl = document.getElementById('child-care');
+  const errEl = document.getElementById('err');
+
+  const income2024 = parseFormattedNumber(income2024El) || 0;
+  const income2025 = parseFormattedNumber(income2025El) || 0;
+  const stazh = parseInt(stazhEl.value, 10);
+  const days = parseInt(daysEl.value, 10);
+  const isChildCare = childCareEl.checked;
+
+  if (isNaN(income2024) || income2024 < 0 || isNaN(income2025) || income2025 < 0 || isNaN(days) || days <= 0){
+    errEl.style.display = 'block';
+    ['r-total','r-avg-daily','r-percent'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const avg = avgDailyEarnings(income2024, income2025);
+  const pct = isChildCare ? 1.0 : stazhPercent(stazh);
+  const total = avg * pct * days;
+
+  document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+  document.getElementById('r-avg-daily').textContent = formatMoney2(avg) + '\u00A0₽';
+  document.getElementById('r-percent').textContent = (pct*100) + '%';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('income-2024'), document.getElementById('income-2025')].forEach(el => attachThousandsInput(el));
+  document.getElementById('income-2024').addEventListener('input', recalcSickLeave);
+  document.getElementById('income-2025').addEventListener('input', recalcSickLeave);
+  document.getElementById('stazh').addEventListener('change', recalcSickLeave);
+  document.getElementById('days').addEventListener('input', recalcSickLeave);
+  document.getElementById('child-care').addEventListener('change', recalcSickLeave);
+  recalcSickLeave();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

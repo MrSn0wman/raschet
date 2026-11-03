@@ -1,0 +1,80 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var inEl = document.getElementById('snils-in');
+  var errEl = document.getElementById('snils-error');
+  var verdictEl = document.getElementById('snils-verdict');
+  var expectedEl = document.getElementById('snils-expected');
+  var actualEl = document.getElementById('snils-actual');
+
+  function showError(msg){
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+  }
+  function hideError(){ errEl.classList.remove('visible'); }
+
+  function pad2(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function reset(){
+    verdictEl.textContent = '—';
+    verdictEl.style.color = '';
+    expectedEl.textContent = '—';
+    actualEl.textContent = '—';
+  }
+
+  function render(){
+    if (inEl.value.trim() === ''){ hideError(); reset(); return; }
+    var raw = inEl.value.replace(/\D/g, '');
+    if (raw.length !== 11){
+      showError('СНИЛС состоит из 11 цифр. Сейчас введено: ' + raw.length + '.');
+      reset();
+      return;
+    }
+    hideError();
+
+    var digits = [];
+    for (var i = 0; i < 11; i++) digits.push(raw.charCodeAt(i) - 48);
+
+    var sum = 0;
+    var allZero = true;
+    for (var k = 0; k < 9; k++){
+      sum += digits[k] * (9 - k);
+      if (digits[k] !== 0) allZero = false;
+    }
+    var expected = sum % 101;
+    if (expected === 100) expected = 0;
+    var actual = digits[9] * 10 + digits[10];
+    var ok = !allZero && expected === actual;
+
+    verdictEl.textContent = ok ? 'СНИЛС действительный' : 'СНИЛС недействительный';
+    verdictEl.style.color = ok ? 'var(--accent)' : 'var(--danger)';
+    expectedEl.textContent = pad2(expected);
+    actualEl.textContent = pad2(actual);
+  }
+
+  inEl.addEventListener('input', render);
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

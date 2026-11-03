@@ -1,0 +1,58 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function brocaWeight(heightCm){
+  if (heightCm <= 165) return heightCm - 100;
+  if (heightCm <= 175) return heightCm - 105;
+  return heightCm - 110;
+}
+
+function recalcWeight(){
+  const heightEl = document.getElementById('height');
+  const errEl = document.getElementById('err');
+  const height = parseFloat(String(heightEl.value).replace(',', '.'));
+
+  if (isNaN(height) || height < 100 || height > 250){
+    errEl.style.display = 'block';
+    document.getElementById('r-range').textContent = '—';
+    document.getElementById('r-broca').textContent = '—';
+    document.getElementById('r-mid').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const h = height/100;
+  const min = 18.5*h*h;
+  const max = 24.9*h*h;
+  const broca = brocaWeight(height);
+  const mid = (min+max)/2;
+
+  document.getElementById('r-range').textContent = min.toFixed(1).replace('.',',') + '–' + max.toFixed(1).replace('.',',') + ' кг';
+  document.getElementById('r-broca').textContent = broca.toFixed(0) + ' кг';
+  document.getElementById('r-mid').textContent = mid.toFixed(1).replace('.',',') + ' кг';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('height').addEventListener('input', recalcWeight);
+  recalcWeight();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

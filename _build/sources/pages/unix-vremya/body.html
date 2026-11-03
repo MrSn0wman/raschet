@@ -1,0 +1,119 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Unix timestamp</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Unix-время: timestamp ↔ дата</h1>
+          <p class="calc-sub">Живое текущее время в секундах Unix и перевод timestamp в дату и обратно.</p>
+          <form id="tool-form" novalidate>
+
+<div class="field-grid">
+  <div class="field">
+    <label for="ux-ts">Timestamp → дата</label>
+    <input type="text" id="ux-ts" inputmode="numeric" placeholder="1760486400" data-share="ts">
+    <span class="hint">Секунды или миллисекунды — определим сами.</span>
+  </div>
+  <div class="field">
+    <label for="ux-date">Дата → timestamp</label>
+    <input type="datetime-local" id="ux-date" step="1" data-share="ux-date">
+  </div>
+  <div class="field full">
+    <label for="ux-tz">Поле «Дата → timestamp» трактовать как</label>
+    <select id="ux-tz" data-share="ux-tz">
+      <option value="local" selected>Локальное время (вашего устройства)</option>
+      <option value="utc">UTC</option>
+    </select>
+    <div class="error-msg" id="ux-error" role="alert">Timestamp — это целое число секунд или миллисекунд.</div>
+  </div>
+</div>
+
+</form>
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="ux-now"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+
+
+<div class="result-panel">
+  <div class="r-label">Сейчас, Unix-секунды</div>
+  <div class="r-value" id="ux-now">—</div>
+  <div class="r-rows">
+    <div><b id="ux-now-local">—</b><span>сейчас, локальное время</span></div>
+    <div><b id="ux-now-utc">—</b><span>сейчас, UTC</span></div>
+    <div><b id="ux-from-ts">—</b><span>дата из timestamp (локальная / UTC)</span></div>
+    <div><b id="ux-from-date">—</b><span>timestamp из даты</span></div>
+  </div>
+</div>
+
+        </div>
+        <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        <article class="calc-explain">
+          <h2>Как это работает</h2>
+<p>Unix-время — число секунд, прошедших с 1 января 1970 года, 00:00:00 UTC (эпоха Unix). Оно не зависит от часовых поясов и високосных секунд, поэтому именно его используют в базах данных, API и логах. Большое число в верхней части страницы — текущее время, оно обновляется каждую секунду.</p>
+<p>При переводе timestamp в дату формат определяется автоматически: значения по модулю от 10¹² считаются миллисекундами, меньшие — секундами. Граница выбрана так, что сегодняшние даты попадают в правильный разряд: сейчас это примерно 1,76 × 10⁹ секунд или 1,76 × 10¹² миллисекунд. Даты ранее 1970 года (отрицательный timestamp) тоже поддерживаются.</p>
+<p>При переводе даты в timestamp выберите, как трактовать введённое время: как локальное время вашего устройства или как UTC. Результат показывается и в секундах, и в миллисекундах — копируйте тот формат, который ждёт ваша система. Диапазон ограничен точностью JavaScript: примерно ±285 тысяч лет от эпохи.</p>
+<p>Разберём на числе. Вводите timestamp <code>1735689600</code> — конвертер видит десятизначное значение, трактует его как секунды и выдаёт 1 января 2025 года, 00:00:00 UTC. Тот же момент в миллисекундах выглядит так:</p>
+<p><code>1735689600000</code></p>
+<p>Обратная операция симметрична: ставите дату 01.01.2025 00:00 и режим UTC — получаете те же <code>1735689600</code>. Если выбрать локальное время, результат сдвинется на ваше смещение: в Екатеринбурге (UTC+5) полночь первого января даст <code>1735671600</code>, то есть на 18 000 секунд меньше.</p>
+<p>Если под рукой нет конвертера, timestamp можно прикинуть арифметикой: умножьте число полных дней от эпохи на 86 400 — столько секунд в сутках. Полночь 1 января 2025 года наступила через 20 089 дней после эпохи:</p>
+<p><code>20089 × 86400 = 1735689600</code></p>
+<h3>Секунды против миллисекунд</h3>
+<p>Главный источник путаницы — разрядность. Unix-утилиты, большинство API и языки вроде Python работают в секундах, а JavaScript и Java — в миллисекундах. Если API вернул число с тремя лишними нулями, дата «уедет» на тысячи лет вперёд; если, наоборот, отбросить миллисекунды делением, проверьте, куда делся остаток, — иногда важна точность до долей секунды. Конвертер снимает вопрос: он смотрит на величину числа, сам выбирает разряд и показывает оба варианта.</p>
+<h3>Часовой пояс решает всё</h3>
+<p>Timestamp сам по себе не знает ни про Москву, ни про UTC — это просто счётчик. Пояс появляется только при переводе числа в читаемую дату. Поэтому один и тот же момент в разных поясах выглядит по-разному, а один и тот же «локальный полдень» в разных городах — это разные timestamp. Передаёте дату в чужую систему — договоритесь, в каком поясе трактуется время: расхождение в несколько часов почти всегда означает, что одна сторона считает в UTC, а другая — в локальном времени.</p>
+<p>Ещё одна тонкость: unix-время не считает високосные секунды, которые изредка добавляют к UTC для синхронизации с вращением Земли. Каждые сутки в нём ровно 86 400 секунд, поэтому на длинных интервалах unix-время и астрономическое слегка расходятся — для бытовых и программных задач этой разницей пренебрегают.</p>
+<h3>Где встречается unix-время</h3>
+<p>Практически везде, где программа хранит или сравнивает моменты времени:</p>
+<ul>
+<li>поля created_at и updated_at в базах данных;</li>
+<li>сроки действия токенов, сессий и JWT;</li>
+<li>метки событий в логах и системах мониторинга;</li>
+<li>заголовки кэширования и cookies в HTTP.</li>
+</ul>
+<p>Причина простая: целое число легко хранить, сортировать и сравнивать, а разница двух timestamp сразу даёт длительность в секундах — без календарной арифметики с месяцами разной длины. Поэтому unix-время стало универсальным форматом обмена датами между системами.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Чем отличаются timestamp в секундах и миллисекундах?</summary><p>В миллисекундах значение в тысячу раз больше. JavaScript (Date.now) и Java используют миллисекунды, Unix-утилиты и большинство API — секунды. Конвертер определяет формат по величине числа.</p></details>
+<details><summary>Почему 1970 год называется эпохой Unix?</summary><p>Так решили авторы первых версий Unix: отсчёт времени в системе начался с полуночи 1 января 1970 года по UTC. Даты раньше эпохи кодируются отрицательными числами.</p></details>
+<details><summary>Что будет 19 января 2038 года?</summary><p>В этот день 32-битный счётчик секунд переполнится (проблема 2038 года). Современные 64-битные системы, включая этот конвертер, ей не подвержены.</p></details>
+<details><summary>Timestamp одинаковый во всём мире?</summary><p>Да, это абсолютное число секунд от эпохи, без часовых поясов. Различия возникают только при превращении timestamp в читаемую дату — тут и нужен выбор пояса.</p></details>
+<details><summary>Как узнать текущий timestamp?</summary><p>Он показан в верхней части этой страницы и обновляется каждую секунду. В коде текущее время получают через Date.now() в JavaScript, time() в PHP или time.time() в Python.</p></details>
+<details><summary>Почему конвертер показывает дату со сдвигом на несколько часов?</summary><p>Почти наверняка дело в часовом поясе: одна сторона трактует время как UTC, другая — как локальное. Переключите режим и сравните результаты — сдвиг совпадёт с вашим смещением от UTC.</p></details>
+          </div>
+        </article>
+      </div>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../chasovye-poyasa/">Разница часовых поясов</a>
+          <a class="related-link" href="../dni/">Калькулятор дней</a>
+          <a class="related-link" href="../obratnyy-otschet/">Обратный отсчёт</a>
+          <a class="related-link" href="../rabochie-dni/">Калькулятор рабочих дней</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,101 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcDays(){
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const errEl = document.getElementById('err');
+  const rowsWrap = document.getElementById('r-rows-wrap');
+
+  if (mode === 'between'){
+    const v1 = document.getElementById('date1').value;
+    const v2 = document.getElementById('date2').value;
+    if (!v1 || !v2){
+      errEl.style.display = 'block';
+      document.getElementById('r-result').textContent = '—';
+      rowsWrap.innerHTML = '<div><b id="r-weeks">—</b><span>В неделях (округлённо)</span></div>';
+      return;
+    }
+    errEl.style.display = 'none';
+    const d1 = new Date(v1+'T00:00:00');
+    const d2 = new Date(v2+'T00:00:00');
+    const diff = Math.round((d2-d1)/86400000);
+    document.getElementById('r-label').textContent = 'Разница в днях';
+    document.getElementById('r-result').textContent = Math.abs(diff).toLocaleString('ru-RU') + ' ' + pluralDays(Math.abs(diff));
+    rowsWrap.innerHTML = '<div><b>' + (Math.abs(diff)/7).toFixed(1).replace('.',',') + '</b><span>В неделях</span></div>';
+  } else {
+    const baseVal = document.getElementById('base-date').value;
+    const offsetEl = document.getElementById('days-offset');
+    const offset = parseInt(String(offsetEl.value).replace(/[^\-0-9]/g,''), 10);
+    if (!baseVal || isNaN(offset)){
+      errEl.style.display = 'block';
+      document.getElementById('r-result').textContent = '—';
+      rowsWrap.innerHTML = '<div><b id="r-weeks">—</b><span>День недели</span></div>';
+      return;
+    }
+    errEl.style.display = 'none';
+    const d = new Date(baseVal+'T00:00:00');
+    d.setDate(d.getDate()+offset);
+    const weekdays = ['воскресенье','понедельник','вторник','среда','четверг','пятница','суббота'];
+    document.getElementById('r-label').textContent = offset >= 0 ? 'Дата через ' + offset + ' дн.' : 'Дата ' + Math.abs(offset) + ' дн. назад';
+    document.getElementById('r-result').textContent = d.toLocaleDateString('ru-RU', { day:'numeric', month:'long', year:'numeric' });
+    rowsWrap.innerHTML = '<div><b>' + weekdays[d.getDay()] + '</b><span>День недели</span></div>';
+  }
+}
+
+function pluralDays(n){
+  const n10 = n % 10, n100 = n % 100;
+  if (n100 >= 11 && n100 <= 14) return 'дней';
+  if (n10 === 1) return 'день';
+  if (n10 >= 2 && n10 <= 4) return 'дня';
+  return 'дней';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const today = new Date().toISOString().slice(0,10);
+  document.getElementById('date1').value = today;
+  const in30 = new Date(); in30.setDate(in30.getDate()+30);
+  document.getElementById('date2').value = in30.toISOString().slice(0,10);
+  document.getElementById('base-date').value = today;
+
+  document.getElementById('date1').addEventListener('input', recalcDays);
+  document.getElementById('date2').addEventListener('input', recalcDays);
+  document.getElementById('base-date').addEventListener('input', recalcDays);
+  document.getElementById('days-offset').addEventListener('input', recalcDays);
+
+  const betweenFields = document.getElementById('between-fields');
+  const addFields = document.getElementById('add-fields');
+  document.querySelectorAll('input[name="mode"]').forEach(r => {
+    r.addEventListener('change', () => {
+      if (document.querySelector('input[name="mode"]:checked').value === 'between'){
+        betweenFields.style.display = 'grid';
+        addFields.style.display = 'none';
+      } else {
+        betweenFields.style.display = 'none';
+        addFields.style.display = 'grid';
+      }
+      recalcDays();
+    });
+  });
+
+  recalcDays();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,145 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / <a href="../#finance">Финансы</a> / Кредит</p>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Калькулятор потребительского кредита</h1>
+          <p class="calc-sub">Аннуитетный платёж, переплата и полная стоимость кредита (ПСК) по заданным условиям.</p>
+
+          <form id="credit-form" novalidate>
+            <div class="field-grid">
+              <div class="field">
+                <label for="c-amount">Сумма кредита</label>
+                <div class="unit-input">
+                  <input type="text" id="c-amount" value="400000" required data-share="c-amount">
+                  <span>₽</span>
+                </div>
+              </div>
+              <div class="field">
+                <label for="c-rate">Ставка, годовых</label>
+                <div class="unit-input">
+                  <input type="number" id="c-rate" value="19" min="0" max="80" step="0.1" required data-share="c-rate">
+                  <span>%</span>
+                </div>
+              </div>
+              <div class="field full">
+                <label for="c-months">Срок</label>
+                <div class="unit-input">
+                  <input type="number" id="c-months" value="36" min="1" max="84" step="1" required data-share="c-months">
+                  <span>мес.</span>
+                </div>
+              </div>
+            </div>
+            <div class="error-msg" role="alert" id="c-error">Проверьте введённые значения — сумма и срок должны быть больше нуля.</div>
+          </form>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="c-payment"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Ежемесячный платёж</div>
+            <div class="r-value" id="c-payment">—</div>
+            <div class="r-rows">
+              <div><b id="c-total">—</b><span>Итого выплат</span></div>
+              <div><b id="c-overpay">—</b><span>Переплата по процентам</span></div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg id="k-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение тела кредита и процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="k-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="75.78 24.22" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="k-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="24.22 75.78" stroke-dashoffset="-50.78" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Тело кредита&nbsp;— <b id="k-legend-a">400 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Проценты&nbsp;— <b id="k-legend-b">127 847 ₽</b></div>
+            </div>
+          </div>
+
+
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead><tr><th>Мес.</th><th>Платёж, ₽</th><th>Проценты, ₽</th><th>Тело, ₽</th><th>Остаток, ₽</th></tr></thead>
+              <tbody id="cr-schedule"></tbody>
+            </table>
+          </div>
+          <button class="action-btn schedule-toggle" id="cr-schedule-toggle" type="button"><span>Показать весь график</span></button>
+          </div>
+
+          <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        </div>
+
+        <article class="calc-explain">
+          <h2>Как считается платёж по кредиту</h2>
+<p>Калькулятор считает потребительский кредит по аннуитетной формуле — той же, что и банки. Введите сумму, ставку и срок в месяцах: вы получите фиксированный ежемесячный платёж, итоговую сумму выплат и переплату по процентам. Этого достаточно, чтобы сравнить предложения разных банков до подачи заявки и понять, сколько кредит обойдётся на самом деле.</p>
+<p>Потребительский кредит — это заём наличными без залога и без отчёта банку, на что потрачены деньги. За свободу распоряжения заёмщик платит ставкой: она выше ипотечной. Поэтому считать переплату заранее здесь особенно полезно.</p>
+<p>Формула аннуитетного платежа:</p>
+<p><code>П = К × (i × (1 + i)ⁿ) / ((1 + i)ⁿ − 1)</code></p>
+<p>К — сумма кредита, i — месячная ставка (годовая, делённая на 12), n — число платежей. Платёж одинаковый весь срок, но внутри него меняется пропорция: сначала почти всё уходит на проценты, потом — на сам долг.</p>
+<p>Срок здесь задаётся в месяцах — так принято для потребительских кредитов. Три года — это 36 платежей, пять лет — 60. Результат пересчитывается при каждом изменении полей, поэтому удобно двигать цифры и смотреть, как меняются платёж и переплата.</p>
+<p>Пример: 400&nbsp;000&nbsp;₽ под 19% годовых на 36 месяцев. Месячная ставка — примерно 1,58%. По формуле платёж выходит 14&nbsp;662&nbsp;₽. За три года вы вернёте банку 527&nbsp;847&nbsp;₽: 400&nbsp;000&nbsp;₽ долга и 127&nbsp;847&nbsp;₽ процентов. Переплата — почти треть от взятой суммы.</p>
+<p>Растянем тот же кредит на 60 месяцев. Платёж упадёт примерно до 10&nbsp;376&nbsp;₽ — на треть легче для бюджета. Но переплата вырастет примерно до 222&nbsp;600&nbsp;₽: за «лёгкий» платёж вы доплатите банку почти 95&nbsp;000&nbsp;₽. Такие сравнения — главное, для чего нужен этот калькулятор. Прежде чем подписывать договор, прогоните в нём сумму, которую реально планируете взять: платёж должен спокойно вписываться в ваш ежемесячный бюджет, а размер переплаты не должен стать сюрпризом.</p>
+<h3>Как сравнить предложения банков</h3>
+<p>Возьмите ставки из предложений двух-трёх банков и подставьте их по очереди при одинаковой сумме и сроке. Даже разница в пару процентных пунктов на длинном сроке даёт заметную разницу в переплате. Диаграмма под формой показывает соотношение тела кредита и процентов — чем больше «золотая» часть, тем дороже кредит. Заявки лучше подавать в несколько банков сразу: итоговая ставка назначается индивидуально и часто отличается от рекламной.</p>
+<h3>Что такое полная стоимость кредита</h3>
+<p>ПСК — это полная стоимость кредита с учётом процентов, комиссий и обязательных страховок, выраженная в процентах годовых. Банк обязан указывать ПСК в паспорте кредита, и она может быть выше номинальной ставки, которую считает этот калькулятор. Если в договоре есть платная страховка или комиссия, сравнивайте предложения банков по ПСК, а не по рекламной ставке.</p>
+<h3>Почему в первые месяцы долг уменьшается медленно</h3>
+<p>Проценты начисляются на остаток долга. В начале срока остаток максимальный, поэтому процентная часть платежа большая, а тело кредита уменьшается не спеша. В примере выше из первого платежа 14&nbsp;662&nbsp;₽ на проценты уходит около 6&nbsp;333&nbsp;₽, и только остаток гасит долг. Чем длиннее срок, тем сильнее этот эффект: платёж становится легче, но общая переплата растёт.</p>
+<h3>Что калькулятор не учитывает</h3>
+<p>Расчёт строится только на сумме, ставке и сроке. В реальном договоре могут появиться:</p>
+<ul>
+<li>страховка жизни или потери работы — добровольная, но влияющая на ставку;</li>
+<li>комиссии за выдачу, обслуживание счёта или SMS-информирование;</li>
+<li>надбавка к ставке после индивидуальной оценки заёмщика.</li>
+</ul>
+<p>Поэтому результат калькулятора — ориентир для сравнения, а не оферта. Точные цифры смотрите в предложении конкретного банка и в графе ПСК.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Можно ли досрочно погасить кредит без потери процентов?</summary><p>Да, по закону вы вправе досрочно погасить кредит полностью или частично. При частичном досрочном погашении банк обязан пересчитать проценты только на остаток долга — переплата за оставшийся срок уменьшится.</p></details>
+<details><summary>Почему банк одобрил ставку выше той, что в рекламе?</summary><p>Рекламная ставка обычно указывается «от» — минимальное значение для заёмщиков с лучшим профилем (зарплатный клиент, высокий доход, страхование). Итоговая ставка зависит от индивидуальной оценки банка.</p></details>
+<details><summary>Какой срок кредита выбрать: короткий или длинный?</summary><p>Короткий срок — выше платёж, но заметно меньше переплата. Длинный — легче для бюджета, но дороже в итоге. Рабочее правило: берите срок, при котором платёж комфортен, и гасите досрочно, когда появляются свободные деньги.</p></details>
+<details><summary>Чем аннуитетный платёж отличается от дифференцированного?</summary><p>Аннуитет — равный платёж каждый месяц. При дифференцированной схеме платежи начинаются с максимума и постепенно снижаются, а общая переплата обычно меньше. Большинство банков сегодня предлагают аннуитет.</p></details>
+<details><summary>Можно ли отказаться от страховки по кредиту?</summary><p>Да, личное страхование — добровольная услуга, хотя отказ может повысить ставку. Если страховку оформили при выдаче, обычно действует период охлаждения, в течение которого договор страхования можно расторгнуть и вернуть премию.</p></details>
+<details><summary>Что будет, если просрочить платёж по кредиту?</summary><p>Банк начислит неустойку на просроченную сумму, а сведения о задержке попадут в кредитную историю. Если понимаете, что не успеваете заплатить, лучше заранее связаться с банком — иногда предлагают отсрочку или реструктуризацию.</p></details>
+          </div>
+        </article>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../ipoteka/">Ипотека</a>
+          <a class="related-link" href="../vklad/">Вклад</a>
+          <a class="related-link" href="../procenty/">Калькулятор процентов</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

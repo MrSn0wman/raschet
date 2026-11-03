@@ -1,0 +1,114 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Lorem ipsum генератор</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Генератор Lorem ipsum</h1>
+          <p class="calc-sub">Текст-заглушка для макетов: абзацы, предложения или слова из классического латинского корпуса.</p>
+          <form id="tool-form" novalidate>
+
+<div class="field-grid">
+  <div class="field">
+    <label for="li-count">Количество</label>
+    <input type="number" id="li-count" min="1" max="100" value="3" step="1" data-share="li-count">
+  </div>
+  <div class="field">
+    <label for="li-unit">Чего именно</label>
+    <select id="li-unit" data-share="li-unit">
+      <option value="paragraphs" selected>абзацев</option>
+      <option value="sentences">предложений</option>
+      <option value="words">слов</option>
+    </select>
+  </div>
+  <div class="field full">
+    <div class="check-grid">
+      <label class="check-option"><input type="checkbox" id="li-start" checked data-share="li-start"> Начать с «Lorem ipsum dolor sit amet…»</label>
+    </div>
+  </div>
+  <div class="field full">
+    <button class="btn btn-primary" id="li-gen" type="button">Сгенерировать текст</button>
+  </div>
+</div>
+
+</form>
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+
+
+<div class="result-panel">
+  <div class="r-label">Результат</div>
+  <textarea id="li-out" class="li-out" rows="10" readonly></textarea>
+  <div class="action-bar">
+    <button class="btn btn-ghost" id="li-copy" type="button">Скопировать текст</button>
+  </div>
+</div>
+
+        </div>
+        <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        <article class="calc-explain">
+          <h2>Как работает генератор рыбного текста</h2>
+<p>Выберите, что считать — абзацы, предложения или отдельные слова, укажите количество и нажмите кнопку генерации. Генератор соберёт текст из классического словаря Lorem ipsum и покажет его в поле результата, откуда текст копируется одной кнопкой. Всё происходит в вашем браузере, текст никуда не отправляется.</p>
+<p>Рыбный текст нужен, чтобы показать макет без настоящего содержания. Если вставить в макет осмысленный русский текст, заказчик начнёт править формулировки вместо того, чтобы смотреть на вёрстку, шрифты и отступы. Если написать «текст текст текст», длина слов получится неестественной, и блоки поведут себя иначе, чем с реальным контентом. Латинская заглушка решает обе проблемы: выглядит как настоящий текст с живой статистикой слов, но не читается и не отвлекает.</p>
+<p>Словарь генератора — фрагменты трактата Цицерона «О пределах добра и зла» (45 год до н. э.), перемешанные типографами ещё в XVI веке. Из этих слов собираются предложения по 6–14 слов с заглавной буквы и точкой в конце, а абзацы — по 4–7 предложений. Случайность даёт криптографический генератор браузера crypto.getRandomValues, поэтому два запуска подряд почти наверняка выдадут разный текст.</p>
+<p>Пример: вы верстаете страницу статьи и хотите заранее увидеть, как поведёт себя колонка. Запрашиваете 3 абзаца для основного текста, 12 слов для лида и одно предложение для подписи под фотографией. Через минуту макет заполнен «живым» по статистике текстом, и сразу видно, где строки переполняются, а где блок, наоборот, пустеет.</p>
+<p>Скопировать результат можно кнопкой рядом с полем — текст попадёт в буфер обмена с сохранением разбивки на абзацы. Если нужен сплошной фрагмент без разбивки, запросите один большой абзац или нужное число предложений.</p>
+<h3>Что выбрать: абзацы, предложения или слова</h3>
+<p>Абзацы удобны для статей, карточек товаров и лендингов — они сразу дают реалистичные блоки с отступами. Предложения подходят для подзаголовков, кнопок и коротких описаний. Слова выручают там, где места совсем мало: метка, тег, пункт меню. Точное число слов полезно и для проверки обрезки текста многоточием.</p>
+<ul>
+<li>статья, карточка товара, лендинг — 2–4 абзаца;</li>
+<li>подзаголовок или лид — 1–2 предложения;</li>
+<li>кнопка, метка, тег — 2–4 слова;</li>
+<li>проверка обрезки многоточием — точное число слов.</li>
+</ul>
+<h3>Зачем галочка «Начать с Lorem ipsum…»</h3>
+<p>Классическое начало «Lorem ipsum dolor sit amet…» узнают все, кто работает с макетами: заказчик с первого взгляда понимает, что перед ним заглушка, а не черновик текста. Если нужен нейтральный вариант — скажем, для пользовательских тестов, где знакомое начало подскажет участнику, что текст неважен, — снимите галочку, и генерация начнётся со случайного места словаря.</p>
+<h3>Сколько текста просить</h3>
+<p>Берите объём, близкий к будущему реальному: если в статье планируется полторы тысячи знаков, сгенерируйте примерно столько же. Слишком короткая заглушка скроет проблемы с переносами и отступами, слишком длинная — раздует макет. А перед запуском сайта обязательно замените «рыбу» настоящим контентом: забытая заглушка на живой странице выглядит недоделкой.</p>
+<p>Генератор не требует регистрации и работает даже без интернета после первой загрузки страницы: словарь и логика сборки лежат прямо в её коде. Это удобно, когда макет собирается в дороге или в закрытой корпоративной сети.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Что вообще написано в Lorem ipsum?</summary><p>Это искажённые фрагменты трактата Цицерона об этике: «Нет никого, кто любил бы боль саму по себе…». Осмысленной латынью текст не является — слова и окончания перемешаны.</p></details>
+<details><summary>Почему нельзя просто написать «текст текст текст»?</summary><p>Повторяющиеся слова дают неестественную плотность и длину строк — вёрстка на реальном контенте «поедет». Lorem ipsum имитирует статистику настоящего текста.</p></details>
+<details><summary>Есть ли ограничения на объём?</summary><p>До 100 абзацев, предложений или слов за раз. Для больших объёмов сгенерируйте несколько порций.</p></details>
+<details><summary>Можно ли использовать этот текст в продакшене?</summary><p>Технически — да, но не стоит: «рыба» на живом сайте выглядит как недоделка и сбивает посетителей. Используйте только на этапе макета.</p></details>
+<details><summary>Кто придумал Lorem ipsum?</summary><p>Основа — трактат Цицерона «О пределах добра и зла», написанный в 45 году до н. э. Слова перемешали типографы XVI века, а в нынешнем виде текст разошёлся в 1960-х вместе с листами для вёрстки Letraset.</p></details>
+<details><summary>Работает ли генератор без интернета?</summary><p>Да. Словарь и логика сборки находятся в коде страницы и выполняются в браузере, поэтому после первой загрузки интернет не нужен.</p></details>
+          </div>
+        </article>
+      </div>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../schetchik-slov/">Счётчик слов и символов</a>
+          <a class="related-link" href="../generator-nikneimov/">Генератор никнеймов</a>
+          <a class="related-link" href="../sluchaynye-chisla/">Генератор случайных чисел</a>
+          <a class="related-link" href="../uuid-generator/">Генератор UUID</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

@@ -1,0 +1,121 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  // Офлайн-курсы ЦБ РФ, рублей за 1 единицу валюты (номиналы уже приведены).
+  var OFFLINE_DATE = '15.10.2026';
+  var OFFLINE = {
+    USD: 83.9497, EUR: 93.9229, CNY: 12.5358, GBP: 111.225, TRY: 1.702,
+    AED: 22.859, KZT: 0.1872, BYN: 27.8782, UAH: 1.8664, RUB: 1
+  };
+
+  var rates = {};
+  Object.keys(OFFLINE).forEach(function(code){ rates[code] = OFFLINE[code]; });
+
+  var amountEl = document.getElementById('cv-amount');
+  var fromEl = document.getElementById('cv-from');
+  var toEl = document.getElementById('cv-to');
+  var unitEl = document.getElementById('cv-unit');
+  var outEl = document.getElementById('cv-result');
+  var rateEl = document.getElementById('cv-rate');
+  var invEl = document.getElementById('cv-inv');
+  var srcEl = document.getElementById('cv-src');
+
+  function render(){
+    var amount = window.parseFormattedNumber(amountEl);
+    var from = fromEl.value;
+    var to = toEl.value;
+    unitEl.textContent = from;
+    if (isNaN(amount) || !rates[from] || !rates[to]){
+      outEl.textContent = '—';
+      rateEl.textContent = '—';
+      invEl.textContent = '—';
+      return;
+    }
+    var result = amount * rates[from] / rates[to];
+    outEl.textContent = window.formatMoney2(result) + ' ' + to;
+    rateEl.textContent = '1 ' + from + ' = ' + window.formatSmart(rates[from] / rates[to]) + ' ' + to;
+    invEl.textContent = '1 ' + to + ' = ' + window.formatSmart(rates[to] / rates[from]) + ' ' + from;
+  }
+
+  function fmtRateDate(d){
+    d = String(d || OFFLINE_DATE);
+    return /^\d{4}-\d{2}-\d{2}$/.test(d) ? d.split('-').reverse().join('.') : d;
+  }
+
+  function offlineLabel(){
+    srcEl.textContent = 'Курсы ЦБ РФ от ' + OFFLINE_DATE + ' (офлайн)';
+  }
+
+  function fetchRatesJson(url){
+    var ctrl = new AbortController();
+    var timer = setTimeout(function(){ ctrl.abort(); }, 3000);
+    return fetch(url, { signal: ctrl.signal })
+      .then(function(resp){
+        clearTimeout(timer);
+        if (!resp.ok) throw new Error('http ' + resp.status);
+        return resp.json();
+      }, function(err){ clearTimeout(timer); throw err; });
+  }
+
+  function applyRates(data){
+    if (!data || typeof data !== 'object' || !data.rates) throw new Error('format');
+    Object.keys(rates).forEach(function(code){
+      if (code === 'RUB') return;
+      var v = Number(data.rates[code]);
+      if (isFinite(v) && v > 0) rates[code] = v;
+    });
+    var days = (Date.now() - Date.parse(fmtRateDate(data.date).split('.').reverse().join('-'))) / 86400000;
+    if (data.stale || days > 14){
+      srcEl.textContent = 'Курсы от ' + fmtRateDate(data.date) + ', обновление временно недоступно';
+    } else {
+      srcEl.textContent = 'Курсы ЦБ РФ от ' + fmtRateDate(data.date);
+    }
+    render();
+  }
+
+  function loadRates(){
+    // 1) rates.json: ежедневные курсы ЦБ через GitHub Actions, same-origin.
+    //    ?d=YYYYMMDD — дневной cache-bust, чтобы service worker не отдавал вчерашний файл.
+    var t = new Date();
+    var bust = '?d=' + t.getFullYear() + ('0' + (t.getMonth() + 1)).slice(-2) + ('0' + t.getDate()).slice(-2);
+    fetchRatesJson('../assets/rates.json' + bust)
+      .then(applyRates)
+      .catch(function(){
+        // 2) бэкенд (если настроен RASCHET_API_BASE)
+        if (!window.RASCHET_API_BASE){ offlineLabel(); return; }
+        fetchRatesJson(window.RASCHET_API_BASE + '/api/rates')
+          .then(applyRates)
+          .catch(offlineLabel);
+      });
+  }
+
+  window.attachThousandsInput(amountEl);
+  amountEl.addEventListener('input', render);
+  fromEl.addEventListener('change', render);
+  toEl.addEventListener('change', render);
+  render();
+  loadRates();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

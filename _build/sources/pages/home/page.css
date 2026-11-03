@@ -1,0 +1,8 @@
+
+/* --- страничные стили --- */
+/* Allow the mobile hero to shrink inside classic-scrollbar viewports. */
+.hero-grid > *{min-width:0;}
+.finder-row input{min-width:0;}
+@media(max-width:980px){
+  .hero-grid{grid-template-columns:minmax(0,1fr);}
+}

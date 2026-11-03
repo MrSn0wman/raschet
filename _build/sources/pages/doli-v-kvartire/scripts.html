@@ -1,0 +1,103 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+let shareId = 0;
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function addShareRow(name, num, den){
+  shareId++;
+  const wrap = document.getElementById('shares-wrap');
+  const row = document.createElement('div');
+  row.className = 'share-row';
+  row.innerHTML =
+    '<div class="field"><label>Имя собственника</label><input type="text" class="share-name" value="' + esc(name||'') + '" placeholder="Например, Иванов"></div>' +
+    '<div class="field"><label>Числитель</label><input type="text" class="share-num" value="' + esc(num!==undefined?num:'') + '" inputmode="numeric"></div>' +
+    '<div class="field"><label>Знаменатель</label><input type="text" class="share-den" value="' + esc(den!==undefined?den:'') + '" inputmode="numeric"></div>' +
+    '<button type="button" class="share-remove" aria-label="Удалить">✕</button>';
+  wrap.appendChild(row);
+  row.querySelectorAll('input').forEach(inp => inp.addEventListener('input', recalcShares));
+  row.querySelector('.share-remove').addEventListener('click', () => {
+    row.remove();
+    recalcShares();
+  });
+}
+
+function recalcShares(){
+  const totalAreaEl = document.getElementById('total-area');
+  const totalValueEl = document.getElementById('total-value');
+  const errEl = document.getElementById('err');
+  const rows = document.querySelectorAll('.share-row');
+
+  const totalArea = parseFloat(String(totalAreaEl.value).replace(',', '.'));
+  const totalValue = parseFormattedNumber(totalValueEl);
+
+  const shares = [];
+  let hasInvalid = false;
+  rows.forEach(row => {
+    const name = row.querySelector('.share-name').value.trim() || 'Без имени';
+    const num = parseFloat(row.querySelector('.share-num').value);
+    const den = parseFloat(row.querySelector('.share-den').value);
+    if (isNaN(num) || isNaN(den) || den <= 0 || num < 0){
+      hasInvalid = true;
+      return;
+    }
+    shares.push({ name, num, den, fraction: num/den });
+  });
+
+  if (hasInvalid || shares.length === 0 || isNaN(totalArea) || totalArea <= 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-sum').textContent = '—';
+    document.getElementById('r-status').textContent = '—';
+    document.getElementById('share-table').style.display = 'none';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const sum = shares.reduce((acc,s) => acc + s.fraction, 0);
+  document.getElementById('r-sum').textContent = sum.toFixed(4).replace(/\.?0+$/, '') || '0';
+  const isValid = Math.abs(sum - 1) < 0.001;
+  document.getElementById('r-status').textContent = isValid ? 'Доли составляют целую квартиру' : (sum < 1 ? 'Доли не покрывают всю квартиру' : 'Сумма долей больше единицы — ошибка');
+
+  const tbody = document.getElementById('share-table-body');
+  const hasValue = !isNaN(totalValue) && totalValue > 0;
+  tbody.innerHTML = shares.map(s => {
+    const area = totalArea * s.fraction;
+    const valueCell = hasValue ? formatMoney(totalValue * s.fraction) + '\u00A0₽' : '—';
+    return '<tr><td>' + esc(s.name) + '</td><td>' + s.num + '/' + s.den + '</td><td>' + area.toFixed(2).replace('.', ',') + ' м²</td><td>' + valueCell + '</td></tr>';
+  }).join('');
+  document.getElementById('share-table').style.display = 'table';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  attachThousandsInput(document.getElementById('total-value'));
+  document.getElementById('total-area').addEventListener('input', recalcShares);
+  document.getElementById('total-value').addEventListener('input', recalcShares);
+
+  addShareRow('Собственник 1', 1, 3);
+  addShareRow('Собственник 2', 1, 3);
+  addShareRow('Собственник 3', 1, 3);
+  document.getElementById('add-share').addEventListener('click', () => addShareRow('', '', ''));
+
+  recalcShares();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

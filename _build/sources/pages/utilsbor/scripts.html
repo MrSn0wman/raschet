@@ -1,0 +1,68 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recyclingFeeIndividual(ageCategory, powerHp, volumeCc){
+  if (powerHp > 160 || volumeCc > 3000){
+    return null;
+  }
+  return ageCategory === 'under3' ? 3400 : 5200;
+}
+
+function recalcRecyclingFee(){
+  const ageCategory = document.getElementById('age-category').value;
+  const powerEl = document.getElementById('power');
+  const volumeEl = document.getElementById('volume');
+  const errEl = document.getElementById('err');
+
+  const power = parseFormattedNumber(powerEl);
+  const volume = parseFormattedNumber(volumeEl);
+
+  if (isNaN(power) || power <= 0 || isNaN(volume) || volume <= 0){
+    errEl.style.display = 'block';
+    document.getElementById('r-fee').textContent = '—';
+    document.getElementById('r-eligible').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const fee = recyclingFeeIndividual(ageCategory, power, volume);
+
+  if (fee === null){
+    document.getElementById('r-label').textContent = 'Льготная ставка не применяется';
+    document.getElementById('r-fee').textContent = 'Коммерческая ставка';
+    document.getElementById('r-eligible').textContent = 'Нет — превышена мощность или объём';
+  } else {
+    document.getElementById('r-label').textContent = 'Утилизационный сбор';
+    document.getElementById('r-fee').textContent = formatMoney(fee) + '\u00A0₽';
+    document.getElementById('r-eligible').textContent = 'Да, при соблюдении условий личного пользования';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('power'), document.getElementById('volume')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcRecyclingFee);
+  });
+  document.getElementById('age-category').addEventListener('change', recalcRecyclingFee);
+  recalcRecyclingFee();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

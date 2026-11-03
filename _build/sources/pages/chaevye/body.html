@@ -1,0 +1,100 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#misc">Разное</a> / Чаевые
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Калькулятор чаевых</h1>
+          <p class="calc-sub">Посчитайте сумму чаевых и итоговую сумму на человека при оплате счёта в компании.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="bill">Сумма счёта</label>
+              <div class="unit-input">
+                <input type="text" id="bill" value="2 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="tip-percent">Чаевые</label>
+              <div class="unit-input">
+                <input type="text" id="tip-percent" value="10" inputmode="decimal">
+                <span>%</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="people">Количество человек</label>
+              <input type="text" id="people" value="4" inputmode="numeric">
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-per-person"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">К оплате на человека</div>
+            <div class="r-value" id="r-per-person">—</div>
+            <div class="r-rows">
+              <div><b id="r-tip">—</b><span>Сумма чаевых</span></div>
+              <div><b id="r-total">—</b><span>Итого со счётом</span></div>
+            </div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считаются чаевые</h2>
+<p>Чаевые — это процент от суммы счёта. Введите сумму из чека, задайте процент и укажите, сколько человек делят оплату: калькулятор покажет размер чаевых, итог к оплате и долю каждого гостя. Расчёт мгновенный — процент можно подбирать прямо за столиком. Все три числа пересчитываются при каждом изменении полей.</p>
+<p>Счёт умножается на процент чаевых:</p>
+<p><code>чаевые = счёт × (процент / 100)</code></p>
+<p>К получившейся сумме прибавляется счёт — это итог к оплате. Если гостей несколько, итог делится между ними поровну:</p>
+<p><code>на человека = (счёт + чаевые) / число гостей</code></p>
+<p>Пример: ужин на четверых стоил 4&nbsp;800&nbsp;₽, решили оставить 10%. Чаевые — 480&nbsp;₽, итог — 5&nbsp;280&nbsp;₽, с каждого — 1&nbsp;320&nbsp;₽. Хочется отблагодарить щедрее и поставить 15%? Меняете одно поле: чаевые вырастут до 720&nbsp;₽, а доля гостя — до 1&nbsp;380&nbsp;₽.</p>
+<p>Быстрый способ без калькулятора: десять процентов — это счёт, поделённый на десять. От 3&nbsp;400&nbsp;₽ получится 340&nbsp;₽. Пять процентов — половина от этой суммы, пятнадцать — десять плюс ещё половина. Если считать в уме лень, округлите итог до удобной суммы: вместо 3&nbsp;417&nbsp;₽ оставьте 3&nbsp;600&nbsp;₽, разница и будет чаевыми.</p>
+<p>Все поля подписаны по-русски: сумма счёта, процент чаевых, число гостей. Процент можно вводить дробным — например, 12,5, — если хочется точности. Копейки в результате калькулятор не показывает: итог округляется до целых рублей, за столом этого достаточно.</p>
+<h3>Сколько принято оставлять</h3>
+<p>В России ориентир — 10% от счёта за хороший сервис. За отличный оставляют 15%, за средний — 5% или просто округляют сумму. В США норма жёстче: 15–20%, и меньшая сумма читается как претензия к обслуживанию. Во многих странах Европы сервис уже включён в счёт, и чаевые сводятся к округлению. Курьерам и таксистам процент считать необязательно: обычно добавляют фиксированные 50–200&nbsp;₽ или округляют стоимость поездки.</p>
+<h3>Как делить счёт на компанию</h3>
+<p>Поле «Число гостей» делит итог поровну. Это удобно, когда все заказывали примерно одинаково. Если один взял салат, а другой — стейк, честнее считать по отдельности: введите в поле суммы свою часть чека и посчитайте чаевые от неё. Так же поступают, когда кто-то из компании не пил и не хочет оплачивать чужие коктейли. Десять гостей и больше калькулятор тоже переварит — деление не ограничено.</p>
+<h3>Когда чаевые можно не оставлять</h3>
+<p>Загляните в чек: если там есть строка «сервисный сбор» или «за обслуживание», чаевые уже взяли, и доплачивать сверху необязательно. В кофейнях с самообслуживанием и формате «на вынос» чаевые — дело добровольное. При откровенно плохом сервисе нормально оставить меньше привычного или не оставлять ничего: чаевые — благодарность, а не налог.</p>
+<p>Наличные доходят до официанта надёжнее всего. При оплате картой чаевые иногда можно добавить в терминале или перевести по QR-коду из чека — уточните у персонала, кому в итоге достаются эти деньги. Где-то чаевые с карты делятся между всей сменой, где-то — идут только вашему официанту.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Сколько процентов чаевых принято оставлять в России?</summary><p>Ориентир — 10% от счёта за хороший сервис. За отличный оставляют до 15%, за посредственный — 5% или округление суммы.</p></details>
+<details><summary>Обязательно ли оставлять чаевые?</summary><p>Нет, это добровольная благодарность за сервис. Если в чеке уже есть сервисный сбор, доплачивать сверху не нужно.</p></details>
+<details><summary>Как разделить счёт с чаевыми на несколько человек?</summary><p>Введите сумму счёта, процент и число гостей — калькулятор покажет итог и сумму на человека. Если заказы у всех разные, посчитайте чаевые от своей части чека отдельно.</p></details>
+<details><summary>Сколько оставляют на чай в США и Европе?</summary><p>В США принято 15–20% от счёта. Во многих странах Европы сервис включён в чек, поэтому сумму просто округляют.</p></details>
+<details><summary>Можно ли оставить чаевые при оплате картой?</summary><p>Да, многие заведения позволяют добавить чаевые в терминале или через QR-код в чеке. Наличные при этом надёжнее доходят до конкретного официанта.</p></details>
+<details><summary>Как быстро посчитать 10% в уме?</summary><p>Поделите сумму счёта на десять. Пять процентов — половина результата, пятнадцать — десять плюс ещё половина.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../procenty/">Проценты</a>
+          <a class="related-link" href="../skidki/">Скидки</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

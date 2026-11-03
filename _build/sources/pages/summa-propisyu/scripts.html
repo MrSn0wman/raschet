@@ -1,0 +1,137 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const ONES_MASC = ['','один','два','три','четыре','пять','шесть','семь','восемь','девять','десять',
+  'одиннадцать','двенадцать','тринадцать','четырнадцать','пятнадцать','шестнадцать','семнадцать','восемнадцать','девятнадцать'];
+const ONES_FEM = ['','одна','две','три','четыре','пять','шесть','семь','восемь','девять','десять',
+  'одиннадцать','двенадцать','тринадцать','четырнадцать','пятнадцать','шестнадцать','семнадцать','восемнадцать','девятнадцать'];
+const TENS = ['','','двадцать','тридцать','сорок','пятьдесят','шестьдесят','семьдесят','восемьдесят','девяносто'];
+const HUNDREDS = ['','сто','двести','триста','четыреста','пятьсот','шестьсот','семьсот','восемьсот','девятьсот'];
+const SCALE = [
+  { forms: ['','',''], feminine: false },
+  { forms: ['тысяча','тысячи','тысяч'], feminine: true },
+  { forms: ['миллион','миллиона','миллионов'], feminine: false },
+  { forms: ['миллиард','миллиарда','миллиардов'], feminine: false },
+];
+
+function pluralForm(n, forms){
+  const n10 = n % 10, n100 = n % 100;
+  if (n100 >= 11 && n100 <= 14) return forms[2];
+  if (n10 === 1) return forms[0];
+  if (n10 >= 2 && n10 <= 4) return forms[1];
+  return forms[2];
+}
+
+function threeDigitsToWords(n, feminine){
+  const words = [];
+  const h = Math.floor(n/100);
+  const rem = n % 100;
+  if (h > 0) words.push(HUNDREDS[h]);
+  if (rem >= 10 && rem < 20){
+    words.push((feminine ? ONES_FEM : ONES_MASC)[rem]);
+  } else {
+    const t = Math.floor(rem/10);
+    const o = rem % 10;
+    if (t > 0) words.push(TENS[t]);
+    if (o > 0) words.push((feminine ? ONES_FEM : ONES_MASC)[o]);
+  }
+  return words;
+}
+
+function numberToWords(num){
+  if (num === 0) return 'ноль';
+  const groups = [];
+  let n = num;
+  while (n > 0){
+    groups.push(n % 1000);
+    n = Math.floor(n/1000);
+  }
+  const parts = [];
+  for (let i = groups.length - 1; i >= 0; i--){
+    const g = groups[i];
+    if (g === 0) continue;
+    const scale = SCALE[i];
+    const words = threeDigitsToWords(g, scale.feminine);
+    parts.push(...words);
+    if (i > 0){
+      parts.push(pluralForm(g, scale.forms));
+    }
+  }
+  return parts.join(' ');
+}
+
+function capitalizeFirst(s){ return s.charAt(0).toUpperCase() + s.slice(1); }
+
+const CURRENCIES = {
+  rub: { main: ['рубль','рубля','рублей'], mainInvariable: false, frac: ['копейка','копейки','копеек'] },
+  usd: { main: ['доллар','доллара','долларов'], mainInvariable: false, frac: ['цент','цента','центов'] },
+  eur: { main: ['евро'], mainInvariable: true, frac: ['евроцент','евроцента','евроцентов'] }
+};
+
+function recalcAmountWords(){
+  const amountEl = document.getElementById('amount');
+  const currencyEl = document.getElementById('currency');
+  const errEl = document.getElementById('err');
+
+  const raw = String(amountEl.value).trim().replace(/\s/g,'').replace(',', '.');
+  const num = parseFloat(raw);
+
+  if (isNaN(num) || num < 0 || num >= 1000000000000){
+    errEl.style.display = 'block';
+    document.getElementById('r-words').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const whole = Math.floor(num);
+  const frac = Math.round((num - whole) * 100);
+
+  const currency = currencyEl.value;
+
+  if (currency === 'none'){
+    let result = capitalizeFirst(numberToWords(whole));
+    if (frac > 0) result += ' целых ' + frac + ' сотых';
+    document.getElementById('r-words').textContent = result;
+    return;
+  }
+
+  const c = CURRENCIES[currency];
+  const mainWord = c.mainInvariable ? c.main[0] : pluralForm(whole, c.main);
+  const fracWord = pluralForm(frac, c.frac);
+  const fracStr = String(frac).padStart(2,'0');
+
+  const result = capitalizeFirst(numberToWords(whole)) + ' ' + mainWord + ' ' + fracStr + ' ' + fracWord;
+  document.getElementById('r-words').textContent = result;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('amount').addEventListener('input', recalcAmountWords);
+  document.getElementById('currency').addEventListener('change', recalcAmountWords);
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    const text = document.getElementById('r-words').textContent;
+    if (text && text !== '—' && navigator.clipboard){
+      navigator.clipboard.writeText(text);
+    }
+  });
+  recalcAmountWords();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

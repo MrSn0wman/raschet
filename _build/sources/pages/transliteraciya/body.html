@@ -1,0 +1,105 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Транслитерация</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Транслитерация текста</h1>
+          <p class="calc-sub">Русский текст латиницей — с сохранением регистра или готовым slug для ссылок.</p>
+          <form id="tool-form" novalidate>
+
+<div class="field-grid">
+  <div class="field full">
+    <label for="tr-in">Текст на русском</label>
+    <textarea id="tr-in" rows="6" placeholder="Привет, мир!" data-share="tr-in"></textarea>
+  </div>
+  <div class="field full">
+    <div class="check-grid">
+      <label class="check-option"><input type="checkbox" id="tr-slug" data-share="tr-slug"> Для URL: slug строчными буквами через дефис</label>
+    </div>
+  </div>
+</div>
+
+</form>
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+
+
+<div class="result-panel">
+  <div class="r-label">Результат латиницей</div>
+  <textarea id="tr-out" class="tr-out" rows="4" readonly></textarea>
+  <div class="action-bar">
+    <button class="btn btn-primary" id="tr-copy" type="button">Скопировать</button>
+  </div>
+</div>
+
+        </div>
+        <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        <article class="calc-explain">
+          <h2>Как кириллица превращается в латиницу</h2>
+<p>Введите русский текст в поле — транслитератор заменит каждую букву по таблице соответствия и сразу покажет результат латиницей. Регистр сохраняется, цифры и знаки препинания не трогаются. Если нужен адрес для страницы сайта, включите режим «для URL»: получите готовый slug в нижнем регистре с дефисами вместо пробелов. Результат копируется одной кнопкой.</p>
+<p>Основа — таблица замен, близкая к ГОСТ Р 7.0.34-2014. Односимвольные замены очевидны: а → a, б → b, в → v. Интереснее буквы, которых нет в латинском алфавите: ж → zh, х → kh, ц → ts, ч → ch, ш → sh, щ → shch, ы → y, э → e, ю → yu, я → ya. Буква «ё» превращается в «e», а мягкий и твёрдый знаки латиницей не передаются и просто опускаются.</p>
+<p>Замена идёт посимвольно слева направо, поэтому регистр исходника полностью повторяется: «Москва» станет «Moskva», а «МОСКВА» — «MOSKVA». Это удобно для имён и названий, где заглавная буква имеет значение. Если нужен однородный нижний регистр — это как раз делает режим «для URL».</p>
+<p>Пример: фраза «Привет, мир!» превращается в «Privet, mir!» — запятая и восклицательный знак остаются на месте. В режиме «для URL» та же фраза даст «privet-mir»: всё приведено к нижнему регистру, пробелы и знаки препинания заменены дефисами, повторные дефисы схлопнуты, крайние — обрезаны. Фамилия «Щербаков» станет «Shcherbakov», а «подъезд» — «podezd».</p>
+<h3>Где транслит нужен чаще всего</h3>
+<p>Типичные задачи, с которыми сюда приходят:</p>
+<ul>
+<li>адреса страниц: заголовок статьи превращается в slug вида «kak-vybrat-ipoteku»;</li>
+<li>имена файлов и папок, где кириллица ломает ссылки или архивы;</li>
+<li>логины, почта и никнеймы в сервисах, не принимающих русские буквы;</li>
+<li>написание имён и фамилий латиницей для зарубежных коллег;</li>
+<li>сокращение SMS: латиница вмещает 160 символов против 70 для кириллицы.</li>
+</ul>
+<p>Во всех случаях, кроме официальных документов, таблицы этой страницы достаточно.</p>
+<h3>Чем транслит для веба отличается от транслита в документах</h3>
+<p>Единого стандарта нет, и это главный источник путаницы. В загранпаспортах действуют правила ИКАО: й → i, ы → y, ь и ъ опускаются. В банковских картах и международных переводах — свои таблицы. Здесь используется упрощённый вариант, удобный для сайтов, почты и никнеймов: й → y, ы → y. Для официальных бумаг сверяйтесь с требованиями конкретного ведомства, а не с любым онлайн-транслитом.</p>
+<h3>Почему «е» и «ё» дают одинаковую латиницу</h3>
+<p>Обе буквы превращаются в «e» — так короче, и slug не конфликтует сам с собой: «тёмный» и «темный» дадут одинаковый «temny». Если для вас принципиально отличие «ё» — например, в фамилии, — замените «e» на «yo» вручную после копирования.</p>
+<h3>Когда одна буква превращается в четыре</h3>
+<p>Составные замены удлиняют слово: щ → shch — это четыре латинских символа вместо одной кириллической. Поэтому «борщ» — это «borshch» из семи знаков. Учитывайте это, если транслит идёт в поле с ограничением длины: домен, логин или имя файла. Для коротких адресов длинные слова иногда разумно сократить вручную.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Чем этот вариант отличается от транслитерации в загранпаспорте?</summary><p>В заграничных документах действует стандарт ИКАО: й → i, ы → y, ь и ъ опускаются. У нас — упрощённая таблица для веба и URL: й → y, остальные замены близки к ИКАО.</p></details>
+<details><summary>Куда пропадают мягкий и твёрдый знаки?</summary><p>Они не передаются на письме латиницей по выбранной таблице, поэтому просто опускаются: «подъезд» → «podezd», «соль» → «sol».</p></details>
+<details><summary>Что делает режим «для URL»?</summary><p>Приводит результат к нижнему регистру, заменяет пробелы и все символы, кроме латинских букв и цифр, на дефисы и убирает лишние дефисы. Получается готовый slug вида «privet-mir».</p></details>
+<details><summary>Почему «ё» превращается в «e», а не в «yo»?</summary><p>В ГОСТ-подобной таблице для веб-адресов принято «e»: так slug короче и не конфликтует с «е». Если нужен вариант с «yo», замените вручную после копирования.</p></details>
+<details><summary>Работает ли транслитерация в обратную сторону?</summary><p>Нет, преобразование необратимо: «e» могла получиться и из «е», и из «ё» или «э». Восстановить исходное русское написание по латинице однозначно нельзя.</p></details>
+<details><summary>Можно ли транслитерировать большой текст?</summary><p>Да, ограничений по объёму нет: обработка идёт локально в браузере, текст никуда не отправляется. Вставляйте хоть целую статью — результат появится мгновенно.</p></details>
+          </div>
+        </article>
+      </div>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../schetchik-slov/">Счётчик слов и символов</a>
+          <a class="related-link" href="../udalenie-dubley-strok/">Удаление дублей строк</a>
+          <a class="related-link" href="../generator-nikneimov/">Генератор никнеймов</a>
+          <a class="related-link" href="../summa-propisyu/">Сумма прописью</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

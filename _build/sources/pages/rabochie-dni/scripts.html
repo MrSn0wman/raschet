@@ -1,0 +1,177 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  // Фиксированные праздничные даты РФ (месяц-день). Переносы выходных не моделируются.
+  var HOLIDAYS = {
+    '01-01': 1, '01-02': 1, '01-03': 1, '01-04': 1, '01-05': 1, '01-06': 1, '01-07': 1, '01-08': 1,
+    '02-23': 1, '03-08': 1, '05-01': 1, '05-09': 1, '06-12': 1, '11-04': 1
+  };
+
+  var fromEl = document.getElementById('wd-from');
+  var toEl = document.getElementById('wd-to');
+  var nEl = document.getElementById('wd-n');
+  var toWrap = document.getElementById('wd-to-wrap');
+  var nWrap = document.getElementById('wd-n-wrap');
+  var holEl = document.getElementById('wd-holidays');
+  var errEl = document.getElementById('wd-error');
+  var labelEl = document.getElementById('wd-label');
+  var resultEl = document.getElementById('wd-result');
+  var totalEl = document.getElementById('wd-total');
+  var weekendsEl = document.getElementById('wd-weekends');
+  var holsEl = document.getElementById('wd-hols');
+
+  function pad(n){ return n < 10 ? '0' + n : '' + n; }
+
+  function plural(n, one, few, many){
+    var m = Math.abs(n) % 100;
+    var d = m % 10;
+    if (m > 10 && m < 20) return many;
+    if (d > 1 && d < 5) return few;
+    if (d === 1) return one;
+    return many;
+  }
+
+  function parseDate(v){
+    var m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(v || '');
+    if (!m) return null;
+    var d = new Date(+m[1], +m[2] - 1, +m[3]);
+    return isNaN(d.getTime()) ? null : d;
+  }
+
+  function fmt(d){
+    return pad(d.getDate()) + '.' + pad(d.getMonth() + 1) + '.' + d.getFullYear();
+  }
+
+  function dateKey(d){
+    return pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+
+  // Разбирает один день: возвращает 'weekend' | 'holiday' | 'work'.
+  function dayKind(d, useHolidays){
+    var day = d.getDay();
+    if (day === 0 || day === 6) return 'weekend';
+    if (useHolidays && HOLIDAYS[dateKey(d)]) return 'holiday';
+    return 'work';
+  }
+
+  function showError(msg){
+    errEl.textContent = msg;
+    errEl.classList.add('visible');
+  }
+  function hideError(){ errEl.classList.remove('visible'); }
+
+  function reset(){
+    resultEl.textContent = '—';
+    totalEl.textContent = '—';
+    weekendsEl.textContent = '—';
+    holsEl.textContent = '—';
+  }
+
+  function currentMode(){
+    var checked = document.querySelector('input[name="wd-mode"]:checked');
+    return checked ? checked.value : 'between';
+  }
+
+  function render(){
+    var mode = currentMode();
+    toWrap.style.display = mode === 'between' ? '' : 'none';
+    nWrap.style.display = mode === 'add' ? '' : 'none';
+    var useHolidays = holEl.checked;
+    var from = parseDate(fromEl.value);
+
+    if (mode === 'between'){
+      labelEl.textContent = 'Рабочих дней в периоде';
+      var to = parseDate(toEl.value);
+      if (!from || !to){ reset(); return; }
+      var start = from <= to ? from : to;
+      var end = from <= to ? to : from;
+      var days = Math.round((end - start) / 86400000) + 1;
+      if (days > 36600){
+        showError('Слишком длинный период — больше 100 лет.');
+        reset();
+        return;
+      }
+      hideError();
+      var work = 0, weekends = 0, hols = 0;
+      var cur = new Date(start.getTime());
+      while (cur <= end){
+        var kind = dayKind(cur, useHolidays);
+        if (kind === 'work') work++;
+        else if (kind === 'weekend') weekends++;
+        else hols++;
+        cur.setDate(cur.getDate() + 1);
+      }
+      resultEl.textContent = window.formatMoney(work) + ' ' + plural(work, 'рабочий день', 'рабочих дня', 'рабочих дней');
+      totalEl.textContent = window.formatMoney(days);
+      weekendsEl.textContent = window.formatMoney(weekends);
+      holsEl.textContent = useHolidays ? window.formatMoney(hols) : 'не учитывались';
+    } else {
+      labelEl.textContent = 'Дата через N рабочих дней';
+      var n = parseInt(nEl.value, 10);
+      if (!from){ reset(); return; }
+      if (isNaN(n) || n < 0 || n > 3650){
+        showError('Укажите от 0 до 3650 рабочих дней.');
+        reset();
+        return;
+      }
+      hideError();
+      var cur2 = new Date(from.getTime());
+      var added = 0, skippedW = 0, skippedH = 0;
+      var guard = 0;
+      while (added < n && guard < 20000){
+        cur2.setDate(cur2.getDate() + 1);
+        guard++;
+        var kind2 = dayKind(cur2, useHolidays);
+        if (kind2 === 'work') added++;
+        else if (kind2 === 'weekend') skippedW++;
+        else skippedH++;
+      }
+      resultEl.textContent = fmt(cur2);
+      totalEl.textContent = window.formatMoney(Math.round((cur2 - from) / 86400000));
+      weekendsEl.textContent = window.formatMoney(skippedW);
+      holsEl.textContent = useHolidays ? window.formatMoney(skippedH) : 'не учитывались';
+    }
+  }
+
+  function initDates(){
+    var now = new Date();
+    var later = new Date(now.getTime());
+    later.setDate(later.getDate() + 14);
+    if (!fromEl.value) fromEl.value = now.getFullYear() + '-' + pad(now.getMonth() + 1) + '-' + pad(now.getDate());
+    if (!toEl.value) toEl.value = later.getFullYear() + '-' + pad(later.getMonth() + 1) + '-' + pad(later.getDate());
+  }
+
+  document.querySelectorAll('input[name="wd-mode"]').forEach(function(r){
+    r.addEventListener('change', render);
+  });
+  [fromEl, toEl, nEl].forEach(function(el){
+    el.addEventListener('input', render);
+    el.addEventListener('change', render);
+  });
+  holEl.addEventListener('change', render);
+  initDates();
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

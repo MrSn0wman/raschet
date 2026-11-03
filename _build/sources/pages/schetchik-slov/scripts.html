@@ -1,0 +1,86 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var textEl = document.getElementById('wc-text');
+  var wordsEl = document.getElementById('wc-words');
+  var charsEl = document.getElementById('wc-chars');
+  var nospaceEl = document.getElementById('wc-nospace');
+  var sentEl = document.getElementById('wc-sent');
+  var paraEl = document.getElementById('wc-para');
+  var timeEl = document.getElementById('wc-time');
+
+  function plural(n, one, few, many){
+    var m = Math.abs(n) % 100;
+    var d = m % 10;
+    if (m > 10 && m < 20) return many;
+    if (d > 1 && d < 5) return few;
+    if (d === 1) return one;
+    return many;
+  }
+
+  function render(){
+    var text = textEl.value;
+    var chars = text.length;
+    var nospace = text.replace(/\s/g, '').length;
+
+    var words = 0;
+    var tokens = text.split(/\s+/);
+    for (var i = 0; i < tokens.length; i++){
+      if (/[0-9A-Za-zА-Яа-яЁё]/.test(tokens[i])) words++;
+    }
+
+    var sentences = 0;
+    var sm = text.match(/[^.!?…]+[.!?…]+/g);
+    if (sm) sentences = sm.length;
+    else if (words > 0) sentences = 1;
+
+    var paragraphs = 0;
+    var lines = text.split('\n');
+    for (var j = 0; j < lines.length; j++){
+      if (lines[j].trim() !== '') paragraphs++;
+    }
+
+    var timeText;
+    if (words === 0){
+      timeText = '—';
+    } else if (words < 200){
+      timeText = 'меньше минуты';
+    } else {
+      var rm = Math.max(1, Math.round(words / 200));
+      timeText = rm + ' ' + plural(rm, 'минута', 'минуты', 'минут');
+    }
+
+    wordsEl.textContent = window.formatMoney(words);
+    charsEl.textContent = window.formatMoney(chars);
+    nospaceEl.textContent = window.formatMoney(nospace);
+    sentEl.textContent = window.formatMoney(sentences);
+    paraEl.textContent = window.formatMoney(paragraphs);
+    timeEl.textContent = timeText;
+  }
+
+  textEl.addEventListener('input', render);
+  render();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

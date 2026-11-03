@@ -1,0 +1,114 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#math">Математика</a> / Степени и корни
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Степени и корни</h1>
+          <p class="calc-sub">Возведите число в степень или извлеките корень любой степени.</p>
+
+          <div class="strategy-toggle" style="margin-bottom:18px;">
+            <label class="strategy-option">
+              <input type="radio" name="mode" value="power" checked>
+              <span><b>Возвести в степень</b><small>a<sup>n</sup></small></span>
+            </label>
+            <label class="strategy-option">
+              <input type="radio" name="mode" value="root">
+              <span><b>Извлечь корень</b><small>ⁿ√a</small></span>
+            </label>
+          </div>
+
+          <div id="power-fields" class="field-grid">
+            <div class="field">
+              <label for="base">Число</label>
+              <input type="text" id="base" value="2" inputmode="decimal">
+            </div>
+            <div class="field">
+              <label for="exp">Показатель степени</label>
+              <input type="text" id="exp" value="10" inputmode="decimal">
+            </div>
+          </div>
+
+          <div id="root-fields" class="field-grid" style="display:none;">
+            <div class="field">
+              <label for="root-num">Число</label>
+              <input type="text" id="root-num" value="27" inputmode="decimal">
+            </div>
+            <div class="field">
+              <label for="root-degree">Степень корня</label>
+              <input type="text" id="root-degree" value="3" inputmode="numeric">
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-result"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label" id="r-label">Результат</div>
+            <div class="r-value" id="r-result">—</div>
+          </div>
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения — чётный корень из отрицательного числа не определён</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считаются степени и корни</h2>
+<p>Возведение в степень — это многократное умножение: запись aⁿ означает, что число a умножили само на себя n раз, например 2⁵ = 2·2·2·2·2 = 32. Корень n-й степени — обратное действие: он ищет число, которое в степени n даёт исходное. Калькулятор считает оба действия, включая дробные и отрицательные показатели.</p>
+<p>Основные свойства степеней:</p>
+<ul>
+<li>При умножении степеней с одинаковым основанием показатели складываются: <code>aᵐ × aⁿ = aᵐ⁺ⁿ</code></li>
+<li>При делении показатели вычитаются: <code>aᵐ / aⁿ = aᵐ⁻ⁿ</code></li>
+<li>Степень степени — это перемножение показателей: <code>(aᵐ)ⁿ = aᵐ·ⁿ</code></li>
+<li>Отрицательный показатель переворачивает число: <code>a⁻ⁿ = 1 / aⁿ</code></li>
+<li>Дробный показатель означает корень: <code>a^(1/n) = ⁿ√a</code></li>
+<li>Любое ненулевое число в нулевой степени равно единице: <code>a⁰ = 1</code></li>
+</ul>
+<p>Проверим свойства на числах. Целые показатели: 2¹⁰ = 1024, 3⁴ = 81, 5³ = 125. Отрицательный показатель: 4⁻² = 1/4² = 1/16 = 0,0625. Дробный: 8^(1/3) = 2, потому что 2³ = 8, а 16^(1/2) = 4 — это привычный квадратный корень. Свойство сложения показателей видно прямо в действии: 2³ × 2² = 8 × 4 = 32, и это то же самое, что 2⁵.</p>
+<p>Основание степени тоже бывает отрицательным. Здесь работает правило знаков: чётный показатель «съедает» минус, нечётный — сохраняет. Поэтому (−2)² = 4, а (−2)³ = −8. И не путайте: −2² = −4, потому что без скобок в квадрат возводится только двойка.</p>
+<p>Дробный показатель может быть любым, не только единица, делённая на n: a^(m/n) — это корень n-й степени из a, возведённый в степень m. Так, 8^(2/3) = (³√8)² = 2² = 4. Порядок действий можно менять: 8² = 64, а ³√64 = 4 — ответ тот же.</p>
+<p>Степени растут очень быстро: 2²⁰ — уже больше миллиона, а 2⁶⁴ не помещается на шахматной доске по известной легенде о зёрнах риса. Поэтому очень большие результаты калькулятор показывает в экспоненциальной записи: 1,23e+15 означает 1,23 × 10¹⁵.</p>
+<h3>Корень — это степень с дробным показателем</h3>
+<p>Квадратный корень из 25 — то же самое, что 25 в степени 1/2, а кубический корень из 8 — это 8 в степени 1/3. Поэтому все правила степеней работают и для корней. Например, корень произведения равен произведению корней: √(9·4) = √9 × √4 = 3 × 2 = 6. Это свойство помогает упрощать выражения: √50 = √(25·2) = 5√2 ≈ 7,07. Запись через степень удобна и в калькуляторе: вместо отдельной кнопки корня можно ввести дробный показатель.</p>
+<h3>Почему a⁰ равно единице</h3>
+<p>Посмотрите на цепочку: 2³ = 8, 2² = 4, 2¹ = 2. Каждый шаг вниз — деление на 2. Продолжим её по той же логике: 2⁰ = 1, 2⁻¹ = 1/2, 2⁻² = 1/4. Правило не придумано «по договору» — оно следует из свойства показателей: aⁿ / aⁿ = aⁿ⁻ⁿ = a⁰, а слева число поделили само на себя и получили 1. Единственное исключение — 0⁰: это выражение считается неопределённым.</p>
+<h3>Корень из отрицательного числа</h3>
+<p>Из отрицательного числа извлекают только корни нечётной степени: ³√(−8) = −2, потому что (−2)³ = −8. А вот √(−9) среди обычных действительных чисел не существует: и 3, и −3 в квадрате дают плюс 9, минус не получить никак. Поэтому калькулятор откажется считать чётный корень из отрицательного числа — это не ошибка ввода, а закон математики. С комплексными числами, где такие корни определены, вы познакомитесь в старших классах — для школьных и бытовых расчётов они не нужны.</p>
+<p>Для тренировки возьмите любое число, возведите его в квадрат и в куб на черновике, а затем проверьте себя калькулятором — он справляется и с очень большими показателями, и с дробями вроде 2^(2/3), и с отрицательными основаниями.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Чему равно любое число в нулевой степени?</summary><p>Любое ненулевое число в нулевой степени равно 1. Выражение 0⁰ считается неопределённым в большинстве контекстов.</p></details>
+<details><summary>Как возвести число в отрицательную степень?</summary><p>Число в отрицательной степени равно единице, делённой на то же число в положительной степени: a⁻ⁿ = 1 / aⁿ.</p></details>
+<details><summary>Можно ли извлечь чётный корень из отрицательного числа?</summary><p>В действительных числах — нет: чётный корень (квадратный, четвёртой степени и так далее) из отрицательного числа не определён. Корень нечётной степени из отрицательного числа определён и тоже отрицателен.</p></details>
+<details><summary>Как посчитать корень нечётной степени из отрицательного числа?</summary><p>Например, кубический корень из −8 равен −2, поскольку (−2)³ = −8. Калькулятор корректно обрабатывает такие случаи для нечётных степеней корня.</p></details>
+<details><summary>Чему равна первая степень числа?</summary><p>Самому числу: a¹ = a. Степень показывает, сколько раз основание входит в произведение, а один множитель — это просто само число.</p></details>
+<details><summary>Как возвести число в степень 0,5?</summary><p>Степень 1/2 — это квадратный корень: 9^0,5 = √9 = 3. В калькуляторе введите показатель 0,5 или 1/2 — результат будет одинаковым.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../razlozhenie-na-mnozhiteli/">Разложение на множители</a>
+          <a class="related-link" href="../drobi/">Дроби</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

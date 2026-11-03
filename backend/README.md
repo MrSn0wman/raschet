@@ -61,11 +61,12 @@ WorkingDirectory=/opt/raschet-backend
 EnvironmentFile=/opt/raschet-backend/.env
 ExecStart=/opt/raschet-backend/venv/bin/uvicorn main:app \
     --host 127.0.0.1 --port 8000 \
-    --proxy-headers --forwarded-allow-ips 127.0.0.1
+    --proxy-headers --forwarded-allow-ips 127.0.0.1 --no-access-log
 Restart=always
 RestartSec=3
 NoNewPrivileges=true
 PrivateTmp=true
+UMask=0077
 
 [Install]
 WantedBy=multi-user.target
@@ -74,6 +75,7 @@ WantedBy=multi-user.target
 ```bash
 sudo mkdir -p /opt/raschet-backend/data
 sudo chown -R www-data:www-data /opt/raschet-backend/data
+sudo chmod 700 /opt/raschet-backend/data
 sudo chmod 600 /opt/raschet-backend/.env
 sudo chown root:root /opt/raschet-backend/.env   # root читает unit, www-data — нет...
 # Проще: EnvironmentFile читает systemd (root), поэтому владелец root:root 600 — ок.
@@ -96,6 +98,9 @@ server {
     server_name api.ваш-домен.ru;   # заменить
 
     client_max_body_size 64k;
+    client_body_timeout 10s;
+    # По умолчанию не сохраняем raw IP/query в инфраструктурных access logs.
+    access_log off;
 
     location /api/ {
         proxy_pass http://127.0.0.1:8000;
@@ -183,7 +188,29 @@ async function apiFetch(path, options = {}) {
 - Заголовки: `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, `Content-Security-Policy: default-src 'none'`; лимит тела запроса 32 КБ (плюс 64 КБ в nginx).
 - CORS — строгий список origins: `https://raschet.net` (+ `https://www.raschet.net`, `https://mrsn0wman.github.io`) + `CORS_ORIGINS` из `.env`. localhost-origins включаются только при `ENV=dev` в `.env` (в проде не ставить!).
 - При недоступности ЦБ `/api/rates` отдаёт последний кэш со `stale:true`; повторный поход к ЦБ — не чаще раза в 60 с (negative-кэш), чтобы не усиливать чужой сбой.
-- Rate limits хранятся в SQLite, работают под несколькими воркерами; IP хэшируется HMAC-SHA256 (секрет генерируется при первом запуске, таблица `settings`), сырой IP нигде не сохраняется.
+- Rate limits хранятся в SQLite, работают под несколькими воркерами; IP хэшируется HMAC-SHA256 (секрет генерируется при первом запуске, таблица `settings`), приложение не сохраняет сырой IP в SQLite. HMAC — псевдонимизация, не гарантия анонимности; отдельно настройте логи прокси/хостинга и сроки их хранения.
 - Аналитика — только агрегаты `(day, page, type, count)`. Поле `meta` принимается и валидируется, но **не сохраняется**.
 - В логах — только метаданные (id обращения, тип ошибки); текст сообщений не логируется.
 - Форма: honeypot-поле `website` — боты получают `{"ok": true}`, но ничего не сохраняется.
+- SMTP на 465/STARTTLS всегда проверяет сертификат и hostname (`ssl.create_default_context`). Ошибка TLS не переключает соединение на незашифрованный режим.
+- ASGI-лимит 32 КиБ проверяет фактически полученное тело, даже без `Content-Length`; до передачи в JSON parser и endpoint. Лимиты тела/таймаутов nginx всё равно обязательны.
+
+## Сроки хранения обращений
+
+`FEEDBACK_RETENTION_DAYS=30` — срок в SQLite по умолчанию, допустимо 1..3650 дней. Настройте его по своей опубликованной политике. Истёкшие обращения удаляются при запуске API и перед новым сохранением. Для сервиса без обращений добавьте ежедневную задачу от того же service user:
+
+```cron
+0 3 * * * cd /opt/raschet-backend && /opt/raschet-backend/venv/bin/python maintenance.py
+```
+
+Запускайте maintenance с тем же `.env` и `DB_PATH`, что и API. Это **логическое** удаление из таблицы: WAL/free pages, резервные копии и копии писем не гарантированно стираются этой командой. Ограничьте доступ к каталогу (700), БД (600), WAL/SHM/backup, задайте срок хранения резервных копий и почты отдельно. Пример systemd использует `UMask=0077`. Существующий произвольный каталог код не chmod-ит автоматически. Windows требует отдельной настройки ACL.
+
+## Зависимости и тесты
+
+Для проверенного набора версий используйте `python -m pip install -r backend/requirements.lock` из корня проекта (либо `-r requirements.lock` из backend). Файл `requirements.txt` описывает допустимые прямые зависимости, lock фиксирует проверенный Python 3.12 набор; для другой платформы обновляйте lock в отдельной ветке и повторяйте тесты.
+
+```bash
+python -B -m unittest discover -s tests -p test_backend.py -v
+```
+
+Тесты используют временную БД, ASGI in-process и mock SMTP: реальные письма, production API и реальные пользовательские данные не затрагиваются.

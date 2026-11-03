@@ -1,0 +1,87 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function secureIndex(max){const a=new Uint32Array(1);const limit=Math.floor(4294967296/max)*max;let x;do{crypto.getRandomValues(a);x=a[0];}while(x>=limit);return x%max;}
+
+function generatePassword(length, useUpper, useLower, useDigits, useSymbols){
+  let chars = '';
+  if (useUpper) chars += 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  if (useLower) chars += 'abcdefghijkmnpqrstuvwxyz';
+  if (useDigits) chars += '23456789';
+  if (useSymbols) chars += '!@#$%^&*-_=+';
+  if (chars.length === 0) return { pw: '', charsetSize: 0 };
+  let pw = '';
+  for (let i = 0; i < length; i++){
+    pw += chars[secureIndex(chars.length)];
+  }
+  return { pw, charsetSize: chars.length };
+}
+
+function passwordStrengthLabel(entropy){
+  if (entropy < 40) return 'слабый';
+  if (entropy < 60) return 'средний';
+  if (entropy < 80) return 'хороший';
+  return 'очень надёжный';
+}
+
+function doGenerate(){
+  const length = parseInt(document.getElementById('length').value, 10);
+  const useUpper = document.getElementById('use-upper').checked;
+  const useLower = document.getElementById('use-lower').checked;
+  const useDigits = document.getElementById('use-digits').checked;
+  const useSymbols = document.getElementById('use-symbols').checked;
+  const errEl = document.getElementById('err');
+
+  document.getElementById('length-val').textContent = String(length);
+
+  if (!useUpper && !useLower && !useDigits && !useSymbols){
+    errEl.style.display = 'block';
+    document.getElementById('r-password').textContent = '—';
+    document.getElementById('r-strength').textContent = '—';
+    document.getElementById('r-entropy').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const { pw, charsetSize } = generatePassword(length, useUpper, useLower, useDigits, useSymbols);
+  const entropy = length * Math.log2(charsetSize);
+
+  document.getElementById('r-password').textContent = pw;
+  document.getElementById('r-strength').textContent = passwordStrengthLabel(entropy);
+  document.getElementById('r-entropy').textContent = entropy.toFixed(0);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('length').addEventListener('input', doGenerate);
+  ['use-upper','use-lower','use-digits','use-symbols'].forEach(id => {
+    document.getElementById(id).addEventListener('change', doGenerate);
+  });
+  document.getElementById('generate-btn').addEventListener('click', doGenerate);
+  document.getElementById('copy-btn').addEventListener('click', () => {
+    const pw = document.getElementById('r-password').textContent;
+    if (pw && pw !== '—'){
+      window.copyText(pw, 'Пароль скопирован');
+    }
+  });
+  doGenerate();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

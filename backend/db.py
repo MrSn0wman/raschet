@@ -26,6 +26,9 @@ _secret_cache: Optional[bytes] = None
 def connect() -> sqlite3.Connection:
     """Новое соединение на операцию. SQLite + WAL этого достаточно для нашей нагрузки."""
     conn = sqlite3.connect(DB_PATH, timeout=10)
+    if os.name == "posix":
+        # chmod is not a portable Windows ACL replacement; deployment also uses UMask=0077.
+        os.chmod(DB_PATH, 0o600)
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
     conn.execute("PRAGMA foreign_keys=ON")
@@ -40,15 +43,29 @@ def init_db() -> None:
             return
         db_dir = os.path.dirname(DB_PATH)
         if db_dir:
-            os.makedirs(db_dir, exist_ok=True)
+            os.makedirs(db_dir, mode=0o700, exist_ok=True)
         conn = connect()
         try:
             with open(str(_SCHEMA_FILE), "r", encoding="utf-8") as f:
                 conn.executescript(f.read())
+            purge_expired_feedback(conn)
             conn.commit()
         finally:
             conn.close()
         _initialized = True
+
+
+def purge_expired_feedback(conn: sqlite3.Connection, now: Optional[int] = None) -> int:
+    """Delete expired contact data; caller owns the transaction.
+
+    Applied at startup and before storing an incoming request. Quiet services
+    should also run the documented daily maintenance command.
+    """
+    days = int(os.environ.get("FEEDBACK_RETENTION_DAYS", "30"))
+    if not 1 <= days <= 3650:
+        raise ValueError("FEEDBACK_RETENTION_DAYS must be between 1 and 3650")
+    cutoff = (int(time.time()) if now is None else now) - days * 86400
+    return conn.execute("DELETE FROM feedback WHERE created_at < ?", (cutoff,)).rowcount
 
 
 def _get_secret() -> bytes:

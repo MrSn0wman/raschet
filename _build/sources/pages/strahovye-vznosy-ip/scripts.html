@@ -1,0 +1,97 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const FIXED_2026 = 57390;
+const ADDITIONAL_CAP = 321818;
+const THRESHOLD = 300000;
+
+function daysInMonth(year, monthIndex0){
+  return new Date(year, monthIndex0+1, 0).getDate();
+}
+
+function fixedContributionProrated(startDate, endDate){
+  const year = startDate.getFullYear();
+  const monthly = FIXED_2026 / 12;
+  let total = 0;
+  let cur = new Date(startDate);
+  while (cur <= endDate){
+    const m = cur.getMonth();
+    const dim = daysInMonth(year, m);
+    const monthStart = new Date(year, m, 1);
+    const monthEnd = new Date(year, m, dim);
+    const segStart = cur > monthStart ? cur : monthStart;
+    const segEnd = endDate < monthEnd ? endDate : monthEnd;
+    const daysWorked = Math.round((segEnd - segStart)/86400000) + 1;
+    if (daysWorked === dim){
+      total += monthly;
+    } else {
+      total += monthly * (daysWorked/dim);
+    }
+    cur = new Date(year, m+1, 1);
+  }
+  return total;
+}
+
+function recalcInsurance(){
+  const incomeEl = document.getElementById('annual-income');
+  const startEl = document.getElementById('start-date');
+  const endEl = document.getElementById('end-date');
+  const errEl = document.getElementById('err');
+
+  const income = parseFormattedNumber(incomeEl);
+  const startVal = startEl.value;
+  const endVal = endEl.value;
+
+  if (isNaN(income) || income < 0 || !startVal || !endVal){
+    errEl.style.display = 'block';
+    ['r-total','r-fixed','r-additional','r-capped'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+
+  const start = new Date(startVal + 'T00:00:00');
+  const end = new Date(endVal + 'T00:00:00');
+  if (end < start){
+    errEl.style.display = 'block';
+    ['r-total','r-fixed','r-additional','r-capped'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const fixed = fixedContributionProrated(start, end);
+  const additionalRaw = Math.max(0, income - THRESHOLD) * 0.01;
+  const additional = Math.min(additionalRaw, ADDITIONAL_CAP);
+  const total = fixed + additional;
+
+  document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+  document.getElementById('r-fixed').textContent = formatMoney(fixed) + '\u00A0₽';
+  document.getElementById('r-additional').textContent = formatMoney(additional) + '\u00A0₽';
+  document.getElementById('r-capped').textContent = additionalRaw > ADDITIONAL_CAP ? 'Да' : 'Нет';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  attachThousandsInput(document.getElementById('annual-income'));
+  document.getElementById('annual-income').addEventListener('input', recalcInsurance);
+  document.getElementById('start-date').addEventListener('input', recalcInsurance);
+  document.getElementById('end-date').addEventListener('input', recalcInsurance);
+  recalcInsurance();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,104 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const UNITS = {
+  length: {
+    base: 'm',
+    units: { mm:{label:'Миллиметры',factor:0.001}, cm:{label:'Сантиметры',factor:0.01}, m:{label:'Метры',factor:1}, km:{label:'Километры',factor:1000}, inch:{label:'Дюймы',factor:0.0254}, ft:{label:'Футы',factor:0.3048}, yard:{label:'Ярды',factor:0.9144}, mile:{label:'Мили',factor:1609.344} }
+  },
+  weight: {
+    base: 'kg',
+    units: { mg:{label:'Миллиграммы',factor:0.000001}, g:{label:'Граммы',factor:0.001}, kg:{label:'Килограммы',factor:1}, ton:{label:'Тонны',factor:1000}, lb:{label:'Фунты',factor:0.453592}, oz:{label:'Унции',factor:0.0283495} }
+  },
+  volume: {
+    base: 'l',
+    units: { ml:{label:'Миллилитры',factor:0.001}, l:{label:'Литры',factor:1}, m3:{label:'Кубометры',factor:1000}, gal:{label:'Галлоны (США)',factor:3.78541}, floz:{label:'Жидкие унции (США)',factor:0.0295735} }
+  },
+  temperature: {
+    base: 'c',
+    units: { c:{label:'Цельсий'}, f:{label:'Фаренгейт'}, k:{label:'Кельвин'} }
+  }
+};
+
+function toCelsius(v, unit){
+  if (unit === 'c') return v;
+  if (unit === 'f') return (v-32)*5/9;
+  if (unit === 'k') return v-273.15;
+}
+function fromCelsius(v, unit){
+  if (unit === 'c') return v;
+  if (unit === 'f') return v*9/5+32;
+  if (unit === 'k') return v+273.15;
+}
+
+function populateUnitSelects(category){
+  const fromEl = document.getElementById('from-unit');
+  const toEl = document.getElementById('to-unit');
+  const units = UNITS[category].units;
+  const keys = Object.keys(units);
+  fromEl.innerHTML = keys.map(k => '<option value="'+k+'">'+units[k].label+'</option>').join('');
+  toEl.innerHTML = keys.map(k => '<option value="'+k+'">'+units[k].label+'</option>').join('');
+  fromEl.value = keys[0];
+  toEl.value = keys[1] || keys[0];
+}
+
+function recalcConverter(){
+  const category = document.querySelector('input[name="category"]:checked').value;
+  const valueEl = document.getElementById('value');
+  const fromUnit = document.getElementById('from-unit').value;
+  const toUnit = document.getElementById('to-unit').value;
+  const errEl = document.getElementById('err');
+
+  const value = parseFloat(String(valueEl.value).replace(',', '.'));
+  if (isNaN(value)){
+    errEl.style.display = 'block';
+    document.getElementById('r-result').textContent = '—';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  let result;
+  if (category === 'temperature'){
+    result = fromCelsius(toCelsius(value, fromUnit), toUnit);
+  } else {
+    const units = UNITS[category].units;
+    result = value * units[fromUnit].factor / units[toUnit].factor;
+  }
+
+  const rounded = Math.abs(result) >= 1000 ? result.toFixed(2) : result.toFixed(6).replace(/\.?0+$/, '');
+  document.getElementById('r-result').textContent = Number(rounded).toLocaleString('ru-RU', { maximumFractionDigits: 6 }) + ' ' + UNITS[category].units[toUnit].label.toLowerCase();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  populateUnitSelects('length');
+  document.getElementById('value').addEventListener('input', recalcConverter);
+  document.getElementById('from-unit').addEventListener('change', recalcConverter);
+  document.getElementById('to-unit').addEventListener('change', recalcConverter);
+  document.querySelectorAll('input[name="category"]').forEach(r => {
+    r.addEventListener('change', () => {
+      populateUnitSelects(document.querySelector('input[name="category"]:checked').value);
+      recalcConverter();
+    });
+  });
+  recalcConverter();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,133 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <div class="breadcrumbs">
+      <a href="../">Главная</a> / <a href="../#finance">Финансы</a> / Микрозайм
+    </div>
+
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Микрозайм</h1>
+          <p class="calc-sub">Сколько придётся вернуть по микрозайму с учётом дневной ставки, срока и законного лимита переплаты.</p>
+
+          <div class="field-grid">
+            <div class="field full">
+              <label for="principal">Сумма займа</label>
+              <div class="unit-input">
+                <input type="text" id="principal" value="15 000" inputmode="numeric">
+                <span>₽</span>
+              </div>
+            </div>
+            <div class="field">
+              <label for="daily-rate">Ставка в день</label>
+              <div class="unit-input">
+                <input type="text" id="daily-rate" value="0,8" inputmode="decimal">
+                <span>%</span>
+              </div>
+              <span class="hint">Не может превышать 0,8% по закону</span>
+            </div>
+            <div class="field">
+              <label for="days">Срок займа</label>
+              <div class="unit-input">
+                <input type="text" id="days" value="20" inputmode="numeric">
+                <span>дней</span>
+              </div>
+            </div>
+          </div>
+
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="r-total"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+<div class="result-panel">
+            <div class="r-label">Сумма к возврату</div>
+            <div class="r-value" id="r-total">—</div>
+            <div class="r-rows">
+              <div><b id="r-interest">—</b><span>Начислено процентов</span></div>
+              <div><b id="r-annual">—</b><span>Эквивалент годовых</span></div>
+              <div><b id="r-capped">—</b><span>Лимит переплаты 100%</span></div>
+            </div>
+          </div>
+
+          <div class="chart-wrap">
+            <svg id="z-chart" width="140" height="140" viewBox="0 0 42 42" role="img" aria-label="Соотношение тела займа и процентов">
+              <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold-soft)" stroke-width="6"></circle>
+              <circle id="z-chart-a" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--accent)" stroke-width="6" pathLength="100" stroke-dasharray="86.21 13.79" stroke-dashoffset="25" transform="rotate(-90 21 21)"></circle>
+              <circle id="z-chart-b" cx="21" cy="21" r="15.9155" fill="none" stroke="var(--gold)" stroke-width="6" pathLength="100" stroke-dasharray="13.79 86.21" stroke-dashoffset="-61.21" transform="rotate(-90 21 21)"></circle>
+            </svg>
+            <div class="chart-legend">
+              <div><span class="sw" style="background:var(--accent)"></span>Тело займа&nbsp;— <b id="z-legend-a">15 000 ₽</b></div>
+              <div><span class="sw" style="background:var(--gold)"></span>Проценты&nbsp;— <b id="z-legend-b">2 400 ₽</b></div>
+            </div>
+          </div>
+
+          <div class="schedule-block">
+            <div class="schedule-wrap">
+            <table class="schedule-table">
+              <thead><tr><th>Период</th><th>Проценты за период, ₽</th><th>Наращено процентов, ₽</th><th>Долг с процентами, ₽</th></tr></thead>
+              <tbody id="z-schedule"></tbody>
+            </table>
+          </div>
+          <button class="action-btn schedule-toggle" id="z-schedule-toggle" type="button"><span>Показать весь график</span></button>
+          </div>
+
+          <div class="error-msg" role="alert" id="err">Проверьте введённые значения</div>
+        </div>
+
+        <div class="calc-explain">
+          <h2>Как считается переплата по микрозайму</h2>
+<p>Проценты по микрозайму начисляются за каждый день пользования деньгами: сумма займа умножается на дневную ставку и на число дней. Максимальная ставка по закону — 0,8% в день. А с 1 апреля 2026 года действует жёсткий потолок: все начисления сверх долга — проценты, неустойка, любые платежи — вместе не могут превысить 100% от суммы займа.</p>
+<p><code>Проценты = Сумма × Ставка в день × Число дней</code></p>
+<p>Чтобы посчитать переплату, нужны три цифры: сумма, дневная ставка и срок. Ставка каждый день применяется к исходной сумме, а не к остатку долга, как в банковском кредите. Поэтому переплата растёт линейно: вдвое дольше срок — вдвое больше процентов. Саму ставку закон тоже ограничивает: больше 0,8% в день, это примерно 292% годовых, МФО начислять не вправе (ст. 6.1 закона № 353-ФЗ).</p>
+<p>Пример. Заём 15&nbsp;000&nbsp;₽ под 0,8% в день на 20 дней: проценты 15&nbsp;000 × 0,008 × 20 = 2&nbsp;400&nbsp;₽, вернуть нужно 17&nbsp;400&nbsp;₽. Если срок растянуть до 200 дней, «чистые» проценты составят уже 24&nbsp;000&nbsp;₽ — больше самого займа. Здесь и включается лимит: начисления обрезаются до 15&nbsp;000&nbsp;₽, и вернуть придётся не больше 30&nbsp;000&nbsp;₽.</p>
+<p>Дневная ставка обманчива: 0,8% выглядит мелочью, но за месяц набегает 24% от суммы займа, за квартал — 72%. Перед оформлением всегда переводите ставку в итоговую сумму к возврату — именно она показывает реальную цену денег.</p>
+<p>Досрочное погашение уменьшает переплату: проценты начисляются только за фактические дни пользования. Вернули те же 15&nbsp;000&nbsp;₽ через 10 дней вместо 20 — заплатите 1&nbsp;200&nbsp;₽ процентов вместо 2&nbsp;400&nbsp;₽.</p>
+<p>Отсюда главное правило: берите ровно столько, сколько нужно, и на минимальный срок. Каждый лишний день пользования 15&nbsp;000&nbsp;₽ под 0,8% стоит 120&nbsp;₽, каждая лишняя неделя — 840&nbsp;₽. Если деньги нужны на месяц и больше, сначала посчитайте альтернативы: банковский кредит или кредитная карта с льготным периодом на длинном сроке почти всегда дешевле.</p>
+<h3>Лимит переплаты по закону</h3>
+<p>С 1 апреля 2026 года по потребительским займам сроком до года сумма всех начислений не может превысить 100% от долга. В лимит входит всё сверх тела займа:</p>
+<ul>
+<li>проценты по договору;</li>
+<li>неустойки и штрафы за просрочку;</li>
+<li>любые иные платежи в пользу МФО.</li>
+</ul>
+<p>Как только начисления достигли размера долга, они прекращаются — даже если заём так и не погашен. Требование заплатить больше — прямое нарушение закона № 353-ФЗ.</p>
+<h3>Что будет при просрочке</h3>
+<p>В дни просрочки МФО продолжает начислять проценты и вправе добавить неустойку, но общий лимит 100% действует и здесь: долг не вырастет больше чем вдвое, сколько бы ни длилась просрочка. Отдельная неприятность — кредитная история: сведения о просрочке передаются в бюро кредитных историй и усложнят получение займов и кредитов в будущем.</p>
+<p>Если платить нечем, не берите новый заём, чтобы закрыть старый, — переплата только откладывается, а долги складываются. Разумнее связаться с МФО и договориться об отсрочке или реструктуризации. Когда компания требует больше законного максимума, жалуйтесь в Банк России через сайт cbr.ru или оспаривайте требование в суде.</p>
+<h3>Проверяйте МФО до подписания договора</h3>
+<p>Компания обязана состоять в государственном реестре микрофинансовых организаций — он открыто ведётся Банком России, проверка занимает пару минут. Договор должен содержать дневную ставку и полную сумму к возврату: сравните её с расчётом на калькуляторе выше. Если цифры не сходятся, ставку прячут за мелким шрифтом или навязывают платные дополнительные услуги, лучше отказаться от сделки.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Сколько максимум придётся вернуть по микрозайму?</summary><p>Не больше двойной суммы долга. С 1 апреля 2026 года все начисления сверх займа — проценты, неустойка, иные платежи — ограничены 100% от суммы долга.</p></details>
+<details><summary>Какая максимальная дневная ставка разрешена законом?</summary><p>0,8% в день (ст. 6.1 закона № 353-ФЗ) — это примерно 292% годовых. Если МФО предлагает ставку выше, это нарушение закона.</p></details>
+<details><summary>Входят ли штрафы и пени в лимит переплаты?</summary><p>Да, лимит в 100% считается по совокупности всех начислений сверх суммы долга — процентов, неустойки, штрафов и любых иных платежей по договору займа.</p></details>
+<details><summary>Что делать, если МФО требует больше расчётного лимита?</summary><p>Это прямое нарушение закона № 353-ФЗ. Подайте жалобу в Банк России через официальный сайт cbr.ru или оспорьте требование в суде.</p></details>
+<details><summary>Можно ли погасить микрозайм досрочно?</summary><p>Да, в любой момент. Проценты пересчитают по фактическим дням пользования деньгами, поэтому чем раньше вернёте заём, тем меньше переплата.</p></details>
+<details><summary>Чем микрозайм отличается от банковского кредита?</summary><p>Микрозайм выдаёт МФО быстро и на короткий срок, но со ставкой в день — до 0,8%. Банковский кредит считается в процентах годовых и на длинном сроке заметно дешевле.</p></details>
+          </div>
+        </div>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие калькуляторы</h4>
+          <a class="related-link" href="../procenty-po-zaimu/">Проценты по займу</a>
+          <a class="related-link" href="../kredit/">Потребительский кредит</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

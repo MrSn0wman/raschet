@@ -1,0 +1,118 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+(function(){
+  'use strict';
+
+  var ADJ_RU = ['Тёмный','Быстрый','Тихий','Дерзкий','Лунный','Северный','Стальной','Хитрый','Весёлый','Мрачный','Летний','Дикий','Смелый','Холодный','Яркий','Мудрый','Древний','Ночной','Огненный','Ледяной','Вольный','Грозный','Южный','Звёздный'];
+  var NOUN_RU = ['Волк','Лис','Ворон','Тигр','Медведь','Сокол','Олень','Енот','Барс','Кот','Ёж','Заяц','Дракон','Феникс','Призрак','Странник','Охотник','Вождь','Маг','Шаман','Рыцарь','Пират','Следопыт','Хранитель'];
+  var ADJ_EN = ['Dark','Swift','Silent','Bold','Lunar','North','Steel','Sly','Merry','Grim','Wild','Cold','Bright','Ancient','Night','Fire','Ice','Free','Storm','Iron','Golden','Crimson','Hollow','Ember'];
+  var NOUN_EN = ['Wolf','Fox','Raven','Tiger','Bear','Falcon','Deer','Cat','Dragon','Phoenix','Ghost','Wanderer','Hunter','Mage','Knight','Pirate','Ranger','Keeper','Shadow','Storm','Viper','Sage','Nomad','Warden'];
+
+  var langEl = document.getElementById('nk-lang');
+  var lenEl = document.getElementById('nk-len');
+  var digitsEl = document.getElementById('nk-digits');
+  var genBtn = document.getElementById('nk-gen');
+  var listEl = document.getElementById('nk-list');
+
+  function copyText(text, btn){
+    function done(){
+      if (!btn) return;
+      var prev = btn.textContent;
+      btn.textContent = 'Скопировано!';
+      setTimeout(function(){ btn.textContent = prev; }, 1500);
+    }
+    function fallback(){
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.position = 'fixed';
+      ta.style.opacity = '0';
+      document.body.appendChild(ta);
+      ta.select();
+      try { document.execCommand('copy'); } catch (e) {}
+      document.body.removeChild(ta);
+      done();
+    }
+    if (navigator.clipboard && window.isSecureContext){
+      navigator.clipboard.writeText(text).then(done, fallback);
+    } else {
+      fallback();
+    }
+  }
+
+  function rnd(n){
+    var buf = new Uint32Array(1);
+    crypto.getRandomValues(buf);
+    return buf[0] % n;
+  }
+  function pick(arr){ return arr[rnd(arr.length)]; }
+
+  function oneNick(){
+    var lang = langEl.value;
+    var ru = lang === 'ru' || (lang === 'mix' && rnd(2) === 0);
+    var adj = ru ? pick(ADJ_RU) : pick(ADJ_EN);
+    var noun = ru ? pick(NOUN_RU) : pick(NOUN_EN);
+    var len = lenEl.value;
+    var base;
+    if (len === 'short'){
+      base = noun;
+    } else if (len === 'long'){
+      var ru2 = lang === 'ru' || (lang === 'mix' && rnd(2) === 0);
+      var noun2 = ru2 ? pick(NOUN_RU) : pick(NOUN_EN);
+      var guard = 0;
+      while (noun2 === noun && guard < 10){ noun2 = ru2 ? pick(NOUN_RU) : pick(NOUN_EN); guard++; }
+      base = adj + noun + noun2;
+    } else {
+      base = adj + noun;
+    }
+    if (digitsEl.checked) base += String(10 + rnd(90));
+    return base;
+  }
+
+  function generate(){
+    listEl.textContent = '';
+    var seen = {};
+    var added = 0;
+    var guard = 0;
+    while (added < 10 && guard < 200){
+      guard++;
+      var nick = oneNick();
+      if (Object.prototype.hasOwnProperty.call(seen, nick)) continue;
+      seen[nick] = true;
+      var li = document.createElement('li');
+      li.textContent = nick;
+      li.title = 'Нажмите, чтобы скопировать';
+      (function(n){
+        li.addEventListener('click', function(){ copyText(n, null); });
+      })(nick);
+      listEl.appendChild(li);
+      added++;
+    }
+  }
+
+  genBtn.addEventListener('click', generate);
+  [langEl, lenEl].forEach(function(el){ el.addEventListener('change', generate); });
+  digitsEl.addEventListener('change', generate);
+  generate();
+})();
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,57 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcEvCharging(){
+  const battery = parseFloat(String(document.getElementById('battery').value).replace(',', '.'));
+  const currentCharge = parseFloat(String(document.getElementById('current-charge').value).replace(',', '.'));
+  const targetCharge = parseFloat(String(document.getElementById('target-charge').value).replace(',', '.'));
+  const tariff = parseFloat(String(document.getElementById('tariff').value).replace(',', '.'));
+  const chargerPower = parseFloat(String(document.getElementById('charger-power').value).replace(',', '.'));
+  const errEl = document.getElementById('err');
+
+  if (isNaN(battery) || battery <= 0 || isNaN(currentCharge) || isNaN(targetCharge) ||
+      targetCharge <= currentCharge || isNaN(tariff) || tariff < 0 || isNaN(chargerPower) || chargerPower <= 0){
+    errEl.style.display = 'block';
+    ['r-cost','r-energy','r-time'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const energyNeeded = battery * ((targetCharge-currentCharge)/100);
+  const cost = energyNeeded * tariff;
+  const timeHours = energyNeeded / chargerPower;
+
+  document.getElementById('r-cost').textContent = formatMoney(cost) + '\u00A0₽';
+  document.getElementById('r-energy').textContent = energyNeeded.toFixed(1).replace('.',',') + ' кВт·ч';
+
+  const hours = Math.floor(timeHours);
+  const minutes = Math.round((timeHours-hours)*60);
+  document.getElementById('r-time').textContent = (hours > 0 ? hours + ' ч ' : '') + minutes + ' мин';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ['battery','current-charge','target-charge','tariff','charger-power'].forEach(id => {
+    document.getElementById(id).addEventListener('input', recalcEvCharging);
+  });
+  recalcEvCharging();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

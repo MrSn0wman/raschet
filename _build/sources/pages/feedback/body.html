@@ -1,0 +1,59 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Обратная связь</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Обратная связь</h1>
+          <p class="calc-sub">Нашли ошибку в расчёте, хотите предложить новый калькулятор или просто написать нам? Заполните форму — читаем каждое сообщение.</p>
+
+          <form id="feedback-form" novalidate>
+            <div class="field-grid">
+              <div class="field">
+                <label for="fb-name">Ваше имя</label>
+                <input type="text" id="fb-name" autocomplete="name" required>
+              </div>
+              <div class="field">
+                <label for="fb-email">Email для ответа</label>
+                <input type="email" id="fb-email" autocomplete="email" required>
+              </div>
+              <div class="field full">
+                <label for="fb-topic">Тема</label>
+                <select id="fb-topic">
+                  <option value="bug">Ошибка в расчёте</option>
+                  <option value="idea">Идея нового калькулятора</option>
+                  <option value="content">Замечание по тексту</option>
+                  <option value="other" selected>Другое</option>
+                </select>
+              </div>
+              <div class="field full">
+                <label for="fb-message">Сообщение</label>
+                <textarea id="fb-message" rows="6" required></textarea>
+              </div>
+            </div>
+            <div style="position:absolute;left:-9999px;top:-9999px;" aria-hidden="true">
+              <label>Не заполняйте это поле<input type="text" name="website" tabindex="-1" autocomplete="off"></label>
+            </div>
+            <button class="btn btn-primary" type="submit">Отправить</button>
+            <div class="error-msg" id="fb-err" role="alert"></div>
+            <div class="result-panel" id="fb-ok" style="display:none;"></div>
+          </form>
+        </div>
+
+        <article class="calc-explain">
+          <h2>Как ещё с нами связаться</h2>
+          <p>Если форма не сработала (например, нет соединения), откроется ваш почтовый клиент с уже заполненным письмом. По вопросам размещения рекламы смотрите страницу <a href="../advertising/">«Реклама и партнёрство»</a>.</p>
+        </article>
+      </div>
+
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Проект</h4>
+          <a class="related-link" href="../about/">О проекте</a>
+          <a class="related-link" href="../privacy/">Конфиденциальность</a>
+          <a class="related-link" href="../advertising/">Реклама и партнёрство</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+</main>

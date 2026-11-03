@@ -9,7 +9,9 @@ import io
 import os
 import re
 
-SITE = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from pathlib import Path
+import json
+from site_common import PARTS, VERIFICATION_RE, html_files, read, site_parser, write
 
 BLOCK_INLINE = "R-A-20316097-1"
 BLOCK_SIDEBAR = "R-A-20316097-2"
@@ -91,9 +93,58 @@ def write(p, text):
         f.write(text)
 
 
-def main():
+def sensitive_routes(parts=PARTS):
+    config = json.loads(read(Path(parts) / "privacy-routes.json"))
+    routes = config.get("sensitiveRoutes", config.get("routes"))
+    if not isinstance(routes, list) or not routes or any(not re.fullmatch(r"[a-z0-9-]+", r) for r in routes):
+        raise ValueError("Invalid privacy route configuration")
+    js = read(Path(parts) / "privacy.js")
+    match = re.search(r"const sensitiveRoutes = Object.freeze\(\[(.*?)\]\)", js, re.S)
+    if not match or re.findall(r"[\"']([a-z0-9-]+)[\"']", match.group(1)) != routes:
+        raise ValueError("Privacy JS/JSON route lists differ")
+    return set(routes)
+
+def privacy_loader(text, prefix):
+    text = re.sub(r'<script\b[^>]*src=["\'][^"\']*assets/privacy\.js["\'][^>]*>\s*</script>\s*', '', text)
+    loader = '<script src="%sassets/privacy.js"></script>\n' % prefix
+    charset = re.search(r'<meta charset="[^"]+">\n?', text)
+    if charset:
+        return text[:charset.end()] + loader + text[charset.end():]
+    if "<head>" not in text: raise ValueError("No head for early privacy loader")
+    return text.replace("<head>", "<head>\n" + loader, 1)
+
+def remove_ads(text):
+    def keep_script(match):
+        script = match.group(0)
+        if any(token in script for token in ("yandex.ru/ads/system/context.js", "window.yaContextCb", "Ya.Context.AdvManager.render", "assets/analytics.js")):
+            return ""
+        return script
+    text = re.sub(r'(?m)(?:^[ \t]*)?<script\b[^>]*>.*?</script>', keep_script, text, flags=re.S)
+    # Balance actual div tags; nested RTB placeholders must not leave a stray close.
+    while True:
+        start = re.search(r'<div\b[^>]*class="[^"]*\bad-slot\b[^"]*"[^>]*>', text)
+        if not start: break
+        depth = 1
+        end = None
+        for tag in re.finditer(r'</?div\b[^>]*>', text[start.end():]):
+            depth += -1 if tag.group(0).startswith("</") else 1
+            if depth == 0:
+                end = start.end() + tag.end()
+                break
+        if end is None: raise ValueError("Unbalanced ad slot")
+        line_start = text.rfind("\n", 0, start.start()) + 1
+        remove_start = line_start if not text[line_start:start.start()].strip(" \t") else start.start()
+        text = text[:remove_start] + text[end:]
+    text = re.sub(r'\sdata-share="[^"]*"', '', text)
+    return text
+
+
+def process(site, parts=PARTS):
+    from site_common import safe_destination
+    site = safe_destination(site)
+    sensitive = sensitive_routes(parts)
     stats = {"csp": 0, "loader": 0, "inline": 0, "sidebar": 0, "leader": 0, "files": 0}
-    for root, dirs, files in os.walk(SITE):
+    for root, dirs, files in os.walk(site):
         dirs[:] = [d for d in dirs if d not in ("_build", "backend", ".git", ".github", "assets")]
         for fn in files:
             if not fn.endswith(".html"):
@@ -101,6 +152,17 @@ def main():
             path = os.path.join(root, fn)
             text = read(path)
             orig = text
+            rel = Path(path).relative_to(site).as_posix()
+            if VERIFICATION_RE.fullmatch(rel):
+                continue
+            text = privacy_loader(text, "../" * rel.count("/"))
+            slug = rel.split("/")[0] if "/" in rel else ""
+            if slug in sensitive or rel.startswith("calc-"):
+                text = remove_ads(text)
+                if text != orig:
+                    write(path, text)
+                    stats["files"] += 1
+                continue
 
             # --- CSP ---
             if OLD_CSP in text:
@@ -162,4 +224,7 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    parser = site_parser(__doc__)
+    parser.add_argument("--parts", type=Path, default=PARTS)
+    args = parser.parse_args()
+    process(args.site, args.parts)

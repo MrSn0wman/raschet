@@ -1,0 +1,67 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcMaternalShares(){
+  const propertyValueEl = document.getElementById('property-value');
+  const matCapitalEl = document.getElementById('mat-capital');
+  const familyMembersEl = document.getElementById('family-members');
+  const totalAreaEl = document.getElementById('total-area');
+  const errEl = document.getElementById('err');
+
+  const propertyValue = parseFormattedNumber(propertyValueEl);
+  const matCapital = parseFormattedNumber(matCapitalEl);
+  const familyMembers = parseInt(familyMembersEl.value, 10);
+  const totalArea = parseFloat(String(totalAreaEl.value).replace(',', '.'));
+
+  if (isNaN(propertyValue) || propertyValue <= 0 || isNaN(matCapital) || matCapital <= 0 ||
+      matCapital > propertyValue || isNaN(familyMembers) || familyMembers <= 0){
+    errEl.style.display = 'block';
+    ['r-per-person','r-total-mat-share','r-remaining','r-area-per-person'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const matShareTotal = matCapital / propertyValue;
+  const perPersonShare = matShareTotal / familyMembers;
+  const remainingShare = 1 - matShareTotal;
+
+  document.getElementById('r-per-person').textContent = (perPersonShare*100).toFixed(2).replace('.', ',') + '% (не менее)';
+  document.getElementById('r-total-mat-share').textContent = (matShareTotal*100).toFixed(2).replace('.', ',') + '%';
+  document.getElementById('r-remaining').textContent = (remainingShare*100).toFixed(2).replace('.', ',') + '%';
+
+  if (!isNaN(totalArea) && totalArea > 0){
+    const areaPerPerson = totalArea * perPersonShare;
+    document.getElementById('r-area-per-person').textContent = areaPerPerson.toFixed(2).replace('.', ',') + ' м²';
+  } else {
+    document.getElementById('r-area-per-person').textContent = '—';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('property-value'), document.getElementById('mat-capital')].forEach(el => attachThousandsInput(el));
+  document.getElementById('property-value').addEventListener('input', recalcMaternalShares);
+  document.getElementById('mat-capital').addEventListener('input', recalcMaternalShares);
+  document.getElementById('family-members').addEventListener('input', recalcMaternalShares);
+  document.getElementById('total-area').addEventListener('input', recalcMaternalShares);
+  recalcMaternalShares();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,102 @@
+
+<meta charset="UTF-8">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0E7A4A">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru https://yastatic.net; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+<title>Разделить список на группы онлайн | Расчёт.net</title>
+<meta name="description" content="Разделите список случайным образом на равные группы — по заданному числу групп или по размеру каждой группы.">
+<link rel="canonical" href="https://raschet.net/razdelit-na-gruppy/">
+<meta property="og:title" content="Разделить на группы — Расчёт.net">
+<meta property="og:description" content="Случайное деление списка на группы по числу групп или по размеру.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://raschet.net/razdelit-na-gruppy/">
+<meta property="og:site_name" content="Расчёт.net">
+<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Разделить на группы — Расчёт.net">
+<meta name="twitter:description" content="Случайное деление списка на группы по числу групп или по размеру.">
+<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
+@@RASCHET_HEAD_INIT@@
+<style>
+@@RASCHET_STYLE@@</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Разделить список на группы",
+  "url": "https://raschet.net/razdelit-na-gruppy/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  }
+}
+</script>
+<script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Как разделить людей на равные команды?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Вставьте список участников и выберите режим «По числу групп», указав количество команд. Если поровну не делится, размеры групп будут отличаться максимум на одного человека."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Что будет, если элементы не делятся поровну?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Остаток распределяется по первым группам, поэтому одни группы окажутся на один элемент больше других. Если элементов меньше, чем удвоенное число групп, последние группы могут остаться с одним участником."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Деление на группы случайное?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да: список сначала перемешивается с помощью криптографического генератора crypto.getRandomValues , и только потом раскладывается по группам."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Чем деление на группы отличается от перемешивания списка?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Перемешивание просто меняет порядок всех элементов, а деление раскладывает их по отдельным группам-карточкам — для команд, пар или подгрупп."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Сохраняется ли мой список где-то на сайте?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет, всё считается локально в браузере: данные не отправляются на сервер и после закрытия страницы не сохраняются."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Можно ли разбить список на пары?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Да, выберите режим «По размеру группы» и укажите 2. Учтите: раздача идёт по кругу, поэтому при нечётном числе участников последняя группа может остаться с одним человеком."
+      }
+    }
+  ]
+}
+</script>

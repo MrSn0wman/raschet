@@ -1,0 +1,108 @@
+<main id="main-content" class="calc-page">
+  <div class="container">
+    <p class="breadcrumbs"><a href="../">Главная</a> / Проверка номера карты</p>
+    <div class="calc-layout">
+      <div class="calc-main">
+        <div class="calc-card">
+          <h1>Проверка номера банковской карты</h1>
+          <p class="calc-sub">Алгоритм Луна и определение платёжной системы — вычисления только в вашем браузере.</p>
+          <form id="tool-form" novalidate>
+
+<div class="field-grid">
+  <div class="field full">
+    <label for="card-in">Номер карты</label>
+    <input type="text" id="card-in" inputmode="numeric" maxlength="23" placeholder="0000 0000 0000 0000" autocomplete="off" data-share="card-in">
+    <span class="hint">Пробелы и дефисы допустимы. Номер не отправляется на сервер и не сохраняется.</span>
+    <div class="error-msg" id="card-error" role="alert">В номере карты от 13 до 19 цифр.</div>
+  </div>
+</div>
+
+</form>
+
+          <div class="action-bar">
+            <button class="action-btn" id="fav-toggle" type="button" aria-pressed="false"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 3.6l2.5 5.2 5.7.7-4.2 3.9 1.1 5.6-5.1-2.8-5.1 2.8 1.1-5.6L3.8 9.5l5.7-.7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>В избранное</span></button>
+            <button class="action-btn" id="share-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="18" cy="5" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="6" cy="12" r="2.6" stroke="currentColor" stroke-width="1.6"/><circle cx="18" cy="19" r="2.6" stroke="currentColor" stroke-width="1.6"/><path d="M8.2 10.6l7.6-4.4M8.2 13.4l7.6 4.4" stroke="currentColor" stroke-width="1.6"/></svg><span>Поделиться</span></button>
+            <button class="action-btn" id="copy-btn" type="button" data-copy-target="card-verdict"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg><span>Копировать</span></button>
+            <button class="action-btn" id="print-btn" type="button"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 8V3h10v5" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><rect x="3" y="8" width="18" height="9" rx="1.8" stroke="currentColor" stroke-width="1.6"/><path d="M7 13.5h10V21H7z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Печать</span></button>
+          </div>
+
+
+<div class="result-panel">
+  <div class="r-label">Результат проверки</div>
+  <div class="r-value" id="card-verdict">—</div>
+  <div class="r-rows">
+    <div><b id="card-brand">—</b><span>платёжная система</span></div>
+    <div><b id="card-luhn">—</b><span>алгоритм Луна</span></div>
+    <div><b id="card-mask">—</b><span>маскированный номер</span></div>
+    <div><b id="card-len">—</b><span>цифр в номере</span></div>
+  </div>
+</div>
+
+        </div>
+        <div class="ad-slot ad-slot--inline" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-1"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-1",
+        "renderTo": "yandex_rtb_R-A-20316097-1"
+    })
+})
+</script>
+        <article class="calc-explain">
+          <h2>Как проверить номер банковской карты</h2>
+<p>Введите номер карты в поле — сервис проверит его по алгоритму Луна и определит платёжную систему по первым цифрам. Все вычисления выполняются локально в браузере: номер не отправляется на сервер и не сохраняется. Учтите: пройденная проверка не доказывает, что карта существует, — она лишь отлавливает опечатки.</p>
+<p>Алгоритм Луна — контрольная сумма, встроенная в номер любой банковской карты. Работает он так:</p>
+<p><code>идём по цифрам справа налево; каждую вторую цифру удваиваем; если результат больше 9, вычитаем из него 9; складываем все получившиеся цифры; итоговая сумма должна делиться на 10 без остатка</code></p>
+<p>Пример: возьмём тестовый номер 4111 1111 1111 1111. Идём справа налево и удваиваем каждую вторую цифру, включая первую четвёрку: семь единиц превращаются в двойки, четвёрка — в восьмёрку. Складываем: 8 + 2×7 + 1×8 = 30. Тридцать делится на 10 без остатка — номер проходит проверку.</p>
+<p>Проверка надёжно ловит самые частые ошибки: одну перепутанную цифру и перестановку двух соседних. Именно для этого её и придумали — чтобы опечатка обнаруживалась ещё до отправки платежа. Но это защита от случайных ошибок, а не от подделки: придумать номер, который проходит по Луну, несложно — алгоритм давно публичен. Поэтому зелёная отметка «номер корректен» — не повод переводить деньги незнакомцу.</p>
+<h3>Что проверка не показывает</h3>
+<p>Алгоритм Луна не отвечает на вопросы:</p>
+<ul>
+<li>выпущена ли карта с таким номером на самом деле;</li>
+<li>активна ли она и не заблокирована ли;</li>
+<li>есть ли на ней деньги и какой лимит;</li>
+<li>верны ли срок действия и код CVV.</li>
+</ul>
+<p>Всё это знает только банк-эмитент. Если номер прошёл проверку, а платёж не уходит — обращайтесь в банк, математика здесь уже бессильна. И наоборот: «красный» результат почти всегда означает опечатку, а не заблокированную карту.</p>
+<h3>Как определяется платёжная система</h3>
+<p>Сервис смотрит на первые цифры номера — это так называемый BIN, банковский идентификационный номер: 4 — Visa, 5 — Mastercard, 2 — Мир (включая диапазоны 2200–2204), 34 и 37 — American Express, 62 — UnionPay, 35 — JCB. Правила упрощённые: реальные таблицы BIN содержат тысячи диапазонов и регулярно обновляются, поэтому в спорных случаях систему лучше уточнить у банка.</p>
+<h3>Когда стоит проверять номер</h3>
+<p>Проверка полезна, когда номер продиктовали по телефону или прислали в сообщении и в нём легко ошибиться. Ещё один случай — вы сами набираете номер для перевода и хотите убедиться, что не перепутали цифру. Пойманная опечатка экономит часы на возврат платежа, отправленного не туда.</p>
+<h3>Насколько это безопасно</h3>
+<p>Номер обрабатывается только в вашем браузере: страница не отправляет его на сервер, ничего не сохраняет и даже не показывает целиком в результатах — видны лишь четыре последние цифры. После загрузки страницы можно вообще отключить интернет — проверка продолжит работать. Это удобно, когда нужно сверить номер, который вам прислали для перевода.</p>
+<h3>Сколько цифр бывает в номере</h3>
+<p>Чаще всего 16, но стандарт допускает от 13 до 19: у карт Мир — от 16 до 19, у American Express — 15. Вводить номер можно с пробелами или без, сервис сам оставит одни цифры.</p>
+          <h2>Частые вопросы</h2>
+          <div class="faq">
+          <details><summary>Безопасно ли вводить номер карты на этой странице?</summary><p>Да: все вычисления выполняются локально в браузере, сетевых запросов с номером нет. Для полной уверенности можно даже отключить интернет после загрузки страницы — проверка продолжит работать.</p></details>
+<details><summary>Номер прошёл проверку Луна — значит, карта настоящая?</summary><p>Не обязательно. Алгоритм Луна ловит опечатки, но подобрать математически корректный номер несложно. Реальность карты подтверждает только банк-эмитент.</p></details>
+<details><summary>Что делать, если номер не прошёл проверку?</summary><p>Скорее всего, в цифрах опечатка: сверьте номер с картой или приложением банка. Если цифры переписаны верно, а проверка не проходит, уточните номер у того, кто его прислал.</p></details>
+<details><summary>Почему не определилась платёжная система?</summary><p>Мы определяем систему по упрощённым правилам по первым цифрам. Новые и редкие диапазоны BIN (например, виртуальные карты некоторых банков) могут не попасть в список.</p></details>
+<details><summary>Можно ли узнать банк по номеру карты?</summary><p>Первые 6–8 цифр (BIN) указывают на банк-эмитент. Наш сервис определяет только платёжную систему; конкретный банк подскажут открытые BIN-справочники.</p></details>
+<details><summary>Сколько цифр должно быть в номере?</summary><p>Обычно 16, у карт Мир — от 16 до 19, у American Express — 15. Стандарт допускает от 13 до 19 цифр.</p></details>
+          </div>
+        </article>
+      </div>
+      <aside class="sidebar">
+        <div class="side-card">
+          <h4>Похожие инструменты</h4>
+          <a class="related-link" href="../proverka-inn/">Проверка ИНН</a>
+          <a class="related-link" href="../proverka-snils/">Проверка СНИЛС</a>
+          <a class="related-link" href="../generator-paroley/">Генератор паролей</a>
+          <a class="related-link" href="../uuid-generator/">Генератор UUID</a>
+        </div>
+        <div class="ad-slot ad-slot--sidebar" role="complementary" aria-label="Рекламный блок"><span class="tag">Реклама</span><div id="yandex_rtb_R-A-20316097-2"></div></div>
+
+<script>
+window.yaContextCb.push(() => {
+    Ya.Context.AdvManager.render({
+        "blockId": "R-A-20316097-2",
+        "renderTo": "yandex_rtb_R-A-20316097-2"
+    })
+})
+</script>
+      </aside>
+    </div>
+  </div>
+</main>

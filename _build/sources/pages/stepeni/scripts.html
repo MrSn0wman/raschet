@@ -1,0 +1,100 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcPower(){
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const errEl = document.getElementById('err');
+
+  if (mode === 'power'){
+    const base = parseFloat(String(document.getElementById('base').value).replace(',', '.'));
+    const exp = parseFloat(String(document.getElementById('exp').value).replace(',', '.'));
+    if (isNaN(base) || isNaN(exp)){
+      errEl.style.display = 'block';
+      document.getElementById('r-result').textContent = '—';
+      return;
+    }
+    const result = Math.pow(base, exp);
+    if (!isFinite(result) || isNaN(result)){
+      errEl.style.display = 'block';
+      document.getElementById('r-result').textContent = '—';
+      return;
+    }
+    errEl.style.display = 'none';
+    document.getElementById('r-label').textContent = base + ' в степени ' + exp;
+    document.getElementById('r-result').textContent = formatResultNumber(result);
+  } else {
+    const num = parseFloat(String(document.getElementById('root-num').value).replace(',', '.'));
+    const degree = parseInt(document.getElementById('root-degree').value, 10);
+    if (isNaN(num) || isNaN(degree) || degree <= 0){
+      errEl.style.display = 'block';
+      document.getElementById('r-result').textContent = '—';
+      return;
+    }
+    if (num < 0 && degree % 2 === 0){
+      errEl.style.display = 'block';
+      document.getElementById('r-result').textContent = '—';
+      return;
+    }
+    errEl.style.display = 'none';
+    let result;
+    if (num < 0){
+      result = -Math.pow(-num, 1/degree);
+    } else {
+      result = Math.pow(num, 1/degree);
+    }
+    document.getElementById('r-label').textContent = 'Корень ' + degree + '-й степени из ' + num;
+    document.getElementById('r-result').textContent = formatResultNumber(result);
+  }
+}
+
+function formatResultNumber(n){
+  if (Math.abs(n) >= 1e15 || (Math.abs(n) < 1e-6 && n !== 0)){
+    return n.toExponential(4);
+  }
+  const rounded = Math.round(n * 1e8) / 1e8;
+  return rounded.toLocaleString('ru-RU', { maximumFractionDigits: 8 });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const powerFields = document.getElementById('power-fields');
+  const rootFields = document.getElementById('root-fields');
+
+  document.querySelectorAll('#power-fields input, #root-fields input').forEach(el => {
+    el.addEventListener('input', recalcPower);
+  });
+
+  document.querySelectorAll('input[name="mode"]').forEach(r => {
+    r.addEventListener('change', () => {
+      if (document.querySelector('input[name="mode"]:checked').value === 'power'){
+        powerFields.style.display = 'grid';
+        rootFields.style.display = 'none';
+      } else {
+        powerFields.style.display = 'none';
+        rootFields.style.display = 'grid';
+      }
+      recalcPower();
+    });
+  });
+
+  recalcPower();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

@@ -1,0 +1,87 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function parseList(text){
+  return text.split('\n').map(s => s.trim()).filter(s => s.length > 0);
+}
+
+function secureInt(max){const a=new Uint32Array(1);const limit=Math.floor(4294967296/max)*max;let x;do{crypto.getRandomValues(a);x=a[0];}while(x>=limit);return x%max;}
+function shuffleArray(arr){
+  const a = [...arr];
+  for (let i = a.length - 1; i > 0; i--){
+    const j = secureInt(i + 1);
+    [a[i], a[j]] = [a[j], a[i]];
+  }
+  return a;
+}
+
+function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+function splitIntoGroups(items, groupCount){
+  const shuffled = shuffleArray(items);
+  const groups = Array.from({length: groupCount}, () => []);
+  shuffled.forEach((item, i) => {
+    groups[i % groupCount].push(item);
+  });
+  return groups;
+}
+
+function doSplit(){
+  const listEl = document.getElementById('list-input');
+  const paramEl = document.getElementById('param-value');
+  const mode = document.querySelector('input[name="mode"]:checked').value;
+  const errEl = document.getElementById('err');
+  const outputEl = document.getElementById('groups-output');
+
+  const items = parseList(listEl.value);
+  const param = parseInt(paramEl.value, 10);
+
+  if (items.length === 0 || isNaN(param) || param <= 0 || param > items.length){
+    errEl.style.display = 'block';
+    outputEl.innerHTML = '';
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const groupCount = mode === 'by-count' ? param : Math.ceil(items.length / param);
+  const groups = splitIntoGroups(items, groupCount);
+
+  outputEl.innerHTML = groups.map((g, i) =>
+    '<div class="group-card"><h5>Группа ' + (i+1) + '</h5><div>' + g.map(esc).join('<br>') + '</div></div>'
+  ).join('');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const paramLabel = document.getElementById('param-label');
+  document.getElementById('list-input').addEventListener('input', doSplit);
+  document.getElementById('param-value').addEventListener('input', doSplit);
+  document.getElementById('split-btn').addEventListener('click', doSplit);
+  document.querySelectorAll('input[name="mode"]').forEach(r => {
+    r.addEventListener('change', () => {
+      const mode = document.querySelector('input[name="mode"]:checked').value;
+      paramLabel.textContent = mode === 'by-count' ? 'Количество групп' : 'Размер каждой группы';
+      doSplit();
+    });
+  });
+  doSplit();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

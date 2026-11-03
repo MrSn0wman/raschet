@@ -1,0 +1,103 @@
+
+<meta charset="UTF-8">
+<link rel="manifest" href="../manifest.webmanifest">
+<meta name="theme-color" content="#0E7A4A">
+<link rel="icon" type="image/png" sizes="192x192" href="../assets/icon-192.png">
+<link rel="apple-touch-icon" href="../assets/icon-192.png">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://yastatic.net https://*.yandex.net; style-src 'self' 'unsafe-inline'; img-src 'self' data: https:; font-src 'self' https://yastatic.net; connect-src 'self' https://mc.yandex.ru https://www.google-analytics.com https://www.googletagmanager.com https://yandex.ru https://an.yandex.ru https://*.yandex.net https://yastatic.net; frame-src https://yandex.ru https://an.yandex.ru https://*.yandex.net https://mc.yandex.ru https://yastatic.net; media-src https:; frame-ancestors 'none'; base-uri 'self'; form-action 'self'">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<script>window.yaContextCb=window.yaContextCb||[]</script>
+<script src="https://yandex.ru/ads/system/context.js" async></script>
+<title>Калькулятор НОД — наибольший общий делитель</title>
+<meta name="description" content="Найдите наибольший общий делитель (НОД) двух или нескольких чисел онлайн с пошаговым объяснением по алгоритму Евклида.">
+<link rel="canonical" href="https://raschet.net/nod/">
+<meta property="og:title" content="Калькулятор НОД — Расчёт.net">
+<meta property="og:description" content="Наибольший общий делитель нескольких чисел по алгоритму Евклида.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="ru_RU">
+<meta property="og:url" content="https://raschet.net/nod/">
+<meta property="og:site_name" content="Расчёт.net">
+<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Калькулятор НОД — Расчёт.net">
+<meta name="twitter:description" content="Наибольший общий делитель нескольких чисел по алгоритму Евклида.">
+<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
+@@RASCHET_HEAD_INIT@@
+<style>
+@@RASCHET_STYLE@@</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Калькулятор НОД",
+  "url": "https://raschet.net/nod/",
+  "applicationCategory": "UtilitiesApplication",
+  "operatingSystem": "Any",
+  "offers": {
+    "@type": "Offer",
+    "price": "0",
+    "priceCurrency": "RUB"
+  }
+}
+</script>
+
+<script src="../assets/analytics.js" defer></script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Что такое НОД?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Наибольший общий делитель (НОД) — это самое большое натуральное число, на которое без остатка делятся все заданные числа."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как найти НОД нескольких чисел сразу?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Последовательно: сначала считают НОД первых двух чисел, затем НОД результата с третьим числом, и так далее по всему списку."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Чем НОД отличается от НОК?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "НОД — наибольшее число, на которое делятся все заданные числа, а НОК — наименьшее число, которое само делится на каждое из них. НОД помогает сокращать дроби, НОК — приводить их к общему знаменателю."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Чему равен НОД взаимно простых чисел?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Если у чисел нет общих делителей, кроме единицы (например, 8 и 15), их НОД равен 1 — такие числа называют взаимно простыми."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Как сократить дробь с помощью НОД?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Найдите НОД числителя и знаменателя и разделите на него обе части дроби. Например, для 48/180 НОД равен 12, и дробь сразу сокращается до 4/15."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Может ли НОД быть больше самих чисел?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Нет. НОД никогда не превышает наименьшее из заданных чисел, потому что делитель числа не может быть больше самого числа."
+      }
+    }
+  ]
+}
+</script>

@@ -1,0 +1,101 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+const RANDOM_RANGE_LIMIT = 4294967296;
+const RANDOM_COUNT_LIMIT = 10000;
+function secureInt(max){
+  if (!Number.isSafeInteger(max) || max < 1 || max > RANDOM_RANGE_LIMIT){
+    throw new RangeError('Недопустимый размер диапазона');
+  }
+  const a = new Uint32Array(1);
+  const limit = Math.floor(RANDOM_RANGE_LIMIT / max) * max;
+  // A bounded rejection loop also prevents a broken entropy source from hanging the tab.
+  for (let attempt = 0; attempt < 128; attempt++){
+    crypto.getRandomValues(a);
+    if (a[0] < limit) return a[0] % max;
+  }
+  throw new Error('Не удалось получить случайное число');
+}
+function randomInt(min, max){
+  if (!Number.isSafeInteger(min) || !Number.isSafeInteger(max) || max < min){
+    throw new RangeError('Недопустимые границы диапазона');
+  }
+  return secureInt(max - min + 1) + min;
+}
+
+function generateNumbers(){
+  const minEl = document.getElementById('min-val');
+  const maxEl = document.getElementById('max-val');
+  const countEl = document.getElementById('count');
+  const noRepeatEl = document.getElementById('no-repeat');
+  const errEl = document.getElementById('err');
+  function readInteger(el){
+    const raw = el.value.trim();
+    return /^-?\d+$/.test(raw) ? Number(raw) : NaN;
+  }
+  function setResultState(valid){
+    errEl.style.display = valid ? 'none' : 'block';
+    ['copy-btn', 'share-btn'].forEach(id => { document.getElementById(id).disabled = !valid; });
+    if (!valid) document.getElementById('r-result').textContent = '—';
+  }
+  const min = readInteger(minEl);
+  const max = readInteger(maxEl);
+  const count = readInteger(countEl);
+  const noRepeat = noRepeatEl.checked;
+  const rangeSize = max - min + 1;
+  const valid = [min, max, count, rangeSize].every(Number.isSafeInteger) &&
+    count >= 1 && count <= RANDOM_COUNT_LIMIT && rangeSize >= 1 &&
+    rangeSize <= RANDOM_RANGE_LIMIT && (!noRepeat || count <= rangeSize);
+  if (!valid){ setResultState(false); return; }
+
+  const results = [];
+  try {
+    if (noRepeat){
+      // Sparse partial Fisher–Yates: O(count) space/time, never allocate the whole range.
+      const swaps = new Map();
+      for (let i = 0; i < count; i++){
+        const remaining = rangeSize - i;
+        const j = secureInt(remaining);
+        const picked = swaps.has(j) ? swaps.get(j) : j;
+        const last = remaining - 1;
+        swaps.set(j, swaps.has(last) ? swaps.get(last) : last);
+        swaps.delete(last);
+        results.push(min + picked);
+      }
+    } else {
+      for (let i = 0; i < count; i++) results.push(randomInt(min, max));
+    }
+  } catch (error){
+    setResultState(false);
+    return;
+  }
+  setResultState(true);
+  document.getElementById('r-result').textContent = results.join(', ');
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  ['min-val','max-val','count'].forEach(id => document.getElementById(id).addEventListener('input', generateNumbers));
+  document.getElementById('no-repeat').addEventListener('change', generateNumbers);
+  document.getElementById('generate-btn').addEventListener('click', generateNumbers);
+  generateNumbers();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>

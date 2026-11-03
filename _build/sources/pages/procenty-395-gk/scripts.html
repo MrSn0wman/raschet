@@ -1,0 +1,57 @@
+
+
+
+
+
+
+<script>
+@@RASCHET_UI@@
+</script>
+<script>
+
+function recalcArt395(){
+  const debtEl = document.getElementById('debt');
+  const rateEl = document.getElementById('key-rate');
+  const daysEl = document.getElementById('days');
+  const errEl = document.getElementById('err');
+
+  const debt = parseFormattedNumber(debtEl);
+  const rate = parseFloat(String(rateEl.value).replace(',', '.'));
+  const days = parseFormattedNumber(daysEl);
+
+  if (isNaN(debt) || debt <= 0 || isNaN(rate) || rate < 0 || isNaN(days) || days <= 0){
+    errEl.style.display = 'block';
+    ['r-interest','r-total','r-daily'].forEach(id => document.getElementById(id).textContent = '—');
+    return;
+  }
+  errEl.style.display = 'none';
+
+  const interest = debt * (rate/100) * (days/365);
+  const total = debt + interest;
+  const dailyInterest = interest / days;
+
+  document.getElementById('r-interest').textContent = formatMoney(interest) + '\u00A0₽';
+  document.getElementById('r-total').textContent = formatMoney(total) + '\u00A0₽';
+  document.getElementById('r-daily').textContent = formatMoney2(dailyInterest) + '\u00A0₽';
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  [document.getElementById('debt'), document.getElementById('days')].forEach(el => {
+    attachThousandsInput(el);
+    el.addEventListener('input', recalcArt395);
+  });
+  document.getElementById('key-rate').addEventListener('input', recalcArt395);
+  recalcArt395();
+});
+
+</script>
+<script>
+if ('serviceWorker' in navigator){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('../sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+
+</html>
