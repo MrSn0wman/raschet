@@ -8,6 +8,7 @@ import copy
 import hashlib
 import io
 import json
+import re
 import sys
 import os
 import shutil
@@ -108,6 +109,27 @@ class BuildTests(unittest.TestCase):
         cleaned = integrate_rsya.remove_ads(html)
         self.assertEqual(cleaned, "\n\n\n" + protected)
         self.assertEqual(integrate_rsya.remove_ads(cleaned), cleaned)
+    def test_home_ad_placements(self):
+        text = site_common.read(self.out / "index.html")
+        prefix = "yandex_rtb_R-A-20316097-1"
+        placements = (("labor", "auto"), ("math", "dates"), ("validators", "generators"))
+        ids = re.findall(r'<div id="(yandex_rtb_[^"]+)">', text)
+        self.assertEqual(ids, [prefix] + [prefix + "-" + before + "-" + after for before, after in placements])
+        self.assertEqual(len(set(ids)), 4)
+        self.assertEqual(text.count('class="ad-slot ad-slot--leader"'), 4)
+        calls = re.findall(r'Ya\.Context\.AdvManager\.render\(\{\s*"blockId": "([^"]+)",\s*"renderTo": "([^"]+)"\s*\}\)', text)
+        self.assertEqual(calls, [("R-A-20316097-1", target) for target in ids])
+        self.assertEqual(text.count('<script src="https://yandex.ru/ads/system/context.js" async></script>'), 1)
+        self.assertLess(text.index('<script src="assets/privacy.js"></script>'), text.index("context.js"))
+        self.assertEqual(text.count('class="calc-item"'), 73)
+        for before, after in placements:
+            start = text.index('<section class="section" id="' + before + '">')
+            end = text.index("</section>", start)
+            next_section = text.index("<section", end)
+            self.assertEqual(next_section, text.index('<section class="section" id="' + after + '">'))
+            gap = text[end:next_section]
+            self.assertIn('<div id="' + prefix + "-" + before + "-" + after + '"></div>', gap)
+            self.assertEqual(gap.count('class="ad-slot ad-slot--leader"'), 1)
     def test_sensitive_pages_have_no_ads_analytics_or_sharing(self):
         for route in integrate_rsya.sensitive_routes():
             text = site_common.read(self.out / route / 'index.html')
