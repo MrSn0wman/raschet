@@ -130,6 +130,14 @@ class BuildTests(unittest.TestCase):
             gap = text[end:next_section]
             self.assertIn('<div id="' + prefix + "-" + before + "-" + after + '"></div>', gap)
             self.assertEqual(gap.count('class="ad-slot ad-slot--leader"'), 1)
+    def test_all_tool_ad_coverage(self):
+        private = integrate_rsya.sensitive_routes()
+        tools = [page for page in self.manifest['pages'] if page['calculator']]
+        self.assertEqual(sum(page['path'].split('/')[0] not in private for page in tools), 59)
+        self.assertEqual(sum(page['path'].split('/')[0] in private for page in tools), 14)
+        self.assertEqual(test_site.ad_coverage_checks(self.out, self.manifest), [])
+        self.assertEqual(test_site.static_checks(self.out), [])
+
     def test_sensitive_pages_have_no_ads_analytics_or_sharing(self):
         for route in integrate_rsya.sensitive_routes():
             text = site_common.read(self.out / route / 'index.html')
@@ -171,6 +179,148 @@ class BuildTests(unittest.TestCase):
         path.unlink()
         try: self.assertTrue(test_site.static_checks(self.out))
         finally: path.write_bytes(original)
+
+class AdCoverageTests(unittest.TestCase):
+    """Offline DOM mutations: manifest/config determine routes, not a tool allowlist."""
+    def setUp(self):
+        self.manifest = json.loads(site_common.read(site_common.SOURCES / 'manifest.json'))
+        private = integrate_rsya.sensitive_routes()
+        self.public = [page['path'] for page in self.manifest['pages']
+                       if page['calculator'] and page['path'].split('/')[0] not in private]
+        self.private = [page['path'] for page in self.manifest['pages'] if page['path'].split('/')[0] in private]
+        self.temp = tempfile.TemporaryDirectory(prefix='raschet-ad-gate-test-')
+        self.addCleanup(self.temp.cleanup)
+        self.site = Path(self.temp.name)
+        self.inline = integrate_rsya.slot_html('inline', integrate_rsya.BLOCK_INLINE)
+        self.sidebar = integrate_rsya.slot_html('sidebar', integrate_rsya.BLOCK_SIDEBAR)
+        self.good = self.document(self.inline)
+        for page in self.manifest['pages']:
+            path = self.site / page['path']
+            path.parent.mkdir(parents=True, exist_ok=True)
+            path.write_text(self.good if page['path'] in self.public else self.document(), encoding='utf-8')
+        self.assertEqual(self.errors(), [])  # Negatives must not pass on unrelated fixture failures.
+
+    def document(self, inline='', after='', outside=''):
+        return ('<!doctype html><html><head><script src="../assets/privacy.js"></script></head><body>'
+                '<main><div class="calc-card"><h1>Fixture</h1><div id="result"><input><br></div>'
+                + inline + after + '</div>' + outside + '</main><aside>'
+                + (self.sidebar if inline else '') + '</aside></body></html>')
+
+    def errors(self):
+        return test_site.ad_coverage_checks(self.site, self.manifest)
+
+    @contextlib.contextmanager
+    def mutation(self, rel, text):
+        path = self.site / rel
+        original = path.read_bytes()
+        path.write_text(text, encoding='utf-8')
+        try:
+            yield
+        finally:
+            path.write_bytes(original)
+
+    def assert_rejected(self, rel, text, diagnostic):
+        with self.mutation(rel, text):
+            errors = self.errors()
+            self.assertTrue(any(error.startswith(rel + ':') and diagnostic in error for error in errors), errors)
+            # This is the same entry point used by build_all --test and publish sync.
+            self.assertTrue(any('ad coverage' in error and error.startswith(rel + ':')
+                                for error in test_site.static_checks(self.site)), diagnostic)
+
+    def test_positive_manifest_coverage_and_read_only(self):
+        before = {path: path.read_bytes() for path in self.site.rglob('*.html')}
+        self.assertEqual(self.errors(), [])
+        self.assertEqual({path: path.read_bytes() for path in before}, before)
+        # Class token order, attribute quotes/case, nested result divs, comments and whitespace.
+        varied = self.good.replace('class="ad-slot ad-slot--inline"', "CLASS='extra ad-slot--inline ad-slot'")
+        varied = varied.replace('</script></div>', '</script> \n<!-- Formatting comment -->\n</div>')
+        varied += '\n<!-- <div class="ad-slot--inline">fake</div> -->'
+        with self.mutation(self.public[0], varied):
+            self.assertEqual(self.errors(), [])
+        custom_target = self.good.replace('yandex_rtb_' + integrate_rsya.BLOCK_INLINE, 'yandex_rtb_custom-inline')
+        with self.mutation(self.public[0], custom_target):
+            self.assertEqual(self.errors(), [])
+
+    def test_missing_inline_on_every_non_sensitive_tool(self):
+        for rel in self.public:
+            with self.subTest(page=rel):
+                # Leave the valid sidebar: it must never substitute for the inline slot.
+                self.assert_rejected(rel, self.good.replace(self.inline, ''), 'exactly one inline slot')
+
+    def test_duplicate_inline_and_dom_ids(self):
+        rel = self.public[0]
+        cases = ((self.good.replace(self.inline, self.inline + self.inline), 'exactly one inline slot'),
+                 (self.good.replace('id="result"', 'id="theme-toggle"') + '<div id="theme-toggle"></div>', 'duplicate DOM id'),
+                 (self.good.replace('<aside>', '<aside><div id="yandex_rtb_' + integrate_rsya.BLOCK_INLINE + '"></div>'), 'duplicate DOM id'),
+                 (self.good.replace('id="result"', 'id="result" id="other"'), 'duplicate id attribute'))
+        for text, diagnostic in cases:
+            with self.subTest(diagnostic=diagnostic):
+                self.assert_rejected(rel, text, diagnostic)
+
+    def test_misplaced_inline_and_trailing_content(self):
+        rel = self.public[0]
+        cases = ((self.good.replace(self.inline, '<section>' + self.inline + '</section>'), 'direct child'),
+                 (self.document(outside=self.inline), 'direct child'),
+                 (self.good.replace('<main>', '<main><template>').replace('</main>', '</template></main>'), 'direct child'),
+                 (self.good.replace('<main>', '<main><noscript>').replace('</main>', '</noscript></main>'), 'direct child'),
+                 (self.document(self.inline, after='<div>Late result</div>'), 'last content'),
+                 (self.document(self.inline, after='<p>Late explanation</p>'), 'last content'),
+                 (self.document(self.inline, after='Late text'), 'last content'),
+                 (self.document(self.inline, after='<script>console.log(1)</script>'), 'last content'),
+                 (self.good.replace('<div id="result">', '<div id="result"><div>'), 'unclosed div/script'))
+        for text, diagnostic in cases:
+            with self.subTest(diagnostic=diagnostic):
+                self.assert_rejected(rel, text, diagnostic)
+
+    def test_rtb_container_and_render_contract(self):
+        rel = self.public[0]
+        target = 'yandex_rtb_' + integrate_rsya.BLOCK_INLINE
+        container = '<div id="' + target + '"></div>'
+        render = integrate_rsya.RENDER % (integrate_rsya.BLOCK_INLINE, integrate_rsya.BLOCK_INLINE)
+        cases = ((self.good.replace(container, ''), 'exactly one RTB container'),
+                 (self.good.replace(container, '<template>' + container + '</template>'), 'exactly one RTB container'),
+                 (self.good.replace(container, '<noscript>' + container + '</noscript>'), 'exactly one RTB container'),
+                 (self.good.replace(container, container + '<div id="yandex_rtb_extra"></div>'), 'exactly one RTB container'),
+                 (self.good.replace(render, ''), 'last content'),
+                 (self.good.replace(render, render.replace('"renderTo": "' + target + '"', '"renderTo": "missing"')), 'renderTo/blockId mismatch'),
+                 (self.good.replace(render, render.replace('"blockId": "' + integrate_rsya.BLOCK_INLINE + '"', '"blockId": "wrong"')), 'renderTo/blockId mismatch'),
+                 (self.good + render, 'exactly one render call'),
+                 (self.good + '<script>Ya.Context.AdvManager.render({renderTo: "' + target + '"});</script>', 'exactly one render call'),
+                 (self.good.replace(render, render.replace('<script>', '<script type="application/json">')), 'render'),
+                 (self.good.replace(render, render.replace('<script>', '<script nomodule>')), 'render'),
+                 (self.good.replace(render, render.replace('<script>', '<script src="">')), 'render'),
+                 (self.good.replace(render, render.replace('<script>', '<script language="vbscript">')), 'render'),
+                 (self.good.replace(render, render.replace('<script>', '<script type="application/json" type="text/javascript">')), 'duplicate type attribute'),
+                 (self.good.replace(render, render.replace('<script>', '<script src="fake.js" src="">')), 'duplicate src attribute'))
+        for text, diagnostic in cases:
+            with self.subTest(diagnostic=diagnostic):
+                self.assert_rejected(rel, text, diagnostic)
+
+    def test_sensitive_ads_blocked_even_without_complete_slot(self):
+        fragments = (self.inline, self.sidebar, '<div class="ad-slot--inline"></div>',
+                     '<div id="yandex_rtb_orphan"></div>', integrate_rsya.LOADER,
+                     '<script src="https://yandex.ru/ads/system/context.js" async></script>',
+                     '<script>window.yaContextCb=[];</script>',
+                     '<script>Ya . Context . AdvManager . render({});</script>',
+                     '<script>const ad = document.createElement("script"); ad.src = "https://yandex.ru/ads/system/context.js"; document.head.append(ad);</script>',
+                     '<button onclick="Ya.Context.AdvManager.render({})">Blocked</button>',
+                     '<a href="javascript:window.yaContextCb.push(() => {})">Blocked</a>')
+        for rel in self.private:  # Includes all 14 private tools and configured non-tool routes.
+            for fragment in fragments:
+                with self.subTest(page=rel, fragment=fragment):
+                    self.assert_rejected(rel, self.document(outside=fragment), 'sensitive route contains')
+
+    def test_missing_manifest_page_and_privacy_configuration_fail_closed(self):
+        path = self.site / self.public[-1]
+        original = path.read_bytes()
+        path.unlink()
+        try:
+            self.assertTrue(any('ad coverage missing page' in error for error in self.errors()))
+        finally:
+            path.write_bytes(original)
+        errors = test_site.ad_coverage_checks(self.site, self.manifest, parts=self.site / 'missing-config')
+        self.assertTrue(any('invalid privacy configuration' in error for error in errors), errors)
+
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

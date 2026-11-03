@@ -15,17 +15,193 @@ import subprocess
 import sys
 import tempfile
 import threading
+from collections import Counter
+from html.parser import HTMLParser
 from pathlib import Path
 from urllib.parse import unquote, urlsplit
-from site_common import BASE_URL, REPO, SOURCES, VERIFICATION_RE, html_files, read, site_parser
+from site_common import BASE_URL, PARTS, REPO, SOURCES, VERIFICATION_RE, html_files, read, site_parser
+from integrate_rsya import BLOCK_INLINE, sensitive_routes
 
 CHROME = Path(os.environ.get('CHROME', r'C:\Program Files\Google\Chrome\Application\chrome.exe'))
+
+class _HTMLNode:
+    def __init__(self, tag, attrs=(), parent=None):
+        self.tag, self.attrs, self.parent = tag, dict(attrs), parent
+        self.duplicate_attrs = {name for name, count in Counter(key for key, value in attrs).items() if count > 1}
+        self.children = []
+
+    def has_class(self, name):
+        return name in (self.attrs.get('class') or '').split()
+
+
+class _AdHTMLParser(HTMLParser):
+    """Small static DOM: script data is opaque; comments/formatting are not content."""
+    VOID = frozenset('area base br col embed hr img input link meta param source track wbr'.split())
+
+    def __init__(self):
+        super().__init__(convert_charrefs=True)
+        self.root = _HTMLNode('#document')
+        self.stack, self.nodes, self.errors = [self.root], [], []
+
+    def handle_starttag(self, tag, attrs):
+        node = _HTMLNode(tag, attrs, self.stack[-1])
+        self.stack[-1].children.append(node)
+        self.nodes.append(node)
+        # Browsers keep the first duplicate attribute; dict(attrs) keeps the last.
+        # Reject ambiguity instead of letting inactive scripts or duplicate IDs pass.
+        for name in node.duplicate_attrs:
+            self.errors.append('duplicate ' + name + ' attribute')
+        if tag not in self.VOID:
+            self.stack.append(node)
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag not in self.VOID:
+            self.handle_endtag(tag)
+
+    def handle_endtag(self, tag):
+        for index in range(len(self.stack) - 1, 0, -1):
+            if self.stack[index].tag == tag:
+                # Broken div/script nesting must not manufacture a valid ad placement.
+                if any(node.tag in ('div', 'script') for node in self.stack[index + 1:]):
+                    self.errors.append('unclosed div/script before </' + tag + '>')
+                del self.stack[index:]
+                return
+        if tag in ('div', 'script'):
+            self.errors.append('unmatched </' + tag + '>')
+
+    def handle_data(self, data):
+        if data.strip():
+            self.stack[-1].children.append(data)
+
+    def close(self):
+        super().close()
+        if any(node.tag in ('div', 'script') for node in self.stack[1:]):
+            self.errors.append('unclosed div/script at EOF')
+
+
+def _descendants(node):
+    for child in node.children:
+        if isinstance(child, _HTMLNode):
+            yield child
+            yield from _descendants(child)
+
+
+def _inactive(node):
+    while node is not None:
+        if node.tag in ('template', 'noscript'):
+            return True
+        node = node.parent
+    return False
+
+
+# Accept the generated callback contract, not arbitrary executable JavaScript.
+_RENDER_SCRIPT = re.compile(
+    r'\s*window\s*\.\s*yaContextCb\s*\.\s*push\s*\(\s*\(\s*\)\s*=>\s*\{\s*'
+    r'Ya\s*\.\s*Context\s*\.\s*AdvManager\s*\.\s*render\s*\(\s*(\{[^{}]*\})\s*\)\s*;?\s*'
+    r'\}\s*\)\s*;?\s*', re.S)
+_AD_SCRIPT = re.compile(r'yaContextCb|Ya\s*\.\s*Context\s*\.\s*AdvManager\s*\.\s*render|/ads/system/context\.js')
+_RENDER_TO = re.compile(r'''(?:["']renderTo["']|\brenderTo)\s*:\s*(["'])([^"']+)\1''')
+
+
+def _render_config(node):
+    if (node.tag != 'script' or 'src' in node.attrs or 'language' in node.attrs or
+            node.duplicate_attrs or 'nomodule' in node.attrs or
+            (node.attrs.get('type') or '').lower() not in ('', 'text/javascript', 'application/javascript')):
+        return None
+    match = _RENDER_SCRIPT.fullmatch(''.join(child for child in node.children if isinstance(child, str)))
+    if not match:
+        return None
+    try:
+        pairs = json.loads(match.group(1), object_pairs_hook=list)
+    except ValueError:
+        return None
+    if len(pairs) != 2 or {key for key, value in pairs} != {'blockId', 'renderTo'}:
+        return None
+    return dict(pairs)
+
+
+def ad_coverage_checks(site, manifest, parts=PARTS):
+    """All manifest tools need bottom inline RTB; configured private routes need none.
+
+    Read-only and shared by static_checks, build_all --test and local publish sync.
+    Sidebar ads remain allowed, but cannot satisfy the bottom inline requirement.
+    """
+    errors = []
+    try:
+        private = sensitive_routes(parts)
+    except (OSError, ValueError, TypeError) as exc:
+        return ['Ad coverage: invalid privacy configuration: ' + str(exc)]
+    for page in manifest['pages']:
+        rel = page['path']
+        is_private = rel.split('/')[0] in private
+        if not page['calculator'] and not is_private:
+            continue
+        path = Path(site) / rel
+        if not path.is_file():
+            errors.append(rel + ': ad coverage missing page')
+            continue
+        dom = _AdHTMLParser()
+        try:
+            dom.feed(read(path))
+            dom.close()
+        except (OSError, ValueError) as exc:
+            errors.append(rel + ': ad coverage HTML parse failed: ' + str(exc))
+            continue
+        errors.extend(rel + ': ad coverage ' + error for error in dom.errors)
+        ids = Counter(node.attrs['id'] for node in dom.nodes if node.attrs.get('id'))
+        for value, count in ids.items():
+            if count > 1:
+                errors.append(rel + ': ad coverage duplicate DOM id ' + value)
+        slots = [node for node in dom.nodes if node.has_class('ad-slot') or any(
+            cls.startswith('ad-slot--') for cls in (node.attrs.get('class') or '').split())]
+        rtb = [node for node in dom.nodes if (node.attrs.get('id') or '').startswith('yandex_rtb_')]
+        scripts = [node for node in dom.nodes if node.tag == 'script']
+        ad_scripts = [node for node in scripts if _AD_SCRIPT.search(
+            ''.join(child for child in node.children if isinstance(child, str))) or
+            '/ads/system/context.js' in (node.attrs.get('src') or '').lower()]
+        if is_private:
+            ad_attrs = any(_AD_SCRIPT.search(value or '') or '/ads/system/context.js' in (value or '').lower()
+                           for node in dom.nodes for value in node.attrs.values())
+            if slots or rtb or ad_scripts or ad_attrs:
+                errors.append(rel + ': ad coverage sensitive route contains slot/loader/render')
+            continue
+        inline = [node for node in slots if node.has_class('ad-slot--inline')]
+        if len(inline) != 1:
+            errors.append(rel + ': ad coverage expected exactly one inline slot, got ' + str(len(inline)))
+            continue
+        slot = inline[0]
+        card = slot.parent
+        if (slot.tag != 'div' or not slot.has_class('ad-slot') or card.tag != 'div' or
+                not card.has_class('calc-card') or _inactive(slot)):
+            errors.append(rel + ': ad coverage inline slot must be a direct child div of calc-card')
+            continue
+        following = card.children[card.children.index(slot) + 1:]
+        render = _render_config(following[0]) if len(following) == 1 and isinstance(following[0], _HTMLNode) else None
+        if render is None:
+            errors.append(rel + ': ad coverage inline slot must be last content with only its render script after')
+        targets = [node for node in _descendants(slot) if (node.attrs.get('id') or '').startswith('yandex_rtb_')
+                   and not _inactive(node)]
+        if len(targets) != 1 or targets[0].tag != 'div':
+            errors.append(rel + ': ad coverage inline slot needs exactly one RTB container div')
+            continue
+        target = targets[0].attrs['id']
+        if render != {'blockId': BLOCK_INLINE, 'renderTo': target}:
+            errors.append(rel + ': ad coverage inline renderTo/blockId mismatch')
+        # Count targets even in a duplicate non-canonical callback elsewhere.
+        matching = sum(match.group(2) == target for node in scripts for match in _RENDER_TO.finditer(
+            ''.join(child for child in node.children if isinstance(child, str))))
+        if matching != 1:
+            errors.append(rel + ': ad coverage inline RTB container needs exactly one render call')
+    return sorted(set(errors))
+
 
 def static_checks(site, sources=SOURCES):
     site, sources = Path(site), Path(sources)
     errors = []
     try: manifest = json.loads(read(sources / 'manifest.json'))
     except Exception as exc: return ['Missing/invalid source manifest: ' + str(exc)]
+    errors.extend(ad_coverage_checks(site, manifest))
     expected = {p['path'] for p in manifest['pages']}
     if len(expected) != 79: errors.append('Expected exactly 79 full pages')
     if sum(p['calculator'] for p in manifest['pages']) != 73: errors.append('Expected 73 calculators')
