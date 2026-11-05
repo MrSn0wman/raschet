@@ -13,22 +13,10 @@
 <title>Блог Расчёт.net — статьи о финансах, налогах и расчётах</title>
 <meta name="description" content="Блог Расчёт.net: экспертные статьи о финансах, налогах, инвестициях и недвижимости.">
 <link rel="canonical" href="https://raschet.net/blog/">
-<meta property="og:title" content="Блог Расчёт.net — статьи о финансах, налогах и расчётах">
-<meta property="og:description" content="Блог Расчёт.net: экспертные статьи о финансах, налогах, инвестициях и недвижимости.">
-<meta property="og:type" content="website">
-<meta property="og:locale" content="ru_RU">
-<meta property="og:url" content="https://raschet.net/blog/">
-<meta property="og:site_name" content="Расчёт.net">
-<meta property="og:image" content="https://raschet.net/assets/og-cover.png">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Блог Расчёт.net — статьи о финансах, налогах и расчётах">
-<meta name="twitter:description" content="Блог Расчёт.net: экспертные статьи о финансах, налогах, инвестициях и недвижимости.">
-<meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
+<meta property="og:title" content="Блог Расчёт.net — статьи о финансах, налогах и расчётах"><meta property="og:description" content="Блог Расчёт.net: экспертные статьи о финансах, налогах, инвестициях и недвижимости."><meta property="og:type" content="website"><meta property="og:locale" content="ru_RU"><meta property="og:url" content="https://raschet.net/blog/"><meta property="og:site_name" content="Расчёт.net"><meta property="og:image" content="https://raschet.net/assets/og-cover.png"><meta property="og:image:width" content="1200"><meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Блог Расчёт.net"><meta name="twitter:description" content="Экспертные статьи о финансах, налогах, инвестициях."><meta name="twitter:image" content="https://raschet.net/assets/og-cover.png">
 <script>(function(){try{var t=localStorage.getItem('raschet-theme');if(t!=='light'&&t!=='dark'){t=window.matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}document.documentElement.setAttribute('data-theme',t);var m=document.querySelector('meta[name="theme-color"]');if(!m){m=document.createElement('meta');m.setAttribute('name','theme-color');document.head.appendChild(m)}m.setAttribute('content',t==='dark'?'#101613':'#0E7A4A')}catch(e){document.documentElement.setAttribute('data-theme','light')}})();</script>
-<style>
-/* Локальные шрифты (self-hosted, офлайн-PWA). __PREFIX__ заменяется генератором. */
+<style>/* Локальные шрифты (self-hosted, офлайн-PWA). __PREFIX__ заменяется генератором. */
 @font-face{
   font-family:'Inter';
   font-style:normal;
@@ -881,7 +869,18 @@ p{ margin:0 0 1em; color:var(--ink); }
   .schedule-block.expanded .schedule-table thead th{ position:sticky; top:0; z-index:6; }
 }
 
-/* ============ БЛОГ ============ */
+.blog-index{max-width:780px;margin:0 auto;padding:40px 20px 60px}
+.blog-index h1{font-size:2rem;font-weight:700;margin:0 0 8px}
+.blog-index .lede{color:var(--text-secondary);margin:0 0 32px;font-size:1.05rem}
+.blog-card{border:2px solid var(--border,#d0d0d0);border-radius:12px;padding:24px 28px;margin:0 0 20px;background:var(--card-bg,transparent);transition:box-shadow .2s,border-color .2s}
+.blog-card:hover{box-shadow:0 4px 20px rgba(0,0,0,.1);border-color:var(--brand)}
+html[data-theme="dark"] .blog-card{border-color:#3a4a3d}
+html[data-theme="dark"] .blog-card:hover{border-color:var(--brand)}
+.blog-card h2{margin:0 0 8px;font-size:1.25rem}
+.blog-card h2 a{color:var(--text-primary);text-decoration:none}
+.blog-card h2 a:hover{color:var(--brand)}
+.blog-card .desc{color:var(--text-secondary);margin:0;font-size:.95rem;line-height:1.55}
+.blog-card .tag{display:inline-block;background:var(--brand);color:#fff;padding:3px 12px;border-radius:14px;font-size:.75rem;font-weight:600;margin:0 6px 10px 0}
 .blog-article{max-width:780px;margin:0 auto;padding:24px 20px 60px}
 .blog-article h1{font-size:2rem;font-weight:700;margin:0 0 12px;color:var(--text-primary);line-height:1.25}
 .blog-article .meta{color:var(--text-secondary);font-size:.875rem;margin:0 0 28px}
@@ -902,22 +901,7 @@ html[data-theme="dark"] .blog-article .example{background:#1a2e1f}
 .blog-article .faq dd{margin:0 0 12px;color:var(--text-secondary);line-height:1.6}
 .blog-article table{width:100%;border-collapse:collapse;margin:12px 0 20px}
 .blog-article th,.blog-article td{text-align:left;padding:8px 12px;border:1px solid var(--border)}
-.blog-article th{background:var(--row-alt);font-weight:600}
-.blog-index{max-width:780px;margin:0 auto;padding:40px 20px 60px}
-.blog-index h1{font-size:2rem;font-weight:700;margin:0 0 8px}
-.blog-index .lede{color:var(--text-secondary);margin:0 0 32px;font-size:1.05rem}
-.blog-card{border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin:0 0 16px;transition:box-shadow .15s}
-.blog-card:hover{box-shadow:0 2px 12px rgba(0,0,0,.08)}
-.blog-card h2{margin:0 0 6px;font-size:1.2rem}
-.blog-card h2 a{color:var(--text-primary);text-decoration:none}
-.blog-card h2 a:hover{color:var(--brand)}
-.blog-card .desc{color:var(--text-secondary);margin:0;font-size:.95rem;line-height:1.5}
-.blog-card .tag{display:inline-block;background:var(--row-alt);color:var(--brand);padding:2px 10px;border-radius:12px;font-size:.75rem;font-weight:600;margin:0 6px 8px 0}
-
-</style>
-</head>
-<body>
-<a class="skip-link" href="#main-content">Перейти к содержимому</a>
+.blog-article th{background:var(--row-alt);font-weight:600}</style></head><body><a class="skip-link" href="#main-content">Перейти к содержимому</a>
 <header class="site-header">
   <div class="row container">
     <a href="../index.html" class="brand">
@@ -1158,16 +1142,16 @@ html[data-theme="dark"] .blog-article .example{background:#1a2e1f}
     <a href="../about/index.html" data-nav="about">О проекте</a>
   </nav>
 </header>
-<div class="ruler" aria-hidden="true"></div>
-<main id="main-content"><section class="blog-index"><h1>Блог Расчёт.net</h1><p class="lede">Экспертные статьи о финансах, налогах, инвестициях и недвижимости. Формулы, примеры, расчёты — и ссылки на бесплатные калькуляторы.</p>
-<div class="blog-card"><span class="tag">Финансы</span><h2><a href="util-sbor-2026.html">Утилизационный сбор 2026: полный расчёт и калькулятор</a></h2><p class="desc">Ставки, формула, коэффициенты для новых и подержанных авто.</p></div>
-<div class="blog-card"><span class="tag">Право</span><h2><a href="procenty-395-gk.html">Проценты по ст. 395 ГК РФ: расчёт и калькулятор</a></h2><p class="desc">Формула расчёта процентов за пользование чужими деньгами. Ключевая ставка ЦБ, примеры.</p></div>
-<div class="blog-card"><span class="tag">Недвижимость</span><span class="tag">Право</span><h2><a href="doli-materninskiy-kapital.html">Доли по материнскому капиталу: расчёт и оформление</a></h2><p class="desc">Как правильно выделить доли в квартире при использовании маткапитала.</p></div>
-<div class="blog-card"><span class="tag">Налоги</span><h2><a href="nalog-samozanyatye-2026.html">Налог для самозанятых 2026: ставки, расчёт и калькулятор НПД</a></h2><p class="desc">Ставки 4% и 6%, налоговый вычет 10&nbsp;000&nbsp;₽, лимит дохода 2,4 млн.</p></div>
-<div class="blog-card"><span class="tag">Инвестиции</span><span class="tag">Налоги</span><h2><a href="iis-nalogovy-vychet.html">ИИС и налоговый вычет 2026: типы, лимиты, расчёт и калькулятор</a></h2><p class="desc">Сравнение ИИС типов А и Б. Возврат до 52&nbsp;000&nbsp;₽ в год.</p></div>
-</section><script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"Блог Расчёт.net","url":"https://raschet.net/blog/","publisher":{"@type":"Organization","name":"Расчёт.net","url":"https://raschet.net/"}}</script>
-</main>
-<footer class="site-footer">
+<div class="ruler" aria-hidden="true"></div><main id="main-content"><section class="blog-index">
+<h1>Блог Расчёт.net</h1>
+<p class="lede">Экспертные статьи о финансах, налогах, инвестициях и недвижимости. Формулы, примеры, расчёты — и ссылки на бесплатные калькуляторы для каждого случая.</p>
+<div class="blog-card"><span class="tag">Финансы</span><h2><a href="util-sbor-2026.html">Утилизационный сбор 2026: полный расчёт и калькулятор</a></h2><p class="desc">Ставки, формула, коэффициенты для новых и подержанных авто. Пример расчёта и ссылка на калькулятор.</p></div>
+<div class="blog-card"><span class="tag">Право</span><h2><a href="procenty-395-gk.html">Проценты по ст. 395 ГК РФ: расчёт и калькулятор</a></h2><p class="desc">Формула расчёта процентов за пользование чужими деньгами. Ключевая ставка ЦБ, примеры, калькулятор.</p></div>
+<div class="blog-card"><span class="tag">Недвижимость</span><span class="tag">Право</span><h2><a href="doli-materninskiy-kapital.html">Доли по материнскому капиталу: расчёт и оформление</a></h2><p class="desc">Как правильно выделить доли в квартире при использовании маткапитала. Пошаговая инструкция, формула, калькулятор.</p></div>
+<div class="blog-card"><span class="tag">Налоги</span><h2><a href="nalog-samozanyatye-2026.html">Налог для самозанятых 2026: ставки, расчёт и калькулятор НПД</a></h2><p class="desc">Ставки 4% и 6%, налоговый вычет 10&nbsp;000&nbsp;₽, лимит дохода 2,4 млн. Все условия и примеры.</p></div>
+<div class="blog-card"><span class="tag">Инвестиции</span><span class="tag">Налоги</span><h2><a href="iis-nalogovy-vychet.html">ИИС и налоговый вычет 2026: типы, лимиты, расчёт и калькулятор</a></h2><p class="desc">Сравнение ИИС типов А и Б. Возврат до 52&nbsp;000&nbsp;₽ в год. Когда какой тип выбрать.</p></div>
+</section>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"Blog","name":"Блог Расчёт.net","url":"https://raschet.net/blog/","publisher":{"@type":"Organization","name":"Расчёт.net","url":"https://raschet.net/"}}</script></main><footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
       <div>
@@ -1176,6 +1160,7 @@ html[data-theme="dark"] .blog-article .example{background:#1a2e1f}
       </div>
       <div>
         <h5>Проект</h5>
+        <a href="blog/index.html">Блог</a>
         <a href="../about/index.html">О проекте</a>
         <a href="../privacy/index.html">Конфиденциальность</a>
         <a href="../advertising/index.html">Реклама и партнёрство</a>
@@ -1186,9 +1171,7 @@ html[data-theme="dark"] .blog-article .example{background:#1a2e1f}
       <span>© 2026 Расчёт.net. Все расчёты носят справочный характер.</span>
       <span>Сделано с вниманием к деталям</span>
     </div>
-  </div>
-</footer>
-<script>// Общая логика интерфейса, не связанная с конкретным калькулятором
+  </div><script>// Общая логика интерфейса, не связанная с конкретным калькулятором
 
 // Формат чисел с разделителями разрядов — объявлено сразу (не внутри DOMContentLoaded),
 // потому что скрипты калькуляторов вызывают эти функции синхронно при загрузке страницы,
@@ -1826,6 +1809,4 @@ document.addEventListener('DOMContentLoaded', () => {
     const finderBtn = document.getElementById('finder-btn');
     if (finderBtn) finderBtn.addEventListener('click', runFinder);
   }
-});</script>
-</body>
-</html>
+});</script></body></html>
