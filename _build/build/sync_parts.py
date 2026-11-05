@@ -4,9 +4,7 @@
 Never synchronizes public HTML in place. Use Lead-owned publish_local_build.py
 after independent QA to copy validated generated files without root deletion.
 """
-from build_all import main
-
-rewrite_links = build_all.rewrite_links
+from build_all import main, rewrite_links
 
 STYLE = open(os.path.join(PARTS, "style.css"), encoding="utf-8").read()
 FONTS = open(os.path.join(PARTS, "fonts.css"), encoding="utf-8").read()

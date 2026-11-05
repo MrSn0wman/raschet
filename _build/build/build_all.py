@@ -5,6 +5,9 @@ No raschet-old, network, published-HTML input, or import-time writes.
 Postprocessing runs on this same --site tree; browser QA is --test.
 """
 import json
+import io
+import os
+import re
 import shutil
 import subprocess
 import sys
